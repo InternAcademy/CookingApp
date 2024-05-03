@@ -1,25 +1,46 @@
-var builder = WebApplication.CreateBuilder(args);
+using CookingApp.Infrastructure.Configurations.Swagger;
+using CookingApp.Infrastructure.Extensions;
+using System.Diagnostics.CodeAnalysis;
 
-// Add services to the container.
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    Args = args,
+    ApplicationName = typeof(Program).Assembly.FullName,
+    ContentRootPath = Directory.GetCurrentDirectory()
+});
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+builder.Configuration.AddEnvironmentVariables();
+var swaggerSettings = builder.Configuration.GetSection("Swagger").Get<SwaggerSettings>()!;
+
+builder.AddDefaultMvcOptions(enforceAuthorization: true);
+builder.AddSwagger(x => x.LoadSettingsFrom(swaggerSettings));
+builder.AddCorsWithAcceptAll();
+
+builder.Host.UseLogging(p =>
+{
+    p.WithConsoleSink(true);
+    p.WithSeqSink(builder.Configuration["SeqServerUrl"]);
+});
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
+    app.UseSwagger(swaggerSettings);
 }
 
-app.UseHttpsRedirection();
+app.UseRouting();
 
-app.UseAuthorization();
+app.UseCors("CorsAllowAllOrigins");
+
+app.UseHttpsRedirection();
 
 app.MapControllers();
 
 app.Run();
+
+[ExcludeFromCodeCoverage]
+public partial class Program { }
