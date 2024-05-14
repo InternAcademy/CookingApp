@@ -73,7 +73,7 @@ namespace CookingApp.Infrastructure.Extensions
             return builder;
         }
 
-        public static IServiceCollection AddMongoDatabase(this IServiceCollection services,
+        public static IHostApplicationBuilder AddMongoDatabase(this WebApplicationBuilder builder,
             Action<MongoConfiguration> configuration)
         {
             var mongoConfig = new MongoConfiguration();
@@ -98,11 +98,11 @@ namespace CookingApp.Infrastructure.Extensions
             var client = new MongoClient(settings);
             var database = client.GetDatabase(mongoConfig.Database);
 
-            services.AddSingleton(database);
-            services.AddSingleton(typeof(IMongoClient), p => client);
-            services.AddSingleton(typeof(IRepository<>), typeof(Repository<>));
+            builder.Services.AddSingleton(database);
+            builder.Services.AddSingleton(typeof(IMongoClient), p => client);
+            builder.Services.AddSingleton(typeof(IRepository<>), typeof(Repository<>));
 
-            services.Configure<MongoConfiguration>(configuration);
+            builder.Services.Configure<MongoConfiguration>(configuration);
 
             BsonClassMap.RegisterClassMap<MongoEntity>(p =>
             {
@@ -110,7 +110,7 @@ namespace CookingApp.Infrastructure.Extensions
                 p.SetIgnoreExtraElements(true);
             });
 
-            return services;
+            return builder;
         }
     }
 }
