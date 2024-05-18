@@ -1,5 +1,7 @@
+using CookingApp.Infrastructure.Configurations.Database;
 using CookingApp.Infrastructure.Configurations.Swagger;
 using CookingApp.Infrastructure.Extensions;
+using MongoDB.Bson;
 using System.Diagnostics.CodeAnalysis;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
@@ -12,10 +14,24 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 builder.Configuration.AddEnvironmentVariables();
 var swaggerSettings = builder.Configuration.GetSection("Swagger").Get<SwaggerSettings>()!;
+var mongoSettings = builder.Configuration.GetSection("Mongo").Get<MongoSettings>()!;
 
 builder.AddDefaultMvcOptions(enforceAuthorization: true);
 builder.AddSwagger(x => x.LoadSettingsFrom(swaggerSettings));
 builder.AddCorsWithAcceptAll();
+builder.AddMongoDatabase(p =>
+{
+    p.WithConnectionString(mongoSettings.Url);
+    p.WithDatabaseName(mongoSettings.Database);
+    p.WithSoftDeletes(o =>
+    {
+        o.Enabled(mongoSettings.SoftDeleteEnabled);
+        o.HardDeleteAfter(TimeSpan.FromDays(mongoSettings.SoftDeleteRetentionInDays));
+    });
+    p.RepresentEnumValuesAs(BsonType.String);
+    p.WithIgnoreIfDefaultConvention(false);
+    p.WithIgnoreIfNullConvention(true);
+});
 
 builder.Host.UseLogging(p =>
 {

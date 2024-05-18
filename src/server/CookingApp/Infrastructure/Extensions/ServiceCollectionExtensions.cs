@@ -1,13 +1,21 @@
-﻿using CookingApp.Infrastructure.Configurations.Swagger;
+﻿using System.Diagnostics.CodeAnalysis;
+using CookingApp.Infrastructure.Common;
+using CookingApp.Infrastructure.Configurations.Database;
+using CookingApp.Infrastructure.Configurations.Swagger;
+using CookingApp.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.OpenApi.Models;
+using MongoDB.Bson.Serialization.Conventions;
+using MongoDB.Bson.Serialization;
+using MongoDB.Driver;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
 namespace CookingApp.Infrastructure.Extensions
 {
+    [ExcludeFromCodeCoverage]
     public static class ServiceCollectionExtensions
     {
         public static IMvcBuilder AddDefaultMvcOptions(this WebApplicationBuilder builder,
@@ -64,6 +72,46 @@ namespace CookingApp.Infrastructure.Extensions
                     Version = apiVersion
                 });
             });
+            return builder;
+        }
+
+        public static IHostApplicationBuilder AddMongoDatabase(this WebApplicationBuilder builder,
+            Action<MongoConfiguration> configuration)
+        {
+            var mongoConfig = new MongoConfiguration();
+            configuration(mongoConfig);
+
+            IConvention ignoreIfDefaultOrNullConvention = mongoConfig.IgnoreIfDefaultConvention
+                ? new IgnoreIfDefaultConvention(true)
+                : new IgnoreIfNullConvention(mongoConfig.IgnoreIfNullConvention);
+
+            var conventionPack = new ConventionPack
+            {
+                new CamelCaseElementNameConvention(),
+                new EnumRepresentationConvention(mongoConfig.EnumConvention),
+                ignoreIfDefaultOrNullConvention,
+                new IgnoreExtraElementsConvention(true)
+            };
+
+            ConventionRegistry.Register("conventionPack", conventionPack, t => true);
+
+            var settings = MongoClientSettings.FromUrl(new MongoUrl(mongoConfig.ConnectionString));
+
+            var client = new MongoClient(settings);
+            var database = client.GetDatabase(mongoConfig.Database);
+
+            builder.Services.AddSingleton(database);
+            builder.Services.AddSingleton(typeof(IMongoClient), p => client);
+            builder.Services.AddSingleton(typeof(IRepository<>), typeof(Repository<>));
+
+            builder.Services.Configure<MongoConfiguration>(configuration);
+
+            BsonClassMap.RegisterClassMap<MongoEntity>(p =>
+            {
+                p.AutoMap();
+                p.SetIgnoreExtraElements(true);
+            });
+
             return builder;
         }
     }
