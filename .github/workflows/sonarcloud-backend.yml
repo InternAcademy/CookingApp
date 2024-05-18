@@ -48,5 +48,5 @@ jobs:
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"InternAcademy_CookingApp" /o:"internacademy" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.dotcover.reportsPaths=dotCover.Output.html
           dotnet build  src/server/CookingApp/CookingApp.sln --no-incremental
-          dotnet dotcover test --dcReportType=HTML
+          dotnet dotcover test src/server/CookingApp/CookingApp.sln --dcReportType=HTML
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
