@@ -1,7 +1,5 @@
 using CookingApp.Infrastructure;
-using CookingApp.Infrastructure.Common;
 using CookingApp.Infrastructure.Configurations.Database;
-using CookingApp.Infrastructure.Interfaces;
 using CookingApp.UnitTests.Mocks;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
@@ -9,10 +7,8 @@ using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using Moq;
 using System.Linq.Expressions;
-using System.Reflection;
-using CookingApp.UnitTests.Helpers;
 
-namespace CookingApp.UnitTests
+namespace CookingApp.UnitTests.InfrastructureTests
 {
     public class RepositoryTests
     {
@@ -34,7 +30,7 @@ namespace CookingApp.UnitTests
                 .Returns(databaseMock.Object);
             databaseMock.Setup(db => db.GetCollection<MongoEntityMock>(It.IsAny<string>(), It.IsAny<MongoCollectionSettings>()))
                 .Returns(_collectionMock.Object);
-            clientMock.Setup(c => c.StartSessionAsync(It.IsAny<ClientSessionOptions>(), It.IsAny<System.Threading.CancellationToken>()))
+            clientMock.Setup(c => c.StartSessionAsync(It.IsAny<ClientSessionOptions>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(_sessionMock.Object);  // Set up the client to return the mocked session
 
             _configOptionsMock = new Mock<IOptions<MongoConfiguration>>();
@@ -173,7 +169,7 @@ namespace CookingApp.UnitTests
                     It.IsAny<FilterDefinition<MongoEntityMock>>(),
                     It.Is<MongoEntityMock>(m => m.RowVersion == 2 && m.UpdatedDateTime <= DateTime.UtcNow),
                     It.IsAny<FindOneAndReplaceOptions<MongoEntityMock, MongoEntityMock>>(),
-                    default(CancellationToken)))
+                    default))
                 .ReturnsAsync((FilterDefinition<MongoEntityMock> filter, MongoEntityMock replacement, FindOneAndReplaceOptions<MongoEntityMock, MongoEntityMock> options, CancellationToken token) => replacement);
 
 
@@ -212,7 +208,7 @@ namespace CookingApp.UnitTests
                 _collectionMock.Verify(x => x.FindOneAndDeleteAsync(
                         It.Is<FilterDefinition<MongoEntityMock>>(fd => true),
                         It.IsAny<FindOneAndDeleteOptions<MongoEntityMock, MongoEntityMock>>(),
-                        default(CancellationToken)),
+                        default),
                     Times.Once);
             }
             else
@@ -221,7 +217,7 @@ namespace CookingApp.UnitTests
                         It.Is<FilterDefinition<MongoEntityMock>>(fd => true),
                         It.IsAny<UpdateDefinition<MongoEntityMock>>(),
                         It.IsAny<FindOneAndUpdateOptions<MongoEntityMock, MongoEntityMock>>(),
-                        default(CancellationToken)),
+                        default),
                     Times.Once);
             }
         }
@@ -238,7 +234,8 @@ namespace CookingApp.UnitTests
                     It.IsAny<UpdateDefinition<MongoEntityMock>>(),
                     It.IsAny<FindOneAndUpdateOptions<MongoEntityMock, MongoEntityMock>>(),
                     It.IsAny<CancellationToken>()))
-                .Callback<FilterDefinition<MongoEntityMock>, UpdateDefinition<MongoEntityMock>, FindOneAndUpdateOptions<MongoEntityMock, MongoEntityMock>, CancellationToken>((f, u, o, c) => {
+                .Callback<FilterDefinition<MongoEntityMock>, UpdateDefinition<MongoEntityMock>, FindOneAndUpdateOptions<MongoEntityMock, MongoEntityMock>, CancellationToken>((f, u, o, c) =>
+                {
                     capturedFilter = f;
                     capturedUpdate = u;
                 })

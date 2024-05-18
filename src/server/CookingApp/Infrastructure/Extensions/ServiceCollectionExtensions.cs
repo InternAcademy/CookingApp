@@ -1,4 +1,5 @@
-﻿using CookingApp.Infrastructure.Common;
+﻿using System.Diagnostics.CodeAnalysis;
+using CookingApp.Infrastructure.Common;
 using CookingApp.Infrastructure.Configurations.Database;
 using CookingApp.Infrastructure.Configurations.Swagger;
 using CookingApp.Infrastructure.Interfaces;
@@ -14,6 +15,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace CookingApp.Infrastructure.Extensions
 {
+    [ExcludeFromCodeCoverage]
     public static class ServiceCollectionExtensions
     {
         public static IMvcBuilder AddDefaultMvcOptions(this WebApplicationBuilder builder,

@@ -4,9 +4,11 @@ using Serilog;
 using Serilog.Events;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace CookingApp.Infrastructure.Extensions
 {
+    [ExcludeFromCodeCoverage]
     public static class HostBuilderExtensions
     {
         public static IHostBuilder UseLogging(this IHostBuilder builder, Action<LoggingConfiguration> configuration)

@@ -1,14 +1,8 @@
-﻿using CookingApp.Infrastructure.Interfaces;
+﻿using CookingApp.Infrastructure.Common;
 
 namespace CookingApp.UnitTests.Mocks
 {
-    public class MongoEntityMock : IMongoEntity
+    public class MongoEntityMock : MongoEntity
     {
-        public string Id { get; set; }
-        public DateTime CreatedDateTime { get; set; }
-        public DateTime UpdatedDateTime { get; set; }
-        public int RowVersion { get; set; }
-        public bool IsDeleted => DeletedDateTime.HasValue;
-        public DateTime? DeletedDateTime { get; set; }
     }
 }

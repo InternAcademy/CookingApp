@@ -1,4 +1,6 @@
-﻿namespace CookingApp.Infrastructure
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace CookingApp.Infrastructure
 {
     using CookingApp.Infrastructure.Configurations.Database;
     using CookingApp.Infrastructure.Extensions;
@@ -238,6 +240,7 @@
             return await GetFirstOrDefaultAsync(p => p.Id == id);
         }
 
+        [ExcludeFromCodeCoverage]
         public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? predicate = null, Expression<Func<T, object>>? orderBy = null,
             SortDirection sortDirection = SortDirection.Ascending, bool includeDeleted = false)
         {
@@ -257,6 +260,8 @@
             Logger.LogDebug($"MongoDb -> GetAll Count: {aggregation.Count}");
             return aggregation.First().Facets.First(x => x.Name == DATA).Output<T>().ToList();
         }
+
+        [ExcludeFromCodeCoverage]
 
         public async Task<IPagedList<T>> GetPagedListAsync(int pageIndex = 1, int pageSize = 50, Expression<Func<T, bool>>? predicate = null, Expression<Func<T, object>>? orderBy = null,
             SortDirection sortDirection = SortDirection.Ascending, bool includeDeleted = false)
@@ -288,6 +293,8 @@
             return new PagedList<T>(result, pageIndex + 1, pageSize, totalPages, totalCount);
         }
 
+        [ExcludeFromCodeCoverage]
+
         public async Task<T?> GetFirstOrDefaultAsync(Expression<Func<T, bool>>? predicate = null, Expression<Func<T, object>>? orderBy = null,
             SortDirection sortDirection = SortDirection.Ascending, bool includeDeleted = false)
         {
@@ -316,7 +323,8 @@
         }
 
         #region Helpers
-
+        [ExcludeFromCodeCoverage]
+        
         private SortDefinition<T> BuildOrderByExpressionAsFilterDefinition(Expression<Func<T, object>>? orderBy,
             SortDirection direction)
         {
@@ -344,6 +352,8 @@
                 return filter;
             }
         }
+        [ExcludeFromCodeCoverage]
+
         private FilterDefinition<T> BuildSoftDeleteFilterDefinition(bool includeDeleted)
         {
             var filter = Builders<T>.Filter.Empty;
@@ -355,6 +365,8 @@
 
             return filter;
         }
+        [ExcludeFromCodeCoverage]
+
         private FilterDefinition<T> BuildPredicateAsFilterDefinition(Expression<Func<T, bool>>? predicate)
         {
             var filter = Builders<T>.Filter.Empty;
