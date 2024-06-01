@@ -20,7 +20,7 @@
             _openAIService = openAIService;
         }
 
-        public async Task<T> CreateCompletion()
+        public async Task<string> CreateCompletion()
         {
             // var user = await _userManager.GetUser();
             // var userAllergies = await _userSettings.Where(x => x.UserId == user.Id).Select(x => x.Allergies).ToListAsync();
@@ -82,8 +82,10 @@
             });
             if (completionResult.Successful)
             {
-                Console.WriteLine(completionResult.Choices.First().Message.Content);
+                return completionResult.Choices.First().Message.Content;
             }
+
+            return null;
         }
     }
 }
