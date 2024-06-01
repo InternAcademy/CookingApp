@@ -1,7 +1,40 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import * as WebBrowser from 'expo-web-browser';
+import {
+  exchangeCodeAsync,
+  makeRedirectUri,
+  useAuthRequest,
+  useAutoDiscovery,
+} from 'expo-auth-session';import { StyleSheet, Text, View, TouchableOpacity, Image, Button, SafeAreaView } from "react-native";
+
+WebBrowser.maybeCompleteAuthSession();
 
 const LandingPage = () => {
+
+  const tenantId = ``;
+  const clientId = ``; 
+  const scope = ['openid', 'profile', 'email']
+
+  const discovery = useAutoDiscovery(
+    `https://login.microsoftonline.com/${tenantId}/v2.0`,
+  );
+
+  const redirectUri = makeRedirectUri({
+    scheme: undefined,
+    path: 'auth',
+  });
+  
+  const [token, setToken] = React.useState(null);
+
+  const [request, , promptAsync] = useAuthRequest(
+    {
+      clientId,
+      scopes: ['openid', 'profile', 'email'],
+      redirectUri,
+    },
+    discovery,
+  );
+  
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
@@ -11,9 +44,30 @@ const LandingPage = () => {
       <Text style={styles.subtitle}>
         Easy way to manage all your cooking tasks as easy as tapping your finger
       </Text>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Get Started</Text>
-      </TouchableOpacity>
+      <Button
+        disabled={!request}
+        title="Login"
+        onPress={() => {
+          promptAsync().then((codeResponse) => {
+            if (request && codeResponse?.type === 'success' && discovery) {
+              exchangeCodeAsync(
+                {
+                  clientId,
+                  code: codeResponse.params.code,
+                  extraParams: request.codeVerifier
+                    ? { code_verifier: request.codeVerifier }
+                    : undefined,
+                  redirectUri,
+                },
+                discovery,
+              ).then((res) => {
+                setToken(res.accessToken);
+              });
+            }
+          });
+        }}
+      />
+      <Text>{token}</Text>
     </View>
   );
 };
@@ -46,17 +100,6 @@ const styles = StyleSheet.create({
     color: "#fff",
     textAlign: "center",
     marginBottom: 30,
-  },
-  button: {
-    backgroundColor: "#fff",
-    paddingVertical: 15,
-    paddingHorizontal: 40,
-    borderRadius: 30,
-  },
-  buttonText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#f39c12",
   },
 });
 
