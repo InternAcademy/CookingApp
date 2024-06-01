@@ -2,6 +2,7 @@ using CookingApp.Infrastructure.Configurations.Database;
 using CookingApp.Infrastructure.Configurations.Swagger;
 using CookingApp.Infrastructure.Extensions;
 using MongoDB.Bson;
+using OpenAI.Extensions;
 using System.Diagnostics.CodeAnalysis;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
@@ -32,6 +33,8 @@ builder.AddMongoDatabase(p =>
     p.WithIgnoreIfDefaultConvention(false);
     p.WithIgnoreIfNullConvention(true);
 });
+
+builder.Services.AddOpenAIService();
 
 builder.Host.UseLogging(p =>
 {
