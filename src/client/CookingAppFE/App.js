@@ -1,13 +1,22 @@
 import React from "react";
 import Navigation from "./components/Navigation";
-import { View } from "react-native";
-import Home from "./components/Home";
+import Favourite from "./components/Favourite";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <View style={{ flex: 1 }}>
+    <NavigationContainer>
       <Navigation />
-      <Home />
-    </View>
+      <Stack.Navigator initialRouteName="Favourite">
+        <Stack.Screen
+          name="Favourite"
+          component={Favourite}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
