@@ -1,22 +1,15 @@
 import React from "react";
+import { View, ScrollView } from "react-native";
 import Navigation from "./components/Navigation";
-import Favourite from "./components/Favourite";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-
-const Stack = createStackNavigator();
+import Previous from "./components/Previous";
 
 export default function App() {
   return (
-    <NavigationContainer>
+    <View style={{ flex: 1 }}>
       <Navigation />
-      <Stack.Navigator initialRouteName="Favourite">
-        <Stack.Screen
-          name="Favourite"
-          component={Favourite}
-          options={{ headerShown: false }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+      <ScrollView>
+        <Previous />
+      </ScrollView>
+    </View>
   );
 }
