@@ -127,7 +127,7 @@ namespace CookingApp.Infrastructure.Extensions
 
             builder.Services.Configure<StripeOptions>(options =>
             {
-                string key = builder.Configuration.GetValue<string>("StripeOptions:SecretKey");
+                string key = builder.Configuration.GetValue<string>("StripeOptions:SecretKey") ?? string.Empty;
                 options.SecretKey = key;
                 StripeConfiguration.ApiKey = key;
             });
