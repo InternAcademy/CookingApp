@@ -50,7 +50,7 @@ namespace CookingApp.Services.Stripe
         /// </summary>
         public async Task<IEnumerable<ProductsResponse>> GetProductsAsync()
         {
-            var options = new ProductListOptions { Limit = 3 };
+           var options = new ProductListOptions { Limit = 3 };
 
             StripeList<Product> products = await productService.ListAsync(options);
 
@@ -117,7 +117,7 @@ namespace CookingApp.Services.Stripe
         /// <summary>
         /// Cancels a subscription immediatly. The customer will not be charged again for the subscription
         /// </summary>
-        public async Task<SubscriptionCancellationResponse> CancelSubscriptioniAsync(SubscriptionCancellation model)
+        public async Task<SubscriptionCancellationResponse> CancelSubscriptionAsync(SubscriptionCancellation model)
         {
             ArgumentException.ThrowIfNullOrEmpty(model.SubscriptionId);
             var subscription = await subscriptionService.CancelAsync(model.SubscriptionId);
