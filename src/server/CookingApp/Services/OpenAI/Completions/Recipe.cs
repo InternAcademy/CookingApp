@@ -38,7 +38,9 @@
                 Messages = new List<ChatMessage>
                 {
                     // Creating a prompt for the chatboot to answer a question about cooking/diatery needs.
-                    ChatMessage.FromSystem(Completions.Instructions + userAllergies + "."),
+                    ChatMessage.FromSystem(Completions.Instructions 
+                                            + userAllergies + "."
+                                            + Completions.PromptEngineeringPrevention),
                     ChatMessage.FromUser(Completions.Suggestion),
                     ChatMessage.FromAssistant(Completions.ExampleResponse),
                     ChatMessage.FromUser(message)
