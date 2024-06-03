@@ -1,81 +1,29 @@
-// Contacts.js
-
 import React from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import tw from "twrnc";
 
 const Contacts = () => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.label}>Subject</Text>
+    <View style={tw`flex-1 p-5 pt-20 bg-amber-100`}>
+      <Text style={tw`text-lg text-gray-800 mb-2`}>Subject</Text>
       <TextInput
-        style={styles.subjectInput}
+        style={tw`h-12 border border-amber-200 rounded-full mb-5 px-3 bg-amber-300`}
         placeholder="What would you like to talk about?"
       />
-      <Text style={styles.label}>Message</Text>
+      <Text style={tw`text-lg text-gray-800 mb-2`}>Message</Text>
       <TextInput
-        style={styles.messageInput}
+        style={tw`h-64 border border-amber-200 rounded-lg px-3 pt-2 mb-5 bg-amber-300`}
         placeholder="Enter your message here..."
         multiline
-        textAlignVertical="top" // Добавяме това свойство
+        textAlignVertical="top"
       />
-      <TouchableOpacity style={styles.sendButton}>
-        <Text style={styles.sendButtonText}>Send</Text>
+      <TouchableOpacity
+        style={tw`h-12 bg-orange-400 justify-center items-center rounded-full`}
+      >
+        <Text style={tw`text-lg text-gray-800`}>Send</Text>
       </TouchableOpacity>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    paddingTop: 80,
-    backgroundColor: "#FFF8E1",
-  },
-  label: {
-    fontSize: 16,
-    color: "#333",
-    marginBottom: 5,
-  },
-  subjectInput: {
-    height: 50,
-    borderColor: "#FFF4E2",
-    borderWidth: 1,
-    borderRadius: 25,
-    marginBottom: 20,
-    paddingHorizontal: 10,
-    backgroundColor: "#FFECB3",
-    // paddingLeft: 20,
-  },
-  messageInput: {
-    height: 250,
-    borderColor: "#FFF4E2",
-    borderWidth: 1,
-    borderRadius: 25,
-    paddingHorizontal: 10,
-    paddingTop: 10,
-    // paddingLeft: 20,
-    marginBottom: 20,
-    backgroundColor: "#FFECB3",
-    textAlignVertical: "top",
-  },
-  sendButton: {
-    height: 50,
-    backgroundColor: "#FFB04B",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 25,
-  },
-  sendButtonText: {
-    color: "#333333",
-    fontSize: 22,
-  },
-});
 
 export default Contacts;
