@@ -1,7 +1,18 @@
-import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import Constants from 'expo-constants';
+import useAuth from '../hooks/useAuth';
+import * as WebBrowser from 'expo-web-browser';
+import { StyleSheet, Text, View, TouchableOpacity, Image, Button, SafeAreaView } from "react-native";
+
+const tenantId = process.env.EXPO_PUBLIC_TENANT_ID;
+const clientId = process.env.EXPO_PUBLIC_CLIENT_ID;
+
+WebBrowser.maybeCompleteAuthSession();
 
 const LandingPage = () => {
+  console.log(clientId, tenantId)
+
+  const { login, token, request } = useAuth(clientId, tenantId);
+
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
@@ -11,9 +22,12 @@ const LandingPage = () => {
       <Text style={styles.subtitle}>
         Easy way to manage all your cooking tasks as easy as tapping your finger
       </Text>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Get Started</Text>
-      </TouchableOpacity>
+      <Button
+        disabled={!request}
+        title="Login"
+        onPress={() => login()}
+      />
+      <Text>{token}</Text>
     </View>
   );
 };
@@ -46,17 +60,6 @@ const styles = StyleSheet.create({
     color: "#fff",
     textAlign: "center",
     marginBottom: 30,
-  },
-  button: {
-    backgroundColor: "#fff",
-    paddingVertical: 15,
-    paddingHorizontal: 40,
-    borderRadius: 30,
-  },
-  buttonText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#f39c12",
   },
 });
 
