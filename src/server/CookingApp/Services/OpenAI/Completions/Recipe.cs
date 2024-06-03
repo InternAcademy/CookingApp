@@ -5,13 +5,14 @@
     using global::OpenAI.Interfaces;
     using CookingApp.Infrastructure.Interfaces;
     using MongoDB.Bson;
+    using CookingApp.Models;
 
     /// <summary>
     /// This class it to assist with the personal needs of the user. 
     /// After defining their dietary/allergic needs the chat completion 
     /// will fill them in for the chatbot to take into account.
     /// </summary>
-    public class Recipe<T>
+    public class Recipe<T> where T : RecipeModel
     {
         // field for UserSettingsDbService
         // field for userManagerService
