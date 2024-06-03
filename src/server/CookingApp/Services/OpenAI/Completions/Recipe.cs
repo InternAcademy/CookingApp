@@ -3,6 +3,8 @@
     using global::OpenAI.ObjectModels.RequestModels;
     using global::OpenAI.ObjectModels;
     using global::OpenAI.Interfaces;
+    using CookingApp.Infrastructure.Interfaces;
+    using MongoDB.Bson;
 
     /// <summary>
     /// This class it to assist with the personal needs of the user. 
@@ -13,14 +15,16 @@
     {
         // field for UserSettingsDbService
         // field for userManagerService
+        private readonly IRepository _repository;
         private readonly IOpenAIService _openAIService;
 
-        public Recipe(IOpenAIService openAIService)
+        public Recipe(IOpenAIService openAIService, IRepository repository)
         {
             _openAIService = openAIService;
+            _repository = repository;
         }
 
-        public async Task<string> CreateCompletion()
+        public async Task<string> CreateCompletion(string message)
         {
             // var user = await _userManager.GetUser();
             // var userAllergies = await _userSettings.Where(x => x.UserId == user.Id).Select(x => x.Allergies).ToListAsync();
@@ -67,7 +71,8 @@
                     "\r\n" +
                     "\r\nAfter the potatoes have been in the oven for about 15 minutes, place the baking sheet with the fish in the oven." +
                     "\r\nBake the fish for 10-15 minutes, depending on the thickness of the fillets. The fish should be opaque and flake easily with a fork when done." +
-                    "\r\nServe:\r\n" +
+                    "\r\nServe:" +
+                    "\r\n" +
                     "\r\nRemove both the fish and potatoes from the oven." +
                     "\r\nServe the baked fish with a side of roasted potatoes." +
                     "\r\nOptionally, garnish with additional fresh dill and serve with lemon wedges for an extra burst of flavor." +
@@ -76,7 +81,7 @@
                     "\r\nAdjust the seasoning according to your taste preference." +
                     "\r\nFeel free to add other herbs or spices that you like." +
                     "\r\nEnjoy your meal!"),
-                    ChatMessage.FromUser("Where was it played?")
+                    ChatMessage.FromUser(message)
                 },
                 Model = Models.Gpt_4o,
             });
