@@ -12,6 +12,9 @@ using MongoDB.Driver;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using CookingApp.Services.Stripe;
+using Stripe;
+using CookingApp.Infrastructure.Configurations.Stripe;
 
 namespace CookingApp.Infrastructure.Extensions
 {
@@ -114,5 +117,22 @@ namespace CookingApp.Infrastructure.Extensions
 
             return builder;
         }
-    }
+        public static IHostApplicationBuilder AddStripeIntegration(this WebApplicationBuilder builder)
+        {  
+            builder.Services.AddScoped<IStripeService, StripeService>();
+            builder.Services.AddScoped<CustomerService>();
+            builder.Services.AddScoped<PriceService>();
+            builder.Services.AddScoped<ProductService>();
+            builder.Services.AddScoped<SubscriptionService>();
+
+            builder.Services.Configure<StripeOptions>(options =>
+            {
+                string key = builder.Configuration.GetValue<string>("StripeOptions:SecretKey") ?? string.Empty;
+                options.SecretKey = key;
+                StripeConfiguration.ApiKey = key;
+            });
+
+            return builder;
+        }
+}
 }
