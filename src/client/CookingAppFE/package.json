@@ -18,7 +18,7 @@
     "@expo/metro-runtime": "~3.2.1",
     "expo-auth-session": "~5.5.2",
     "expo-crypto": "~13.0.2"
-  },
+    },
   "devDependencies": {
     "@babel/core": "^7.20.0"
   },

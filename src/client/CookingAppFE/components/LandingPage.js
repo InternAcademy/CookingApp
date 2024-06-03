@@ -1,40 +1,18 @@
-import React from "react";
+import Constants from 'expo-constants';
+import useAuth from '../hooks/useAuth';
 import * as WebBrowser from 'expo-web-browser';
-import {
-  exchangeCodeAsync,
-  makeRedirectUri,
-  useAuthRequest,
-  useAutoDiscovery,
-} from 'expo-auth-session';import { StyleSheet, Text, View, TouchableOpacity, Image, Button, SafeAreaView } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Image, Button, SafeAreaView } from "react-native";
+
+const tenantId = process.env.EXPO_PUBLIC_TENANT_ID;
+const clientId = process.env.EXPO_PUBLIC_CLIENT_ID;
 
 WebBrowser.maybeCompleteAuthSession();
 
 const LandingPage = () => {
+  console.log(clientId, tenantId)
 
-  const tenantId = ``;
-  const clientId = ``; 
-  const scope = ['openid', 'profile', 'email']
+  const { login, token, request } = useAuth(clientId, tenantId);
 
-  const discovery = useAutoDiscovery(
-    `https://login.microsoftonline.com/${tenantId}/v2.0`,
-  );
-
-  const redirectUri = makeRedirectUri({
-    scheme: undefined,
-    path: 'auth',
-  });
-  
-  const [token, setToken] = React.useState(null);
-
-  const [request, , promptAsync] = useAuthRequest(
-    {
-      clientId,
-      scopes: ['openid', 'profile', 'email'],
-      redirectUri,
-    },
-    discovery,
-  );
-  
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
@@ -47,25 +25,7 @@ const LandingPage = () => {
       <Button
         disabled={!request}
         title="Login"
-        onPress={() => {
-          promptAsync().then((codeResponse) => {
-            if (request && codeResponse?.type === 'success' && discovery) {
-              exchangeCodeAsync(
-                {
-                  clientId,
-                  code: codeResponse.params.code,
-                  extraParams: request.codeVerifier
-                    ? { code_verifier: request.codeVerifier }
-                    : undefined,
-                  redirectUri,
-                },
-                discovery,
-              ).then((res) => {
-                setToken(res.accessToken);
-              });
-            }
-          });
-        }}
+        onPress={() => login()}
       />
       <Text>{token}</Text>
     </View>
