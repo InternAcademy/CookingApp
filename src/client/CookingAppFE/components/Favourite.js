@@ -1,71 +1,28 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  Image,
-} from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
+import tw from "twrnc";
 
 const Favourite = () => {
   const navigation = useNavigation();
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.iconContainer}>
+    <ScrollView style={tw`flex-1 bg-white p-6`}>
+      <View style={tw`flex-row items-center mb-5`}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image
-            source={require("../assets/back.png")}
-            style={styles.backIcon}
-          />
+          <Image source={require("../assets/back.png")} style={tw`w-7 h-7`} />
         </TouchableOpacity>
       </View>
-      <View style={styles.iconContainer}>
+      <View style={tw`flex-row items-center mb-5`}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Icon name="heart" size={30} color="#F09A35" />
         </TouchableOpacity>
-        <Text style={styles.iconText}>Favorites Recipes</Text>
+        <Text style={tw`text-lg text-[#F09A35] pl-2`}>Favorites Recipes</Text>
       </View>
-      <Text style={styles.recipeItem}>Lava Cake</Text>
+      <Text style={tw`text-lg text-black mb-2`}>Lava Cake</Text>
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FFFFFF",
-    padding: 24,
-    paddingLeft: 38,
-  },
-  iconContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  backIcon: {
-    width: 30,
-    height: 30,
-  },
-  iconText: {
-    fontSize: 16,
-    color: "#F09A35",
-    paddingLeft: 10,
-  },
-  header: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#F09A35",
-    marginBottom: 20,
-  },
-  recipeItem: {
-    fontSize: 18,
-    color: "#000000",
-    marginBottom: 10,
-  },
-});
 
 export default Favourite;
