@@ -1,15 +1,24 @@
 import React from "react";
 import { View, ScrollView } from "react-native";
-import Navigation from "./components/Navigation";
-import Contacts from "./components/Contacts";
 import tw from "twrnc";
+
+import Navigation from "./components/Navigation";
+import Favourite from "./components/Favourite";
+import About from "./components/About";
+import Contacts from "./components/Contacts";
+import Previous from "./components/Previous";
+import Home from "./components/Home";
 
 export default function App() {
   return (
     <View style={tw`flex-1`}>
       <Navigation />
       <ScrollView>
-        <Contacts />
+        {/* <About /> */}
+        {/* <Favourite /> */}
+        {/* <Contacts /> */}
+        <Home />
+        {/* <Previous /> */}
       </ScrollView>
     </View>
   );
