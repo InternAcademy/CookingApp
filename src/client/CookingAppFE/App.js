@@ -8,6 +8,7 @@ import About from "./components/About";
 import Contacts from "./components/Contacts";
 import Previous from "./components/Previous";
 import Home from "./components/Home";
+import LandingPage from "./components/LandingPage";
 
 export default function App() {
   return (
@@ -17,7 +18,8 @@ export default function App() {
         {/* <About /> */}
         {/* <Favourite /> */}
         {/* <Contacts /> */}
-        <Home />
+        {/* <Home /> */}
+        <LandingPage />
         {/* <Previous /> */}
       </ScrollView>
     </View>
