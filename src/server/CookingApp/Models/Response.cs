@@ -1,0 +1,11 @@
+﻿using CookingApp.Infrastructure.Common;
+using MongoDB.Bson.Serialization.Attributes;
+
+public class Response : MongoEntity
+{
+    [BsonElement("message")]
+    public string Message { get; set; }
+
+    [BsonElement("timestamp")]
+    public DateTime Timestamp { get; set; }
+}

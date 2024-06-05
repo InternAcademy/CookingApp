@@ -34,8 +34,7 @@ builder.AddMongoDatabase(p =>
     p.WithIgnoreIfNullConvention(true);
 });
 builder.AddStripeIntegration();
-
-builder.Services.AddOpenAIService();
+builder.AddOpenAIIntegration();
 
 builder.Host.UseLogging(p =>
 {

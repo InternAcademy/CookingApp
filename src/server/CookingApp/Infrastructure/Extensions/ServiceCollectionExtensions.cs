@@ -15,6 +15,10 @@ using Newtonsoft.Json.Serialization;
 using CookingApp.Services.Stripe;
 using Stripe;
 using CookingApp.Infrastructure.Configurations.Stripe;
+using CookingApp.Services.OpenAI.Completions;
+using OpenAI.Extensions;
+using OpenAI;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
 
 namespace CookingApp.Infrastructure.Extensions
 {
@@ -118,7 +122,7 @@ namespace CookingApp.Infrastructure.Extensions
             return builder;
         }
         public static IHostApplicationBuilder AddStripeIntegration(this WebApplicationBuilder builder)
-        {  
+        {
             builder.Services.AddScoped<IStripeService, StripeService>();
             builder.Services.AddScoped<CustomerService>();
             builder.Services.AddScoped<PriceService>();
@@ -134,5 +138,19 @@ namespace CookingApp.Infrastructure.Extensions
 
             return builder;
         }
-}
+
+        public static IHostApplicationBuilder AddOpenAIIntegration(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddOpenAIService();
+            builder.Services.Configure<OpenAiOptions>(options =>
+            {
+                options.ApiKey = builder.Configuration.GetValue<string>("OpenAPIOptions:APIKey") ?? string.Empty;
+                options.DefaultModelId = builder.Configuration.GetValue<string>("OpenAPIOptions:Model") ?? string.Empty;
+            });
+
+            builder.Services.AddScoped<ICompletionService, CompletionService>();
+
+            return builder;
+        }
+    }
 }
