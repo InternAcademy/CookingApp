@@ -5,13 +5,15 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, Button, SafeAreaView }
 
 const tenantId = process.env.EXPO_PUBLIC_TENANT_ID;
 const clientId = process.env.EXPO_PUBLIC_CLIENT_ID;
+const instance = process.env.EXPO_PUBLIC_INSTANCE;
+const scopes = process.env.EXPO_PUBLIC_SCOPES.split(' ');
 
 WebBrowser.maybeCompleteAuthSession();
 
 const LandingPage = () => {
-  console.log(clientId, tenantId)
+  console.log(clientId, instance, scopes)
 
-  const { login, token, request } = useAuth(clientId, tenantId);
+  const { login, token, request } = useAuth(clientId, instance, scopes);
 
   return (
     <View style={styles.container}>
