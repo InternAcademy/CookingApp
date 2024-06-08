@@ -6,7 +6,7 @@ const useAuth = (clientId, tenantId) => {
 
   const redirectUri = makeRedirectUri({
     scheme: undefined,
-    path: 'auth',
+    path: 'redirect',
   });
 
   console.log(redirectUri)
@@ -16,7 +16,7 @@ const useAuth = (clientId, tenantId) => {
   const [request, , promptAsync] = useAuthRequest(
     {
       clientId,
-      scopes: ['openid', 'profile', 'email'],
+      scopes: ['openid', 'profile', 'email', 'api://d6e2de7e-3bf2-44fc-96e9-148f6df299d0/MealMaster.Default'], // 'email', 
       redirectUri,
     },
     discovery,
@@ -24,6 +24,7 @@ const useAuth = (clientId, tenantId) => {
 
   const login = async () => {
     const codeResponse = await promptAsync();
+    console.log(codeResponse)
     if (request && codeResponse?.type === 'success' && discovery) {
       const res = await exchangeCodeAsync(
         {
