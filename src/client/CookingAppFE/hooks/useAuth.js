@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { exchangeCodeAsync, makeRedirectUri, useAuthRequest, useAutoDiscovery } from 'expo-auth-session';
 
-const useAuth = (clientId, tenantId) => {
-  const discovery = useAutoDiscovery(`https://mealmasterbot.ciamlogin.com/MealMasterBot.onmicrosoft.com/v2.0/`);
+const useAuth = (clientId, instance, scopes) => {
+  const discovery = useAutoDiscovery(instance);
 
   const redirectUri = makeRedirectUri({
     scheme: undefined,
@@ -16,7 +16,7 @@ const useAuth = (clientId, tenantId) => {
   const [request, , promptAsync] = useAuthRequest(
     {
       clientId,
-      scopes: ['openid', 'profile', 'email', 'api://d6e2de7e-3bf2-44fc-96e9-148f6df299d0/MealMaster.Default'], // 'email', 
+      scopes: scopes, // 'email', 
       redirectUri,
     },
     discovery,
