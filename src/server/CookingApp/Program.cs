@@ -39,6 +39,7 @@ builder.AddMongoDatabase(p =>
     p.WithIgnoreIfDefaultConvention(false);
     p.WithIgnoreIfNullConvention(true);
 });
+builder.AddStripeIntegration();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(builder.Configuration);
