@@ -8,7 +8,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "http://localhost:8080"
+      "applicationUrl": "http://localhost:8000"
     },
     "https": {
       "commandName": "Project",
@@ -18,15 +18,15 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:8081;http://localhost:8080"
+      "applicationUrl": "https://localhost:8001;http://localhost:8000"
     },
     "Container (Dockerfile)": {
       "commandName": "Docker",
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
       "environmentVariables": {
-        "ASPNETCORE_HTTPS_PORTS": "8081",
-        "ASPNETCORE_HTTP_PORTS": "8080"
+        "ASPNETCORE_HTTPS_PORTS": "8001",
+        "ASPNETCORE_HTTP_PORTS": "8000"
       },
       "publishAllPorts": true,
       "useSSL": true
