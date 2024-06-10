@@ -3,6 +3,12 @@ using MongoDB.Bson.Serialization.Attributes;
 
 public class Chat : MongoEntity
 {
+    [BsonElement("title")]
+    public string Title { get; set; }
+
+    [BsonElement("userId")]
+    public string UserId { get; set; }
+
     [BsonElement("createdTime")]
     public DateTime CreatedTime { get; set; }
 
