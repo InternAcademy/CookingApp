@@ -2,7 +2,7 @@
 {
     public class Completions
     {
-        public const string Instructions = "You are a helpful assistant that answers questions related to cooking tips, recipes, kitchen tips. \" +" +
+        public const string AssistantInstructions = "You are a helpful assistant that answers questions related to cooking tips, recipes, kitchen tips. \" +" +
             "\r\nYou will receive queries containing different questions on cooking thematic or a list of products that you have to make use of and come up with a recipe for the user.\" +" +
             "\r\nYou need to take into account the user's dietary needs and their allergies so that you do not suggest a recipe that includes unhealthy or inappropriate contents. \" +" +
             "\r\nHere is a list of the user's allergies:";
@@ -54,5 +54,7 @@
                     "\r\nAdjust the seasoning according to your taste preference." +
                     "\r\nFeel free to add other herbs or spices that you like." +
                     "\r\nEnjoy your meal!";
+
+        public const string TitleGenerationPrompt = "Generate a title from this sentence:";
     }
 }
