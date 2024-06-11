@@ -15,10 +15,10 @@ using Newtonsoft.Json.Serialization;
 using CookingApp.Services.Stripe;
 using Stripe;
 using CookingApp.Infrastructure.Configurations.Stripe;
-using CookingApp.Services.OpenAI.Completions;
 using OpenAI.Extensions;
 using OpenAI;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
+using CookingApp.Services.ChatHistory;
 
 namespace CookingApp.Infrastructure.Extensions
 {
@@ -148,7 +148,7 @@ namespace CookingApp.Infrastructure.Extensions
                 options.DefaultModelId = builder.Configuration.GetValue<string>("OpenAPIOptions:Model") ?? string.Empty;
             });
 
-            builder.Services.AddScoped<ICompletionService, CompletionService>();
+            builder.Services.AddScoped<IChatService, ChatService>();
 
             return builder;
         }
