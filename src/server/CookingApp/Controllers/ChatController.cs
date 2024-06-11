@@ -48,8 +48,8 @@
 
                 var result =
                     String.IsNullOrEmpty(chatId)
-                    ? await _chatService.CreateChat(message)
-                    : await _chatService.UpdateChat(message, chatId);
+                    ? await _chatService.CreateChatAsync(message)
+                    : await _chatService.UpdateChatAsync(message, chatId);
 
                 if (result == null)
                 {
@@ -60,20 +60,18 @@
                 }
 
                 _logger.LogInformation(SuccessMessages.ChatGPT.ResponseSuccess);
+                
                 // To display the message you need to get into result.Choices[0].Message.Content.
                 // The chat id is also contained inside the result
-
                 return Ok(result);
             }
             catch (Exception e)
             {
                 _logger.LogError(ExceptionMessages.ChatGPT.ConnectionError);
                 _logger.LogError($"{e.Message}");
-
-                return BadRequest();
             }
 
-            return Ok();
+            return BadRequest();
         }
     }
 }

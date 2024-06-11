@@ -15,19 +15,16 @@
     {
         private readonly IRepository<Chat> _chatRepository;
         private readonly ILogger<ChatService> _logger;
-        private readonly IChatService _chatService;
         private readonly IOpenAIService _openAIService;
         private readonly IRepository<User> _userRepository;
 
         public ChatService(
             IOpenAIService openAIService,
-            IChatService chatService,
             ILogger<ChatService> logger,
             IRepository<Chat> chatRepository,
             IRepository<User> userRepository)
         {
             _openAIService = openAIService;
-            _chatService = chatService;
             _logger = logger;
             _chatRepository = chatRepository;
             _userRepository = userRepository;
@@ -75,7 +72,7 @@
             return 0;
         }
 
-        public async Task<ChatCompletionCreateResponse> CreateChat(string request)
+        public async Task<ChatCompletionCreateResponse> CreateChatAsync(string request)
         {
             try
             {
@@ -109,8 +106,10 @@
 
                 if (completionResult.Successful)
                 {
-                    //var response = completionResult.Choices[0].Message.Content;
-                    //UpdateUserChat(userChat, request, response);
+                    _logger.LogInformation(SuccessMessages.ChatGPT.ResponseSuccess);
+                    // workout if info is needed inside the logger
+                    _logger.LogInformation($"{JsonSerializer.Serialize(completionResult)}");
+
                     return completionResult;
                 }
             }
@@ -123,11 +122,11 @@
             return null;
         }
 
-        public async Task<ChatCompletionCreateResponse> UpdateChat(string request, string? chatId)
+        public async Task<ChatCompletionCreateResponse> UpdateChatAsync(string request, string? chatId)
         {
             try
             {
-                var userChat = await _chatService.GetByIdAsync(chatId);
+                var userChat = await GetByIdAsync(chatId);
 
                 var completionResult = await _openAIService.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest
                 {
@@ -190,7 +189,7 @@
                 Responses = new List<Response>()
             };
 
-            await _chatService.InsertAsync(chat);
+            await InsertAsync(chat);
         }
 
         private async Task<string> GenerateTitle(string message)
@@ -225,7 +224,7 @@
         {
             userChat?.Requests.Add(CreateNewRequest(request));
             userChat?.Responses.Add(CreateNewResponse(response));
-            await _chatService.UpdateAsync(userChat);
+            await UpdateAsync(userChat);
         }
     }
 }
