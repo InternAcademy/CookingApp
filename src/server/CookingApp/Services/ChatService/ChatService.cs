@@ -1,6 +1,8 @@
 ﻿namespace CookingApp.Services.ChatHistory
 {
     using CookingApp.Infrastructure.Interfaces;
+    using CookingApp.Models.DTOs;
+    using System.Text.Json;
 
     public class ChatService : IChatService
     {
