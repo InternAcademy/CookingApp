@@ -14,7 +14,11 @@ WebBrowser.maybeCompleteAuthSession();
 
 const LandingPage = () => {
   const navigation = useNavigation();
-  const { login, token, request } = useAuth(clientId, instance, scopes);
+  const { login, token, request, loadToken } = useAuth(clientId, instance, scopes);
+
+  useEffect(() => {
+    loadToken();
+  }, []);
 
   useEffect(() => {
     if (token) {
