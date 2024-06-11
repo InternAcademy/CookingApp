@@ -1,7 +1,9 @@
+import React from 'react';
 import Constants from 'expo-constants';
 import useAuth from '../hooks/useAuth';
 import * as WebBrowser from 'expo-web-browser';
-import { StyleSheet, Text, View, TouchableOpacity, Image, Button, SafeAreaView } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Image, Button, SafeAreaView } from 'react-native';
+import tw from 'twrnc';
 
 const tenantId = process.env.EXPO_PUBLIC_TENANT_ID;
 const clientId = process.env.EXPO_PUBLIC_CLIENT_ID;
@@ -11,58 +13,25 @@ const scopes = process.env.EXPO_PUBLIC_SCOPES.split(' ');
 WebBrowser.maybeCompleteAuthSession();
 
 const LandingPage = () => {
-  console.log(clientId, instance, scopes)
+  console.log(clientId, instance, scopes);
 
   const { login, token, request } = useAuth(clientId, instance, scopes);
-
   return (
-    <View style={styles.container}>
-      <View style={styles.imageContainer}>
-        <Image source={require("../assets/icon.png")} style={styles.logo} />
+    <View style={tw`flex-1 bg-yellow-500 items-center justify-center p-5`}>
+      <View style={tw`mb-8`}>
+        <Image source={require('../assets/icon.png')} style={tw`w-50 h-50 rounded-full`} />
       </View>
-      <Text style={styles.title}>Let's Get Started</Text>
-      <Text style={styles.subtitle}>
-        Easy way to manage all your cooking tasks as easy as tapping your finger
-      </Text>
-      <Button
-        disabled={!request}
-        title="Login"
-        onPress={() => login()}
-      />
+      <Text style={tw`text-2xl font-bold text-white mb-2`}>Let's Get Started</Text>
+      <Text style={tw`text-lg text-white text-center mb-8`}>Easy way to manage all your cooking tasks as easy as tapping your finger</Text>
+
+      <TouchableOpacity disabled={!request} title="Login" onPress={() => login()} style={tw`bg-white py-4 px-10 rounded-full`}>
+        <Text style={tw`text-lg font-bold text-yellow-500`}>Get Started</Text>
+      </TouchableOpacity>
+
+      {/* <Button disabled={!request} title="Login" onPress={() => login()} /> */}
       <Text>{token}</Text>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f39c12",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 20,
-  },
-  imageContainer: {
-    marginBottom: 30,
-  },
-  logo: {
-    width: 200,
-    height: 200,
-    borderRadius: 100,
-    resizeMode: "contain",
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#fff",
-    marginBottom: 10,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: "#fff",
-    textAlign: "center",
-    marginBottom: 30,
-  },
-});
 
 export default LandingPage;

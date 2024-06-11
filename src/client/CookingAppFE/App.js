@@ -1,20 +1,27 @@
-import { StatusBar } from "expo-status-bar";
-import React from "react";
-import { StyleSheet, View } from "react-native";
-import LandingPage from "./components/LandingPage";
+import React from 'react';
+import { View, ScrollView } from 'react-native';
+import tw from 'twrnc';
+
+// import Navigation from './components/Navigation';
+// import Favourite from './components/Favourite';
+// import About from './components/About';
+// import Contacts from './components/Contacts';
+// import Previous from './components/Previous';
+// import Home from './components/Home';
+import LandingPage from './components/LandingPage';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <LandingPage />
-      <StatusBar style="auto" />
+    <View style={tw`flex-1`}>
+      {/* <Navigation /> */}
+      <ScrollView>
+        {/* <About /> */}
+        {/* <Favourite /> */}
+        {/* <Contacts /> */}
+        {/* <Home /> */}
+        <LandingPage />
+        {/* <Previous /> */}
+      </ScrollView>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f39c12",
-  },
-});
