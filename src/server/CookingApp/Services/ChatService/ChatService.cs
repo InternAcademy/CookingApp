@@ -17,17 +17,20 @@
         private readonly ILogger<ChatService> _logger;
         private readonly IChatService _chatService;
         private readonly IOpenAIService _openAIService;
+        private readonly IRepository<User> _userRepository;
 
-        public ChatService(IOpenAIService openAIService,
-            IRepository<User> userRepo,
+        public ChatService(
+            IOpenAIService openAIService,
             IChatService chatService,
             ILogger<ChatService> logger,
-            IRepository<Chat> chatRepository)
+            IRepository<Chat> chatRepository,
+            IRepository<User> userRepository)
         {
             _openAIService = openAIService;
             _chatService = chatService;
             _logger = logger;
             _chatRepository = chatRepository;
+            _userRepository = userRepository;
         }
 
         public async Task InsertAsync(CreateChatDTO chatModel)
@@ -58,11 +61,25 @@
         public async Task UpdateAsync(Chat chat)
         => await _chatRepository.UpdateAsync(chat);
 
+        public async Task<int> DeleteAsync(string id)
+        {
+            var chat = await _chatRepository.GetByIdAsync(id);
+            if (chat != null)
+            {
+                _logger.LogInformation(SuccessMessages.ChatService.DeleteOperationSuccess);
+                await _chatRepository.DeleteAsync(chat);
+                return 1;
+            }
+
+            _logger.LogInformation(ExceptionMessages.ChatService.DeleteOperationFail);
+            return 0;
+        }
+
         public async Task<ChatCompletionCreateResponse> CreateChat(string request)
         {
             try
             {
-                _logger.LogInformation("Attempting to find user");
+                _logger.LogInformation(TaskInformationMessages.ChatService.GetUserAttempt);
                 //TODO: get the userId through JWT Bearer
                 //var user = await _userRepo.GetByIdAsync("userId");
 
@@ -99,8 +116,8 @@
             }
             catch (Exception e)
             {
-                _logger.LogInformation("Something went wrong.");
-                _logger.LogInformation($"{e.Message}");
+                _logger.LogError(ExceptionMessages.ChatGPT.ConnectionError);
+                _logger.LogError($"{e.Message}");
             }
 
             return null;
@@ -123,7 +140,7 @@
 
                 if (completionResult.Successful)
                 {
-                    _logger.LogInformation("Successfully received a response from the ChatGPT API.");
+                    _logger.LogInformation(SuccessMessages.ChatGPT.ResponseSuccess);
                     // workout if info is needed inside the logger
                     _logger.LogInformation($"{JsonSerializer.Serialize(completionResult)}");
                     var response = completionResult.Choices[0].Message.Content;
@@ -134,8 +151,8 @@
             }
             catch (Exception e)
             {
-                _logger.LogInformation(ExceptionMessages.ChatGPT.ConnectionError);
-                _logger.LogInformation(e.Message);
+                _logger.LogError(ExceptionMessages.ChatGPT.ConnectionError);
+                _logger.LogError(e.Message);
             }
 
             return null;
@@ -197,8 +214,8 @@
             }
             catch (Exception e)
             {
-                _logger.LogInformation(ExceptionMessages.ChatGPT.ConnectionError);
-                _logger.LogInformation(e.Message);
+                _logger.LogError(ExceptionMessages.ChatGPT.ConnectionError);
+                _logger.LogError(e.Message);
             }
 
             return null;

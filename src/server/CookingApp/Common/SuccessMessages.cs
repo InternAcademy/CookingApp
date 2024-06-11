@@ -6,5 +6,10 @@
         {
             public const string ResponseSuccess = "Response received successully.";
         }
+
+        public class ChatService
+        {
+            public const string DeleteOperationSuccess = "Successfully deleted user's chat.";
+        }
     }
 }

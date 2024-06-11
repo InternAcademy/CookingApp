@@ -1,9 +1,7 @@
 ﻿namespace CookingApp.Controllers
 {
     using CookingApp.Common;
-    using CookingApp.Models.DTOs;
     using CookingApp.Services.ChatHistory;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     [ApiController]
@@ -27,7 +25,16 @@
             return Ok(chats);
         }
 
-        [HttpPost("chat-request")]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteChat([FromQuery] string id)
+        {
+            _logger.LogInformation(TaskInformationMessages.ChatService.DeleteUserChatAttempt);
+            var result = await _chatService.DeleteAsync(id);
+            if (result == 0) return BadRequest();
+            return Ok();
+        }
+
+        [HttpPost("{id}")]
         public async Task<IActionResult> SendQuery([FromBody] string message, [FromHeader] string? chatId = null)
         {
             try

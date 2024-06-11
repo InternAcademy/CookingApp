@@ -15,6 +15,8 @@
 
         Task UpdateAsync(Chat chat);
 
+        Task<int> DeleteAsync(string id);
+
         Task<ChatCompletionCreateResponse> CreateChat(string request);
 
         Task<ChatCompletionCreateResponse> UpdateChat(string request, string? chatId);

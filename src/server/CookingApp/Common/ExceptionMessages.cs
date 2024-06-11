@@ -10,5 +10,10 @@
             public const string ResponseError = "The ChatGPT Service failed to respond. Please try again.";
             public const string ConnectionError = "Something went wrong. Follow the log for more information.";
         }
+
+        public class ChatService
+        {
+            public const string DeleteOperationFail = "Delete operation failed.";
+        }
     }
 }
