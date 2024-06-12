@@ -15,17 +15,14 @@
         private readonly IRepository<Chat> _chatRepository;
         private readonly ILogger<ChatService> _logger;
         private readonly IOpenAIService _openAIService;
-        private readonly IRepository<User> _userRepository;
 
         public ChatService(IOpenAIService openAIService,
             ILogger<ChatService> logger,
-            IRepository<Chat> chatRepository,
-            IRepository<User> userRepository)
+            IRepository<Chat> chatRepository)
         {
             _openAIService = openAIService;
             _logger = logger;
             _chatRepository = chatRepository;
-            _userRepository = userRepository;
         }
 
         public async Task InsertAsync(CreateChatDTO chatModel)

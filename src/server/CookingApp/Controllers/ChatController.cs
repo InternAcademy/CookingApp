@@ -2,6 +2,7 @@
 {
     using CookingApp.Common;
     using CookingApp.Services.ChatHistory;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     [ApiController]
@@ -35,8 +36,8 @@
             return Ok();
         }
 
-        [HttpPost("{id}")]
-        public async Task<IActionResult> SendQuery([FromBody] string message, [FromHeader] string? chatId = null)
+        [HttpPost("chat")]
+        public async Task<IActionResult> CreateChat([FromBody] string message)
         {
             try
             {
@@ -47,10 +48,45 @@
 
                 _logger.LogInformation(TaskInformationMessages.ChatGPT.ConnectionAttempt);
 
-                var result =
-                    String.IsNullOrEmpty(chatId)
-                    ? await _chatService.CreateChatAsync(message)
-                    : await _chatService.UpdateChatAsync(message, chatId);
+                var result = await _chatService.CreateChatAsync(message);
+
+                if (result == null)
+                {
+                    _logger.LogError(ExceptionMessages.ChatGPT.ConnectionError);
+                    _logger.LogError(ExceptionMessages.ChatGPT.ResponseError);
+
+                    return NoContent();
+                }
+
+                _logger.LogInformation(SuccessMessages.ChatGPT.ResponseSuccess);
+                
+                // To display the message you need to get into result.Choices[0].Message.Content.
+                // The chat id is also contained inside the result
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(ExceptionMessages.ChatGPT.ConnectionError);
+                _logger.LogError($"{e.Message}");
+            }
+
+            return BadRequest();
+        }
+
+
+        [HttpPost("chat/{id}")]
+        public async Task<IActionResult> SendQuery([FromBody] string message, [FromRoute] string? id = null)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest();
+                }
+
+                _logger.LogInformation(TaskInformationMessages.ChatGPT.ConnectionAttempt);
+
+                var result = await _chatService.UpdateChatAsync(message, id);
 
                 if (result == null)
                 {
