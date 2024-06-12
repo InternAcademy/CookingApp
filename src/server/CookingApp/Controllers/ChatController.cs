@@ -74,7 +74,7 @@
         }
 
 
-        [HttpPost("chat/{id}")]
+        [HttpPost("chat/{id:string}")]
         public async Task<IActionResult> SendQuery([FromBody] string message, [FromRoute] string? id = null)
         {
             try
