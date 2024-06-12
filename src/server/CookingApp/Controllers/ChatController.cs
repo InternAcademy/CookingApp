@@ -1,7 +1,6 @@
 ﻿namespace CookingApp.Controllers
 {
     using CookingApp.Common;
-    using CookingApp.Models.DTOs;
     using CookingApp.Services.ChatHistory;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -28,7 +27,8 @@
             return Ok(chats);
         }
 
-        [HttpPost("chat-request")]
+        [HttpPost]
+        [Route("chat-request")]
         public async Task<IActionResult> SendQuery([FromBody] string message, [FromHeader] string? chatId = null)
         {
             try

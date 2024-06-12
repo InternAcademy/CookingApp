@@ -17,7 +17,6 @@
         private readonly IOpenAIService _openAIService;
 
         public ChatService(IOpenAIService openAIService,
-            IRepository<User> userRepo,
             ILogger<ChatService> logger,
             IRepository<Chat> chatRepository)
         {
