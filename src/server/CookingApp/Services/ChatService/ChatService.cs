@@ -9,23 +9,19 @@
     using CookingApp.Infrastructure.Interfaces;
     using CookingApp.Models.DTOs;
     using System.Text.Json;
-    using CookingApp.Models;
 
     public class ChatService : IChatService
     {
         private readonly IRepository<Chat> _chatRepository;
         private readonly ILogger<ChatService> _logger;
-        private readonly IChatService _chatService;
         private readonly IOpenAIService _openAIService;
 
         public ChatService(IOpenAIService openAIService,
             IRepository<User> userRepo,
-            IChatService chatService,
             ILogger<ChatService> logger,
             IRepository<Chat> chatRepository)
         {
             _openAIService = openAIService;
-            _chatService = chatService;
             _logger = logger;
             _chatRepository = chatRepository;
         }
@@ -110,7 +106,7 @@
         {
             try
             {
-                var userChat = await _chatService.GetByIdAsync(chatId);
+                var userChat = await GetByIdAsync(chatId);
 
                 var completionResult = await _openAIService.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest
                 {
@@ -173,7 +169,7 @@
                 Responses = new List<Response>()
             };
 
-            await _chatService.InsertAsync(chat);
+            await InsertAsync(chat);
         }
 
         private async Task<string> GenerateTitle(string message)
@@ -208,7 +204,7 @@
         {
             userChat?.Requests.Add(CreateNewRequest(request));
             userChat?.Responses.Add(CreateNewResponse(response));
-            await _chatService.UpdateAsync(userChat);
+            await UpdateAsync(userChat);
         }
     }
 }
