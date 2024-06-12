@@ -5,6 +5,7 @@
     using Microsoft.AspNetCore.Mvc;
 
     [ApiController]
+    [AllowAnonymous]
     public class ChatController : ControllerBase
     {
         private readonly IChatService _chatService;

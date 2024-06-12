@@ -9,7 +9,6 @@
     using CookingApp.Infrastructure.Interfaces;
     using CookingApp.Models.DTOs;
     using System.Text.Json;
-    using CookingApp.Models;
 
     public class ChatService : IChatService
     {
@@ -18,8 +17,7 @@
         private readonly IOpenAIService _openAIService;
         private readonly IRepository<User> _userRepository;
 
-        public ChatService(
-            IOpenAIService openAIService,
+        public ChatService(IOpenAIService openAIService,
             ILogger<ChatService> logger,
             IRepository<Chat> chatRepository,
             IRepository<User> userRepository)
