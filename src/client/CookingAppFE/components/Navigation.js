@@ -8,7 +8,7 @@ const Navigation = () => {
       <StatusBar barStyle="dark-content" />
       <View style={[styles.navBar, tw`bg-gray-100 border-b border-gray-300`]}>
         <TouchableOpacity onPress={() => console.log('Settings pressed')} style={tw`ml-4`}>
-          <Image source={require('../assets/settings.webp')} style={tw`w-8 h-8`} />
+          <Image source={require('../assets/settings.webp')} style={tw`w-10 h-10`} />
         </TouchableOpacity>
         <View style={tw`flex-row`}>
           <TouchableOpacity onPress={() => console.log('Back pressed')}>
