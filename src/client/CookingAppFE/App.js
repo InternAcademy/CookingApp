@@ -6,6 +6,7 @@ import LandingPage from './components/LandingPage';
 import Favourite from './components/Favourite';
 import Navigation from './components/Navigation';
 import Sidebar from './components/Sidebar';
+import UserMenu from './components/UserMenu';
 import { NavigationProvider, useNavigationContext } from './components/NavigationContext';
 import { View } from 'react-native';
 import tw from 'twrnc';
@@ -39,6 +40,14 @@ const MainStack = () => {
         options={{ headerShown: false }}
         listeners={{
           focus: () => setCurrentRoute('Favourite')
+        }}
+      />
+      <Stack.Screen
+        name="UserMenu"
+        component={UserMenu}
+        options={{ headerShown: false }}
+        listeners={{
+          focus: () => setCurrentRoute('UserMenu')
         }}
       />
     </Stack.Navigator>

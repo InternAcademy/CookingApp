@@ -17,7 +17,7 @@ const Navigation = () => {
           <TouchableOpacity onPress={() => navigation.navigate('Favourite')} style={tw`mx-2`}>
             <Image source={require('../assets/favorite.png')} style={tw`w-6 h-6`} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => console.log('User pressed')} style={tw`mx-2`}>
+          <TouchableOpacity onPress={() => navigation.navigate('UserMenu')} style={tw`mx-2`}>
             <Image source={require('../assets/user.png')} style={tw`w-6 h-6`} />
           </TouchableOpacity>
         </View>
