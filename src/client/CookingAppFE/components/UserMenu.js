@@ -1,8 +1,11 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import tw from 'twrnc';
+import { useNavigation } from '@react-navigation/native';
 
 const UserMenu = () => {
+  const navigation = useNavigation();
+
   return (
     <View style={tw`flex-1 bg-[#FFF4E9] p-4`}>
       <View style={tw`flex-row justify-between items-center mb-4`}>
@@ -47,7 +50,7 @@ const UserMenu = () => {
         <Text style={tw`text-lg`}>Rules And Policies</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={tw`mb-4 flex-row items-center`}>
+      <TouchableOpacity style={tw`mb-4 flex-row items-center`} onPress={() => navigation.navigate('About')}>
         <Text style={tw`text-lg font-bold`}>ℹ️ About</Text>
       </TouchableOpacity>
 
