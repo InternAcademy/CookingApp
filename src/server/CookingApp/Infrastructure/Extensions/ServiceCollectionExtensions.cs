@@ -18,7 +18,7 @@ using CookingApp.Infrastructure.Configurations.Stripe;
 using OpenAI.Extensions;
 using OpenAI;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
-using CookingApp.Services.ChatHistory;
+using CookingApp.Services.ChatService;
 
 namespace CookingApp.Infrastructure.Extensions
 {
@@ -144,8 +144,8 @@ namespace CookingApp.Infrastructure.Extensions
             builder.Services.AddOpenAIService();
             builder.Services.Configure<OpenAiOptions>(options =>
             {
-                options.ApiKey = builder.Configuration.GetValue<string>("OpenAPIOptions:APIKey") ?? string.Empty;
-                options.DefaultModelId = builder.Configuration.GetValue<string>("OpenAPIOptions:Model") ?? string.Empty;
+                options.ApiKey = builder.Configuration.GetValue<string>("OpenAIOptions:ApiKey") ?? string.Empty;
+                options.DefaultModelId = builder.Configuration.GetValue<string>("OpenAIOptions:Model") ?? string.Empty;
             });
 
             builder.Services.AddScoped<IChatService, ChatService>();

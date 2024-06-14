@@ -3,6 +3,9 @@ using MongoDB.Bson.Serialization.Attributes;
 
 public class Chat : MongoEntity
 {
+    [BsonElement("ApiGeneratedId")]
+    public string ApiGeneratedId { get; set; }
+
     [BsonElement("title")]
     public string Title { get; set; }
 

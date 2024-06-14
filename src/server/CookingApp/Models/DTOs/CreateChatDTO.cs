@@ -4,10 +4,11 @@
 
     public class CreateChatDTO
     {
-        public string Id { get; set; }
-        public string? Title { get; set; }
+        public required string ApiGeneratedId { get; set; }
 
-        public string? UserId { get; set; }
+        public required string? Title { get; set; }
+
+        public required string? UserId { get; set; }
 
         public DateTime CreatedTime { get; set; }
 

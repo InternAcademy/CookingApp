@@ -1,15 +1,13 @@
 ﻿namespace CookingApp.UnitTests.ServiceTests.OpenAI.Completions
 {
+    using global::MongoDB.Bson;
     using CookingApp.Infrastructure.Configurations.Database;
-    using CookingApp.Infrastructure;
-    using CookingApp.Services.ChatHistory;
-    using global::MongoDB.Driver;
-    using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Options;
+    using CookingApp.Infrastructure.Extensions;
+    using CookingApp.Services.ChatService;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
     using System;
-    using global::OpenAI.Managers;
-    using global::OpenAI.Interfaces;
-    using CookingApp.Infrastructure.Interfaces;
 
     public class ChatServiceIntegrationTests : IClassFixture<ChatServiceFixture>
     {
@@ -57,37 +55,48 @@
 
     public class ChatServiceFixture : IDisposable
     {
-        private readonly IOpenAIService _openAIService;
-        private readonly ILogger<ChatService> _logger;
-        private readonly IRepository<Chat> _chatRepo;
-        private readonly IRepository<User> _userRepo;
-
-        public IChatService ChatService { get; set; }
-
-        public ChatServiceFixture(
-            IOpenAIService openAIService, 
-            ILogger<ChatService> logger, 
-            IRepository<Chat> chatRepo, 
-            IRepository<User> userRepo)
-        {
-            _openAIService = openAIService;
-            _logger = logger;
-            _chatRepo = chatRepo;
-            _userRepo = userRepo;
-        }
+        private readonly ServiceProvider _serviceProvider;
+        public IChatService ChatService { get; private set; }
 
         public ChatServiceFixture()
         {
-            var mongoClient = new MongoClient("mongodb://localhost:27017");
-            var configuration = Options.Create(new MongoConfiguration());
-            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
-            var chatRepository = new Repository<Chat>(mongoClient, configuration, loggerFactory);
-            ChatService = new ChatService(_openAIService, _logger, _chatRepo, _userRepo);
+            var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+            {
+                ApplicationName = typeof(Program).Assembly.FullName,
+                ContentRootPath = Directory.GetCurrentDirectory()
+            });
+
+            builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+            var mongoSettings = builder.Configuration.GetSection("Mongo").Get<MongoSettings>()!;
+            builder.AddMongoDatabase(p =>
+            {
+                p.WithConnectionString(mongoSettings.Url);
+                p.WithDatabaseName(mongoSettings.Database);
+                p.WithSoftDeletes(o =>
+                {
+                    o.Enabled(mongoSettings.SoftDeleteEnabled);
+                    o.HardDeleteAfter(TimeSpan.FromDays(mongoSettings.SoftDeleteRetentionInDays));
+                });
+                p.RepresentEnumValuesAs(BsonType.String);
+                p.WithIgnoreIfDefaultConvention(false);
+                p.WithIgnoreIfNullConvention(true);
+            });
+
+            builder.AddOpenAIIntegration();
+            builder.Host.UseLogging(p =>
+            {
+                p.WithConsoleSink(true);
+                p.WithSeqSink(builder.Configuration["SeqServerUrl"]);
+            });
+
+            _serviceProvider = builder.Services.BuildServiceProvider();
+            ChatService = _serviceProvider.GetRequiredService<IChatService>();
         }
 
         public void Dispose()
         {
-            // Clean up resources if necessary
+            _serviceProvider?.Dispose();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace CookingApp.Services.ChatHistory
+﻿namespace CookingApp.Services.ChatService
 {
     using global::OpenAI.Interfaces;
     using global::OpenAI.ObjectModels;
@@ -12,54 +12,68 @@
 
     public class ChatService : IChatService
     {
-        private readonly IRepository<Chat> _chatRepository;
+        private readonly IRepository<Chat> _chatRepo;
         private readonly ILogger<ChatService> _logger;
         private readonly IOpenAIService _openAIService;
 
-        public ChatService(IOpenAIService openAIService,
-            ILogger<ChatService> logger,
-            IRepository<Chat> chatRepository)
+        public ChatService(
+            IRepository<Chat> chatRepository,
+            IOpenAIService openAIService,
+            ILogger<ChatService> logger)
         {
+            _chatRepo = chatRepository;
             _openAIService = openAIService;
             _logger = logger;
-            _chatRepository = chatRepository;
         }
 
         public async Task InsertAsync(CreateChatDTO chatModel)
         {
             var chat = new Chat()
             {
+                ApiGeneratedId = chatModel.ApiGeneratedId,
                 Title = chatModel.Title,
                 UserId = chatModel.UserId,
-                Requests = new List<Request>(),
-                Responses = new List<Response>()
+                CreatedDateTime = DateTime.UtcNow,
+                Requests = chatModel.Requests,
+                Responses = chatModel.Responses
             };
 
-            await _chatRepository.InsertAsync(chat);
+            await _chatRepo.InsertAsync(chat);
         }
 
         public async Task<List<Chat>> GetAllChatsAsync()
-        => await _chatRepository.GetAllAsync();
+            => await _chatRepo.GetAllAsync();
 
         public async Task<List<Tuple<string, string>>> GetAllByUserId(string userId)
         {
-            var result = await _chatRepository.GetAllAsync(c => c.UserId == userId);
-            return result.OrderBy(c => c.CreatedDateTime).Select(c => Tuple.Create(c.Title, c.Id)).ToList();
+            var result = await _chatRepo.GetAllAsync(c => c.UserId == userId);
+            return result.OrderBy(c => c.CreatedDateTime).Select(c => Tuple.Create(c.Title, c.ApiGeneratedId)).ToList();
         }
 
         public async Task<Chat?> GetByIdAsync(string id)
-            => await _chatRepository.GetByIdAsync(id);
+            => await _chatRepo.GetFirstOrDefaultAsync(c => c.Id == id);
+
+        public async Task<Chat?> GetByApiGenIdAsync(string id)
+            => await _chatRepo.GetFirstOrDefaultAsync(c => c.ApiGeneratedId == id);
 
         public async Task UpdateAsync(Chat chat)
-        => await _chatRepository.UpdateAsync(chat);
+            => await _chatRepo.UpdateAsync(chat);
+
+        public async Task UpdateTitle(string id, string newTitle)
+        {
+            var chat = await GetByApiGenIdAsync(id);
+            chat.Title = newTitle;
+
+            await _chatRepo.UpdateAsync(chat);
+        }
 
         public async Task<int> DeleteAsync(string id)
         {
-            var chat = await _chatRepository.GetByIdAsync(id);
+            var chat = await _chatRepo.GetByIdAsync(id);
             if (chat != null)
             {
                 _logger.LogInformation(SuccessMessages.ChatService.DeleteOperationSuccess);
-                await _chatRepository.DeleteAsync(chat);
+                await _chatRepo.DeleteAsync(chat);
                 return 1;
             }
 
@@ -97,7 +111,10 @@
                 });
 
                 // Creates a new Chat where later interaction will be stored
-                //var userChat = CreateNewChat(completionResult);
+                //var userChat = CreateNewChat(completionResult, userId);
+
+                // Testing purposes
+                var userChat = CreateNewChat(completionResult, request, "a1b2c3");
 
                 if (completionResult.Successful)
                 {
@@ -121,7 +138,7 @@
         {
             try
             {
-                var userChat = await GetByIdAsync(chatId);
+                var userChat = await GetByApiGenIdAsync(chatId);
 
                 var completionResult = await _openAIService.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest
                 {
@@ -129,7 +146,8 @@
                     {
                         ChatMessage.FromUser(request)
                     },
-                    Model = Models.Gpt_3_5_Turbo_0125
+                    Model = Models.Gpt_3_5_Turbo_0125,
+                    MaxTokens=5,
                 });
 
                 if (completionResult.Successful)
@@ -152,36 +170,27 @@
             return null;
         }
 
-        private static bool ChatExists(string chatId, User? user)
-            => user.Chats.Any(x => x.Id == chatId);
-
-        private Request CreateNewRequest(string message)
-            => new Request()
-            {
-                Message = message,
-                Timestamp = DateTime.UtcNow,
-            };
-
-        private Response CreateNewResponse(string message)
-            => new Response()
-            {
-                Message = message,
-                Timestamp = DateTime.UtcNow,
-            };
-
         // Creates a new chat using the ID originating from the ChatGPT API
-        private async Task CreateNewChat(ChatCompletionCreateResponse completionResult, string userId)
+        private async Task CreateNewChat(ChatCompletionCreateResponse completionResult, string request, string userId)
         {
             // send another ChatGPT API Request to config the title. 
             var title = await GenerateTitle(completionResult.Choices.First().Message.Content);
 
+            var requests = new List<Request>();
+            var requestModel = CreateNewRequest(request);
+            requests.Add(requestModel);
+
+            var responses = new List<Response>();
+            var response = CreateNewResponse(completionResult.Choices.First().Message.Content);
+            responses.Add(response);
+
             var chat = new CreateChatDTO()
             {
-                Id = completionResult.Id,
+                ApiGeneratedId = completionResult.Id,
                 UserId = userId,
                 Title = title,
-                Requests = new List<Request>(),
-                Responses = new List<Response>()
+                Requests = requests,
+                Responses = responses
             };
 
             await InsertAsync(chat);
@@ -193,9 +202,11 @@
             {
                 var result = await _openAIService.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest
                 {
+
                     Model = Models.Gpt_3_5_Turbo_0125,
                     Messages = new List<ChatMessage>
                 {
+                    ChatMessage.FromSystem(Completions.AssistantCreateTitleInstructions),
                     ChatMessage.FromUser(message)
                 },
                     MaxTokens = 10
@@ -221,5 +232,22 @@
             userChat?.Responses.Add(CreateNewResponse(response));
             await UpdateAsync(userChat);
         }
+
+        //private static bool ChatExists(string chatId, User? user)
+        //    => user.Chats.Any(x => x.Id == chatId);
+
+        private Request CreateNewRequest(string message)
+            => new Request()
+            {
+                Message = message,
+                Timestamp = DateTime.UtcNow,
+            };
+
+        private Response CreateNewResponse(string message)
+            => new Response()
+            {
+                Message = message,
+                Timestamp = DateTime.UtcNow,
+            };
     }
 }

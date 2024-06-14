@@ -1,4 +1,4 @@
-﻿namespace CookingApp.Services.ChatHistory
+﻿namespace CookingApp.Services.ChatService
 {
     using CookingApp.Models.DTOs;
     using OpenAI.ObjectModels.ResponseModels;
@@ -13,9 +13,13 @@
 
         Task<Chat?> GetByIdAsync(string id);
 
+        Task<Chat?> GetByApiGenIdAsync(string id);
+
         Task UpdateAsync(Chat chat);
 
         Task<int> DeleteAsync(string id);
+
+        Task UpdateTitle(string id, string newTitle);
 
         Task<ChatCompletionCreateResponse> CreateChatAsync(string request);
 

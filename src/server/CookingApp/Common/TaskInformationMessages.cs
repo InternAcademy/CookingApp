@@ -11,6 +11,7 @@
         {
             public const string GetUserAttempt = "Attempting to find user.";
             public const string DeleteUserChatAttempt = "Attempting to delete user's chat.";
+            public const string UpdateTitleAttempt = "Attempting to change chat tilte.";
         }
     }
 }

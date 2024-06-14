@@ -14,6 +14,7 @@
         public class ChatService
         {
             public const string DeleteOperationFail = "Delete operation failed.";
+            public const string ChageTitleOperationFail = "Change title operation failed.";
         }
     }
 }

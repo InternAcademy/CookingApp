@@ -10,6 +10,7 @@
         public class ChatService
         {
             public const string DeleteOperationSuccess = "Successfully deleted user's chat.";
+            public const string UpdateTitleOperationSuccess = "Successfully updated chat title.";
         }
     }
 }
