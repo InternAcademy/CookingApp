@@ -50,7 +50,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: 16
+    padding: 16,
+    paddingTop: 8
   },
   headerContent: {
     flexDirection: 'row',
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
     height: 16
   },
   toggleIcon: {
-    fontSize: 20 // Промени размера на иконата
+    fontSize: 30 // Промени размера на иконата
   },
   menuItem: {
     padding: 16,
