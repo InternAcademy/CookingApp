@@ -21,7 +21,7 @@ const Home = () => {
     //if user has not generated a recipe yet
 
     // <View style={tw`flex-1 justify-center items-center p-90`}>
-    //   <Image source={require('../assets/icon2.png')} style={tw`w-26 h-26 mb-14`} />
+    //   <Image source={require('../assets/Main/icon2.png')} style={tw`w-26 h-26 mb-14`} />
     //   <Text style={tw`text-lg font-bold`}>Let's figure out a recipe</Text>
     //   <Text style={tw`text-base`}>Begin by typing a message</Text>
     // </View>
@@ -51,7 +51,7 @@ const Home = () => {
         <Text style={tw`text-base`}>• Preheat your oven to 425°F (220°C).{'\n'}• Place the ramekins on a baking sheet and bake for 12-14 minutes until the edges are firm but the center is still soft.</Text>
 
         <View style={tw`flex-row items-center mb-2 mt-4`}>
-          <Image source={require('../assets/user.png')} style={tw`w-8 h-8 rounded-full mr-2`} />
+          <Image source={require('../assets/NavigationBar/user.png')} style={tw`w-8 h-8 rounded-full mr-2`} />
           <View style={tw`flex-1 justify-center`}>
             <Text style={tw`text-lg font-bold`}>Jane Doe</Text>
             <Text style={tw`text-base`}>Generate me a picture of this recipe</Text>
@@ -59,20 +59,20 @@ const Home = () => {
         </View>
 
         <View style={tw`flex-row items-center mb-2`}>
-          <Image source={require('../assets/icon.png')} style={tw`w-8 h-8 rounded-full mr-2`} />
+          <Image source={require('../assets/Main/icon.png')} style={tw`w-8 h-8 rounded-full mr-2`} />
           <View style={tw`flex-1 justify-center`}>
             <Text style={tw`text-lg font-bold`}>MasterBot</Text>
           </View>
         </View>
 
         <View style={tw`flex-row justify-start items-center mt-0 pl-10`}>
-          <Image source={require('../assets/lava_cake1.jpg')} style={tw`w-38 h-38 rounded-lg`} />
-          <Image source={require('../assets/lava_cake2.jpg')} style={tw`w-38 h-38 rounded-lg ml-2`} />
+          <Image source={require('../assets/cake/lava_cake1.jpg')} style={tw`w-38 h-38 rounded-lg`} />
+          <Image source={require('../assets/cake/lava_cake2.jpg')} style={tw`w-38 h-38 rounded-lg ml-2`} />
         </View>
         <Text style={tw`mt-2 text-sm text-gray-600 pl-10`}>Here are some example pictures of Lava Cakes.</Text>
         <TouchableOpacity style={tw`flex-row items-center mt-2 pl-10`}>
-          <Image source={require('../assets/heart.png')} style={tw`w-4 h-4 mr-1 tint-orange-500`} />
-          <Image source={require('../assets/printer.png')} style={tw`w-4 h-4 mr-1 tint-orange-500`} />
+          <Image source={require('../assets/PrintRecipeCard/heart.png')} style={tw`w-4 h-4 mr-1 tint-orange-500`} />
+          <Image source={require('../assets/PrintRecipeCard/printer.png')} style={tw`w-4 h-4 mr-1 tint-orange-500`} />
           <Text style={tw`text-xs text-orange-500`}>Print as a Recipe Card</Text>
         </TouchableOpacity>
       </ScrollView>
@@ -85,11 +85,11 @@ const Home = () => {
       <View style={tw`flex-none flex-row items-center p-2 border-t border-gray-300 bg-white`}>
         <View style={tw`flex-1 flex-row items-center border border-gray-300 rounded-full px-2 mx-1 bg-amber-50`}>
           <TouchableOpacity style={tw`p-1`}>
-            <Image source={require('../assets/paperClip.png')} style={tw`w-5 h-5`} />
+            <Image source={require('../assets/HomeMessageBar/paperClip.png')} style={tw`w-5 h-5`} />
           </TouchableOpacity>
           <TextInput style={tw`flex-1 h-10 px-1`} placeholder="Message MealMasterBot" />
           <TouchableOpacity style={tw`p-1`}>
-            <Image source={require('../assets/arrowUpCircle.png')} style={tw`w-6 h-6`} />
+            <Image source={require('../assets/HomeMessageBar/arrowUpCircle.png')} style={tw`w-6 h-6`} />
           </TouchableOpacity>
         </View>
       </View>

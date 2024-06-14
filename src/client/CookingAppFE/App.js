@@ -8,6 +8,7 @@ import Navigation from './components/Navigation';
 import Sidebar from './components/Sidebar';
 import UserMenu from './components/UserMenu';
 import About from './components/About';
+import Contact from './components/Contacts';
 import { NavigationProvider, useNavigationContext } from './components/NavigationContext';
 import { View } from 'react-native';
 import tw from 'twrnc';
@@ -57,6 +58,14 @@ const MainStack = () => {
         options={{ headerShown: false }}
         listeners={{
           focus: () => setCurrentRoute('About')
+        }}
+      />
+      <Stack.Screen
+        name="Contact"
+        component={Contact}
+        options={{ headerShown: false }}
+        listeners={{
+          focus: () => setCurrentRoute('Contact')
         }}
       />
     </Stack.Navigator>

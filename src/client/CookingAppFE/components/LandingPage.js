@@ -29,7 +29,7 @@ const LandingPage = () => {
   return (
     <View style={tw`flex-1 bg-yellow-500 items-center justify-center p-94`}>
       <View style={tw`mb-8`}>
-        <Image source={require('../assets/icon.png')} style={tw`w-40 h-40 rounded-full`} />
+        <Image source={require('../assets/Main/icon.png')} style={tw`w-40 h-40 rounded-full`} />
       </View>
       <Text style={tw`text-2xl font-bold text-white mb-2`}>Let's Get Started</Text>
       <Text style={tw`text-lg text-white text-center mb-8`}>Easy way to manage all your cooking tasks as easy as tapping your finger</Text>

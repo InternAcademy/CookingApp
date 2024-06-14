@@ -12,13 +12,13 @@ const Navigation = () => {
       <View style={[styles.navBar, tw`bg-gray-100`]}>
         <View style={styles.rightContainer}>
           <TouchableOpacity onPress={() => console.log('Back pressed')} style={tw`mx-2`}>
-            <Image source={require('../assets/back2.png')} style={tw`w-6 h-6`} />
+            <Image source={require('../assets/NavigationBar/back2.png')} style={tw`w-6 h-6`} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('Favourite')} style={tw`mx-2`}>
-            <Image source={require('../assets/favorite.png')} style={tw`w-6 h-6`} />
+            <Image source={require('../assets/NavigationBar/favorite.png')} style={tw`w-6 h-6`} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('UserMenu')} style={tw`mx-2`}>
-            <Image source={require('../assets/user.png')} style={tw`w-6 h-6`} />
+            <Image source={require('../assets/NavigationBar/user.png')} style={tw`w-6 h-6`} />
           </TouchableOpacity>
         </View>
       </View>
