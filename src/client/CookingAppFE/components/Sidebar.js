@@ -1,4 +1,3 @@
-// Sidebar.js
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { useWindowDimensions } from 'react-native';
@@ -21,7 +20,7 @@ const Sidebar = () => {
       <View style={styles.header}>
         <View style={styles.headerContent}>{open && <Image source={require('../assets/back2.png')} style={styles.icon} />}</View>
         <TouchableOpacity onPress={() => setOpen(!open)}>
-          <Text style={tw`text-gray-700 text-lg`}>{open ? '×' : '≡'}</Text>
+          <Text style={[tw`text-gray-700`, styles.toggleIcon]}>{open ? '×' : '≡'}</Text>
         </TouchableOpacity>
       </View>
 
@@ -51,9 +50,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: 16,
-    borderBottomColor: '#d1d5db',
-    borderBottomWidth: 1
+    padding: 16
   },
   headerContent: {
     flexDirection: 'row',
@@ -62,6 +59,9 @@ const styles = StyleSheet.create({
   icon: {
     width: 16,
     height: 16
+  },
+  toggleIcon: {
+    fontSize: 20 // Промени размера на иконата
   },
   menuItem: {
     padding: 16,

@@ -6,16 +6,16 @@ const Navigation = () => {
   return (
     <SafeAreaView style={[styles.safeArea, tw`bg-white`]}>
       <StatusBar barStyle="dark-content" />
-      <View style={[styles.navBar, tw`bg-gray-100 border-b border-gray-300`]}>
+      <View style={[styles.navBar, tw`bg-gray-100`]}>
         <View style={styles.rightContainer}>
           <TouchableOpacity onPress={() => console.log('Back pressed')} style={tw`mx-2`}>
-            <Image source={require('../assets/back2.png')} style={tw`w-8 h-8`} />
+            <Image source={require('../assets/back2.png')} style={tw`w-6 h-6`} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => console.log('Favourites pressed')} style={tw`mx-2`}>
-            <Image source={require('../assets/favorite.png')} style={tw`w-8 h-8`} />
+            <Image source={require('../assets/favorite.png')} style={tw`w-6 h-6`} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => console.log('User pressed')} style={tw`mx-2`}>
-            <Image source={require('../assets/user.png')} style={tw`w-8 h-8`} />
+            <Image source={require('../assets/user.png')} style={tw`w-6 h-6`} />
           </TouchableOpacity>
         </View>
       </View>
