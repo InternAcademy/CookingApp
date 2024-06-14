@@ -28,10 +28,9 @@ const Home = () => {
 
     //if user has generated a recipe
 
-    //To DO
     <SafeAreaView style={tw`flex-1 bg-white`}>
       <ScrollView contentContainerStyle={tw`p-6`}>
-        <Text style={tw`text-xl font-bold mb-2`}>To make a delicious lava cake, follow these steps:</Text>
+        <Text style={tw`text-xl font-bold mb-2 mt-10`}>To make a delicious lava cake, follow these steps:</Text>
         <Text style={tw`text-lg font-semibold mt-4`}>1. Prepare Ingredients:</Text>
         <Text style={tw`text-base`}>
           • 4 ounces of semi-sweet chocolate{'\n'}• 1/2 cup of unsalted butter{'\n'}• 1 cup of powdered sugar{'\n'}• 2 large eggs{'\n'}• 2 large egg yolks{'\n'}• 1 teaspoon of vanilla extract{'\n'}• 1/4 cup of all-purpose flour
