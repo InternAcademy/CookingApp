@@ -4,7 +4,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Home from './components/Home';
 import LandingPage from './components/LandingPage';
 import Navigation from './components/Navigation';
+import Sidebar from './components/Sidebar';
 import { NavigationProvider, useNavigationContext } from './components/NavigationContext';
+import { View } from 'react-native';
+import tw from 'twrnc';
 
 const Stack = createStackNavigator();
 
@@ -46,8 +49,13 @@ const AppInner = () => {
 
   return (
     <NavigationContainer>
-      {currentRoute !== 'LandingPage' && <Navigation />}
-      <MainStack />
+      <View style={tw`flex-1 flex-row`}>
+        {currentRoute !== 'LandingPage' && <Sidebar />}
+        <View style={tw`flex-1`}>
+          {currentRoute !== 'LandingPage' && <Navigation />}
+          <MainStack />
+        </View>
+      </View>
     </NavigationContainer>
   );
 };

@@ -7,18 +7,15 @@ const Navigation = () => {
     <SafeAreaView style={[styles.safeArea, tw`bg-white`]}>
       <StatusBar barStyle="dark-content" />
       <View style={[styles.navBar, tw`bg-gray-100 border-b border-gray-300`]}>
-        <TouchableOpacity onPress={() => console.log('Settings pressed')} style={tw`ml-4`}>
-          <Image source={require('../assets/settings.webp')} style={tw`w-10 h-10`} />
-        </TouchableOpacity>
-        <View style={tw`flex-row`}>
-          <TouchableOpacity onPress={() => console.log('Back pressed')}>
-            <Image source={require('../assets/back.jpg')} style={tw`w-8 h-8 mx-2`} />
+        <View style={styles.rightContainer}>
+          <TouchableOpacity onPress={() => console.log('Back pressed')} style={tw`mx-2`}>
+            <Image source={require('../assets/back2.png')} style={tw`w-8 h-8`} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => console.log('Favourites pressed')}>
-            <Image source={require('../assets/favorite.png')} style={tw`w-8 h-8 mx-2`} />
+          <TouchableOpacity onPress={() => console.log('Favourites pressed')} style={tw`mx-2`}>
+            <Image source={require('../assets/favorite.png')} style={tw`w-8 h-8`} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => console.log('User pressed')}>
-            <Image source={require('../assets/user.png')} style={tw`w-8 h-8 mx-2`} />
+          <TouchableOpacity onPress={() => console.log('User pressed')} style={tw`mx-2`}>
+            <Image source={require('../assets/user.png')} style={tw`w-8 h-8`} />
           </TouchableOpacity>
         </View>
       </View>
@@ -37,11 +34,16 @@ const styles = StyleSheet.create({
   },
   navBar: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     alignItems: 'center',
     height: 60,
     width: '100%',
     paddingHorizontal: 16
+  },
+  rightContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: 16
   }
 });
 
