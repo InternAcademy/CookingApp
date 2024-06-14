@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Home from './components/Home';
 import LandingPage from './components/LandingPage';
+import Favourite from './components/Favourite';
 import Navigation from './components/Navigation';
 import Sidebar from './components/Sidebar';
 import { NavigationProvider, useNavigationContext } from './components/NavigationContext';
@@ -30,6 +31,14 @@ const MainStack = () => {
         options={{ headerShown: false }}
         listeners={{
           focus: () => setCurrentRoute('Home')
+        }}
+      />
+      <Stack.Screen
+        name="Favourite"
+        component={Favourite}
+        options={{ headerShown: false }}
+        listeners={{
+          focus: () => setCurrentRoute('Favourite')
         }}
       />
     </Stack.Navigator>

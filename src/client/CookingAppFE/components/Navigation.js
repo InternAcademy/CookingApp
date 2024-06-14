@@ -1,8 +1,11 @@
 import React from 'react';
 import { View, TouchableOpacity, Image, SafeAreaView, StatusBar, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import tw from 'twrnc';
 
 const Navigation = () => {
+  const navigation = useNavigation();
+
   return (
     <SafeAreaView style={[styles.safeArea, tw`bg-white`]}>
       <StatusBar barStyle="dark-content" />
@@ -11,7 +14,7 @@ const Navigation = () => {
           <TouchableOpacity onPress={() => console.log('Back pressed')} style={tw`mx-2`}>
             <Image source={require('../assets/back2.png')} style={tw`w-6 h-6`} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => console.log('Favourites pressed')} style={tw`mx-2`}>
+          <TouchableOpacity onPress={() => navigation.navigate('Favourite')} style={tw`mx-2`}>
             <Image source={require('../assets/favorite.png')} style={tw`w-6 h-6`} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => console.log('User pressed')} style={tw`mx-2`}>
