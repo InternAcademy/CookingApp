@@ -9,6 +9,7 @@ import Sidebar from './components/Sidebar';
 import UserMenu from './components/UserMenu';
 import About from './components/About';
 import Contact from './components/Contacts';
+import Previous from './components/Previous'; // Импортираме компонента Previous
 import { NavigationProvider, useNavigationContext } from './components/NavigationContext';
 import { View } from 'react-native';
 import tw from 'twrnc';
@@ -66,6 +67,14 @@ const MainStack = () => {
         options={{ headerShown: false }}
         listeners={{
           focus: () => setCurrentRoute('Contact')
+        }}
+      />
+      <Stack.Screen
+        name="Previous"
+        component={Previous}
+        options={{ headerShown: false }}
+        listeners={{
+          focus: () => setCurrentRoute('Previous')
         }}
       />
     </Stack.Navigator>
