@@ -2,15 +2,23 @@ import React from 'react';
 import { View, TouchableOpacity, Image, SafeAreaView, StatusBar, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import tw from 'twrnc';
+import { useNavigationContext } from './NavigationContext';
 
 const Navigation = () => {
   const navigation = useNavigation();
+  const { currentRoute } = useNavigationContext();
 
   return (
     <SafeAreaView style={[styles.safeArea, tw`bg-white`]}>
       <StatusBar barStyle="dark-content" />
       <View style={[styles.navBar, tw`bg-gray-100`]}>
         <View style={styles.rightContainer}>
+          {/* Новата икона за Home, активна само ако не сме на Home или LandingPage */}
+          {currentRoute !== 'Home' && currentRoute !== 'LandingPage' && (
+            <TouchableOpacity onPress={() => navigation.navigate('Home')} style={tw`mx-2`}>
+              <Image source={require('../assets/NavigationBar/chat.png')} style={tw`w-10 h-10`} />
+            </TouchableOpacity>
+          )}
           <TouchableOpacity onPress={() => navigation.navigate('Previous')} style={tw`mx-2`}>
             <Image source={require('../assets/NavigationBar/previous2.png')} style={tw`w-6 h-6`} />
           </TouchableOpacity>

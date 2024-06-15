@@ -18,36 +18,36 @@ const UserMenu = () => {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={tw`flex-row items-center mb-4`}>
+      <TouchableOpacity style={tw`flex-row items-center mb-4`} onPress={() => navigation.navigate('Favourite')}>
         <Text style={tw`text-lg font-bold text-[#FFA500]`}>❤️ Favorite Recipes</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={tw`flex-row items-center mb-4`}>
+      <TouchableOpacity style={tw`flex-row items-center mb-4`} onPress={() => navigation.navigate('RecentRecipes')}>
         <Text style={tw`text-lg font-bold`}>🔍 Recent Recipes</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={tw`mb-4`}>
+      <TouchableOpacity style={tw`mb-4`} onPress={() => navigation.navigate('ProfileSettings')}>
         <Text style={tw`text-lg font-bold`}>Profile Settings</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={tw`mb-4`}>
+      <TouchableOpacity style={tw`mb-4`} onPress={() => navigation.navigate('Subscription')}>
         <Text style={tw`text-lg font-bold`}>Subscription</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={tw`mb-4 flex-row items-center`}>
+      <TouchableOpacity style={tw`mb-4 flex-row items-center`} onPress={() => navigation.navigate('AlergensAndFoodPreferences')}>
         <Text style={tw`text-lg font-bold`}>🦠 Alergens and Food Preferences</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={tw`mb-4`}>
+      <TouchableOpacity style={tw`mb-4`} onPress={() => navigation.navigate('ArchivedRecipes')}>
         <Text style={tw`text-lg font-bold`}>Archived Recipes</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={tw`mb-4`}>
+      <TouchableOpacity style={tw`mb-4`} onPress={() => navigation.navigate('LanguageAndTheme')}>
         <Text style={tw`text-lg font-bold`}>Language & Theme</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={tw`mb-4`}>
-        <Text style={tw`text-lg`}>Rules And Policies</Text>
+      <TouchableOpacity style={tw`mb-4 flex-row items-center`} onPress={() => navigation.navigate('RulesAndPolicies')}>
+        <Text style={tw`text-lg font-bold`}>Rules And Policies</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={tw`mb-4 flex-row items-center`} onPress={() => navigation.navigate('About')}>
