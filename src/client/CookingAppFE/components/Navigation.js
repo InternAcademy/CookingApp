@@ -11,9 +11,8 @@ const Navigation = () => {
   return (
     <SafeAreaView style={[styles.safeArea, tw`bg-white`]}>
       <StatusBar barStyle="dark-content" />
-      <View style={[styles.navBar, tw`bg-gray-100`]}>
+      <View style={[styles.navBar, tw`bg-white`]}>
         <View style={styles.rightContainer}>
-          {/* Новата икона за Home, активна само ако не сме на Home или LandingPage */}
           {currentRoute !== 'Home' && currentRoute !== 'LandingPage' && (
             <TouchableOpacity onPress={() => navigation.navigate('Home')} style={tw`mx-2`}>
               <Image source={require('../assets/NavigationBar/chat.png')} style={tw`w-10 h-10`} />
