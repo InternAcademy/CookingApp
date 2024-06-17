@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using CookingApp.Infrastructure.Common;
 using CookingApp.Infrastructure.Configurations.Database;
 using CookingApp.Infrastructure.Configurations.Swagger;
@@ -78,6 +78,32 @@ namespace CookingApp.Infrastructure.Extensions
                     Title = settings.ApiName,
                     Version = apiVersion
                 });
+                //if (swaggerConfig.Security != null)
+                //{
+                //    opts.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme()
+                //    {
+                //        Type = SecuritySchemeType.OAuth2,
+                //        Flows = new OpenApiOAuthFlows()
+                //        {
+                //            Implicit = new OpenApiOAuthFlow
+                //            {
+                //                AuthorizationUrl = new Uri($"{swaggerConfig.Security.Authority}/connect/authorize"),
+                //                TokenUrl = new Uri($"{swaggerConfig.Security.Authority}/connect/token"),
+                //                Scopes = swaggerConfig.Security.Scopes
+                //            }
+                //        }
+                //    });
+                //    opts.AddSecurityRequirement(new OpenApiSecurityRequirement
+                //    {
+                //        {
+                //            new OpenApiSecurityScheme
+                //            {
+                //                Reference = new OpenApiReference { Id = "oauth2", Type = ReferenceType.SecurityScheme }
+                //            },
+                //            swaggerConfig.Security.Scopes.Keys.ToArray()
+                //        }
+                //    });
+                //}
             });
             return builder;
         }
@@ -121,6 +147,7 @@ namespace CookingApp.Infrastructure.Extensions
 
             return builder;
         }
+
         public static IHostApplicationBuilder AddStripeIntegration(this WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<IStripeService, StripeService>();
