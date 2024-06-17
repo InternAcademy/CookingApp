@@ -398,4 +398,4 @@ FodyWeavers.xsd
 *.sln.iml
 
 .env
-/src/server/CookingApp/appsettings.json
+appsettings.json
