@@ -1,9 +1,12 @@
-﻿public enum FoodType
+﻿namespace CookingApp.Models
 {
-    Vegetable,
-    Fruit,
-    Grain,
-    Protein,
-    Dairy,
-    Other
+    public enum FoodType
+    {
+        Vegetable,
+        Fruit,
+        Grain,
+        Protein,
+        Dairy,
+        Other
+    }
 }

@@ -1,11 +1,14 @@
-﻿using CookingApp.Infrastructure.Common;
-using MongoDB.Bson.Serialization.Attributes;
-
-public class Request : MongoEntity
+﻿namespace CookingApp.Models
 {
-    [BsonElement("message")]
-    public string Message { get; set; }
+    using CookingApp.Infrastructure.Common;
+    using MongoDB.Bson.Serialization.Attributes;
 
-    [BsonElement("timestamp")]
-    public DateTime Timestamp { get; set; }
+    public class Request : MongoEntity
+    {
+        [BsonElement("message")]
+        public string Message { get; set; }
+
+        [BsonElement("timestamp")]
+        public DateTime Timestamp { get; set; }
+    }
 }

@@ -1,11 +1,14 @@
-﻿using CookingApp.Infrastructure.Common;
-using MongoDB.Bson.Serialization.Attributes;
-
-public class Food : MongoEntity
+﻿namespace CookingApp.Models
 {
-    [BsonElement("name")]
-    public string Name { get; set; }
+    using CookingApp.Infrastructure.Common;
+    using MongoDB.Bson.Serialization.Attributes;
 
-    [BsonElement("type")]
-    public FoodType Type { get; set; }
+    public class Food : MongoEntity
+    {
+        [BsonElement("name")]
+        public string Name { get; set; }
+
+        [BsonElement("type")]
+        public FoodType Type { get; set; }
+    }
 }

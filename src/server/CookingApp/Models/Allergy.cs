@@ -1,11 +1,14 @@
-﻿using CookingApp.Infrastructure.Common;
-using MongoDB.Bson.Serialization.Attributes;
-
-public class Allergy : MongoEntity
+﻿namespace CookingApp.Models
 {
-    [BsonElement("name")]
-    public string Name { get; set; }
+    using CookingApp.Infrastructure.Common;
+    using MongoDB.Bson.Serialization.Attributes;
 
-    [BsonElement("severity")]
-    public AllergySeverity Severity { get; set; }
+    public class Allergy : MongoEntity
+    {
+        [BsonElement("name")]
+        public string Name { get; set; }
+
+        [BsonElement("severity")]
+        public AllergySeverity Severity { get; set; }
+    }
 }

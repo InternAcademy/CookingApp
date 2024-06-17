@@ -1,6 +1,9 @@
-﻿public enum DietaryPreference
+﻿namespace CookingApp.Models
 {
-    None,
-    Vegan,
-    Vegetarian
+    public enum DietaryPreference
+    {
+        None,
+        Vegan,
+        Vegetarian
+    }
 }

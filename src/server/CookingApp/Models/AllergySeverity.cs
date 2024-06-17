@@ -1,6 +1,9 @@
-﻿public enum AllergySeverity
+﻿namespace CookingApp.Models
 {
-    Mild,
-    Moderate,
-    Severe
+    public enum AllergySeverity
+    {
+        Mild,
+        Moderate,
+        Severe
+    }
 }

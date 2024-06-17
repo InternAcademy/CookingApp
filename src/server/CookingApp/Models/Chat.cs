@@ -1,23 +1,26 @@
-﻿using CookingApp.Infrastructure.Common;
-using MongoDB.Bson.Serialization.Attributes;
-
-public class Chat : MongoEntity
+﻿namespace CookingApp.Models
 {
-    [BsonElement("ApiGeneratedId")]
-    public string ApiGeneratedId { get; set; }
+    using CookingApp.Infrastructure.Common;
+    using MongoDB.Bson.Serialization.Attributes;
 
-    [BsonElement("title")]
-    public string Title { get; set; }
+    public class Chat : MongoEntity
+    {
+        [BsonElement("ApiGeneratedId")]
+        public string ApiGeneratedId { get; set; }
 
-    [BsonElement("userId")]
-    public string UserId { get; set; }
+        [BsonElement("title")]
+        public string Title { get; set; }
 
-    [BsonElement("createdTime")]
-    public DateTime CreatedTime { get; set; }
+        [BsonElement("userId")]
+        public string UserId { get; set; }
 
-    [BsonElement("requests")]
-    public List<Request> Requests { get; set; } = new List<Request>();
+        [BsonElement("createdTime")]
+        public DateTime CreatedTime { get; set; }
 
-    [BsonElement("responses")]
-    public List<Response> Responses { get; set; } = new List<Response>();
+        [BsonElement("requests")]
+        public List<Request> Requests { get; set; } = new List<Request>();
+
+        [BsonElement("responses")]
+        public List<Response> Responses { get; set; } = new List<Response>();
+    }
 }
