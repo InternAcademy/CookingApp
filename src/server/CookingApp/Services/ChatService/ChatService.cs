@@ -69,15 +69,22 @@
 
         public async Task<int> DeleteAsync(string id)
         {
-            var chat = await _chatRepo.GetByIdAsync(id);
-            if (chat != null)
+            try
             {
-                _logger.LogInformation(SuccessMessages.ChatService.DeleteOperationSuccess);
-                await _chatRepo.DeleteAsync(chat);
-                return 1;
+                var chat = await GetByApiGenIdAsync(id);
+                if (chat != null)
+                {
+                    _logger.LogInformation(SuccessMessages.ChatService.DeleteOperationSuccess);
+                    await _chatRepo.DeleteAsync(chat);
+                    return 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ExceptionMessages.ChatService.DeleteOperationFail);
+                _logger.LogError(ex.Message);
             }
 
-            _logger.LogInformation(ExceptionMessages.ChatService.DeleteOperationFail);
             return 0;
         }
 
@@ -110,14 +117,14 @@
                     N = 1,
                 });
 
-                // Creates a new Chat where later interaction will be stored
-                //var userChat = CreateNewChat(completionResult, userId);
-
-                // Testing purposes
-                var userChat = CreateNewChat(completionResult, request, "a1b2c3");
-
                 if (completionResult.Successful)
                 {
+
+                    // Creates a new Chat where later interaction will be stored
+                    //var userChat = CreateNewChat(completionResult, userId);
+
+                    // Testing purposes
+                    var userChat = CreateNewChat(completionResult, request, "a1b2c3");
                     _logger.LogInformation(SuccessMessages.ChatGPT.ResponseSuccess);
                     // workout if info is needed inside the logger
                     _logger.LogInformation($"{JsonSerializer.Serialize(completionResult)}");

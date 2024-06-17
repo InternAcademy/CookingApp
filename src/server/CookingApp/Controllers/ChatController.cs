@@ -46,8 +46,8 @@
             return Ok(chats);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteChat([FromQuery] string id)
+        [HttpDelete("chat/{id}")]
+        public async Task<IActionResult> DeleteChat([FromRoute] string id)
         {
             _logger.LogInformation(TaskInformationMessages.ChatService.DeleteUserChatAttempt);
             var result = await _chatService.DeleteAsync(id);

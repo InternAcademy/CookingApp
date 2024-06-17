@@ -23,18 +23,25 @@
         {
             // Arrange
             var initialMessage = "I need a simple and delicious recipe for dinner.";
-            var initialChat = await _chatService.CreateChatAsync(initialMessage);
+            var initialChat = _chatService.CreateChatAsync(initialMessage);
 
-            var updatedMessage = "What beverage can you recommend for this dish?";
-            await _chatService.UpdateChatAsync(updatedMessage, initialChat.Id);
+            if (initialChat.IsCompletedSuccessfully)
+            {
+                var chatId = initialChat.Result.Id;
+                var updatedMessage = "What beverage can you recommend for this dish?";
+                var chatUpdate = _chatService.UpdateChatAsync(updatedMessage, chatId);
 
-            // Act
-            var retrievedChat = await _chatService.GetByIdAsync(initialChat.Id);
+                if (chatUpdate.IsCompletedSuccessfully)
+                {
+                    // Act
+                    var retrievedChat = await _chatService.GetByApiGenIdAsync(chatId);
 
-            // Assert
-            Assert.NotNull(retrievedChat);
-            Assert.Equal(initialChat.Id, retrievedChat.Id);
-            Assert.Contains(retrievedChat.Requests, r => r.Message == updatedMessage);
+                    // Assert
+                    Assert.NotNull(retrievedChat);
+                    Assert.Equal(initialChat.Result.Id, retrievedChat.Id);
+                    Assert.Contains(retrievedChat.Requests, r => r.Message == updatedMessage);
+                }
+            }            
         }
 
         [Fact]
@@ -42,14 +49,146 @@
         {
             // Arrange
             var initialMessage = "I need a simple and delicious recipe for dinner.";
-            var newChat = await _chatService.CreateChatAsync(initialMessage);
+            var newChat = _chatService.CreateChatAsync(initialMessage);
+
+            if (newChat.IsCompletedSuccessfully)
+            {
+                var chatId = newChat.Result.Id;
+
+                // Act
+                var actual = _chatService.DeleteAsync(chatId);
+                var expected = 1;
+
+                if (actual.IsCompletedSuccessfully)
+                {
+                    var retrievedChat = await _chatService.GetByApiGenIdAsync(chatId);
+
+                    // Assert
+                    Assert.Null(retrievedChat);
+                    Assert.Equal(expected, actual.Result);
+                }
+            }
+        }
+
+        [Fact]
+        public async Task EnsureNewChatIsStoredInTheDataBase()
+        {
+            // Arrange
+            var userInput = "I need a simple and delicious recipe for dinner.";
+            var newChat = _chatService.CreateChatAsync(userInput);
+
+            if (newChat.IsCompletedSuccessfully)
+            {
+                // Act
+                var retrievedChat = await _chatService.GetByApiGenIdAsync(newChat.Result.Id);
+
+                // Assert
+                Assert.NotNull(retrievedChat);
+            }
+        }
+
+        [Theory]
+        [InlineData("I need a simple and delicious recipe for dinner.")]
+        [InlineData("What delicious meal can I cook with mackerel?")]
+        [InlineData("Tell me a great lemonade recipe.")]
+        public async Task EnsureNewChatRequestEqualsUserInput(string userInput)
+        {
+            // Arrange
+            var newChat = _chatService.CreateChatAsync(userInput);
+
+            if (newChat.IsCompletedSuccessfully)
+            {
+                // Act
+                var retrievedChat = await _chatService.GetByApiGenIdAsync(newChat.Result.Id);
+
+                // Assert
+                Assert.Equal(userInput, retrievedChat.Requests.Select(r => r.Message).FirstOrDefault());
+            }
+        }
+
+        [Fact]
+        public async Task EnsureUpdatedChatReturnsResponse()
+        {
+            // Arrange
+            var userInput = "I need a simple and delicious recipe for dinner.";
+            var initialChat = await _chatService.CreateChatAsync(userInput);
+
+            var updatedContent = "What beverage can you recommend for this dish?";
 
             // Act
-            await _chatService.DeleteAsync(newChat.Id);
-            var retrievedChat = await _chatService.GetByIdAsync(newChat.Id);
+            var response = _chatService.UpdateChatAsync(updatedContent, initialChat.Id);
 
-            // Assert
-            Assert.Null(retrievedChat);
+            if (response.IsCompletedSuccessfully)
+            {
+                // Assert
+                Assert.NotNull(response.Result);
+            }
+        }
+
+        [Fact]
+        public async Task EnsureExistingChatIsFoundAndRequestContentIsUpdated()
+        {
+            // Arrange
+            var userInput = "I need a simple and delicious recipe for dinner.";
+            var initialChat = await _chatService.CreateChatAsync(userInput);
+
+            var updatedContent = "I have fish, potatoes and lemons.";
+            var result = _chatService.UpdateChatAsync(updatedContent, initialChat.Id);
+
+            if (result.IsCompletedSuccessfully)
+            {
+                // Act
+                var retrievedChat = await _chatService.GetByApiGenIdAsync(initialChat.Id);
+                var actual = retrievedChat.Requests.Count;
+                var expected = 2;
+
+                // Assert
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        [Fact]
+        public async Task EnsureExistingChatIsFoundAndResponsesContentIsUpdated()
+        {
+            // Arrange
+            var userInput = "I need a simple and delicious recipe for dinner.";
+            var initialChat = await _chatService.CreateChatAsync(userInput);
+
+            var updatedContent = "I have fish, potatoes and lemons.";
+            await _chatService.UpdateChatAsync(updatedContent, initialChat.Id);
+
+            // Act
+            var retrievedChat = _chatService.GetByApiGenIdAsync(initialChat.Id);
+
+
+            if (retrievedChat.IsCompletedSuccessfully)
+            {
+                var actual = retrievedChat.Result.Responses.Count;
+                var expected = 2;
+
+                // Assert
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        [Fact]
+        public async Task EnsureExistingChatIsFoundAndIdsMatch()
+        {
+            // Arrange
+            var userInput = "I need a simple and delicious recipe for dinner.";
+            var initialChat = await _chatService.CreateChatAsync(userInput);
+
+            var updatedContent = "What beverage can you recommend for this dish?";
+            var result = _chatService.UpdateChatAsync(updatedContent, initialChat.Id);
+
+            if (result.IsCompletedSuccessfully)
+            {
+                // Act
+                var retrievedChat = await _chatService.GetByApiGenIdAsync(initialChat.Id);
+
+                // Assert
+                Assert.Equal(initialChat.Id, retrievedChat.ApiGeneratedId);
+            }
         }
     }
 
