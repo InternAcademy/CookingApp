@@ -8,6 +8,7 @@
     using CookingApp.Common;
     using CookingApp.Infrastructure.Interfaces;
     using CookingApp.Models.DTOs;
+    using CookingApp.Models;
     using System.Text.Json;
 
     public class ChatService : IChatService

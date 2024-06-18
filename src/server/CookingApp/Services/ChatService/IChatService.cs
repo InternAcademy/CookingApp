@@ -1,6 +1,7 @@
 ﻿namespace CookingApp.Services.ChatService
 {
     using CookingApp.Models.DTOs;
+    using CookingApp.Models;
     using OpenAI.ObjectModels.ResponseModels;
 
     public interface IChatService
