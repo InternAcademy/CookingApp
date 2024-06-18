@@ -5,6 +5,5 @@
         string Name,
         long? Price,
         string PriceId,
-        string Description,
-        string ImageUrl);
+        string Description);
 }

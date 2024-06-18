@@ -22,8 +22,8 @@ namespace CookingApp.Services.Stripe
             priceService = _priceService;
             productService = _productService;
             subscriptionService = _subscriptionService;
-        }
 
+        }
         /// <summary>
         /// Creates a customer object in Stripe.
         /// It is used to create recurring charges and track payments that belong to the same customer.
@@ -31,18 +31,16 @@ namespace CookingApp.Services.Stripe
         public async Task<CustomerCreationResponse> CreateCustomerAsync(string email)
         {
             ArgumentException.ThrowIfNullOrEmpty(email);
-
             var options = new CustomerCreateOptions
             {
                 Email = email
             };
+                Customer customer = await customerService.CreateAsync(options);
 
-            Customer customer = await customerService.CreateAsync(options);
-            
-            return (new CustomerCreationResponse(
-                        customer.Id,
-                        customer.Email)
-                );
+                return (new CustomerCreationResponse(
+                              customer.Id,
+                              customer.Email)
+                      );
             
            
         }
@@ -66,8 +64,7 @@ namespace CookingApp.Services.Stripe
                     product.Name,
                     price.UnitAmount,
                     product.DefaultPriceId,
-                    product.Description,
-                    product.Images[0]));
+                    product.Description));
             }
             return result;
         }
