@@ -15,6 +15,7 @@ using Newtonsoft.Json.Serialization;
 using CookingApp.Services.Stripe;
 using Stripe;
 using CookingApp.Infrastructure.Configurations.Stripe;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
 
 namespace CookingApp.Infrastructure.Extensions
 {
@@ -151,14 +152,15 @@ namespace CookingApp.Infrastructure.Extensions
             builder.Services.AddScoped<PriceService>();
             builder.Services.AddScoped<ProductService>();
             builder.Services.AddScoped<SubscriptionService>();
+            string apiKey = builder.Configuration.GetValue<string>("StripeOptions:SecretKey") ?? string.Empty;
+            string webhookSecret = builder.Configuration.GetValue<string>("StripeOptions:WebhookSecret") ?? string.Empty;
 
             builder.Services.Configure<StripeOptions>(options =>
             {
-                string key = builder.Configuration.GetValue<string>("StripeOptions:SecretKey") ?? string.Empty;
-                options.SecretKey = key;
-                StripeConfiguration.ApiKey = key;
+                options.SecretKey = apiKey;   
+                options.WebhookSecret = webhookSecret;
             });
-
+            StripeConfiguration.ApiKey = apiKey;
             return builder;
         }
 }

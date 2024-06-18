@@ -43,6 +43,8 @@ namespace CookingApp.Services.Stripe
                         customer.Id,
                         customer.Email)
                 );
+            
+           
         }
 
         /// <summary>
