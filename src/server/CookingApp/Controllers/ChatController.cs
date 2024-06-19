@@ -1,7 +1,6 @@
-﻿namespace CookingApp.Controllers
+﻿/*namespace CookingApp.Controllers
 {
     using CookingApp.Common;
-    using CookingApp.Models.DTOs;
     using CookingApp.Services.ChatService;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -155,3 +154,4 @@
         }
     }
 }
+*/

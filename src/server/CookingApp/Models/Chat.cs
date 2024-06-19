@@ -5,22 +5,19 @@
 
     public class Chat : MongoEntity
     {
-        [BsonElement("ApiGeneratedId")]
-        public string ApiGeneratedId { get; set; }
+        [BsonElement("external-id")]
+        public string ExternalId { get; set; } = default!;
 
         [BsonElement("title")]
-        public string Title { get; set; }
+        public string Title { get; set; } = default!;
 
-        [BsonElement("userId")]
-        public string UserId { get; set; }
-
-        [BsonElement("createdTime")]
-        public DateTime CreatedTime { get; set; }
+        [BsonElement("user-id")]
+        public string UserId { get; set; } = default!;
 
         [BsonElement("requests")]
-        public List<Request> Requests { get; set; } = new List<Request>();
+        public List<Request> Requests { get; set; } = default!;
 
         [BsonElement("responses")]
-        public List<Response> Responses { get; set; } = new List<Response>();
+        public List<Response> Responses { get; set; } = default!;
     }
 }

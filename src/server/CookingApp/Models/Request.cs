@@ -5,10 +5,10 @@
 
     public class Request : MongoEntity
     {
-        [BsonElement("message")]
-        public string Message { get; set; }
+        [BsonElement("owner")]
+        public string Owner { get; set; } = default!;
 
-        [BsonElement("timestamp")]
-        public DateTime Timestamp { get; set; }
+        [BsonElement("message")]
+        public string Message { get; set; } = default!;
     }
 }

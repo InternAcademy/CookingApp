@@ -11,6 +11,8 @@
 
   <ItemGroup>
 
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+
     <PackageReference Include="Betalgo.OpenAI" Version="8.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.4" />

@@ -1,4 +1,4 @@
-﻿namespace CookingApp.Models
+﻿namespace CookingApp.Models.Enums
 {
     public enum FoodType
     {

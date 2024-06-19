@@ -4,26 +4,23 @@
     using MongoDB.Bson;
     using System;
     using CookingApp.Infrastructure.Common;
+    using CookingApp.Models.Enums;
 
     public class User : MongoEntity
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
-
         [BsonElement("name")]
-        public string Name { get; set; }
+        public string Name { get; set; } = default!;
 
-        [BsonElement("dietaryPreference")]
+        [BsonElement("dietary-preference")]
         public DietaryPreference DietaryPreference { get; set; }
 
         [BsonElement("allergies")]
-        public List<Allergy> Allergies { get; set; } = new List<Allergy>();
+        public List<Allergy> Allergies { get; set; } = default!;
 
-        [BsonElement("avoidedFoods")]
-        public List<Food> AvoidedFoods { get; set; } = new List<Food>();
+        [BsonElement("avoided-foods")]
+        public List<Food> AvoidedFoods { get; set; } = default!;
 
         [BsonElement("chats")]
-        public List<Chat> Chats { get; set; } = new List<Chat>();
+        public List<Chat> Chats { get; set; } = default!;
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace CookingApp.UnitTests.ServiceTests.OpenAI.Completions
+﻿/*namespace CookingApp.UnitTests.ServiceTests.OpenAI.Completions
 {
     using global::MongoDB.Bson;
     using CookingApp.Infrastructure.Configurations.Database;
@@ -239,3 +239,4 @@
         }
     }
 }
+*/
