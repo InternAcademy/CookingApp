@@ -2,13 +2,13 @@ import React from 'react';
 import { View, TouchableOpacity, Image, SafeAreaView, StatusBar, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import tw from 'twrnc';
-import { useNavigationContext } from '../context/NavigationContext';
-import { useChat } from '../context/ChatContext'; // Импортиране на Chat контекста
+import { useNavigationContext } from '../../context/NavigationContext';
+import { useChat } from '../../context/ChatContext';
 
 const Navigation = () => {
   const navigation = useNavigation();
   const { currentRoute } = useNavigationContext();
-  const { clearChat } = useChat(); // Използване на clearChat функцията
+  const { clearChat } = useChat();
 
   const startNewChat = () => {
     clearChat();
@@ -22,17 +22,17 @@ const Navigation = () => {
         <View style={styles.rightContainer}>
           {currentRoute !== 'Home' && currentRoute !== 'LandingPage' && (
             <TouchableOpacity onPress={startNewChat} style={tw`mx-2`}>
-              <Image source={require('../assets/NavigationBar/chat.png')} style={tw`w-10 h-10`} />
+              <Image source={require('../../assets/NavigationBar/chat.png')} style={tw`w-10 h-10`} />
             </TouchableOpacity>
           )}
           <TouchableOpacity onPress={() => navigation.navigate('Previous')} style={tw`mx-2`}>
-            <Image source={require('../assets/NavigationBar/previous2.png')} style={tw`w-6 h-6`} />
+            <Image source={require('../../assets/NavigationBar/previous2.png')} style={tw`w-6 h-6`} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('Favourite')} style={tw`mx-2`}>
-            <Image source={require('../assets/NavigationBar/favorite.png')} style={tw`w-6 h-6`} />
+            <Image source={require('../../assets/NavigationBar/favorite.png')} style={tw`w-6 h-6`} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('UserMenu')} style={tw`mx-2`}>
-            <Image source={require('../assets/NavigationBar/user.png')} style={tw`w-6 h-6`} />
+            <Image source={require('../../assets/NavigationBar/user.png')} style={tw`w-6 h-6`} />
           </TouchableOpacity>
         </View>
       </View>

@@ -18,7 +18,7 @@ const Sidebar = () => {
   return (
     <View style={[styles.sidebar, { width: open ? 256 : 64 }]}>
       <View style={styles.header}>
-        <View style={styles.headerContent}>{open && <Image source={require('../assets/NavigationBar/previous2.png')} style={styles.icon} />}</View>
+        <View style={styles.headerContent}>{open && <Image source={require('../../assets/NavigationBar/previous2.png')} style={styles.icon} />}</View>
         <TouchableOpacity onPress={() => setOpen(!open)}>
           <Text style={[tw`text-gray-700`, styles.toggleIcon]}>{open ? '×' : '≡'}</Text>
         </TouchableOpacity>

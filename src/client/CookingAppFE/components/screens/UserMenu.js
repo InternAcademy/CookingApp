@@ -10,7 +10,7 @@ const UserMenu = () => {
     <View style={tw`flex-1 bg-[#FFF4E9] p-4`}>
       <View style={tw`flex-row justify-between items-center mb-4`}>
         <Image
-          source={require('../assets/NavigationBar/user.png')} // Локален файл за потребителска снимка
+          source={require('../../assets/NavigationBar/user.png')} // Локален файл за потребителска снимка
           style={tw`w-10 h-10 rounded-full`}
         />
         <TouchableOpacity onPress={() => console.log('Close menu')}>

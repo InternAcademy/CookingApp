@@ -7,12 +7,12 @@ const Previous = ({ navigation }) => {
     <ScrollView contentContainerStyle={tw`p-4 bg-white pl-8`}>
       <View style={tw`flex-row items-center mb-4`}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image source={require('../assets/NavigationBar/previous2.png')} style={tw`w-8 h-8`} />
+          <Image source={require('../../../assets/NavigationBar/previous2.png')} style={tw`w-8 h-8`} />
         </TouchableOpacity>
       </View>
       <View style={tw`flex-row items-center mb-4`}>
         <TouchableOpacity onPress={() => console.log('Previous pressed')}>
-          <Image source={require('../assets/previous.png')} style={tw`w-8 h-8`} />
+          <Image source={require('../../../assets/previous.png')} style={tw`w-8 h-8`} />
         </TouchableOpacity>
         <Text style={tw`text-lg text-orange-500 ml-2`}>Previous Chats</Text>
       </View>
