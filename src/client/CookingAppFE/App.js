@@ -17,8 +17,8 @@ import Subscription from './components/Subscription';
 import AlergensAndFoodPreferences from './components/AlergensAndFoodPreferences';
 import LanguageAndTheme from './components/LanguageAndTheme';
 import RulesAndPolicies from './components/RulesAndPolicies';
-import { NavigationProvider, useNavigationContext } from './components/NavigationContext';
-import { ChatProvider } from './components/ChatContext'; // Импортиране на ChatProvider
+import { NavigationProvider, useNavigationContext } from './context/NavigationContext';
+import { ChatProvider } from './context/ChatContext'; // Импортиране на ChatProvider
 import { View } from 'react-native';
 import tw from 'twrnc';
 

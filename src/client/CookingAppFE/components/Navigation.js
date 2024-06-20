@@ -2,8 +2,8 @@ import React from 'react';
 import { View, TouchableOpacity, Image, SafeAreaView, StatusBar, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import tw from 'twrnc';
-import { useNavigationContext } from './NavigationContext';
-import { useChat } from './ChatContext'; // Импортиране на Chat контекста
+import { useNavigationContext } from '../context/NavigationContext';
+import { useChat } from '../context/ChatContext'; // Импортиране на Chat контекста
 
 const Navigation = () => {
   const navigation = useNavigation();

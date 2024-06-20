@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import tw from 'twrnc';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Thinking from './Thinking';
-import { useChat } from './ChatContext'; // Импортиране на Chat контекста
+import { useChat } from '../context/ChatContext'; // Импортиране на Chat контекста
 
 const Home = () => {
   const navigation = useNavigation();
