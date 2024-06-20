@@ -45,18 +45,30 @@ const Home = () => {
     setMessage('');
   };
 
-  const renderPost = () => (
-    <SafeAreaView style={tw`flex-1 bg-white`}>
-      <ScrollView contentContainerStyle={tw`p-6`}>
-        {chat.map((msg, index) => (
-          <View key={index} style={tw`mb-4`}>
-            <Text style={tw`text-base font-semibold`}>{msg.role === 'user' ? 'You' : 'MealMasterBot'}:</Text>
-            <Text style={tw`text-base`}>{msg.content}</Text>
-          </View>
-        ))}
-      </ScrollView>
-    </SafeAreaView>
-  );
+  const renderPost = () => {
+    if (chat.length === 0) {
+      return (
+        <View style={tw`flex-1 justify-center items-center p-10 mt-94`}>
+          <Image source={require('../assets/Main/icon2.png')} style={tw`w-26 h-26 mb-2`} />
+          <Text style={tw`text-lg font-bold`}>Let's figure out a recipe</Text>
+          <Text style={tw`text-base`}>Begin by typing a message</Text>
+        </View>
+      );
+    }
+
+    return (
+      <SafeAreaView style={tw`flex-1 bg-white`}>
+        <ScrollView contentContainerStyle={tw`p-6`}>
+          {chat.map((msg, index) => (
+            <View key={index} style={tw`mb-4`}>
+              <Text style={tw`text-base font-semibold`}>{msg.role === 'user' ? 'You' : 'MealMasterBot'}:</Text>
+              <Text style={tw`text-base`}>{msg.content}</Text>
+            </View>
+          ))}
+        </ScrollView>
+      </SafeAreaView>
+    );
+  };
 
   return (
     <SafeAreaView style={tw`flex-1 bg-white`}>
