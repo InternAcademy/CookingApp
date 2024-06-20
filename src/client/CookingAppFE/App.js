@@ -18,9 +18,9 @@ import AlergensAndFoodPreferences from './components/AlergensAndFoodPreferences'
 import LanguageAndTheme from './components/LanguageAndTheme';
 import RulesAndPolicies from './components/RulesAndPolicies';
 import { NavigationProvider, useNavigationContext } from './components/NavigationContext';
+import { ChatProvider } from './components/ChatContext'; // Импортиране на ChatProvider
 import { View } from 'react-native';
 import tw from 'twrnc';
-import { useEffect } from 'react';
 
 const Stack = createStackNavigator();
 
@@ -204,7 +204,9 @@ const MainStack = () => {
 export default function App() {
   return (
     <NavigationProvider>
-      <AppInner />
+      <ChatProvider>
+        <AppInner />
+      </ChatProvider>
     </NavigationProvider>
   );
 }

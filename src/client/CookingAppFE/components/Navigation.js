@@ -3,10 +3,17 @@ import { View, TouchableOpacity, Image, SafeAreaView, StatusBar, StyleSheet } fr
 import { useNavigation } from '@react-navigation/native';
 import tw from 'twrnc';
 import { useNavigationContext } from './NavigationContext';
+import { useChat } from './ChatContext'; // Импортиране на Chat контекста
 
 const Navigation = () => {
   const navigation = useNavigation();
   const { currentRoute } = useNavigationContext();
+  const { clearChat } = useChat(); // Използване на clearChat функцията
+
+  const startNewChat = () => {
+    clearChat();
+    navigation.navigate('Home');
+  };
 
   return (
     <SafeAreaView style={[styles.safeArea, tw`bg-white`]}>
@@ -14,7 +21,7 @@ const Navigation = () => {
       <View style={[styles.navBar, tw`bg-white`]}>
         <View style={styles.rightContainer}>
           {currentRoute !== 'Home' && currentRoute !== 'LandingPage' && (
-            <TouchableOpacity onPress={() => navigation.navigate('Home')} style={tw`mx-2`}>
+            <TouchableOpacity onPress={startNewChat} style={tw`mx-2`}>
               <Image source={require('../assets/NavigationBar/chat.png')} style={tw`w-10 h-10`} />
             </TouchableOpacity>
           )}
