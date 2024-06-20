@@ -3,11 +3,13 @@ import { View, Text, Image, FlatList, TextInput, TouchableOpacity, SafeAreaView,
 import { useNavigation } from '@react-navigation/native';
 import tw from 'twrnc';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Thinking from './Thinking'; // Импортиране на компонента Thinking
 
 const Home = () => {
   const navigation = useNavigation();
   const [message, setMessage] = useState('');
   const [chat, setChat] = useState([]);
+  const [isThinking, setIsThinking] = useState(false); // Добавено състояние
 
   useEffect(() => {
     const checkToken = async () => {
@@ -43,6 +45,7 @@ const Home = () => {
 
     const newMessage = { role: 'user', content: message };
     setChat([...chat, newMessage]);
+    setIsThinking(true); // Настройка на isThinking на true
 
     try {
       const response = await fetch('http://localhost:4000/respond', {
@@ -59,6 +62,8 @@ const Home = () => {
       }
     } catch (error) {
       console.error('Error sending message:', error);
+    } finally {
+      setIsThinking(false); // Настройка на isThinking на false
     }
 
     setMessage('');
@@ -84,6 +89,7 @@ const Home = () => {
               <Text style={tw`text-base`}>{msg.content}</Text>
             </View>
           ))}
+          {isThinking && <Thinking />} {/* Добавяне на Thinking компонента */}
         </ScrollView>
       </SafeAreaView>
     );
