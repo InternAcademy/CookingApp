@@ -86,9 +86,12 @@ const Home = () => {
       <SafeAreaView style={tw`flex-1 bg-white`}>
         <ScrollView contentContainerStyle={tw`p-6 mt-10`}>
           {chat.map((msg, index) => (
-            <View key={index} style={tw`mb-4`}>
-              <Text style={tw`text-base font-semibold`}>{msg.role === 'user' ? 'You' : 'MealMasterBot'}:</Text>
-              <Text style={tw`text-base`}>{msg.content}</Text>
+            <View key={index} style={tw`mb-4 flex-row items-center`}>
+              <Image source={msg.role === 'user' ? require('../assets/NavigationBar/user.png') : require('../assets/Main/icon2.png')} style={tw`w-8 h-8 rounded-full mr-2 mb-7`} />
+              <View>
+                <Text style={tw`text-base font-semibold mb-1`}>{msg.role === 'user' ? 'You' : 'MealMasterBot'}:</Text>
+                <Text style={tw`text-base mb-1`}>{msg.content}</Text>
+              </View>
             </View>
           ))}
           {isThinking && <Thinking />}
