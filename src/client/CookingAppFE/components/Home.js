@@ -16,8 +16,27 @@ const Home = () => {
         navigation.navigate('LandingPage');
       }
     };
+
+    const loadChat = async () => {
+      const savedChat = await AsyncStorage.getItem('chat');
+      if (savedChat) {
+        setChat(JSON.parse(savedChat));
+      }
+    };
+
     checkToken();
+    loadChat();
   }, []);
+
+  useEffect(() => {
+    const saveChat = async () => {
+      await AsyncStorage.setItem('chat', JSON.stringify(chat));
+    };
+
+    if (chat.length > 0) {
+      saveChat();
+    }
+  }, [chat]);
 
   const sendMessage = async () => {
     if (!message) return;
