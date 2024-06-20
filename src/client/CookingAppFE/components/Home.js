@@ -58,7 +58,7 @@ const Home = () => {
 
     return (
       <SafeAreaView style={tw`flex-1 bg-white`}>
-        <ScrollView contentContainerStyle={tw`p-6`}>
+        <ScrollView contentContainerStyle={tw`p-6 mt-10`}>
           {chat.map((msg, index) => (
             <View key={index} style={tw`mb-4`}>
               <Text style={tw`text-base font-semibold`}>{msg.role === 'user' ? 'You' : 'MealMasterBot'}:</Text>
