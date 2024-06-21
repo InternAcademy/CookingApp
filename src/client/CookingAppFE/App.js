@@ -34,7 +34,7 @@ const MainStack = () => {
       initialRouteName="LandingPage"
       screenOptions={{
         headerStyle: {
-          backgroundColor: isDarkTheme ? 'black' : 'white'
+          backgroundColor: isDarkTheme ? '#202020' : 'white'
         },
         headerTintColor: isDarkTheme ? 'white' : 'black'
       }}>
@@ -228,7 +228,7 @@ const AppInner = () => {
 
   return (
     <NavigationContainer>
-      <View style={tw`flex-1 flex-row ${isDarkTheme ? 'bg-black' : 'bg-white'}`}>
+      <View style={tw`flex-1 flex-row ${isDarkTheme ? 'bg-[#202020]' : 'bg-white'}`}>
         {currentRoute !== 'LandingPage' && <Sidebar />}
         <View style={tw`flex-1`}>
           {currentRoute !== 'LandingPage' && <Navigation />}

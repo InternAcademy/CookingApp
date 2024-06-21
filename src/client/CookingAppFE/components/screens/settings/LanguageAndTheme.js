@@ -23,18 +23,18 @@ const LanguageAndTheme = () => {
   };
 
   return (
-    <View style={tw`flex-1 ${isDarkTheme ? 'bg-black' : 'bg-white'} p-6`}>
+    <View style={tw`flex-1 ${isDarkTheme ? 'bg-[#202020]' : 'bg-white'} p-6`}>
       <Text style={tw`text-3xl font-bold mb-6 text-center ${isDarkTheme ? 'text-white' : 'text-black'}`}>Language And Theme</Text>
 
       <View style={tw`mb-6`}>
         <Text style={tw`text-lg font-semibold mb-2 ${isDarkTheme ? 'text-white' : 'text-black'}`}>Preferences</Text>
-        <View style={tw`border ${isDarkTheme ? 'border-white' : 'border-gray-300'} rounded-lg mb-2 ${isDarkTheme ? 'bg-gray-800' : 'bg-white'}`}>
-          <Picker selectedValue={selectedLanguage} onValueChange={handleLanguageChange} style={tw`${isDarkTheme ? 'text-white bg-gray-800' : 'text-black'}`} dropdownIconColor={isDarkTheme ? 'white' : 'black'}>
+        <View style={tw`border ${isDarkTheme ? 'border-white' : 'border-gray-300'} rounded-lg mb-2 ${isDarkTheme ? 'bg-[#202020]' : 'bg-white'}`}>
+          <Picker selectedValue={selectedLanguage} onValueChange={handleLanguageChange} style={tw`${isDarkTheme ? 'text-white bg-[#202020]' : 'text-black'}`} dropdownIconColor={isDarkTheme ? 'white' : 'black'}>
             <Picker.Item label="English" value="English" />
           </Picker>
         </View>
-        <View style={tw`border ${isDarkTheme ? 'border-white' : 'border-gray-300'} rounded-lg mb-2 ${isDarkTheme ? 'bg-gray-800' : 'bg-white'}`}>
-          <Picker selectedValue={selectedTheme} onValueChange={handleThemeChange} style={tw`${isDarkTheme ? 'text-white bg-gray-800' : 'text-black'}`} dropdownIconColor={isDarkTheme ? 'white' : 'black'}>
+        <View style={tw`border ${isDarkTheme ? 'border-white' : 'border-gray-300'} rounded-lg mb-2 ${isDarkTheme ? 'bg-[#202020]' : 'bg-white'}`}>
+          <Picker selectedValue={selectedTheme} onValueChange={handleThemeChange} style={tw`${isDarkTheme ? 'text-white bg-[#202020]' : 'text-black'}`} dropdownIconColor={isDarkTheme ? 'white' : 'black'}>
             <Picker.Item label="Light" value="Light" />
             <Picker.Item label="Dark" value="Dark" />
           </Picker>

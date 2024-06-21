@@ -9,7 +9,7 @@ const UserMenu = () => {
   const { isDarkTheme } = useTheme();
 
   return (
-    <View style={tw`flex-1 ${isDarkTheme ? 'bg-black' : 'bg-[#FFF4E9]'} p-4`}>
+    <View style={tw`flex-1 ${isDarkTheme ? 'bg-[#202020]' : 'bg-[#FFF4E9]'} p-4`}>
       <View style={tw`flex-row justify-between items-center mb-4`}>
         <Image
           source={require('../../assets/NavigationBar/user.png')} // Локален файл за потребителска снимка
