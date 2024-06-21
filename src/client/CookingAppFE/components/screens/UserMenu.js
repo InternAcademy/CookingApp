@@ -18,52 +18,52 @@ const UserMenu = () => {
       </View>
 
       <TouchableOpacity style={tw`flex-row items-center mb-4`} onPress={() => navigation.navigate('Favourite')}>
-        <Image source={require('../../assets/settings/FavButton.png')} style={tw`w-6 h-6 mr-2`} />
+        <Image source={require('../../assets/settings/FavButton.png')} style={tw`w-3 h-3 mr-2`} />
         <Text style={tw`text-lg font-bold ${isDarkTheme ? 'text-white' : 'text-[#FFA500]'}`}>Favorite Recipes</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={tw`flex-row items-center mb-4`} onPress={() => navigation.navigate('RecentRecipes')}>
-        <Image source={require('../../assets/settings/RecentRecipes.png')} style={tw`w-6 h-6 mr-2`} />
+        <Image source={require('../../assets/settings/RecentRecipes.png')} style={tw`w-3 h-3 mr-2`} />
         <Text style={tw`text-lg font-bold ${isDarkTheme ? 'text-white' : 'text-black'}`}>Recent Recipes</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={tw`flex-row items-center mb-4`} onPress={() => navigation.navigate('ProfileSettings')}>
-        <Image source={require('../../assets/settings/ProfileSettings.png')} style={tw`w-6 h-6 mr-2`} />
+        <Image source={require('../../assets/settings/ProfileSettings.png')} style={tw`w-3 h-3 mr-2`} />
         <Text style={tw`text-lg font-bold ${isDarkTheme ? 'text-white' : 'text-black'}`}>Profile Settings</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={tw`flex-row items-center mb-4`} onPress={() => navigation.navigate('Subscription')}>
-        <Image source={require('../../assets/settings/Subscription.png')} style={tw`w-6 h-6 mr-2`} />
+        <Image source={require('../../assets/settings/Subscription.png')} style={tw`w-3 h-3 mr-2`} />
         <Text style={tw`text-lg font-bold ${isDarkTheme ? 'text-white' : 'text-black'}`}>Subscription</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={tw`flex-row items-center mb-4`} onPress={() => navigation.navigate('AlergensAndFoodPreferences')}>
-        <Image source={require('../../assets/settings/AlergensAndFoodPreferences.png')} style={tw`w-6 h-6 mr-2`} />
+        <Image source={require('../../assets/settings/AlergensAndFoodPreferences.png')} style={tw`w-3 h-3 mr-2`} />
         <Text style={tw`text-lg font-bold ${isDarkTheme ? 'text-white' : 'text-black'}`}>Alergens and Food Preferences</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={tw`flex-row items-center mb-4`} onPress={() => navigation.navigate('ArchivedRecipes')}>
-        <Image source={require('../../assets/settings/ArchivedRecipes.png')} style={tw`w-6 h-6 mr-2`} />
+        <Image source={require('../../assets/settings/ArchivedRecipes.png')} style={tw`w-3 h-3 mr-2`} />
         <Text style={tw`text-lg font-bold ${isDarkTheme ? 'text-white' : 'text-black'}`}>Archived Recipes</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={tw`flex-row items-center mb-4`} onPress={() => navigation.navigate('LanguageAndTheme')}>
-        <Image source={require('../../assets/settings/LanguageAndTheme.png')} style={tw`w-6 h-6 mr-2`} />
+        <Image source={require('../../assets/settings/LanguageAndTheme.png')} style={tw`w-3 h-3 mr-2`} />
         <Text style={tw`text-lg font-bold ${isDarkTheme ? 'text-white' : 'text-black'}`}>Language & Theme</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={tw`flex-row items-center mb-4`} onPress={() => navigation.navigate('RulesAndPolicies')}>
-        <Image source={require('../../assets/settings/RulesAndPolicies.png')} style={tw`w-6 h-6 mr-2`} />
+        <Image source={require('../../assets/settings/RulesAndPolicies.png')} style={tw`w-3 h-3 mr-2`} />
         <Text style={tw`text-lg font-bold ${isDarkTheme ? 'text-white' : 'text-black'}`}>Rules And Policies</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={tw`flex-row items-center mb-4`} onPress={() => navigation.navigate('About')}>
-        <Image source={require('../../assets/settings/About.png')} style={tw`w-6 h-6 mr-2`} />
+        <Image source={require('../../assets/settings/About.png')} style={tw`w-3 h-3 mr-2`} />
         <Text style={tw`text-lg font-bold ${isDarkTheme ? 'text-white' : 'text-black'}`}>About</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={tw`flex-row items-center mb-4`} onPress={() => navigation.navigate('Contact')}>
-        <Image source={require('../../assets/settings/Contacts.png')} style={tw`w-6 h-6 mr-2`} />
+        <Image source={require('../../assets/settings/Contacts.png')} style={tw`w-3 h-3 mr-2`} />
         <Text style={tw`text-lg font-bold ${isDarkTheme ? 'text-white' : 'text-black'}`}>Contacts</Text>
       </TouchableOpacity>
 
