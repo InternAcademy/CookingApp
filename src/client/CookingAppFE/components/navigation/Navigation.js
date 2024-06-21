@@ -24,7 +24,7 @@ const Navigation = () => {
         <View style={styles.rightContainer}>
           {currentRoute !== 'Home' && currentRoute !== 'LandingPage' && (
             <TouchableOpacity onPress={startNewChat} style={tw`mx-2`}>
-              <Image source={require('../../assets/NavigationBar/chat.png')} style={tw`w-10 h-10`} />
+              <Image source={require('../../assets/NavigationBar/chat.png')} style={tw`w-6 h-6`} />
             </TouchableOpacity>
           )}
           <TouchableOpacity onPress={() => navigation.navigate('Previous')} style={tw`mx-2`}>
