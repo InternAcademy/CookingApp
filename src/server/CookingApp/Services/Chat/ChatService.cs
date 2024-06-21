@@ -1,28 +1,51 @@
 ﻿namespace CookingApp.Services.ChatService
 {
+    using CookingApp.Common;
     using CookingApp.Infrastructure.Interfaces;
     using CookingApp.Models;
     using CookingApp.Services.Message;
     using System.Threading.Tasks;
+    using CookingApp.ViewModels.Chat;
+    using AutoMapper;
+    using CookingApp.Infrastructure.Exceptions;
+
 
     public class ChatService(
-        IRepository<Chat> repository,
+        IRepository<Chat> repo,
         IMessageService messageService,
-        ILogger<ChatService> logger) : IChatService
+        ILogger<ChatService> logger,
+        IMapper mapper) : IChatService
     {
-        public Task ArchiveChat(string chatId)
+        public async Task SaveChat(SaveChatRequest request)
         {
-            throw new NotImplementedException();
+            var chat = mapper.Map<Chat>(request);
+            await repo.InsertAsync(chat);
         }
 
-        public Task DeleteChat(string chatId)
+        public async Task ArchiveChat(string chatId)
         {
-            throw new NotImplementedException();
+            var chat = await repo.GetByIdAsync(chatId);
+            if (chat is null)
+            {
+                throw new NotFoundException();
+            }
+            chat.IsArchived = chat.IsArchived!;
+            
+            await repo.UpdateAsync(chat);
         }
 
-        public Task<Chat> GetById(string chatId)
+        public async Task DeleteChat(string chatId)
+            => await repo.DeleteByIdAsync(chatId);
+
+        public async Task<Chat> GetById(string chatId)
         {
-            throw new NotImplementedException();
+            var chat = await repo.GetByIdAsync(chatId);
+            if (chat is null)
+            {
+                throw new NotFoundException();
+            }
+
+            return chat;
         }
     }
 }

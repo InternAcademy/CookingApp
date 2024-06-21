@@ -6,10 +6,13 @@
     using CookingApp.Infrastructure.Common;
     using CookingApp.Models.Enums;
 
-    public class User : MongoEntity
+    public class UserProfile : MongoEntity
     {
         [BsonElement("name")]
         public string Name { get; set; } = default!;
+
+        [BsonElement("user-id")]
+        public string UserId { get; set; } = default!;
 
         [BsonElement("dietary-preference")]
         public DietaryPreference DietaryPreference { get; set; }

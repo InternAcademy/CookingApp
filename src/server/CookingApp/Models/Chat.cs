@@ -2,8 +2,11 @@
 {
     using CookingApp.Infrastructure.Common;
     using MongoDB.Bson.Serialization.Attributes;
+    using CookingApp.Infrastructure.Mapping;
+    using CookingApp.ViewModels.Chat;
 
-    public class Chat : MongoEntity
+
+    public class Chat : MongoEntity, IMapFrom<SaveChatRequest>
     {
         [BsonElement("external-id")]
         public string ExternalId { get; set; } = default!;
@@ -19,5 +22,8 @@
 
         [BsonElement("responses")]
         public List<Response> Responses { get; set; } = default!;
+
+        [BsonElement("is-archived")] 
+        public bool IsArchived { get; set; }
     }
 }
