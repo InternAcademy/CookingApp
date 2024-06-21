@@ -13,13 +13,33 @@
     public class ChatService(
         IRepository<Chat> repo,
         IMessageService messageService,
-        ILogger<ChatService> logger,
         IMapper mapper) : IChatService
     {
         public async Task SaveChat(SaveChatRequest request)
         {
-            var chat = mapper.Map<Chat>(request);
-            await repo.InsertAsync(chat);
+            var chatMap = mapper.Map<Chat>(request);
+
+            var chatObject = await repo.GetByIdAsync(request.ExternalId);
+            if (chatObject is null)
+            {
+                var titleResponse = await messageService.GenerateTitle(chatMap);
+                chatMap.Title = titleResponse.FirstOrDefault().Message.Content;
+
+                await repo.InsertAsync(chatMap);
+            }
+            else
+            {
+                var chat = await repo.GetFirstOrDefaultAsync(a => a.Id == request.ExternalId);
+                if(chat is null)
+                {
+                    throw new NotFoundException();
+                }
+
+                chat.Requests = chatMap.Requests;
+                chat.Responses = chatMap.Responses;
+
+                await repo.UpdateAsync(chat);
+            }
         }
 
         public async Task ArchiveChat(string chatId)
@@ -29,8 +49,9 @@
             {
                 throw new NotFoundException();
             }
+
             chat.IsArchived = chat.IsArchived!;
-            
+
             await repo.UpdateAsync(chat);
         }
 

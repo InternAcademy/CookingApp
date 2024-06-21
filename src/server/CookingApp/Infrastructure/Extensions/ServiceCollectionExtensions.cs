@@ -19,6 +19,11 @@ using OpenAI.Extensions;
 using OpenAI;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using CookingApp.Services.ChatService;
+using OpenAI.Managers;
+using Microsoft.Extensions.DependencyInjection;
+using OpenAI.Interfaces;
+using CookingApp.Services.Message;
+using CookingApp.Services.UserProfile;
 
 namespace CookingApp.Infrastructure.Extensions
 {
@@ -172,10 +177,18 @@ namespace CookingApp.Infrastructure.Extensions
             builder.Services.Configure<OpenAiOptions>(options =>
             {
                 options.ApiKey = builder.Configuration.GetValue<string>("OpenAIOptions:ApiKey") ?? string.Empty;
-                options.DefaultModelId = builder.Configuration.GetValue<string>("OpenAIOptions:Model") ?? string.Empty;
+                options.DefaultModelId = OpenAI.ObjectModels.Models.Gpt_3_5_Turbo;
             });
 
             builder.Services.AddScoped<IChatService, ChatService>();
+            builder.Services.AddScoped<Services.Message.IMessageService, MessageService>();
+
+            return builder;
+        }
+
+        public static IHostApplicationBuilder AddServices(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddScoped<IUserProfileService, UserProfileService>();
 
             return builder;
         }

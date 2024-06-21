@@ -1,157 +1,68 @@
-﻿/*namespace CookingApp.Controllers
+﻿namespace CookingApp.Controllers
 {
-    using CookingApp.Common;
+    using CookingApp.Common.Helpers.Profiles;
     using CookingApp.Services.ChatService;
-    using Microsoft.AspNetCore.Authorization;
+    using CookingApp.ViewModels.Chat;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
+    using IMessageService = Services.Message.IMessageService;
+    using Request = Models.Request;
+    using Response = Models.Response;
 
     [ApiController]
-    [AllowAnonymous]
-    public class ChatController : ControllerBase
+    public class ChatController(IChatService chatService,
+        IMessageService messageService,
+        IHttpContextAccessor httpContextAccessor) : ControllerBase
     {
-        private readonly IChatService _chatService;
-        private readonly ILogger<ChatController> _logger;
-
-        public ChatController(IChatService chatService, ILogger<ChatController> logger)
+        [HttpGet("new-chat")]
+        public async Task<IActionResult> NewChat([FromBody] string message)
         {
-            _chatService = chatService;
-            _logger = logger;
-        }
+            var userId = GetUser.ProfileId(httpContextAccessor);
+            var responce = await messageService.CreateMessage(userId, message);
 
-        [HttpPost("new-chat")]
-        public async Task<IActionResult> InsertAsync([FromBody] CreateChatDTO chat)
-        {
-            await _chatService.InsertAsync(chat);
-
-            return Ok(chat);
-        }
-
-        [HttpGet("chats")]
-        public async Task<IActionResult> GetAllChatsByUserId([FromQuery] string userId)
-        {
-            //TODO: implement Azure Entra Id functions
-            //var user = _userService.GetUser();
-            var chats = await _chatService.GetAllByUserId(userId);
-            return Ok(chats);
-        }
-
-        [HttpGet("chat/{apiGenId}")]
-        public async Task<IActionResult> GetChatsByApiGenId([FromRoute] string apiGenId)
-        {
-            //TODO: implement Azure Entra Id functions
-            //var user = _userService.GetUser();
-            var chats = await _chatService.GetByApiGenIdAsync(apiGenId);
-            return Ok(chats);
-        }
-
-        [HttpDelete("chat/{id}")]
-        public async Task<IActionResult> DeleteChat([FromRoute] string id)
-        {
-            _logger.LogInformation(TaskInformationMessages.ChatService.DeleteUserChatAttempt);
-            var result = await _chatService.DeleteAsync(id);
-            if (result == 0) return BadRequest();
-            return Ok();
-        }
-
-        [HttpPut("chat/{id}")]
-        public async Task<IActionResult> UpdateTitle([FromQuery] string id, string newTitle)
-        {
-            try
+            var saveChatRequest = new SaveChatRequest 
             {
-                _logger.LogInformation(TaskInformationMessages.ChatService.UpdateTitleAttempt);
-                var result = _chatService.UpdateTitle(id, newTitle);
-            
-                if (result.IsCompletedSuccessfully)
+                UserId = userId,
+                Requests = [new Request { Message = message, Owner = userId}],
+                Responses = [new Response { Message = responce.First().Message.Content, Owner = userId }]
+            };
+
+            await chatService.SaveChat(saveChatRequest);
+
+            return Ok(responce);
+        }
+
+        [HttpGet("cid/{chatId}")]
+        public async Task<IActionResult> ContinueChat(string chatId, [FromBody]string message)
+        {
+            var userId = GetUser.ProfileId(httpContextAccessor);
+            var responce = await messageService.SendMessage(chatId, message);
+
+            var saveChatRequest = new SaveChatRequest
+            {
+                ExternalId = responce.Chat.Id,
+                UserId = userId,
+                Requests = responce.Chat.Requests,
+                Responses = responce.Chat.Responses
+            };
+
+            saveChatRequest.Requests
+                .Add(new Request
                 {
-                    _logger.LogInformation(SuccessMessages.ChatService.UpdateTitleOperationSuccess);
-                    return Ok();
-                }
+                    Message = message,
+                    Owner = userId
+                });
 
-                throw new InvalidOperationException();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ExceptionMessages.ChatService.ChageTitleOperationFail);
-                _logger.LogError(ex.Message);
-            }
+            saveChatRequest.Responses
+                .Add(new Response 
+                { 
+                    Message = responce.ChatChoiceResponses.First().Message.Content, 
+                    Owner = userId 
+                });
 
-            return BadRequest();
-        }
+            await chatService.SaveChat(saveChatRequest);
 
-        [HttpPost("chat")]
-        public async Task<IActionResult> CreateChat([FromBody] string message)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest();
-                }
-
-                _logger.LogInformation(TaskInformationMessages.ChatGPT.ConnectionAttempt);
-
-                var result = await _chatService.CreateChatAsync(message);
-
-                if (result == null)
-                {
-                    _logger.LogError(ExceptionMessages.ChatGPT.ConnectionError);
-                    _logger.LogError(ExceptionMessages.ChatGPT.ResponseError);
-
-                    return NoContent();
-                }
-
-                _logger.LogInformation(SuccessMessages.ChatGPT.ResponseSuccess);
-                
-                // To display the message you need to get into result.Choices[0].Message.Content.
-                // The chat id is also contained inside the result
-                return Ok(result);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(ExceptionMessages.ChatGPT.ConnectionError);
-                _logger.LogError($"{e.Message}");
-            }
-
-            return BadRequest();
-        }
-
-        [HttpPost("chat/{id}")]
-        public async Task<IActionResult> SendQuery([FromBody] string message, [FromRoute] string? id = null)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest();
-                }
-
-                _logger.LogInformation(TaskInformationMessages.ChatGPT.ConnectionAttempt);
-
-                var result = await _chatService.UpdateChatAsync(message, id);
-
-                if (result == null)
-                {
-                    _logger.LogError(ExceptionMessages.ChatGPT.ConnectionError);
-                    _logger.LogError(ExceptionMessages.ChatGPT.ResponseError);
-
-                    return NoContent();
-                }
-
-                _logger.LogInformation(SuccessMessages.ChatGPT.ResponseSuccess);
-                
-                // To display the message you need to get into result.Choices[0].Message.Content.
-                // The chat id is also contained inside the result
-                return Ok(result);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(ExceptionMessages.ChatGPT.ConnectionError);
-                _logger.LogError($"{e.Message}");
-            }
-
-            return BadRequest();
+            return Ok(responce.ChatChoiceResponses);
         }
     }
 }
-*/
