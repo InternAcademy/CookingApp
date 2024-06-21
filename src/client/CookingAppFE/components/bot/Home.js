@@ -1,4 +1,3 @@
-// Home.js
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, FlatList, TextInput, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -6,11 +5,14 @@ import tw from 'twrnc';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Thinking from '../bot/Thinking';
 import { useChat } from '../../context/ChatContext';
+import { useTheme } from '../../context/ThemeContext';
+
 const Home = () => {
   const navigation = useNavigation();
   const [message, setMessage] = useState('');
   const [isThinking, setIsThinking] = useState(false);
   const { chat, setChat } = useChat();
+  const { isDarkTheme } = useTheme();
 
   useEffect(() => {
     const checkToken = async () => {
@@ -75,21 +77,21 @@ const Home = () => {
       return (
         <View style={tw`flex-1 justify-center items-center p-10 mt-94`}>
           <Image source={require('../../assets/Main/icon2.png')} style={tw`w-26 h-26 mb-2`} />
-          <Text style={tw`text-lg font-bold`}>Let's figure out a recipe</Text>
-          <Text style={tw`text-base`}>Begin by typing a message</Text>
+          <Text style={tw`text-lg font-bold ${isDarkTheme ? 'text-white' : 'text-black'}`}>Let's figure out a recipe</Text>
+          <Text style={tw`text-base ${isDarkTheme ? 'text-gray-400' : 'text-black'}`}>Begin by typing a message</Text>
         </View>
       );
     }
 
     return (
-      <SafeAreaView style={tw`flex-1 bg-white`}>
+      <SafeAreaView style={tw`flex-1 ${isDarkTheme ? 'bg-[#202020]' : 'bg-white'}`}>
         <ScrollView contentContainerStyle={tw`p-6 mt-10`}>
           {chat.map((msg, index) => (
             <View key={index} style={tw`mb-4 flex-row items-center`}>
               <Image source={msg.role === 'user' ? require('../../assets/NavigationBar/user.png') : require('../../assets/Main/icon2.png')} style={tw`w-8 h-8 rounded-full mr-2 mb-7`} />
               <View>
-                <Text style={tw`text-base font-semibold mb-1`}>{msg.role === 'user' ? 'You' : 'MealMasterBot'}:</Text>
-                <Text style={tw`text-base mb-1`}>{msg.content}</Text>
+                <Text style={tw`text-base font-semibold mb-1 ${isDarkTheme ? 'text-white' : 'text-black'}`}>{msg.role === 'user' ? 'You' : 'MealMasterBot'}:</Text>
+                <Text style={tw`text-base mb-1 ${isDarkTheme ? 'text-white' : 'text-black'}`}>{msg.content}</Text>
               </View>
             </View>
           ))}
@@ -100,16 +102,16 @@ const Home = () => {
   };
 
   return (
-    <SafeAreaView style={tw`flex-1 bg-white`}>
+    <SafeAreaView style={tw`flex-1 ${isDarkTheme ? 'bg-[#202020]' : 'bg-white'}`}>
       <FlatList data={[{ key: '1' }]} renderItem={renderPost} keyExtractor={item => item.key} contentContainerStyle={tw`flex-grow`} />
-      <View style={tw`flex-none flex-row items-center p-2 border-t border-gray-300 bg-white`}>
-        <View style={tw`flex-1 flex-row items-center border border-gray-300 rounded-full px-2 mx-1 bg-amber-50`}>
+      <View style={tw`flex-none flex-row items-center p-2 border-t ${isDarkTheme ? 'border-gray-700 bg-[#202020]' : 'border-gray-300 bg-white'}`}>
+        <View style={tw`flex-1 flex-row items-center border ${isDarkTheme ? 'border-gray-700 bg-gray-900' : 'border-gray-300 bg-amber-50'} rounded-full px-2 mx-1`}>
           <TouchableOpacity onPress={sendMessage} style={tw`p-1`}>
-            <Image source={require('../../assets/HomeMessageBar/paperClip.png')} style={tw`w-5 h-5`} />
+            <Image source={require('../../assets/HomeMessageBar/paperClip.png')} style={tw`w-5 h-5 ${isDarkTheme ? 'tint-white' : ''}`} />
           </TouchableOpacity>
-          <TextInput style={tw`flex-1 h-10 px-1`} placeholder="Message MealMasterBot" value={message} onChangeText={setMessage} />
+          <TextInput style={tw`flex-1 h-10 px-1 ${isDarkTheme ? 'text-white' : 'text-black'}`} placeholder="Message MealMasterBot" placeholderTextColor={isDarkTheme ? 'gray' : 'black'} value={message} onChangeText={setMessage} />
           <TouchableOpacity onPress={sendMessage} style={tw`p-1`}>
-            <Image source={require('../../assets/HomeMessageBar/arrowUpCircle.png')} style={tw`w-6 h-6`} />
+            <Image source={require('../../assets/HomeMessageBar/arrowUpCircle.png')} style={tw`w-6 h-6 ${isDarkTheme ? 'tint-white' : ''}`} />
           </TouchableOpacity>
         </View>
       </View>
