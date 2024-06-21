@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { View } from 'react-native';
+import tw from 'twrnc';
 import Home from './components/bot/Home';
 import LandingPage from './components/screens/LandingPage';
 import Favourite from './components/screens/recipes/Favourite';
@@ -19,16 +21,23 @@ import LanguageAndTheme from './components/screens/settings/LanguageAndTheme';
 import RulesAndPolicies from './components/screens/settings/RulesAndPolicies';
 import { NavigationProvider, useNavigationContext } from './context/NavigationContext';
 import { ChatProvider } from './context/ChatContext';
-import { View } from 'react-native';
-import tw from 'twrnc';
+import { ThemeProvider, useTheme } from './context/ThemeContext';
 
 const Stack = createStackNavigator();
 
 const MainStack = () => {
   const { setCurrentRoute } = useNavigationContext();
+  const { isDarkTheme } = useTheme();
 
   return (
-    <Stack.Navigator initialRouteName="LandingPage">
+    <Stack.Navigator
+      initialRouteName="LandingPage"
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: isDarkTheme ? 'black' : 'white'
+        },
+        headerTintColor: isDarkTheme ? 'white' : 'black'
+      }}>
       <Stack.Screen
         name="LandingPage"
         component={LandingPage}
@@ -203,20 +212,23 @@ const MainStack = () => {
 
 export default function App() {
   return (
-    <NavigationProvider>
-      <ChatProvider>
-        <AppInner />
-      </ChatProvider>
-    </NavigationProvider>
+    <ThemeProvider>
+      <NavigationProvider>
+        <ChatProvider>
+          <AppInner />
+        </ChatProvider>
+      </NavigationProvider>
+    </ThemeProvider>
   );
 }
 
 const AppInner = () => {
   const { currentRoute } = useNavigationContext();
+  const { isDarkTheme } = useTheme();
 
   return (
     <NavigationContainer>
-      <View style={tw`flex-1 flex-row`}>
+      <View style={tw`flex-1 flex-row ${isDarkTheme ? 'bg-black' : 'bg-white'}`}>
         {currentRoute !== 'LandingPage' && <Sidebar />}
         <View style={tw`flex-1`}>
           {currentRoute !== 'LandingPage' && <Navigation />}

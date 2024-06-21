@@ -1,20 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import tw from 'twrnc';
+import { useTheme } from '../../../context/ThemeContext';
 
 const LanguageAndTheme = () => {
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
-  const [selectedTheme, setSelectedTheme] = useState('Light');
-  const [selectedLanguage, setSelectedLanguage] = useState('English');
-
-  const toggleTheme = () => {
-    setIsDarkTheme(!isDarkTheme);
-  };
+  const { isDarkTheme, toggleTheme } = useTheme();
+  const [selectedTheme, setSelectedTheme] = React.useState(isDarkTheme ? 'Dark' : 'Light');
+  const [selectedLanguage, setSelectedLanguage] = React.useState('English');
 
   const handleThemeChange = itemValue => {
     setSelectedTheme(itemValue);
-    setIsDarkTheme(itemValue === 'Dark');
+    if (itemValue === 'Dark') {
+      if (!isDarkTheme) toggleTheme();
+    } else {
+      if (isDarkTheme) toggleTheme();
+    }
   };
 
   const handleLanguageChange = itemValue => {
@@ -27,13 +28,13 @@ const LanguageAndTheme = () => {
 
       <View style={tw`mb-6`}>
         <Text style={tw`text-lg font-semibold mb-2 ${isDarkTheme ? 'text-white' : 'text-black'}`}>Preferences</Text>
-        <View style={tw`border ${isDarkTheme ? 'border-white' : 'border-gray-300'} rounded-lg mb-2`}>
-          <Picker selectedValue={selectedLanguage} onValueChange={handleLanguageChange} style={tw`${isDarkTheme ? 'text-black bg-white' : 'text-black'}`} dropdownIconColor={isDarkTheme ? 'black' : 'black'}>
+        <View style={tw`border ${isDarkTheme ? 'border-white' : 'border-gray-300'} rounded-lg mb-2 ${isDarkTheme ? 'bg-gray-800' : 'bg-white'}`}>
+          <Picker selectedValue={selectedLanguage} onValueChange={handleLanguageChange} style={tw`${isDarkTheme ? 'text-white bg-gray-800' : 'text-black'}`} dropdownIconColor={isDarkTheme ? 'white' : 'black'}>
             <Picker.Item label="English" value="English" />
           </Picker>
         </View>
-        <View style={tw`border ${isDarkTheme ? 'border-white' : 'border-gray-300'} rounded-lg mb-2`}>
-          <Picker selectedValue={selectedTheme} onValueChange={handleThemeChange} style={tw`${isDarkTheme ? 'text-black bg-white' : 'text-black'}`} dropdownIconColor={isDarkTheme ? 'black' : 'black'}>
+        <View style={tw`border ${isDarkTheme ? 'border-white' : 'border-gray-300'} rounded-lg mb-2 ${isDarkTheme ? 'bg-gray-800' : 'bg-white'}`}>
+          <Picker selectedValue={selectedTheme} onValueChange={handleThemeChange} style={tw`${isDarkTheme ? 'text-white bg-gray-800' : 'text-black'}`} dropdownIconColor={isDarkTheme ? 'white' : 'black'}>
             <Picker.Item label="Light" value="Light" />
             <Picker.Item label="Dark" value="Dark" />
           </Picker>
