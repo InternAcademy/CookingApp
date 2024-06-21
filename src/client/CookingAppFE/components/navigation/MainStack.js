@@ -20,12 +20,12 @@ import RulesAndPolicies from '../../components/screens/settings/RulesAndPolicies
 const Stack = createStackNavigator();
 
 const MainStack = () => {
-  const { setCurrentRoute } = useNavigationContext();
+  const { currentRoute, setCurrentRoute } = useNavigationContext();
   const { isDarkTheme } = useTheme();
 
   return (
     <Stack.Navigator
-      initialRouteName="LandingPage"
+      initialRouteName={currentRoute}
       screenOptions={{
         headerStyle: {
           backgroundColor: isDarkTheme ? '#202020' : 'white'
