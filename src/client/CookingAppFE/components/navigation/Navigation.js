@@ -4,11 +4,13 @@ import { useNavigation } from '@react-navigation/native';
 import tw from 'twrnc';
 import { useNavigationContext } from '../../context/NavigationContext';
 import { useChat } from '../../context/ChatContext';
+import { useTheme } from '../../context/ThemeContext';
 
 const Navigation = () => {
   const navigation = useNavigation();
   const { currentRoute } = useNavigationContext();
   const { clearChat } = useChat();
+  const { isDarkTheme } = useTheme();
 
   const startNewChat = () => {
     clearChat();
@@ -16,9 +18,9 @@ const Navigation = () => {
   };
 
   return (
-    <SafeAreaView style={[styles.safeArea, tw`bg-white`]}>
-      <StatusBar barStyle="dark-content" />
-      <View style={[styles.navBar, tw`bg-white`]}>
+    <SafeAreaView style={[styles.safeArea, tw`${isDarkTheme ? 'bg-[#202020]' : 'bg-white'}`]}>
+      <StatusBar barStyle={isDarkTheme ? 'light-content' : 'dark-content'} />
+      <View style={[styles.navBar, tw`${isDarkTheme ? 'bg-[#202020]' : 'bg-white'}`]}>
         <View style={styles.rightContainer}>
           {currentRoute !== 'Home' && currentRoute !== 'LandingPage' && (
             <TouchableOpacity onPress={startNewChat} style={tw`mx-2`}>
