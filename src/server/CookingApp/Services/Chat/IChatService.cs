@@ -5,9 +5,10 @@
 
     public interface IChatService
     {
-        Task SaveChat(SaveChatRequest request);
+        Task<Chat> SaveChat(SaveChatRequest request);
         Task<Chat> GetById(string chatId);
         Task ArchiveChat(string chatId);
         Task DeleteChat(string chatId);
+        Task<IEnumerable<ChatContentResponse>> GetActiveUserChats(string userId);
     }
 }

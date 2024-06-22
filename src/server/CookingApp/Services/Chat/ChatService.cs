@@ -1,13 +1,12 @@
 ﻿namespace CookingApp.Services.ChatService
 {
-    using CookingApp.Common;
+    using AutoMapper;
+    using CookingApp.Infrastructure.Exceptions;
     using CookingApp.Infrastructure.Interfaces;
     using CookingApp.Models;
     using CookingApp.Services.Message;
-    using System.Threading.Tasks;
     using CookingApp.ViewModels.Chat;
-    using AutoMapper;
-    using CookingApp.Infrastructure.Exceptions;
+    using System.Threading.Tasks;
 
 
     public class ChatService(
@@ -15,7 +14,7 @@
         IMessageService messageService,
         IMapper mapper) : IChatService
     {
-        public async Task SaveChat(SaveChatRequest request)
+        public async Task<Chat> SaveChat(SaveChatRequest request)
         {
             var chatMap = mapper.Map<Chat>(request);
 
@@ -30,7 +29,7 @@
             else
             {
                 var chat = await repo.GetFirstOrDefaultAsync(a => a.Id == request.ExternalId);
-                if(chat is null)
+                if (chat is null)
                 {
                     throw new NotFoundException();
                 }
@@ -40,6 +39,8 @@
 
                 await repo.UpdateAsync(chat);
             }
+
+            return chatMap;
         }
 
         public async Task ArchiveChat(string chatId)
@@ -67,6 +68,15 @@
             }
 
             return chat;
+        }
+
+        public async Task<IEnumerable<ChatContentResponse>> GetActiveUserChats(string userId)
+        {
+            var chats = await repo.GetAllAsync(a => a.UserId == userId);
+
+            return chats
+                .Where(a => !a.IsDeleted && !a.IsArchived)
+                .Select(a => new ChatContentResponse { Title = a.Title, Time = a.CreatedDateTime });
         }
     }
 }

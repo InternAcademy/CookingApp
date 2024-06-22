@@ -1,4 +1,7 @@
-﻿using CookingApp.Infrastructure.Interfaces;
+﻿using CookingApp.Infrastructure.Exceptions;
+using CookingApp.Infrastructure.Interfaces;
+using CookingApp.ViewModels.Chat;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CookingApp.Services.UserProfile
 {
@@ -17,6 +20,23 @@ namespace CookingApp.Services.UserProfile
 
                 await profileRepo.InsertAsync(profile);
             }
+        }
+
+        public async Task ConfigureProfile(ConfigureProfileRequest configureProfileRequest)
+        {
+            var profile = await profileRepo
+                .GetFirstOrDefaultAsync(a => a.UserId == configureProfileRequest.UserId);
+
+            if (profile is null)
+            {
+                throw new NotFoundException();
+            }
+
+            profile.Allergies = configureProfileRequest.Allergies;
+            profile.AvoidedFoods = configureProfileRequest.AvoidedFoods;
+            profile.DietaryPreference = configureProfileRequest.DietaryPreference;
+
+            await profileRepo.UpdateAsync(profile);
         }
     }
 }

@@ -20,20 +20,24 @@
             var userId = GetUser.ProfileId(httpContextAccessor);
             var responce = await messageService.CreateMessage(userId, message);
 
-            var saveChatRequest = new SaveChatRequest 
+            var saveChatRequest = new SaveChatRequest
             {
                 UserId = userId,
-                Requests = [new Request { Message = message, Owner = userId}],
+                Requests = [new Request { Message = message, Owner = userId }],
                 Responses = [new Response { Message = responce.First().Message.Content, Owner = userId }]
             };
 
-            await chatService.SaveChat(saveChatRequest);
+            var result = new ChatMessageResponce
+            {
+                Chat = await chatService.SaveChat(saveChatRequest),
+                ChatChoiceResponses = responce
+            };
 
-            return Ok(responce);
+            return Ok(result);
         }
 
-        [HttpGet("cid/{chatId}")]
-        public async Task<IActionResult> ContinueChat(string chatId, [FromBody]string message)
+        [HttpGet("continue/{chatId}")]
+        public async Task<IActionResult> ContinueChat(string chatId, [FromBody] string message)
         {
             var userId = GetUser.ProfileId(httpContextAccessor);
             var responce = await messageService.SendMessage(chatId, message);
@@ -54,15 +58,27 @@
                 });
 
             saveChatRequest.Responses
-                .Add(new Response 
-                { 
-                    Message = responce.ChatChoiceResponses.First().Message.Content, 
-                    Owner = userId 
+                .Add(new Response
+                {
+                    Message = responce.ChatChoiceResponses.First().Message.Content,
+                    Owner = userId
                 });
 
             await chatService.SaveChat(saveChatRequest);
 
-            return Ok(responce.ChatChoiceResponses);
+            return Ok(responce);
+        }
+
+        [HttpGet("c/{chatId}")]
+        public async Task<IActionResult> ChatId(string chatId)
+        {
+            return Ok(await chatService.GetById(chatId));
+        }
+
+        [HttpGet("user-chats/{userId}")]
+        public async Task<IActionResult> ChatsByUser(string userId)
+        {
+            return Ok(await chatService.GetActiveUserChats(userId));
         }
     }
 }

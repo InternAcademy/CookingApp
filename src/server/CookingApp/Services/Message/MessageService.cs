@@ -1,13 +1,11 @@
 ﻿namespace CookingApp.Services.Message
 {
-    using CookingApp.Common;
     using CookingApp.Common.CompletionConstants;
     using CookingApp.Infrastructure.Exceptions;
     using CookingApp.Infrastructure.Interfaces;
     using CookingApp.Models;
     using CookingApp.ViewModels.Chat;
     using OpenAI.Interfaces;
-    using OpenAI.Managers;
     using OpenAI.ObjectModels.RequestModels;
     using OpenAI.ObjectModels.SharedModels;
     using System;
@@ -16,8 +14,7 @@
     public class MessageService(
         IRepository<Chat> chatRepo,
         IRepository<UserProfile> profileRepo,
-        IOpenAIService openAIService,
-        ILogger<MessageService> logger) : IMessageService
+        IOpenAIService openAIService) : IMessageService
     {
         public async Task<List<ChatChoiceResponse>> GenerateTitle(Chat chat)
         {
@@ -76,13 +73,8 @@
         {
             var completionRequest = new ChatCompletionCreateRequest
             {
-                Messages = new List<ChatMessage>
-                {
-                    ChatMessage.FromSystem(Completions.AssistantInstructions
-                        + "none"
-                        + Completions.PromptEngineeringPrevention)
-                },
-                MaxTokens = 5,
+                Messages = [ChatMessage.FromSystem(Completions.BuildSystemMessage(userProfile))],
+                MaxTokens = 500,
                 N = 1
             };
 

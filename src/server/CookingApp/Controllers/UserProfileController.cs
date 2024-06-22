@@ -1,5 +1,6 @@
 ﻿using CookingApp.Common.Helpers.Profiles;
 using CookingApp.Services.UserProfile;
+using CookingApp.ViewModels.Chat;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +19,14 @@ namespace CookingApp.Controllers
             await userProfileService.CreateProfile(userId);
 
             return Ok(userId);
+        }
+
+        [HttpGet("configure-profile")]
+        public async Task<IActionResult> ConfigureProfile([FromBody] ConfigureProfileRequest configureProfileRequest)
+        {
+            await userProfileService.ConfigureProfile(configureProfileRequest);
+
+            return Ok(configureProfileRequest);
         }
     }
 }
