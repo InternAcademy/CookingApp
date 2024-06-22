@@ -40,9 +40,13 @@ builder.AddMongoDatabase(p =>
     p.WithIgnoreIfNullConvention(true);
 });
 builder.AddStripeIntegration();
+builder.AddOpenAIIntegration();
+builder.AddServices();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(builder.Configuration);
+
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 builder.Host.UseLogging(p =>
 {

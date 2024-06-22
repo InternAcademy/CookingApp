@@ -1,20 +1,49 @@
-import { StatusBar } from "expo-status-bar";
-import React from "react";
-import { StyleSheet, View } from "react-native";
-import LandingPage from "./components/LandingPage";
+import * as React from 'react';
+import { useState, useEffect } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { View, ActivityIndicator } from 'react-native';
+import tw from 'twrnc';
+import Sidebar from './components/navigation/Sidebar';
+import Navigation from './components/navigation/Navigation';
+import MainStack from './components/navigation/MainStack';
+import { NavigationProvider, useNavigationContext } from './context/NavigationContext';
+import { ChatProvider } from './context/ChatContext';
+import { ThemeProvider, useTheme } from './context/ThemeContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <LandingPage />
-      <StatusBar style="auto" />
-    </View>
+    <ThemeProvider>
+      <NavigationProvider>
+        <ChatProvider>
+          <AppInner />
+        </ChatProvider>
+      </NavigationProvider>
+    </ThemeProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f39c12",
-  },
-});
+const AppInner = () => {
+  const { currentRoute, isLoading } = useNavigationContext();
+  const { isDarkTheme } = useTheme();
+
+  if (isLoading) {
+    return (
+      <View style={tw`flex-1 justify-center items-center`}>
+        <ActivityIndicator size="large" color={isDarkTheme ? '#ffffff' : '#000000'} />
+      </View>
+    );
+  }
+
+  return (
+    <NavigationContainer>
+      <View style={tw`flex-1 flex-row ${isDarkTheme ? 'bg-[#202020]' : 'bg-white'}`}>
+        {currentRoute !== 'LandingPage' && <Sidebar />}
+        <View style={tw`flex-1`}>
+          {currentRoute !== 'LandingPage' && <Navigation />}
+          <MainStack />
+        </View>
+      </View>
+    </NavigationContainer>
+  );
+};
