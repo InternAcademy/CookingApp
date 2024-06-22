@@ -15,6 +15,15 @@ using Newtonsoft.Json.Serialization;
 using CookingApp.Services.Stripe;
 using Stripe;
 using CookingApp.Infrastructure.Configurations.Stripe;
+using OpenAI.Extensions;
+using OpenAI;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
+using CookingApp.Services.ChatService;
+using OpenAI.Managers;
+using Microsoft.Extensions.DependencyInjection;
+using OpenAI.Interfaces;
+using CookingApp.Services.Message;
+using CookingApp.Services.UserProfile;
 
 namespace CookingApp.Infrastructure.Extensions
 {
@@ -145,7 +154,7 @@ namespace CookingApp.Infrastructure.Extensions
         }
 
         public static IHostApplicationBuilder AddStripeIntegration(this WebApplicationBuilder builder)
-        {  
+        {
             builder.Services.AddScoped<IStripeService, StripeService>();
             builder.Services.AddScoped<CustomerService>();
             builder.Services.AddScoped<PriceService>();
@@ -161,5 +170,27 @@ namespace CookingApp.Infrastructure.Extensions
 
             return builder;
         }
-}
+
+        public static IHostApplicationBuilder AddOpenAIIntegration(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddOpenAIService();
+            builder.Services.Configure<OpenAiOptions>(options =>
+            {
+                options.ApiKey = builder.Configuration.GetValue<string>("OpenAIOptions:ApiKey") ?? string.Empty;
+                options.DefaultModelId = OpenAI.ObjectModels.Models.Gpt_3_5_Turbo;
+            });
+
+            builder.Services.AddScoped<IChatService, ChatService>();
+            builder.Services.AddScoped<Services.Message.IMessageService, MessageService>();
+
+            return builder;
+        }
+
+        public static IHostApplicationBuilder AddServices(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddScoped<IUserProfileService, UserProfileService>();
+
+            return builder;
+        }
+    }
 }

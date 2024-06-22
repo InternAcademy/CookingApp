@@ -10,6 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+
+    <PackageReference Include="Betalgo.OpenAI" Version="8.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.4" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
@@ -28,10 +32,6 @@
     <PackageReference Include="Serilog.Sinks.Seq" Version="7.0.1" />
     <PackageReference Include="Stripe.net" Version="44.10.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>
