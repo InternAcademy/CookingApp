@@ -2,30 +2,39 @@ import React from 'react';
 import { View, TouchableOpacity, Image, SafeAreaView, StatusBar, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import tw from 'twrnc';
-import { useNavigationContext } from './NavigationContext';
+import { useNavigationContext } from '../../context/NavigationContext';
+import { useChat } from '../../context/ChatContext';
+import { useTheme } from '../../context/ThemeContext';
 
 const Navigation = () => {
   const navigation = useNavigation();
   const { currentRoute } = useNavigationContext();
+  const { clearChat } = useChat();
+  const { isDarkTheme } = useTheme();
+
+  const startNewChat = () => {
+    clearChat();
+    navigation.navigate('Home');
+  };
 
   return (
-    <SafeAreaView style={[styles.safeArea, tw`bg-white`]}>
-      <StatusBar barStyle="dark-content" />
-      <View style={[styles.navBar, tw`bg-white`]}>
+    <SafeAreaView style={[styles.safeArea, tw`${isDarkTheme ? 'bg-[#202020]' : 'bg-white'}`]}>
+      <StatusBar barStyle={isDarkTheme ? 'light-content' : 'dark-content'} />
+      <View style={[styles.navBar, tw`${isDarkTheme ? 'bg-[#202020]' : 'bg-white'}`]}>
         <View style={styles.rightContainer}>
           {currentRoute !== 'Home' && currentRoute !== 'LandingPage' && (
-            <TouchableOpacity onPress={() => navigation.navigate('Home')} style={tw`mx-2`}>
-              <Image source={require('../assets/NavigationBar/chat.png')} style={tw`w-10 h-10`} />
+            <TouchableOpacity onPress={startNewChat} style={tw`mx-2`}>
+              <Image source={require('../../assets/NavigationBar/chat.png')} style={tw`w-6 h-6`} />
             </TouchableOpacity>
           )}
           <TouchableOpacity onPress={() => navigation.navigate('Previous')} style={tw`mx-2`}>
-            <Image source={require('../assets/NavigationBar/previous2.png')} style={tw`w-6 h-6`} />
+            <Image source={require('../../assets/NavigationBar/previous2.png')} style={tw`w-6 h-6`} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('Favourite')} style={tw`mx-2`}>
-            <Image source={require('../assets/NavigationBar/favorite.png')} style={tw`w-6 h-6`} />
+            <Image source={require('../../assets/NavigationBar/favorite.png')} style={tw`w-6 h-6`} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('UserMenu')} style={tw`mx-2`}>
-            <Image source={require('../assets/NavigationBar/user.png')} style={tw`w-6 h-6`} />
+            <Image source={require('../../assets/NavigationBar/user.png')} style={tw`w-6 h-6`} />
           </TouchableOpacity>
         </View>
       </View>
