@@ -39,6 +39,13 @@ namespace CookingApp.Controllers
             return Ok(await stripeService.CreateSubscriptionAsync(model));
         }
 
+        [HttpPost("cancel")]
+        public async Task<ActionResult> CancelSubscriptionAsync([FromBody] SubscriptionCancellation model)
+        {
+            return Ok(await stripeService.CancelSubscriptionAsync(model));
+        }
+
+
         [AllowAnonymous]
         [HttpPost("webhook")]
         public async Task<IActionResult> Webhook()
