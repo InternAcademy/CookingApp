@@ -34,7 +34,10 @@ const Sidebar = () => {
     const today = new Date();
     const chatDate = new Date(date);
 
-    const diffTime = Math.abs(today - chatDate);
+    today.setHours(0, 0, 0, 0);
+    chatDate.setHours(0, 0, 0, 0);
+
+    const diffTime = today - chatDate;
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
     if (diffDays === 0) return 'Today';
@@ -69,7 +72,7 @@ const Sidebar = () => {
           {selectedChat ? ( // Условие за визуализация на информацията за текущо избрания чат
             <View style={styles.chatDetails}>
               <TouchableOpacity onPress={() => setSelectedChat(null)}>
-                <Text style={[tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`, styles.backButton]}>Back</Text>
+                <Text style={[tw`${isDarkTheme ? 'text-white' : 'text-gray-700 mb-4'}`, styles.backButton]}>Back</Text>
               </TouchableOpacity>
               <Text style={[styles.title, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>{selectedChat.title}</Text>
               <Text style={[styles.details, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>{selectedChat.details}</Text>
