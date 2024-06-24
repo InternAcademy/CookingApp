@@ -3,12 +3,14 @@ import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'rea
 import { useWindowDimensions } from 'react-native';
 import tw from 'twrnc';
 import { useTheme } from '../../context/ThemeContext';
+import { useNavigation } from '@react-navigation/native';
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
   const [chatHistory, setChatHistory] = useState([]);
   const window = useWindowDimensions();
   const { isDarkTheme } = useTheme();
+  const navigation = useNavigation();
 
   useEffect(() => {
     const handleResize = () => {
@@ -22,7 +24,7 @@ const Sidebar = () => {
     // Функция за извличане на данни от API
     const fetchChatHistory = async () => {
       try {
-        const response = await fetch('http://localhost:4000/respond');
+        const response = await fetch('http://localhost:4000/chatHistory');
         const data = await response.json();
         setChatHistory(data);
       } catch (error) {
@@ -32,6 +34,10 @@ const Sidebar = () => {
 
     fetchChatHistory();
   }, []);
+
+  const handleChatPress = (chatTitle, chatDetails) => {
+    navigation.navigate('SidebarChatDetails', { chatTitle, chatDetails });
+  };
 
   return (
     <View style={[styles.sidebar, { width: open ? 256 : 64 }, tw`${isDarkTheme ? 'bg-[#202020]' : 'bg-white'}`]}>
@@ -48,9 +54,9 @@ const Sidebar = () => {
             <View key={index} style={styles.section}>
               <Text style={[styles.title, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>{section.date}</Text>
               {section.chats.map((chat, idx) => (
-                <Text key={idx} style={[styles.bullet, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>
-                  {chat}
-                </Text>
+                <TouchableOpacity key={idx} onPress={() => handleChatPress(chat.title, chat.details)}>
+                  <Text style={[styles.bullet, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>{chat.title}</Text>
+                </TouchableOpacity>
               ))}
             </View>
           ))}
