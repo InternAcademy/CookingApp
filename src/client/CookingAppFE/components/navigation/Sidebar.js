@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { useWindowDimensions } from 'react-native';
 import tw from 'twrnc';
 import { useTheme } from '../../context/ThemeContext';
 import { chatHistoryData } from '../../components/navigation/chatHistoryData'; // Import mock data
-import Icon from 'react-native-vector-icons/Ionicons'; // Импортиране на иконите
+import Ionicons from 'react-native-vector-icons/Ionicons'; // Импортиране на иконите
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
@@ -68,7 +68,7 @@ const Sidebar = () => {
         <View style={styles.headerContent}>
           {open && (
             <TouchableOpacity onPress={() => setSelectedChat(null)}>
-              <Image source={require('../../assets/NavigationBar/previous2.png')} style={styles.icon} />
+              <Ionicons name="arrow-back" size={24} color={isDarkTheme ? 'white' : 'gray'} />
             </TouchableOpacity>
           )}
         </View>

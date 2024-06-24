@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, TouchableOpacity, Image, SafeAreaView, StatusBar, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, SafeAreaView, StatusBar, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import tw from 'twrnc';
 import { useNavigationContext } from '../../context/NavigationContext';
 import { useChat } from '../../context/ChatContext';
@@ -24,17 +25,17 @@ const Navigation = () => {
         <View style={styles.rightContainer}>
           {currentRoute !== 'Home' && currentRoute !== 'LandingPage' && (
             <TouchableOpacity onPress={startNewChat} style={tw`mx-2`}>
-              <Image source={require('../../assets/NavigationBar/chat.png')} style={tw`w-6 h-6`} />
+              <Ionicons name="chatbox-ellipses-sharp" size={24} color={isDarkTheme ? 'white' : 'black'} />
             </TouchableOpacity>
           )}
           <TouchableOpacity onPress={() => navigation.navigate('Previous')} style={tw`mx-2`}>
-            <Image source={require('../../assets/NavigationBar/previous2.png')} style={tw`w-6 h-6`} />
+            <Ionicons name="play-back-sharp" size={24} color={isDarkTheme ? 'white' : 'black'} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('Favourite')} style={tw`mx-2`}>
-            <Image source={require('../../assets/NavigationBar/favorite.png')} style={tw`w-6 h-6`} />
+            <Ionicons name="heart" size={24} color={isDarkTheme ? 'white' : 'black'} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('UserMenu')} style={tw`mx-2`}>
-            <Image source={require('../../assets/NavigationBar/user.png')} style={tw`w-6 h-6`} />
+            <Ionicons name="person" size={24} color={isDarkTheme ? 'white' : 'black'} />
           </TouchableOpacity>
         </View>
       </View>
