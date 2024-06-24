@@ -4,6 +4,7 @@ import { useWindowDimensions } from 'react-native';
 import tw from 'twrnc';
 import { useTheme } from '../../context/ThemeContext';
 import { useNavigation } from '@react-navigation/native';
+import { chatHistoryData } from '../../components/navigation/chatHistoryData'; // Import mock data
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
@@ -21,23 +22,39 @@ const Sidebar = () => {
   }, [window]);
 
   useEffect(() => {
-    // Функция за извличане на данни от API
-    const fetchChatHistory = async () => {
-      try {
-        const response = await fetch('http://localhost:4000/chatHistory');
-        const data = await response.json();
-        setChatHistory(data);
-      } catch (error) {
-        console.error('Error fetching chat history:', error);
-      }
-    };
-
-    fetchChatHistory();
+    // Вместо извличане от API, използвайте seed data
+    console.log('Setting chat history:', chatHistoryData);
+    setChatHistory(chatHistoryData);
   }, []);
 
   const handleChatPress = (chatTitle, chatDetails) => {
     navigation.navigate('SidebarChatDetails', { chatTitle, chatDetails });
   };
+
+  const getSectionTitle = date => {
+    const today = new Date();
+    const chatDate = new Date(date);
+
+    const diffTime = Math.abs(today - chatDate);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffDays === 0) return 'Today';
+    if (diffDays === 1) return 'Yesterday';
+    if (diffDays <= 7) return 'Previous 7 days';
+    if (diffDays <= 30) return 'Previous 30 days';
+    return 'Older than 30 days';
+  };
+
+  const sortedChatHistory = chatHistory.reduce((acc, chat) => {
+    const sectionTitle = getSectionTitle(chat.date);
+    if (!acc[sectionTitle]) {
+      acc[sectionTitle] = [];
+    }
+    acc[sectionTitle].push(chat);
+    return acc;
+  }, {});
+
+  console.log('Sorted chat history:', sortedChatHistory);
 
   return (
     <View style={[styles.sidebar, { width: open ? 256 : 64 }, tw`${isDarkTheme ? 'bg-[#202020]' : 'bg-white'}`]}>
@@ -50,10 +67,10 @@ const Sidebar = () => {
 
       {open && (
         <ScrollView style={styles.scrollView}>
-          {chatHistory.map((section, index) => (
+          {Object.entries(sortedChatHistory).map(([sectionTitle, chats], index) => (
             <View key={index} style={styles.section}>
-              <Text style={[styles.title, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>{section.date}</Text>
-              {section.chats.map((chat, idx) => (
+              <Text style={[styles.title, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>{sectionTitle}</Text>
+              {chats.map((chat, idx) => (
                 <TouchableOpacity key={idx} onPress={() => handleChatPress(chat.title, chat.details)}>
                   <Text style={[styles.bullet, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>{chat.title}</Text>
                 </TouchableOpacity>
