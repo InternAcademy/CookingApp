@@ -18,11 +18,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/Main/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.imsk1.CookingAppFE"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "scheme": "mealmaster"
+    "scheme": "mealmaster",
+    "extra": {
+      "eas": {
+        "projectId": "ce94388c-4a24-4896-b601-86c048068c49"
+      }
+    }
   }
 }
