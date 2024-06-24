@@ -3,15 +3,14 @@ import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'rea
 import { useWindowDimensions } from 'react-native';
 import tw from 'twrnc';
 import { useTheme } from '../../context/ThemeContext';
-import { useNavigation } from '@react-navigation/native';
 import { chatHistoryData } from '../../components/navigation/chatHistoryData'; // Import mock data
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
   const [chatHistory, setChatHistory] = useState([]);
+  const [selectedChat, setSelectedChat] = useState(null); // Добавено състояние за текущо избрания чат
   const window = useWindowDimensions();
   const { isDarkTheme } = useTheme();
-  const navigation = useNavigation();
 
   useEffect(() => {
     const handleResize = () => {
@@ -27,8 +26,8 @@ const Sidebar = () => {
     setChatHistory(chatHistoryData);
   }, []);
 
-  const handleChatPress = (chatTitle, chatDetails) => {
-    navigation.navigate('SidebarChatDetails', { chatTitle, chatDetails });
+  const handleChatPress = chat => {
+    setSelectedChat(chat); // Актуализиране на текущо избрания чат
   };
 
   const getSectionTitle = date => {
@@ -67,16 +66,29 @@ const Sidebar = () => {
 
       {open && (
         <ScrollView style={styles.scrollView}>
-          {Object.entries(sortedChatHistory).map(([sectionTitle, chats], index) => (
-            <View key={index} style={styles.section}>
-              <Text style={[styles.title, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>{sectionTitle}</Text>
-              {chats.map((chat, idx) => (
-                <TouchableOpacity key={idx} onPress={() => handleChatPress(chat.title, chat.details)}>
-                  <Text style={[styles.bullet, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>{chat.title}</Text>
-                </TouchableOpacity>
-              ))}
+          {selectedChat ? ( // Условие за визуализация на информацията за текущо избрания чат
+            <View style={styles.chatDetails}>
+              <TouchableOpacity onPress={() => setSelectedChat(null)}>
+                <Text style={[tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`, styles.backButton]}>Back</Text>
+              </TouchableOpacity>
+              <Text style={[styles.title, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>{selectedChat.title}</Text>
+              <Text style={[styles.details, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>{selectedChat.details}</Text>
+              <TouchableOpacity onPress={() => setSelectedChat(null)}>
+                <Text style={[tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`, styles.backButton]}>Back</Text>
+              </TouchableOpacity>
             </View>
-          ))}
+          ) : (
+            Object.entries(sortedChatHistory).map(([sectionTitle, chats], index) => (
+              <View key={index} style={styles.section}>
+                <Text style={[styles.title, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>{sectionTitle}</Text>
+                {chats.map((chat, idx) => (
+                  <TouchableOpacity key={idx} onPress={() => handleChatPress(chat)}>
+                    <Text style={[styles.bullet, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>{chat.title}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            ))
+          )}
         </ScrollView>
       )}
     </View>
@@ -124,6 +136,18 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     paddingRight: 16
+  },
+  chatDetails: {
+    padding: 16
+  },
+  details: {
+    fontSize: 14,
+    marginBottom: 16
+  },
+  backButton: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginTop: 8
   }
 });
 
