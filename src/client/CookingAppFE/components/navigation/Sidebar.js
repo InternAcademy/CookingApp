@@ -4,6 +4,7 @@ import { useWindowDimensions } from 'react-native';
 import tw from 'twrnc';
 import { useTheme } from '../../context/ThemeContext';
 import { chatHistoryData } from '../../components/navigation/chatHistoryData'; // Import mock data
+import Icon from 'react-native-vector-icons/Ionicons'; // Импортиране на иконите
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
@@ -34,6 +35,7 @@ const Sidebar = () => {
     const today = new Date();
     const chatDate = new Date(date);
 
+    // Нулиране на часовете, минутите и секундите за точно сравнение на датите
     today.setHours(0, 0, 0, 0);
     chatDate.setHours(0, 0, 0, 0);
 
@@ -58,10 +60,18 @@ const Sidebar = () => {
 
   console.log('Sorted chat history:', sortedChatHistory);
 
+  const orderedSections = ['Today', 'Yesterday', 'Previous 7 days', 'Previous 30 days', 'Older than 30 days'];
+
   return (
     <View style={[styles.sidebar, { width: open ? 256 : 64 }, tw`${isDarkTheme ? 'bg-[#202020]' : 'bg-white'}`]}>
       <View style={styles.header}>
-        <View style={styles.headerContent}>{open && <Image source={require('../../assets/NavigationBar/previous2.png')} style={styles.icon} />}</View>
+        <View style={styles.headerContent}>
+          {open && (
+            <TouchableOpacity onPress={() => setSelectedChat(null)}>
+              <Image source={require('../../assets/NavigationBar/previous2.png')} style={styles.icon} />
+            </TouchableOpacity>
+          )}
+        </View>
         <TouchableOpacity onPress={() => setOpen(!open)}>
           <Text style={[tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`, styles.toggleIcon]}>{open ? '×' : '≡'}</Text>
         </TouchableOpacity>
@@ -71,26 +81,23 @@ const Sidebar = () => {
         <ScrollView style={styles.scrollView}>
           {selectedChat ? ( // Условие за визуализация на информацията за текущо избрания чат
             <View style={styles.chatDetails}>
-              <TouchableOpacity onPress={() => setSelectedChat(null)}>
-                <Text style={[tw`${isDarkTheme ? 'text-white' : 'text-gray-700 mb-4'}`, styles.backButton]}>Back</Text>
-              </TouchableOpacity>
               <Text style={[styles.title, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>{selectedChat.title}</Text>
               <Text style={[styles.details, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>{selectedChat.details}</Text>
-              <TouchableOpacity onPress={() => setSelectedChat(null)}>
-                <Text style={[tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`, styles.backButton]}>Back</Text>
-              </TouchableOpacity>
             </View>
           ) : (
-            Object.entries(sortedChatHistory).map(([sectionTitle, chats], index) => (
-              <View key={index} style={styles.section}>
-                <Text style={[styles.title, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>{sectionTitle}</Text>
-                {chats.map((chat, idx) => (
-                  <TouchableOpacity key={idx} onPress={() => handleChatPress(chat)}>
-                    <Text style={[styles.bullet, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>{chat.title}</Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            ))
+            orderedSections.map(
+              sectionTitle =>
+                sortedChatHistory[sectionTitle] && (
+                  <View key={sectionTitle} style={styles.section}>
+                    <Text style={[styles.title, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>{sectionTitle}</Text>
+                    {sortedChatHistory[sectionTitle].map((chat, idx) => (
+                      <TouchableOpacity key={idx} onPress={() => handleChatPress(chat)}>
+                        <Text style={[styles.bullet, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>{chat.title}</Text>
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                )
+            )
           )}
         </ScrollView>
       )}
@@ -146,11 +153,6 @@ const styles = StyleSheet.create({
   details: {
     fontSize: 14,
     marginBottom: 16
-  },
-  backButton: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginTop: 8
   }
 });
 

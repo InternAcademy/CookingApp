@@ -453,7 +453,7 @@ export const chatHistoryData = [
   },
   {
     title: 'Tailwind конфигурация и имена',
-    date: '2024-06-17',
+    date: '2024-05-17',
     details: `To make a delicious lava cake, follow these steps:
   
   1. Prepare Ingredients:
@@ -483,7 +483,7 @@ export const chatHistoryData = [
   },
   {
     title: 'Направи Мобилно Функционало',
-    date: '2024-06-17',
+    date: '2024-06-02',
     details: `To make a delicious lava cake, follow these steps:
   
   1. Prepare Ingredients:
@@ -513,7 +513,7 @@ export const chatHistoryData = [
   },
   {
     title: 'Регистриране на основен комп',
-    date: '2024-06-17',
+    date: '2024-06-01',
     details: `To make a delicious lava cake, follow these steps:
   
   1. Prepare Ingredients:
