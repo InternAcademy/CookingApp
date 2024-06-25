@@ -114,16 +114,16 @@ const Sidebar = () => {
   return (
     <View style={[styles.sidebar, { width: open ? 256 : 64 }, tw`${isDarkTheme ? 'bg-[#202020]' : 'bg-white'}`]}>
       <View style={styles.header}>
+        <TouchableOpacity onPress={() => setOpen(!open)}>
+          <Text style={[tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`, styles.toggleIcon]}>{'≡'}</Text>
+        </TouchableOpacity>
         <View style={styles.headerContent}>
           {open && (
             <TouchableOpacity onPress={startNewChat}>
-              <Ionicons name="chatbox-ellipses-sharp" size={24} color={isDarkTheme ? 'white' : 'gray'} />
+              <Ionicons name="chatbox-ellipses-sharp" size={20} color={isDarkTheme ? 'white' : 'gray'} />
             </TouchableOpacity>
           )}
         </View>
-        <TouchableOpacity onPress={() => setOpen(!open)}>
-          <Text style={[tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`, styles.toggleIcon]}>{open ? '×' : '≡'}</Text>
-        </TouchableOpacity>
       </View>
 
       {open && (
