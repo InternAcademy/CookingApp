@@ -114,11 +114,12 @@ const Sidebar = () => {
   const orderedSections = ['Today', 'Yesterday', 'Previous 7 days', 'Previous 30 days', 'Older than 30 days'];
 
   return (
-    <View style={[styles.sidebar, { width: open ? 256 : 64 }, tw`${isDarkTheme ? 'bg-[#202020]' : 'bg-white'}`]}>
+    <View style={[styles.sidebar, { width: open ? 256 : 64 }, tw`${isDarkTheme ? 'bg-[#202020]' : 'bg-white'} mt-0 pt-0`]}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => setOpen(!open)}>
-          <Text style={[tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`, styles.toggleIcon]}>{'≡'}</Text>
+          <Text style={[tw`pt-0${isDarkTheme ? 'text-white' : 'text-gray-700'}`, styles.toggleIcon]}>{'≡'}</Text>
         </TouchableOpacity>
+
         <View style={styles.headerContent}>
           {open && (
             <TouchableOpacity onPress={startNewChat}>
