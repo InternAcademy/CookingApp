@@ -5,8 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import tw from 'twrnc';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTheme } from '../../context/ThemeContext';
-import { jwtDecode } from 'jwt-decode';
-import { chatHistoryData } from '../../components/navigation/chatHistoryData'; // Import mock data
+import jwtDecode from 'jwt-decode';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Sidebar = () => {
@@ -33,8 +32,6 @@ const Sidebar = () => {
         }
         const decodedToken = jwtDecode(token);
 
-        console.log(decodedToken);
-
         const response = await fetch(`https://localhost:8001/user-chats/${decodedToken.sub}`, {
           method: 'GET',
           headers: {
@@ -47,7 +44,7 @@ const Sidebar = () => {
           setChatHistory(data);
         }
       } catch (error) {
-        console.error('Error sending message:', error);
+        console.error('Error fetching chat history:', error);
       }
     }
 
@@ -70,16 +67,20 @@ const Sidebar = () => {
         });
 
         const data = await response.json();
-        console.log(data);
         if (data) {
           navigation.navigate('Home', { selectedChat: data });
         }
       } catch (error) {
-        console.error('Error sending message:', error);
+        console.error('Error fetching chat:', error);
       }
     }
 
     fetchData();
+  };
+
+  const startNewChat = () => {
+    // Това е функцията, която ще започне нов чат, както е в Navigation.js
+    navigation.navigate('Home');
   };
 
   const getSectionTitle = date => {
@@ -108,8 +109,6 @@ const Sidebar = () => {
     return acc;
   }, {});
 
-  console.log('Sorted chat history:', sortedChatHistory);
-
   const orderedSections = ['Today', 'Yesterday', 'Previous 7 days', 'Previous 30 days', 'Older than 30 days'];
 
   return (
@@ -117,8 +116,8 @@ const Sidebar = () => {
       <View style={styles.header}>
         <View style={styles.headerContent}>
           {open && (
-            <TouchableOpacity onPress={() => setSelectedChat(null)}>
-              <Ionicons name="arrow-back" size={24} color={isDarkTheme ? 'white' : 'gray'} />
+            <TouchableOpacity onPress={startNewChat}>
+              <Ionicons name="chatbox-ellipses-sharp" size={24} color={isDarkTheme ? 'white' : 'gray'} />
             </TouchableOpacity>
           )}
         </View>
@@ -164,10 +163,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center'
   },
-  icon: {
-    width: 16,
-    height: 16
-  },
   toggleIcon: {
     fontSize: 30
   },
@@ -189,13 +184,6 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     paddingRight: 16
-  },
-  chatDetails: {
-    padding: 16
-  },
-  details: {
-    fontSize: 14,
-    marginBottom: 16
   }
 });
 
