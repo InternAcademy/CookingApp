@@ -1,8 +1,8 @@
 ﻿using CookingApp.ViewModels.Stripe.Customer;
-using CookingApp.ViewModels.Stripe.Product;
 using CookingApp.ViewModels.Stripe.Subscription;
 using static CookingApp.Common.ExceptionMessages;
 using Stripe;
+using Product = CookingApp.ViewModels.Stripe.Product;
 
 namespace CookingApp.Services.Stripe
 {
@@ -30,37 +30,37 @@ namespace CookingApp.Services.Stripe
         /// </summary>
         public async Task<CustomerCreationResponse> CreateCustomerAsync(string email)
         {
-            ArgumentException.ThrowIfNullOrEmpty(email);
-            var options = new CustomerCreateOptions
-            {
-                Email = email
-            };
+           
+                ArgumentException.ThrowIfNullOrEmpty(email);
+                var options = new CustomerCreateOptions
+                {
+                    Email = email
+                };
                 Customer customer = await customerService.CreateAsync(options);
 
                 return (new CustomerCreationResponse(
                               customer.Id,
-                              customer.Email)
+                              customer.Email,
+                              "")
                       );
-            
            
         }
 
         /// <summary>
         /// Gets all products that are in the Stripe account.
         /// </summary>
-        public async Task<IEnumerable<ProductsResponse>> GetProductsAsync()
+        public async Task<IEnumerable<Product>> GetProductsAsync()
         {
            var options = new ProductListOptions { Limit = 3 };
 
-            StripeList<Product> products = await productService.ListAsync(options);
-
-            List<ProductsResponse> result = new List<ProductsResponse>();
+            var products = await productService.ListAsync(options);
+            List<Product> result = new List<Product>();
 
             foreach (var product in products)
             {
                 var price = await priceService.GetAsync(product.DefaultPriceId);
                 result.Add(
-                    new ProductsResponse(product.Id,
+                    new Product(product.Id,
                     product.Name,
                     price.UnitAmount,
                     product.DefaultPriceId,

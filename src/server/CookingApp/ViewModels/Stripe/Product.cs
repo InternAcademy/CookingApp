@@ -1,6 +1,6 @@
-﻿namespace CookingApp.ViewModels.Stripe.Product
+﻿namespace CookingApp.ViewModels.Stripe
 {
-    public record ProductsResponse(
+    public record Product(
         string Id,
         string Name,
         long? Price,

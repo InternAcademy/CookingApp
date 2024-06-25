@@ -1,15 +1,19 @@
 ﻿using CookingApp.Infrastructure.Configurations.Stripe;
 using CookingApp.Services.Stripe;
+using CookingApp.ViewModels.Api;
+using CookingApp.ViewModels.Stripe;
 using CookingApp.ViewModels.Stripe.Customer;
 using CookingApp.ViewModels.Stripe.Subscription;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Stripe;
+using System.Net;
+using Product = CookingApp.ViewModels.Stripe.Product;
 
 namespace CookingApp.Controllers
 {
-   
+
     [Route("api/stripe")]
     [ApiController]
     public class StripeController : ControllerBase
@@ -22,21 +26,84 @@ namespace CookingApp.Controllers
             stripeOptions = options.Value;
         }
         [HttpGet("products")]
-        public async Task<ActionResult> GetProductsAsync()
+        public async Task<ApiResponse<List<Product>>> GetProductsAsync()
         {
-            return Ok(await stripeService.GetProductsAsync());
+            ApiResponse<List<Product>> result =
+                    new ApiResponse<List<Product>>();
+            try
+            {
+                var products = await stripeService.GetProductsAsync();
+                result.Status = 200;
+                result.Data = products.ToList();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Status = 500;
+                result.Errors.Add(ex.Message);
+            }
+            return result;
+
         }
 
         [HttpPost("customer")]
-        public async Task<ActionResult> CreateCustomerAsync ([FromBody] CustomerCreation model)
+        public async Task<ApiResponse<CustomerCreationResponse>> CreateCustomerAsync ([FromBody] CustomerCreation model)
         {
-            return Ok(await stripeService.CreateCustomerAsync(model.Email));
+            ApiResponse<CustomerCreationResponse> result =
+                    new ApiResponse<CustomerCreationResponse>();
+            try
+            {
+                var customer = await stripeService.CreateCustomerAsync(model.Email);
+                result.Status = 200;
+                result.Data = customer;
+                return result;
+            }
+            catch (ArgumentException ex)
+            {
+                result.Status = 400;
+                result.Errors.Add(ex.Message);
+            }
+            catch(StripeException ex)
+            {
+                result.Status = 400;
+                result.Errors.Add(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                result.Status = 500;
+                result.Errors.Add(ex.Message);
+            }
+            return result;
         }
 
         [HttpPost("subscription")]
-        public async Task<ActionResult> CreateSubscriptionAsync([FromBody] SubscriptionCreation model)
+        public async Task<ApiResponse<SubscriptionCreationResponse>> CreateSubscriptionAsync([FromBody] SubscriptionCreation model)
         {
-            return Ok(await stripeService.CreateSubscriptionAsync(model));
+            ApiResponse<SubscriptionCreationResponse> result =
+                  new ApiResponse<SubscriptionCreationResponse>();
+            try
+            {
+                var subscription = await stripeService.CreateSubscriptionAsync(model);
+                result.Status = 200;
+                result.Data = subscription;
+                return result;
+            }
+            catch (ArgumentNullException ex)
+            {
+                result.Status = 400;
+                result.Errors.Add(ex.Message);
+            }
+            catch (StripeException ex)
+            {
+                result.Status = 400;
+                result.Errors.Add(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                result.Status = 500;
+                result.Errors.Add(ex.Message);
+            }
+            return result;
         }
 
         [HttpPost("cancel")]
