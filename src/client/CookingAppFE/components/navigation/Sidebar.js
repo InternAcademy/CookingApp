@@ -122,7 +122,7 @@ const Sidebar = () => {
         <View style={styles.headerContent}>
           {open && (
             <TouchableOpacity onPress={startNewChat}>
-              <Ionicons name="chatbox-ellipses-sharp" size={20} color={isDarkTheme ? 'white' : 'gray'} />
+              <Ionicons name="chatbox-ellipses-sharp" size={20} color={isDarkTheme ? 'white' : 'gray'} style={tw`pt-2`} />
             </TouchableOpacity>
           )}
         </View>

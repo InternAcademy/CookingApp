@@ -10,13 +10,13 @@ import { useTheme } from '../../context/ThemeContext';
 const Navigation = () => {
   const navigation = useNavigation();
   const { currentRoute } = useNavigationContext();
-  const { clearChat } = useChat();
+  // const { clearChat } = useChat();
   const { isDarkTheme } = useTheme();
 
-  const startNewChat = () => {
-    clearChat();
-    navigation.navigate('Home');
-  };
+  // const startNewChat = () => {
+  //   clearChat();
+  //   navigation.navigate('Home');
+  // };
 
   return (
     <SafeAreaView style={[styles.safeArea, tw`${isDarkTheme ? 'bg-[#202020]' : 'bg-white'}`]}>
