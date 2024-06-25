@@ -26,6 +26,7 @@ const Navigation = () => {
           <TouchableOpacity onPress={startNewChat} style={tw`mx-2`}>
             <Ionicons name="chatbox-ellipses-sharp" size={24} color={isDarkTheme ? 'white' : 'black'} />
           </TouchableOpacity>
+
           <TouchableOpacity onPress={() => navigation.navigate('Previous')} style={tw`mx-2`}>
             <Ionicons name="time" size={24} color={isDarkTheme ? 'white' : 'black'} />
           </TouchableOpacity>

@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import tw from 'twrnc';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTheme } from '../../context/ThemeContext';
+import { useChat } from '../../context/ChatContext'; // Импортиране на useChat
 import jwtDecode from 'jwt-decode';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -14,6 +15,7 @@ const Sidebar = () => {
   const window = useWindowDimensions();
   const { isDarkTheme } = useTheme();
   const navigation = useNavigation();
+  const { clearChat } = useChat(); // Използване на clearChat
 
   useEffect(() => {
     const handleResize = () => {
@@ -79,7 +81,7 @@ const Sidebar = () => {
   };
 
   const startNewChat = () => {
-    // Това е функцията, която ще започне нов чат, както е в Navigation.js
+    clearChat();
     navigation.navigate('Home');
   };
 
