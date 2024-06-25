@@ -29,7 +29,7 @@ const Navigation = () => {
             </TouchableOpacity>
           )}
           <TouchableOpacity onPress={() => navigation.navigate('Previous')} style={tw`mx-2`}>
-            <Ionicons name="play-back-sharp" size={24} color={isDarkTheme ? 'white' : 'black'} />
+            <Ionicons name="time" size={24} color={isDarkTheme ? 'white' : 'black'} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('Favourite')} style={tw`mx-2`}>
             <Ionicons name="heart" size={24} color={isDarkTheme ? 'white' : 'black'} />
