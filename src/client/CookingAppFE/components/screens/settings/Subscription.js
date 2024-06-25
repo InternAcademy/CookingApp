@@ -6,6 +6,7 @@ import { useTheme } from '../../../context/ThemeContext';
 const Subscription = () => {
   const { isDarkTheme } = useTheme();
   const [isAnnual, setIsAnnual] = useState(false);
+  const [openFaqIndex, setOpenFaqIndex] = useState(null);
 
   const monthlyPlans = [
     { name: 'Plan 1', price: '$5', features: ['Feature', 'Feature', 'Feature', 'Feature'] },
@@ -26,6 +27,10 @@ const Subscription = () => {
   ];
 
   const plans = isAnnual ? annualPlans : monthlyPlans;
+
+  const toggleFaq = index => {
+    setOpenFaqIndex(openFaqIndex === index ? null : index);
+  };
 
   return (
     <ScrollView style={tw`flex-1 ${isDarkTheme ? 'bg-[#202020]' : 'bg-white'} mt-10`}>
@@ -66,8 +71,13 @@ const Subscription = () => {
         <Text style={tw`text-2xl font-bold mb-4 ${isDarkTheme ? 'text-white' : 'text-black'}`}>Heading for FAQs</Text>
         {faqs.map((faq, index) => (
           <View key={index} style={tw`mb-6 w-full px-6`}>
-            <Text style={tw`text-lg font-semibold ${isDarkTheme ? 'text-white' : 'text-black'}`}>{faq.question}</Text>
-            <Text style={tw`text-base mt-2 ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'}`}>{faq.answer}</Text>
+            <TouchableOpacity onPress={() => toggleFaq(index)}>
+              <View style={tw`flex-row justify-between items-center`}>
+                <Text style={tw`text-lg font-semibold ${isDarkTheme ? 'text-white' : 'text-black'}`}>{faq.question}</Text>
+                <Text style={tw`text-2xl font-semibold ${isDarkTheme ? 'text-white' : 'text-black'}`}>{openFaqIndex === index ? '-' : '+'}</Text>
+              </View>
+            </TouchableOpacity>
+            {openFaqIndex === index && <Text style={tw`text-base mt-2 ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'}`}>{faq.answer}</Text>}
           </View>
         ))}
       </View>
