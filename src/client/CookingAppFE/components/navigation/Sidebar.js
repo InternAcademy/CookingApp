@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { useWindowDimensions } from 'react-native';
-import { useNavigation } from '@react-navigation/native'; // Импортиране на useNavigation
+import { useNavigation } from '@react-navigation/native';
 import tw from 'twrnc';
 import { useTheme } from '../../context/ThemeContext';
 import { chatHistoryData } from '../../components/navigation/chatHistoryData'; // Import mock data
-import Ionicons from 'react-native-vector-icons/Ionicons'; // Импортиране на иконите
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
   const [chatHistory, setChatHistory] = useState([]);
   const window = useWindowDimensions();
   const { isDarkTheme } = useTheme();
-  const navigation = useNavigation(); // Използване на useNavigation
+  const navigation = useNavigation();
 
   useEffect(() => {
     const handleResize = () => {
@@ -29,14 +29,13 @@ const Sidebar = () => {
   }, []);
 
   const handleChatPress = chat => {
-    navigation.navigate('Home', { selectedChat: chat }); // Навигиране към Home и предаване на данни
+    navigation.navigate('Home', { selectedChat: chat });
   };
 
   const getSectionTitle = date => {
     const today = new Date();
     const chatDate = new Date(date);
 
-    // Нулиране на часовете, минутите и секундите за точно сравнение на датите
     today.setHours(0, 0, 0, 0);
     chatDate.setHours(0, 0, 0, 0);
 

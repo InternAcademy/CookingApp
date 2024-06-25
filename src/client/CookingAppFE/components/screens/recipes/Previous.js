@@ -17,7 +17,7 @@ const Previous = ({ navigation }) => {
         <TouchableOpacity onPress={() => console.log('Previous pressed')}>
           <Image source={require('../../../assets/previous.png')} style={tw`w-8 h-8 ${isDarkTheme ? 'tint-white' : ''}`} />
         </TouchableOpacity>
-        <Text style={tw`text-lg ml-2 ${isDarkTheme ? 'text-orange-400' : 'text-orange-500'}`}>Previous Chats</Text>
+        <Text style={tw`text-lg ml-2 ${isDarkTheme ? 'text-orange-400' : 'text-orange-500'}`}>Recent Chats</Text>
       </View>
       <TouchableOpacity style={tw`p-4 rounded-lg mb-4 ${isDarkTheme ? 'bg-[#202020]' : 'bg-gray-100'}`}>
         <Text style={tw`text-lg font-bold mb-2 ${isDarkTheme ? 'text-white' : 'text-black'}`}>Strawberry ShortCake</Text>

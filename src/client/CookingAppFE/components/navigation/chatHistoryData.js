@@ -4,7 +4,11 @@ export const chatHistoryData = [
   {
     title: 'Framer-motion installation st',
     date: '2024-06-24',
-    details: `To make a delicious lava cake, follow these steps:
+    details: `
+    User: 
+    Generate me a delicious lava cake recipe.
+    
+    To make a delicious lava cake, follow these steps1:
   
   1. Prepare Ingredients:
      • 4 ounces of semi-sweet chocolate
@@ -34,7 +38,11 @@ export const chatHistoryData = [
   {
     title: 'Middleware Exception Handling',
     date: '2024-06-24',
-    details: `To make a delicious lava cake, follow these steps:
+    details: `
+    User: 
+    Generate me a delicious lava cake recipe.
+    
+    To make a delicious lava cake, follow these steps2:
   
   1. Prepare Ingredients:
      • 4 ounces of semi-sweet chocolate
@@ -64,7 +72,11 @@ export const chatHistoryData = [
   {
     title: 'Simple Game Creation',
     date: '2024-06-24',
-    details: `To make a delicious lava cake, follow these steps:
+    details: `
+    User: 
+    Generate me a delicious lava cake recipe.
+    
+    To make a delicious lava cake, follow these steps3:
   
   1. Prepare Ingredients:
      • 4 ounces of semi-sweet chocolate
@@ -94,7 +106,11 @@ export const chatHistoryData = [
   {
     title: 'Направи промени в TourControlle',
     date: '2024-06-24',
-    details: `To make a delicious lava cake, follow these steps:
+    details: `
+    User: 
+    Generate me a delicious lava cake recipe.
+    
+    To make a delicious lava cake, follow these steps4:
   
   1. Prepare Ingredients:
      • 4 ounces of semi-sweet chocolate
@@ -124,7 +140,11 @@ export const chatHistoryData = [
   {
     title: 'TourController DTO обновление',
     date: '2024-06-23',
-    details: `To make a delicious lava cake, follow these steps:
+    details: `
+    User: 
+    Generate me a delicious lava cake recipe.
+    
+    To make a delicious lava cake, follow these steps5:
   
   1. Prepare Ingredients:
      • 4 ounces of semi-sweet chocolate
@@ -154,7 +174,11 @@ export const chatHistoryData = [
   {
     title: 'Geographic Coordinates Handlin',
     date: '2024-06-23',
-    details: `To make a delicious lava cake, follow these steps:
+    details: `
+    User: 
+    Generate me a delicious lava cake recipe.
+    
+    To make a delicious lava cake, follow these steps6:
   
   1. Prepare Ingredients:
      • 4 ounces of semi-sweet chocolate
@@ -184,7 +208,11 @@ export const chatHistoryData = [
   {
     title: 'Create Tour with Identity',
     date: '2024-06-23',
-    details: `To make a delicious lava cake, follow these steps:
+    details: `
+    User: 
+    Generate me a delicious lava cake recipe.
+    
+    To make a delicious lava cake, follow these steps7:
   
   1. Prepare Ingredients:
      • 4 ounces of semi-sweet chocolate
@@ -214,7 +242,11 @@ export const chatHistoryData = [
   {
     title: 'New chat',
     date: '2024-06-23',
-    details: `To make a delicious lava cake, follow these steps:
+    details: `
+    User: 
+    Generate me a delicious lava cake recipe.
+    
+    To make a delicious lava cake, follow these steps8:
   
   1. Prepare Ingredients:
      • 4 ounces of semi-sweet chocolate
@@ -244,7 +276,11 @@ export const chatHistoryData = [
   {
     title: 'GetCurrentUserId in .NET',
     date: '2024-06-23',
-    details: `To make a delicious lava cake, follow these steps:
+    details: `
+    User: 
+    Generate me a delicious lava cake recipe.
+    
+    To make a delicious lava cake, follow these steps9:
   
   1. Prepare Ingredients:
      • 4 ounces of semi-sweet chocolate
@@ -274,7 +310,11 @@ export const chatHistoryData = [
   {
     title: 'Get User Username Controller',
     date: '2024-06-23',
-    details: `To make a delicious lava cake, follow these steps:
+    details: `
+    User: 
+    Generate me a delicious lava cake recipe.
+    
+    To make a delicious lava cake, follow these steps10:
   
   1. Prepare Ingredients:
      • 4 ounces of semi-sweet chocolate
@@ -304,7 +344,11 @@ export const chatHistoryData = [
   {
     title: 'Auth Controller API Methods',
     date: '2024-06-23',
-    details: `To make a delicious lava cake, follow these steps:
+    details: `
+    User: 
+    Generate me a delicious lava cake recipe.
+    
+    To make a delicious lava cake, follow these steps11:
   
   1. Prepare Ingredients:
      • 4 ounces of semi-sweet chocolate
@@ -334,7 +378,11 @@ export const chatHistoryData = [
   {
     title: 'Access User Information Control',
     date: '2024-06-23',
-    details: `To make a delicious lava cake, follow these steps:
+    details: `
+    User: 
+    Generate me a delicious lava cake recipe.
+    
+    To make a delicious lava cake, follow these steps12:
   
   1. Prepare Ingredients:
      • 4 ounces of semi-sweet chocolate
@@ -364,7 +412,11 @@ export const chatHistoryData = [
   {
     title: 'Create CRUD за Tours',
     date: '2024-06-23',
-    details: `To make a delicious lava cake, follow these steps:
+    details: `
+    User: 
+    Generate me a delicious lava cake recipe.
+    
+    To make a delicious lava cake, follow these steps13:
   
   1. Prepare Ingredients:
      • 4 ounces of semi-sweet chocolate
@@ -394,7 +446,11 @@ export const chatHistoryData = [
   {
     title: 'Arduino програмис - обяснен',
     date: '2024-06-17',
-    details: `To make a delicious lava cake, follow these steps:
+    details: `
+    User: 
+    Generate me a delicious lava cake recipe.
+    
+    To make a delicious lava cake, follow these steps14:
   
   1. Prepare Ingredients:
      • 4 ounces of semi-sweet chocolate
@@ -424,7 +480,11 @@ export const chatHistoryData = [
   {
     title: 'Configuring Tailwind CSS: Validit',
     date: '2024-06-17',
-    details: `To make a delicious lava cake, follow these steps:
+    details: `
+    User: 
+    Generate me a delicious lava cake recipe.
+    
+    To make a delicious lava cake, follow these steps15:
   
   1. Prepare Ingredients:
      • 4 ounces of semi-sweet chocolate
@@ -454,7 +514,11 @@ export const chatHistoryData = [
   {
     title: 'Tailwind конфигурация и имена',
     date: '2024-05-17',
-    details: `To make a delicious lava cake, follow these steps:
+    details: `
+    User: 
+    Generate me a delicious lava cake recipe.
+    
+    To make a delicious lava cake, follow these steps16:
   
   1. Prepare Ingredients:
      • 4 ounces of semi-sweet chocolate
@@ -484,7 +548,11 @@ export const chatHistoryData = [
   {
     title: 'Направи Мобилно Функционало',
     date: '2024-06-02',
-    details: `To make a delicious lava cake, follow these steps:
+    details: `
+    User: 
+    Generate me a delicious lava cake recipe.
+    
+    To make a delicious lava cake, follow these steps17:
   
   1. Prepare Ingredients:
      • 4 ounces of semi-sweet chocolate
@@ -514,7 +582,11 @@ export const chatHistoryData = [
   {
     title: 'Регистриране на основен комп',
     date: '2024-06-01',
-    details: `To make a delicious lava cake, follow these steps:
+    details: `
+    User: 
+    Generate me a delicious lava cake recipe.
+    
+    To make a delicious lava cake, follow these steps18:
   
   1. Prepare Ingredients:
      • 4 ounces of semi-sweet chocolate

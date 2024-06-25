@@ -88,7 +88,6 @@ const Home = () => {
             <View style={tw`mb-4 flex-row items-center`}>
               <Image source={require('../../assets/Main/icon2.png')} style={tw`w-8 h-8 rounded-full mr-2 mb-7`} />
               <View>
-                <Text style={tw`text-base font-semibold mb-1 ${isDarkTheme ? 'text-white' : 'text-black'}`}>{selectedChat.title}</Text>
                 <Text style={tw`text-base mb-1 ${isDarkTheme ? 'text-white' : 'text-black'}`}>{selectedChat.details}</Text>
               </View>
             </View>
