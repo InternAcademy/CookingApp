@@ -113,6 +113,19 @@ const Home = () => {
 
   const renderPost = () => {
     if (selectedChat) {
+      const messages = [
+        ...selectedChat.requests.map((req) => ({
+          ...req,
+          role: "user",
+          content: req.message,
+        })),
+        ...selectedChat.responses.map((res) => ({
+          ...res,
+          role: "bot",
+          content: res.message,
+        })),
+      ].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+
       return (
         <SafeAreaView
           style={tw`flex-1 ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}
@@ -132,10 +145,35 @@ const Home = () => {
                 <Text
                   style={tw`text-base mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
                 >
-                  {selectedChat.details}
+                  {/* Additional details if needed */}
                 </Text>
               </View>
             </View>
+            {messages.map((msg, index) => (
+              <View key={index} style={tw`mb-4 flex-row items-center`}>
+                <Image
+                  source={
+                    msg.role === "user"
+                      ? require("../../assets/NavigationBar/user.png")
+                      : require("../../assets/Main/icon2.png")
+                  }
+                  style={tw`w-8 h-8 rounded-full mr-2 mb-7`}
+                />
+                <View>
+                  <Text
+                    style={tw`text-base font-semibold mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
+                  >
+                    {msg.role === "user" ? "You" : "MealMasterBot"}:
+                  </Text>
+                  <Text
+                    style={tw`text-base mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
+                  >
+                    {msg.content}
+                  </Text>
+                </View>
+              </View>
+            ))}
+            {isThinking && <Thinking />}
           </ScrollView>
         </SafeAreaView>
       );

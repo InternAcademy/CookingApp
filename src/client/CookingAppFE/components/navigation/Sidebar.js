@@ -9,7 +9,9 @@ import {
 import { useWindowDimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native"; // Импортиране на useNavigation
 import tw from "twrnc";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTheme } from "../../context/ThemeContext";
+import { jwtDecode } from "jwt-decode";
 import { chatHistoryData } from "../../components/navigation/chatHistoryData"; // Import mock data
 import Ionicons from "react-native-vector-icons/Ionicons"; // Импортиране на иконите
 
@@ -29,13 +31,67 @@ const Sidebar = () => {
   }, [window]);
 
   useEffect(() => {
-    // Вместо извличане от API, използвайте seed data
-    console.log("Setting chat history:", chatHistoryData);
-    setChatHistory(chatHistoryData);
+    async function fetchData() {
+      try {
+        const token = await AsyncStorage.getItem("token");
+        if (!token) {
+          throw new Error("No OAuth2 token found");
+        }
+        const decodedToken = jwtDecode(token);
+
+        console.log(decodedToken);
+
+        const response = await fetch(
+          `https://localhost:8001/user-chats/${decodedToken.sub}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const data = await response.json();
+        if (data) {
+          setChatHistory(data);
+        }
+      } catch (error) {
+        console.error("Error sending message:", error);
+      }
+    }
+
+    fetchData();
   }, []);
 
   const handleChatPress = (chat) => {
-    navigation.navigate("Home", { selectedChat: chat }); // Навигиране към Home и предаване на данни
+    async function fetchData() {
+      try {
+        const token = await AsyncStorage.getItem("token");
+        if (!token) {
+          throw new Error("No OAuth2 token found");
+        }
+
+        const response = await fetch(
+          `https://localhost:8001/c/${chat.chatId}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const data = await response.json();
+        console.log(data);
+        if (data) {
+          navigation.navigate("Home", { selectedChat: data });
+        }
+      } catch (error) {
+        console.error("Error sending message:", error);
+      }
+    }
+
+    fetchData();
   };
 
   const getSectionTitle = (date) => {
