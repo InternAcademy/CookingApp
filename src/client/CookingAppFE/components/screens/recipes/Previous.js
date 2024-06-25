@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, ScrollView, Image } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import tw from 'twrnc';
 import { useTheme } from '../../../context/ThemeContext';
 
@@ -10,14 +11,14 @@ const Previous = ({ navigation }) => {
     <ScrollView contentContainerStyle={tw`p-4 ${isDarkTheme ? 'bg-[#202020]' : 'bg-white'} pl-8`}>
       <View style={tw`flex-row items-center mb-4`}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image source={require('../../../assets/NavigationBar/previous2.png')} style={tw`w-8 h-8 ${isDarkTheme ? 'tint-white' : ''}`} />
+          <Ionicons name="arrow-back" size={24} color={isDarkTheme ? 'white' : 'black'} style={tw`mr-2`} />
         </TouchableOpacity>
       </View>
-      <View style={tw`flex-row items-center mb-4`}>
+      <View style={tw`flex-row items-center mb-4 ml-4`}>
         <TouchableOpacity onPress={() => console.log('Previous pressed')}>
-          <Image source={require('../../../assets/previous.png')} style={tw`w-8 h-8 ${isDarkTheme ? 'tint-white' : ''}`} />
+          <Ionicons name="time" size={24} color={isDarkTheme ? 'white' : 'black'} style={tw`mr-2`} />
         </TouchableOpacity>
-        <Text style={tw`text-lg ml-2 ${isDarkTheme ? 'text-orange-400' : 'text-orange-500'}`}>Recent Chats</Text>
+        <Text style={tw`text-lg ${isDarkTheme ? 'text-orange-400' : 'text-black'}`}>Recent Chats</Text>
       </View>
       <TouchableOpacity style={tw`p-4 rounded-lg mb-4 ${isDarkTheme ? 'bg-[#202020]' : 'bg-gray-100'}`}>
         <Text style={tw`text-lg font-bold mb-2 ${isDarkTheme ? 'text-white' : 'text-black'}`}>Strawberry ShortCake</Text>
