@@ -6,7 +6,7 @@
 
     public interface IMessageService
     {
-        Task<ChatMessageResponce> SendMessage(string chatId, string message);
+        Task<ObjectResponse> SendMessage(string chatId, string message);
 
         Task<List<ChatChoiceResponse>> CreateMessage(string userId, string message);
 

@@ -1,10 +1,12 @@
 ﻿namespace CookingApp.Controllers
 {
     using CookingApp.Common.Helpers.Profiles;
+    using CookingApp.Models;
     using CookingApp.Services.ChatService;
     using CookingApp.ViewModels.Chat;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using System;
     using IMessageService = Services.Message.IMessageService;
     using Request = Models.Request;
     using Response = Models.Response;
@@ -14,8 +16,8 @@
         IMessageService messageService,
         IHttpContextAccessor httpContextAccessor) : ControllerBase
     {
-        [HttpGet("new-chat")]
-        public async Task<IActionResult> NewChat([FromBody] string message)
+        [HttpPost("new-chat/{message}")]
+        public async Task<IActionResult> NewChat(string message)
         {
             var userId = GetUser.ProfileId(httpContextAccessor);
             var responce = await messageService.CreateMessage(userId, message);
@@ -27,17 +29,20 @@
                 Responses = [new Response { Message = responce.First().Message.Content, Owner = userId }]
             };
 
-            var result = new ChatMessageResponce
+            var chat = await chatService.SaveChat(saveChatRequest);
+
+            var result = new MessageResponce
             {
-                Chat = await chatService.SaveChat(saveChatRequest),
-                ChatChoiceResponses = responce
+                ChatId = chat.Id,
+                Title = chat.Title,
+                Content = responce.First().Message.Content
             };
 
             return Ok(result);
         }
 
-        [HttpGet("continue/{chatId}")]
-        public async Task<IActionResult> ContinueChat(string chatId, [FromBody] string message)
+        [HttpPost("continue/{chatId}/{message}")]
+        public async Task<IActionResult> ContinueChat(string chatId, string message)
         {
             var userId = GetUser.ProfileId(httpContextAccessor);
             var responce = await messageService.SendMessage(chatId, message);
@@ -66,11 +71,18 @@
 
             await chatService.SaveChat(saveChatRequest);
 
-            return Ok(responce);
+            var result = new MessageResponce
+            {
+                ChatId = responce.Chat.Id,
+                Title = responce.Chat.Title,
+                Content = responce.ChatChoiceResponses.First().Message.Content
+            };
+
+            return Ok(result);
         }
 
         [HttpGet("c/{chatId}")]
-        public async Task<IActionResult> ChatId(string chatId)
+        public async Task<IActionResult> ChatById(string chatId)
         {
             return Ok(await chatService.GetById(chatId));
         }

@@ -44,14 +44,14 @@
             return await SendCompletionRequest(completionRequest);
         }
 
-        public async Task<ChatMessageResponce> SendMessage(string chatId, string message)
+        public async Task<ObjectResponse> SendMessage(string chatId, string message)
         {
             var chat = await chatRepo.GetByIdAsync(chatId);
             var userProfile = await profileRepo.GetFirstOrDefaultAsync(a => a.UserId == chat.UserId);
 
             var completionRequest = BuildCompletionRequest(chat, userProfile, message);
 
-            return new ChatMessageResponce
+            return new ObjectResponse
             {
                 Chat = chat,
                 ChatChoiceResponses = await SendCompletionRequest(completionRequest)
