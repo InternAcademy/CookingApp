@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { useWindowDimensions } from 'react-native';
+import { useNavigation } from '@react-navigation/native'; // Импортиране на useNavigation
 import tw from 'twrnc';
 import { useTheme } from '../../context/ThemeContext';
 import { chatHistoryData } from '../../components/navigation/chatHistoryData'; // Import mock data
@@ -9,9 +10,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons'; // Импортира
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
   const [chatHistory, setChatHistory] = useState([]);
-  const [selectedChat, setSelectedChat] = useState(null); // Добавено състояние за текущо избрания чат
   const window = useWindowDimensions();
   const { isDarkTheme } = useTheme();
+  const navigation = useNavigation(); // Използване на useNavigation
 
   useEffect(() => {
     const handleResize = () => {
@@ -28,7 +29,7 @@ const Sidebar = () => {
   }, []);
 
   const handleChatPress = chat => {
-    setSelectedChat(chat); // Актуализиране на текущо избрания чат
+    navigation.navigate('Home', { selectedChat: chat }); // Навигиране към Home и предаване на данни
   };
 
   const getSectionTitle = date => {
@@ -79,25 +80,18 @@ const Sidebar = () => {
 
       {open && (
         <ScrollView style={styles.scrollView}>
-          {selectedChat ? ( // Условие за визуализация на информацията за текущо избрания чат
-            <View style={styles.chatDetails}>
-              <Text style={[styles.title, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>{selectedChat.title}</Text>
-              <Text style={[styles.details, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>{selectedChat.details}</Text>
-            </View>
-          ) : (
-            orderedSections.map(
-              sectionTitle =>
-                sortedChatHistory[sectionTitle] && (
-                  <View key={sectionTitle} style={styles.section}>
-                    <Text style={[styles.title, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>{sectionTitle}</Text>
-                    {sortedChatHistory[sectionTitle].map((chat, idx) => (
-                      <TouchableOpacity key={idx} onPress={() => handleChatPress(chat)}>
-                        <Text style={[styles.bullet, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>{chat.title}</Text>
-                      </TouchableOpacity>
-                    ))}
-                  </View>
-                )
-            )
+          {orderedSections.map(
+            sectionTitle =>
+              sortedChatHistory[sectionTitle] && (
+                <View key={sectionTitle} style={styles.section}>
+                  <Text style={[styles.title, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>{sectionTitle}</Text>
+                  {sortedChatHistory[sectionTitle].map((chat, idx) => (
+                    <TouchableOpacity key={idx} onPress={() => handleChatPress(chat)}>
+                      <Text style={[styles.bullet, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>{chat.title}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              )
           )}
         </ScrollView>
       )}

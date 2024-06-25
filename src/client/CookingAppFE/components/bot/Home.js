@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, FlatList, TextInput, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native'; // Импортиране на useRoute
 import tw from 'twrnc';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Thinking from '../bot/Thinking';
@@ -9,10 +9,12 @@ import { useTheme } from '../../context/ThemeContext';
 
 const Home = () => {
   const navigation = useNavigation();
+  const route = useRoute(); // Използване на useRoute за достъп до параметри
   const [message, setMessage] = useState('');
   const [isThinking, setIsThinking] = useState(false);
   const { chat, setChat } = useChat();
   const { isDarkTheme } = useTheme();
+  const [selectedChat, setSelectedChat] = useState(null);
 
   useEffect(() => {
     const checkToken = async () => {
@@ -42,6 +44,12 @@ const Home = () => {
       saveChat();
     }
   }, [chat]);
+
+  useEffect(() => {
+    if (route.params?.selectedChat) {
+      setSelectedChat(route.params.selectedChat);
+    }
+  }, [route.params]);
 
   const sendMessage = async () => {
     if (!message) return;
@@ -73,6 +81,22 @@ const Home = () => {
   };
 
   const renderPost = () => {
+    if (selectedChat) {
+      return (
+        <SafeAreaView style={tw`flex-1 ${isDarkTheme ? 'bg-[#202020]' : 'bg-white'}`}>
+          <ScrollView contentContainerStyle={tw`p-6 mt-10`}>
+            <View style={tw`mb-4 flex-row items-center`}>
+              <Image source={require('../../assets/Main/icon2.png')} style={tw`w-8 h-8 rounded-full mr-2 mb-7`} />
+              <View>
+                <Text style={tw`text-base font-semibold mb-1 ${isDarkTheme ? 'text-white' : 'text-black'}`}>{selectedChat.title}</Text>
+                <Text style={tw`text-base mb-1 ${isDarkTheme ? 'text-white' : 'text-black'}`}>{selectedChat.details}</Text>
+              </View>
+            </View>
+          </ScrollView>
+        </SafeAreaView>
+      );
+    }
+
     if (chat.length === 0) {
       return (
         <View style={tw`flex-1 justify-center items-center p-10 mt-94`}>
