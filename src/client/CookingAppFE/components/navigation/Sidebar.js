@@ -117,15 +117,13 @@ const Sidebar = () => {
     <View style={[styles.sidebar, { width: open ? 256 : 64 }, tw`${isDarkTheme ? 'bg-[#202020]' : 'bg-white'} mt-0 pt-0`]}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => setOpen(!open)}>
-          <Text style={[tw`pt-0${isDarkTheme ? 'text-white' : 'text-gray-700'}`, styles.toggleIcon]}>{'≡'}</Text>
+          <Text style={[tw`pt-0 ${isDarkTheme ? 'text-white' : 'text-gray-700'}`, styles.toggleIcon]}>{'≡'}</Text>
         </TouchableOpacity>
 
         <View style={styles.headerContent}>
-          {open && (
-            <TouchableOpacity onPress={startNewChat}>
-              <Ionicons name="chatbox-ellipses-sharp" size={20} color={isDarkTheme ? 'white' : 'gray'} style={tw`pt-2`} />
-            </TouchableOpacity>
-          )}
+          <TouchableOpacity onPress={startNewChat}>
+            <Ionicons name="chatbox-ellipses-sharp" size={20} color={isDarkTheme ? 'white' : 'gray'} style={tw`pt-2`} />
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -164,7 +162,8 @@ const styles = StyleSheet.create({
   },
   headerContent: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginLeft: 8
   },
   toggleIcon: {
     fontSize: 30
