@@ -67,8 +67,9 @@ const Subscription = () => {
             </View>
           ))}
         </View>
-
-        <Text style={tw`text-2xl font-bold mb-4 ${isDarkTheme ? 'text-white' : 'text-black'}`}>Heading for FAQs</Text>
+        <View style={tw`w-full items-start px-6`}>
+          <Text style={tw`text-2xl font-bold mb-4 ${isDarkTheme ? 'text-white' : 'text-black'}`}>Heading for FAQs</Text>
+        </View>
         {faqs.map((faq, index) => (
           <View key={index} style={tw`mb-6 w-full px-6`}>
             <TouchableOpacity onPress={() => toggleFaq(index)}>
