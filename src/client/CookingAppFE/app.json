@@ -19,7 +19,7 @@
         "foregroundImage": "./assets/Main/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.imsk1.CookingAppFE"
+      "package": "com.gogata1905.CookingAppFE"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -27,7 +27,7 @@
     "scheme": "mealmaster",
     "extra": {
       "eas": {
-        "projectId": "ce94388c-4a24-4896-b601-86c048068c49"
+        "projectId": "bf4487b8-8230-45a7-b278-d33da6ee53f0"
       }
     }
   }

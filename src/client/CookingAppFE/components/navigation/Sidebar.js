@@ -1,26 +1,21 @@
-import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-} from "react-native";
-import { useWindowDimensions } from "react-native";
-import { useNavigation } from "@react-navigation/native"; // Импортиране на useNavigation
-import tw from "twrnc";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useTheme } from "../../context/ThemeContext";
-import { jwtDecode } from "jwt-decode";
-import { chatHistoryData } from "../../components/navigation/chatHistoryData"; // Import mock data
-import Ionicons from "react-native-vector-icons/Ionicons"; // Импортиране на иконите
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { useWindowDimensions } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import tw from 'twrnc';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useTheme } from '../../context/ThemeContext';
+import { useChat } from '../../context/ChatContext'; // Импортиране на useChat
+import jwtDecode from 'jwt-decode';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
   const [chatHistory, setChatHistory] = useState([]);
   const window = useWindowDimensions();
   const { isDarkTheme } = useTheme();
-  const navigation = useNavigation(); // Използване на useNavigation
+  const navigation = useNavigation();
+  const { clearChat } = useChat(); // Използване на clearChat
 
   useEffect(() => {
     const handleResize = () => {
@@ -94,11 +89,15 @@ const Sidebar = () => {
     fetchData();
   };
 
+  const startNewChat = () => {
+    clearChat();
+    navigation.navigate('Home');
+  };
+
   const getSectionTitle = (date) => {
     const today = new Date();
     const chatDate = new Date(date);
 
-    // Нулиране на часовете, минутите и секундите за точно сравнение на датите
     today.setHours(0, 0, 0, 0);
     chatDate.setHours(0, 0, 0, 0);
 
@@ -161,6 +160,12 @@ const Sidebar = () => {
             {open ? "×" : "≡"}
           </Text>
         </TouchableOpacity>
+
+        <View style={styles.headerContent}>
+          <TouchableOpacity onPress={startNewChat}>
+            <Ionicons name="chatbox-ellipses-sharp" size={20} color={isDarkTheme ? 'white' : 'gray'} style={tw`pt-2`} />
+          </TouchableOpacity>
+        </View>
       </View>
 
       {open && (
@@ -214,12 +219,9 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   headerContent: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  icon: {
-    width: 16,
-    height: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 8
   },
   toggleIcon: {
     fontSize: 30,
@@ -241,15 +243,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   scrollView: {
-    paddingRight: 16,
-  },
-  chatDetails: {
-    padding: 16,
-  },
-  details: {
-    fontSize: 14,
-    marginBottom: 16,
-  },
+    paddingRight: 16
+  }
 });
 
 export default Sidebar;

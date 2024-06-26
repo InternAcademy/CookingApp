@@ -1,25 +1,16 @@
-import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  Image,
-  FlatList,
-  TextInput,
-  TouchableOpacity,
-  SafeAreaView,
-  ScrollView,
-} from "react-native";
-import { useNavigation, useRoute } from "@react-navigation/native"; // Импортиране на useRoute
-import tw from "twrnc";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import Thinking from "../bot/Thinking";
-import { useChat } from "../../context/ChatContext";
-import { useTheme } from "../../context/ThemeContext";
+import React, { useEffect, useState } from 'react';
+import { View, Text, Image, FlatList, TextInput, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import tw from 'twrnc';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Thinking from '../bot/Thinking';
+import { useChat } from '../../context/ChatContext';
+import { useTheme } from '../../context/ThemeContext';
 
 const Home = () => {
   const navigation = useNavigation();
-  const route = useRoute(); // Използване на useRoute за достъп до параметри
-  const [message, setMessage] = useState("");
+  const route = useRoute();
+  const [message, setMessage] = useState('');
   const [isThinking, setIsThinking] = useState(false);
   const { chat, setChat } = useChat();
   const { isDarkTheme } = useTheme();
