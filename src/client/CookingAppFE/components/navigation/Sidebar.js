@@ -28,52 +28,61 @@ const Sidebar = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const token = await AsyncStorage.getItem('token');
+        const token = await AsyncStorage.getItem("token");
         if (!token) {
-          throw new Error('No OAuth2 token found');
+          throw new Error("No OAuth2 token found");
         }
         const decodedToken = jwtDecode(token);
 
-        const response = await fetch(`https://localhost:8001/user-chats/${decodedToken.sub}`, {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${token}`
+        console.log(decodedToken);
+
+        const response = await fetch(
+          `https://localhost:8001/user-chats/${decodedToken.sub}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
-        });
+        );
 
         const data = await response.json();
         if (data) {
           setChatHistory(data);
         }
       } catch (error) {
-        console.error('Error fetching chat history:', error);
+        console.error("Error sending message:", error);
       }
     }
 
     fetchData();
   }, []);
 
-  const handleChatPress = chat => {
+  const handleChatPress = (chat) => {
     async function fetchData() {
       try {
-        const token = await AsyncStorage.getItem('token');
+        const token = await AsyncStorage.getItem("token");
         if (!token) {
-          throw new Error('No OAuth2 token found');
+          throw new Error("No OAuth2 token found");
         }
 
-        const response = await fetch(`https://localhost:8001/c/${chat.chatId}`, {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${token}`
+        const response = await fetch(
+          `https://localhost:8001/c/${chat.chatId}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
-        });
+        );
 
         const data = await response.json();
+        console.log(data);
         if (data) {
-          navigation.navigate('Home', { selectedChat: data });
+          navigation.navigate("Home", { selectedChat: data });
         }
       } catch (error) {
-        console.error('Error fetching chat:', error);
+        console.error("Error sending message:", error);
       }
     }
 
@@ -85,7 +94,7 @@ const Sidebar = () => {
     navigation.navigate('Home');
   };
 
-  const getSectionTitle = date => {
+  const getSectionTitle = (date) => {
     const today = new Date();
     const chatDate = new Date(date);
 
@@ -95,11 +104,11 @@ const Sidebar = () => {
     const diffTime = today - chatDate;
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-    if (diffDays === 0) return 'Today';
-    if (diffDays === 1) return 'Yesterday';
-    if (diffDays <= 7) return 'Previous 7 days';
-    if (diffDays <= 30) return 'Previous 30 days';
-    return 'Older than 30 days';
+    if (diffDays === 0) return "Today";
+    if (diffDays === 1) return "Yesterday";
+    if (diffDays <= 7) return "Previous 7 days";
+    if (diffDays <= 30) return "Previous 30 days";
+    return "Older than 30 days";
   };
 
   const sortedChatHistory = chatHistory.reduce((acc, chat) => {
@@ -111,13 +120,45 @@ const Sidebar = () => {
     return acc;
   }, {});
 
-  const orderedSections = ['Today', 'Yesterday', 'Previous 7 days', 'Previous 30 days', 'Older than 30 days'];
+  console.log("Sorted chat history:", sortedChatHistory);
+
+  const orderedSections = [
+    "Today",
+    "Yesterday",
+    "Previous 7 days",
+    "Previous 30 days",
+    "Older than 30 days",
+  ];
 
   return (
-    <View style={[styles.sidebar, { width: open ? 256 : 64 }, tw`${isDarkTheme ? 'bg-[#202020]' : 'bg-white'} mt-0 pt-0`]}>
+    <View
+      style={[
+        styles.sidebar,
+        { width: open ? 256 : 64 },
+        tw`${isDarkTheme ? "bg-[#202020]" : "bg-white"}`,
+      ]}
+    >
       <View style={styles.header}>
+        <View style={styles.headerContent}>
+          {open && (
+            <TouchableOpacity onPress={() => setSelectedChat(null)}>
+              <Ionicons
+                name="arrow-back"
+                size={24}
+                color={isDarkTheme ? "white" : "gray"}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
         <TouchableOpacity onPress={() => setOpen(!open)}>
-          <Text style={[tw`pt-0 ${isDarkTheme ? 'text-white' : 'text-gray-700'}`, styles.toggleIcon]}>{'≡'}</Text>
+          <Text
+            style={[
+              tw`${isDarkTheme ? "text-white" : "text-gray-700"}`,
+              styles.toggleIcon,
+            ]}
+          >
+            {open ? "×" : "≡"}
+          </Text>
         </TouchableOpacity>
 
         <View style={styles.headerContent}>
@@ -130,13 +171,30 @@ const Sidebar = () => {
       {open && (
         <ScrollView style={styles.scrollView}>
           {orderedSections.map(
-            sectionTitle =>
+            (sectionTitle) =>
               sortedChatHistory[sectionTitle] && (
                 <View key={sectionTitle} style={styles.section}>
-                  <Text style={[styles.title, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>{sectionTitle}</Text>
+                  <Text
+                    style={[
+                      styles.title,
+                      tw`${isDarkTheme ? "text-white" : "text-gray-700"}`,
+                    ]}
+                  >
+                    {sectionTitle}
+                  </Text>
                   {sortedChatHistory[sectionTitle].map((chat, idx) => (
-                    <TouchableOpacity key={idx} onPress={() => handleChatPress(chat)}>
-                      <Text style={[styles.bullet, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>{chat.title}</Text>
+                    <TouchableOpacity
+                      key={idx}
+                      onPress={() => handleChatPress(chat)}
+                    >
+                      <Text
+                        style={[
+                          styles.bullet,
+                          tw`${isDarkTheme ? "text-white" : "text-gray-700"}`,
+                        ]}
+                      >
+                        {chat.title}
+                      </Text>
                     </TouchableOpacity>
                   ))}
                 </View>
@@ -150,15 +208,15 @@ const Sidebar = () => {
 
 const styles = StyleSheet.create({
   sidebar: {
-    flexDirection: 'column',
-    height: '100%',
-    padding: 16
+    flexDirection: "column",
+    height: "100%",
+    padding: 16,
   },
   header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingVertical: 8
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: 8,
   },
   headerContent: {
     flexDirection: 'row',
@@ -166,23 +224,23 @@ const styles = StyleSheet.create({
     marginLeft: 8
   },
   toggleIcon: {
-    fontSize: 30
+    fontSize: 30,
   },
   section: {
-    flexDirection: 'column',
+    flexDirection: "column",
     paddingLeft: 4,
     paddingRight: 4,
-    marginBottom: 16
+    marginBottom: 16,
   },
   title: {
     fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 8
+    fontWeight: "bold",
+    marginBottom: 8,
   },
   bullet: {
     marginLeft: 16,
     marginBottom: 4,
-    fontSize: 14
+    fontSize: 14,
   },
   scrollView: {
     paddingRight: 16

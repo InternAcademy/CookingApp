@@ -1,8 +1,8 @@
-﻿using OpenAI.ObjectModels.SharedModels;
-
-namespace CookingApp.ViewModels.Chat
+﻿namespace CookingApp.ViewModels.Chat
 {
-    public class ChatMessageResponce
+    using OpenAI.ObjectModels.SharedModels;
+
+    public class ObjectResponse
     {
         public Models.Chat Chat { get; set; } = default!;
         public List<ChatChoiceResponse> ChatChoiceResponses { get; set; } = default!;
