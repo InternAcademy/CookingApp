@@ -140,8 +140,9 @@ const Home = () => {
     }
 
     if (chat.length === 0) {
+      // remove pr-15 when sidebar is fixed logo to be centered!
       return (
-        <View style={tw`flex-1 justify-center items-center p-10 mt-94`}>
+        <View style={tw`flex w-full h-full  justify-center items-center  `}>
           <Image source={require('../../assets/Main/icon2.png')} style={tw`w-26 h-26 mb-2`} />
           <Text style={tw`text-lg font-bold ${isDarkTheme ? 'text-white' : 'text-black'}`}>Let's figure out a recipe</Text>
           <Text style={tw`text-base ${isDarkTheme ? 'text-gray-400' : 'text-black'}`}>Begin by typing a message</Text>
@@ -168,10 +169,15 @@ const Home = () => {
   };
 
   return (
-    <SafeAreaView style={tw`flex-1 ${isDarkTheme ? 'bg-[#202020]' : 'bg-white'}`}>
+    <SafeAreaView style={tw`flex w-full h-full ${isDarkTheme ? 'bg-[#202020]' : 'bg-white'}`}>
       <FlatList data={[{ key: '1' }]} renderItem={renderPost} keyExtractor={item => item.key} contentContainerStyle={tw`flex-grow`} />
-      <View style={tw`flex-none flex-row items-center p-2 border-t ${isDarkTheme ? 'border-gray-700 bg-[#202020]' : 'border-gray-300 bg-white'}`}>
-        <View style={tw`flex-1 flex-row items-center border ${isDarkTheme ? 'border-gray-700 bg-gray-900' : 'border-gray-300 bg-amber-50'} rounded-full px-2 mx-1`}>
+      <View style={tw`flex w-full flex-row items-center   mb-5 ${isDarkTheme ? 'border-gray-700 bg-[#202020]' : 'border-gray-300 bg-white'}`}>
+        <View style={tw`flex w-1/8 flex-row items-center justify-center  `}>
+          {/* <TouchableOpacity onPress={sendMessage} style={tw``}>
+            <Image source={require('../../assets/HomeMessageBar/paperClip.png')} style={tw`w-5 h-5 ${isDarkTheme ? 'tint-white' : ''}`} />
+          </TouchableOpacity> */}
+        </View>
+        <View style={tw`flex w-6/8 flex-row justify-center items-center border ${isDarkTheme ? 'border-gray-700 bg-gray-900' : 'border-gray-300 bg-amber-50'} rounded-full px-2 mx-1`}>
           <TouchableOpacity onPress={sendMessage} style={tw`p-1`}>
             <Image source={require('../../assets/HomeMessageBar/paperClip.png')} style={tw`w-5 h-5 ${isDarkTheme ? 'tint-white' : ''}`} />
           </TouchableOpacity>
@@ -180,9 +186,15 @@ const Home = () => {
             <Image source={require('../../assets/HomeMessageBar/arrowUpCircle.png')} style={tw`w-6 h-6 ${isDarkTheme ? 'tint-white' : ''}`} />
           </TouchableOpacity>
         </View>
+        <View style={tw`flex w-1/8 flex-row items-center`}>
+          {/* <TouchableOpacity onPress={sendMessage} style={tw`p-1`}>
+            <Image source={require('../../assets/HomeMessageBar/paperClip.png')} style={tw`w-5 h-5 ${isDarkTheme ? 'tint-white' : ''}`} />
+          </TouchableOpacity> */}
+        </View>
       </View>
     </SafeAreaView>
   );
 };
 
 export default Home;
+//flex w-full h-full  justify-center items-center pr-15

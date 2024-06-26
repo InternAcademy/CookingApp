@@ -9,6 +9,7 @@ module.exports = {
       phoneLarge: '414px', // mobile devices (iPhone 11)
       phoneXL: '390px', // mobile devices (iPhone 12 Pro)
       phoneTall: '360px', // mobile devices (Pixel 4a)
+
       tabletStandard: '768px', // tablets (iPad)
       tabletLarge: '1024px', // tablets (iPad Pro)
       tabletMedium: '601px', // tablets
