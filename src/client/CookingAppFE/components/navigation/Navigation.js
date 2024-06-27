@@ -6,18 +6,19 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import tw from 'twrnc';
 import { useNavigationContext } from '../../context/NavigationContext';
 import { useTheme } from '../../context/ThemeContext';
+import { useChat } from '../../context/ChatContext';
 import Sidebar from './Sidebar';
 
 const Navigation = () => {
   const navigation = useNavigation();
   const { currentRoute } = useNavigationContext();
-  // const { clearChat } = useChat();
+  const { clearChat } = useChat();
   const { isDarkTheme } = useTheme();
   const [open, setOpen] = useState(false);
-  // const startNewChat = () => {
-  //   clearChat();
-  //   navigation.navigate('Home');
-  // };
+  const startNewChat = () => {
+    clearChat();
+    navigation.navigate('Home');
+  };
 
   return (
     <SafeAreaView style={[styles.safeArea, tw`${isDarkTheme ? 'bg-[#202020]' : 'bg-white'}`]}>
@@ -28,10 +29,11 @@ const Navigation = () => {
             <Ionicons name="menu" size={24} color={isDarkTheme ? 'white' : 'black'} />
           </TouchableOpacity>
         </View>
+
         <View style={styles.rightContainer}>
-          {/* <TouchableOpacity onPress={startNewChat} style={tw`mx-2`}>
+          <TouchableOpacity onPress={startNewChat} style={tw`mx-2`}>
             <Ionicons name="chatbox-ellipses-sharp" size={24} color={isDarkTheme ? 'white' : 'black'} />
-          </TouchableOpacity> */}
+          </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('Previous')} style={tw`mx-2`}>
             <Ionicons name="time" size={24} color={isDarkTheme ? 'white' : 'black'} />
           </TouchableOpacity>
