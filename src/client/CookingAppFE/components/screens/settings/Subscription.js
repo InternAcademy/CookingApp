@@ -8,9 +8,9 @@ const Subscription = () => {
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
 
   const combinedPlans = [
-    { name: 'Plan 1', price: 'Free', features: ['Feature', 'Feature', 'Feature', 'Feature'], color: '#FFF4E2' },
-    { name: 'Plan 2', price: '$5', features: ['Feature', 'Feature', 'Feature', 'Feature'], color: '#FFE1AF' },
-    { name: 'Plan 3', price: '$50', features: ['Feature', 'Feature', 'Feature', 'Feature'], color: '#FFD48D' }
+    { name: 'Plan 1', price: 'Free', period: 'per month', features: ['Feature', 'Feature', 'Feature', 'Feature'], color: '#FFF4E2' },
+    { name: 'Plan 2', price: '$5', period: 'per month', features: ['Feature', 'Feature', 'Feature', 'Feature'], color: '#FFE1AF' },
+    { name: 'Plan 3', price: '$50', period: 'per year', features: ['Feature', 'Feature', 'Feature', 'Feature'], color: '#FFD48D' }
   ];
 
   const faqs = [
@@ -33,9 +33,8 @@ const Subscription = () => {
           {combinedPlans.map((plan, index) => (
             <View key={index} style={[tw`flex-1 p-4 rounded-lg items-center`, { backgroundColor: isDarkTheme ? '#303030' : plan.color }, index !== 0 && tw`ml-2`]}>
               <Text style={tw`text-lg font-semibold mb-2 ${isDarkTheme ? 'text-white' : 'text-black'}`}>{plan.name}</Text>
-              <Text style={tw`text-2xl font-bold mb-4 ${isDarkTheme ? 'text-white' : 'text-black'}`}>
-                {plan.price} <Text style={tw`text-base font-normal ${isDarkTheme ? 'text-white' : 'text-black'}`}>{plan.name === 'Plan 3' ? 'per year' : 'per month'}</Text>
-              </Text>
+              <Text style={tw`text-2xl font-bold ${isDarkTheme ? 'text-white' : 'text-black'}`}>{plan.price}</Text>
+              <Text style={tw`text-sm font-normal mb-4 ${isDarkTheme ? 'text-white' : 'text-black'}`}>{plan.period}</Text>
               <View style={tw`mb-4`}>
                 {plan.features.map((feature, idx) => (
                   <Text key={idx} style={tw`text-xs mb-1 ${isDarkTheme ? 'text-white' : 'text-black'}`}>
