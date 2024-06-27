@@ -29,9 +29,9 @@ const Subscription = () => {
         <Text style={tw`text-3xl font-bold mb-2 ${isDarkTheme ? 'text-white' : 'text-black'}`}>Pricing page title</Text>
         <Text style={tw`text-lg mb-6 ${isDarkTheme ? 'text-gray-400' : 'text-gray-500'}`}>And a subheading describing your pricing plans, too</Text>
 
-        <View style={tw`flex-row w-full px-6 mb-10`}>
+        <View style={tw`flex-row w-full px-6 mb-10 justify-between`}>
           {combinedPlans.map((plan, index) => (
-            <View key={index} style={[tw`flex-1 mb-4 p-4 rounded-lg items-center`, { backgroundColor: isDarkTheme ? '#303030' : plan.color }]}>
+            <View key={index} style={[tw`flex-1 p-4 rounded-lg items-center`, { backgroundColor: isDarkTheme ? '#303030' : plan.color }, index !== 0 && tw`ml-2`]}>
               <Text style={tw`text-lg font-semibold mb-2 ${isDarkTheme ? 'text-white' : 'text-black'}`}>{plan.name}</Text>
               <Text style={tw`text-2xl font-bold mb-4 ${isDarkTheme ? 'text-white' : 'text-black'}`}>
                 {plan.price} <Text style={tw`text-base font-normal ${isDarkTheme ? 'text-white' : 'text-black'}`}>{plan.name === 'Plan 3' ? 'per year' : 'per month'}</Text>
