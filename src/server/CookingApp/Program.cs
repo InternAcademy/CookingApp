@@ -5,6 +5,7 @@ using MongoDB.Bson;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
+using CookingApp.Infrastructure.Middleware;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -71,6 +72,8 @@ app.UseAuthorization();
 app.UseHttpsRedirection();
 
 app.MapControllers();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.Run();
 

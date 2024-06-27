@@ -6,7 +6,9 @@ namespace CookingApp.ViewModels.Api
     public class ApiResponse<T> : IActionResult
     {
         public int Status{ get; set; }
+
         public T Data { get; set; }
+
         public List<string> Errors { get; set; }
 
         public ApiResponse()
