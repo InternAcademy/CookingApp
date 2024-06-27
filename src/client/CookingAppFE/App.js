@@ -1,3 +1,4 @@
+// App.js
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
@@ -38,7 +39,6 @@ const AppInner = () => {
   return (
     <NavigationContainer>
       <View style={tw`flex-1 flex-row ${isDarkTheme ? 'bg-[#202020]' : 'bg-white'}`}>
-        {currentRoute !== 'LandingPage' && <Sidebar />}
         <View style={tw`flex-1`}>
           {currentRoute !== 'LandingPage' && <Navigation />}
           <MainStack />

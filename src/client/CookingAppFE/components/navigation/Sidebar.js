@@ -1,29 +1,18 @@
+// Sidebar.js
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
-import { useWindowDimensions } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import tw from 'twrnc';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTheme } from '../../context/ThemeContext';
-import { useChat } from '../../context/ChatContext'; // Импортиране на useChat
+import { useChat } from '../../context/ChatContext';
 import jwtDecode from 'jwt-decode';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const Sidebar = () => {
-  const [open, setOpen] = useState(true);
+const Sidebar = ({ open, setOpen }) => {
   const [chatHistory, setChatHistory] = useState([]);
-  const window = useWindowDimensions();
   const { isDarkTheme } = useTheme();
   const navigation = useNavigation();
-  const { clearChat } = useChat(); // Използване на clearChat
-
-  useEffect(() => {
-    const handleResize = () => {
-      window.width <= 720 ? setOpen(false) : setOpen(true);
-    };
-
-    handleResize();
-  }, [window]);
+  const { clearChat } = useChat();
 
   useEffect(() => {
     async function fetchData() {
@@ -114,20 +103,14 @@ const Sidebar = () => {
   const orderedSections = ['Today', 'Yesterday', 'Previous 7 days', 'Previous 30 days', 'Older than 30 days'];
 
   return (
-    <View style={[styles.sidebar, { width: open ? 256 : 64 }, tw`${isDarkTheme ? 'bg-[#202020]' : 'bg-white'} mt-0 pt-0`]}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => setOpen(!open)}>
-          <Text style={[tw`pt-0 ${isDarkTheme ? 'text-white' : 'text-gray-700'}`, styles.toggleIcon]}>{'≡'}</Text>
-        </TouchableOpacity>
-
-        <View style={styles.headerContent}>
-          <TouchableOpacity onPress={startNewChat}>
-            <Ionicons name="chatbox-ellipses-sharp" size={20} color={isDarkTheme ? 'white' : 'gray'} style={tw`pt-2`} />
+    <Modal visible={open} animationType="slide">
+      <View style={[styles.sidebar, tw`${isDarkTheme ? 'bg-[#202020]' : 'bg-white'} mt-0 pt-0`]}>
+        <View style={styles.header}>
+          <TouchableOpacity onPress={() => setOpen(false)}>
+            <Text style={[tw`pt-0 ${isDarkTheme ? 'text-white' : 'text-gray-700'}`, styles.toggleIcon]}>{'≡'}</Text>
           </TouchableOpacity>
         </View>
-      </View>
 
-      {open && (
         <ScrollView style={styles.scrollView}>
           {orderedSections.map(
             sectionTitle =>
@@ -143,15 +126,14 @@ const Sidebar = () => {
               )
           )}
         </ScrollView>
-      )}
-    </View>
+      </View>
+    </Modal>
   );
 };
 
 const styles = StyleSheet.create({
   sidebar: {
-    flexDirection: 'column',
-    height: '100%',
+    flex: 1,
     padding: 16
   },
   header: {
@@ -159,11 +141,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingVertical: 8
-  },
-  headerContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginLeft: 8
   },
   toggleIcon: {
     fontSize: 30
