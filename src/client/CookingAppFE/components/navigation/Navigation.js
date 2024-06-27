@@ -28,12 +28,12 @@ const Navigation = () => {
           <TouchableOpacity onPress={() => setOpen(true)} style={tw`mx-2`}>
             <Ionicons name="menu" size={24} color={isDarkTheme ? 'white' : 'black'} />
           </TouchableOpacity>
+          <TouchableOpacity onPress={startNewChat} style={tw`mx-0 mt-1`}>
+            <Ionicons name="chatbox-ellipses-sharp" size={21} color={isDarkTheme ? 'white' : 'black'} />
+          </TouchableOpacity>
         </View>
 
         <View style={styles.rightContainer}>
-          <TouchableOpacity onPress={startNewChat} style={tw`mx-2`}>
-            <Ionicons name="chatbox-ellipses-sharp" size={24} color={isDarkTheme ? 'white' : 'black'} />
-          </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('Previous')} style={tw`mx-2`}>
             <Ionicons name="time" size={24} color={isDarkTheme ? 'white' : 'black'} />
           </TouchableOpacity>
