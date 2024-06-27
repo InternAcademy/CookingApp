@@ -50,7 +50,7 @@ const Subscription = () => {
         <View style={tw`flex-row justify-between w-full px-6 mb-10`}>
           {plans.map((plan, index) => (
             <View key={index} style={tw`flex-1 mx-2 p-4 ${isDarkTheme ? 'bg-gray-800' : 'bg-yellow-100'} rounded-lg items-center`}>
-              <Text style={tw`text-xl font-semibold mb-2 ${isDarkTheme ? 'text-white' : 'text-black'}`}>{plan.name}</Text>
+              <Text style={tw`text- font-semibold mb-2 ${isDarkTheme ? 'text-white' : 'text-black'}`}>{plan.name}</Text>
               <Text style={tw`text-2xl font-bold mb-4 ${isDarkTheme ? 'text-white' : 'text-black'}`}>
                 {plan.price} <Text style={tw`text-lg font-normal`}>{isAnnual ? 'per year' : 'per month'}</Text>
               </Text>
@@ -62,7 +62,7 @@ const Subscription = () => {
                 ))}
               </View>
               <TouchableOpacity style={tw`px-4 py-2 bg-yellow-500 rounded-full`}>
-                <Text style={tw`text-base font-medium text-white`}>Select</Text>
+                <Text style={tw`text-base font-medium text-white text-`}>Select</Text>
               </TouchableOpacity>
             </View>
           ))}

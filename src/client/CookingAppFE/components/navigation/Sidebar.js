@@ -1,6 +1,5 @@
-// Sidebar.js
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Modal } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Modal, Animated } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import tw from 'twrnc';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -14,6 +13,7 @@ const Sidebar = ({ open, setOpen }) => {
   const { isDarkTheme } = useTheme();
   const navigation = useNavigation();
   const { clearChat } = useChat();
+  const [animation] = useState(new Animated.Value(-300));
 
   useEffect(() => {
     async function fetchData() {
@@ -42,6 +42,22 @@ const Sidebar = ({ open, setOpen }) => {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (open) {
+      Animated.timing(animation, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true
+      }).start();
+    } else {
+      Animated.timing(animation, {
+        toValue: -300,
+        duration: 300,
+        useNativeDriver: true
+      }).start();
+    }
+  }, [open, animation]);
 
   const handleChatPress = chat => {
     async function fetchData() {
@@ -105,8 +121,9 @@ const Sidebar = ({ open, setOpen }) => {
   const orderedSections = ['Today', 'Yesterday', 'Previous 7 days', 'Previous 30 days', 'Older than 30 days'];
 
   return (
-    <Modal visible={open} animationType="slide">
-      <View style={[styles.sidebar, tw`${isDarkTheme ? 'bg-[#202020]' : 'bg-white'} mt-0 pt-0`]}>
+    <Modal transparent visible={open}>
+      <TouchableOpacity style={styles.overlay} onPress={() => setOpen(false)} />
+      <Animated.View style={[styles.sidebar, tw`${isDarkTheme ? 'bg-[#202020]' : 'bg-white'}`, { transform: [{ translateX: animation }] }]}>
         <View style={styles.header}>
           <View style={tw`flex-row items-center`}>
             <TouchableOpacity onPress={() => setOpen(false)}>
@@ -133,15 +150,28 @@ const Sidebar = ({ open, setOpen }) => {
               )
           )}
         </ScrollView>
-      </View>
+      </Animated.View>
     </Modal>
   );
 };
 
 const styles = StyleSheet.create({
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)'
+  },
   sidebar: {
-    flex: 1,
-    padding: 16
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    width: 300,
+    padding: 16,
+    zIndex: 1
   },
   header: {
     flexDirection: 'row',
