@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTheme } from '../../context/ThemeContext';
 import { useChat } from '../../context/ChatContext';
 import jwtDecode from 'jwt-decode';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Sidebar = ({ open, setOpen }) => {
   const [chatHistory, setChatHistory] = useState([]);
@@ -107,8 +108,14 @@ const Sidebar = ({ open, setOpen }) => {
       <View style={[styles.sidebar, tw`${isDarkTheme ? 'bg-[#202020]' : 'bg-white'} mt-0 pt-0`]}>
         <View style={styles.header}>
           <TouchableOpacity onPress={() => setOpen(false)}>
-            <Text style={[tw`pt-0 ${isDarkTheme ? 'text-white' : 'text-gray-700'}`, styles.toggleIcon]}>{'≡'}</Text>
+            <Ionicons name="menu" size={24} color={isDarkTheme ? 'white' : 'black'} />
           </TouchableOpacity>
+
+          <View style={styles.headerContent}>
+            <TouchableOpacity onPress={startNewChat}>
+              <Ionicons name="chatbox-ellipses-sharp" size={20} color={isDarkTheme ? 'white' : 'gray'} style={tw`pt-2`} />
+            </TouchableOpacity>
+          </View>
         </View>
 
         <ScrollView style={styles.scrollView}>
