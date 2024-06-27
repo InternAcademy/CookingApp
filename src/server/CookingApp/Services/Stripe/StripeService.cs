@@ -1,11 +1,12 @@
-﻿using CookingApp.ViewModels.Stripe.Customer;
-using CookingApp.ViewModels.Stripe.Subscription;
-using static CookingApp.Common.ExceptionMessages;
-using Stripe;
-using Product = CookingApp.ViewModels.Stripe.Product;
-
+﻿
 namespace CookingApp.Services.Stripe
 {
+    using CookingApp.ViewModels.Stripe.Customer;
+    using CookingApp.ViewModels.Stripe.Subscription;
+    using global::Stripe;
+    using static CookingApp.Common.ExceptionMessages;
+    using Product = ViewModels.Stripe.Product;
+
     public class StripeService : IStripeService
     {
         private readonly CustomerService customerService;
@@ -40,8 +41,7 @@ namespace CookingApp.Services.Stripe
 
                 return (new CustomerCreationResponse(
                               customer.Id,
-                              customer.Email,
-                              "")
+                              customer.Email)
                       );
            
         }
@@ -81,7 +81,7 @@ namespace CookingApp.Services.Stripe
                 string.IsNullOrEmpty(model.CustomerId) ||
                 string.IsNullOrEmpty(model.PriceId))
             {
-                throw new ArgumentNullException(NullOrEmptyInputValues);
+                throw new ArgumentException(NullOrEmptyInputValues);
             }
             var subscriptionOptions = new SubscriptionCreateOptions
             {
@@ -109,7 +109,7 @@ namespace CookingApp.Services.Stripe
             }
             catch (StripeException e)
             {
-                throw new InvalidOperationException(string.Format(SubscriptionCreationFail, e));
+                throw new Exception(string.Format(SubscriptionCreationFail, e));
             }
         }
 

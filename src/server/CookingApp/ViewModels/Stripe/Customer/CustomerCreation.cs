@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace CookingApp.ViewModels.Stripe.Customer
+﻿namespace CookingApp.ViewModels.Stripe.Customer
 {
     public class CustomerCreation
     {

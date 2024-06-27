@@ -10,6 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ViewModels\Stripe\Product\**" />
+    <Content Remove="ViewModels\Stripe\Product\**" />
+    <EmbeddedResource Remove="ViewModels\Stripe\Product\**" />
+    <None Remove="ViewModels\Stripe\Product\**" />
+  </ItemGroup>
+
+  <ItemGroup>
 
     <PackageReference Include="AutoMapper" Version="13.0.1" />
 
@@ -32,10 +39,6 @@
     <PackageReference Include="Serilog.Sinks.Seq" Version="7.0.1" />
     <PackageReference Include="Stripe.net" Version="44.10.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ViewModels\Stripe\Product\" />
   </ItemGroup>
 
 </Project>

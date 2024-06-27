@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Net;
-
+﻿
 namespace CookingApp.ViewModels.Api
 {
+    using Microsoft.AspNetCore.Mvc;
+
     public class ApiResponse<T> : IActionResult
     {
         public int Status{ get; set; }
