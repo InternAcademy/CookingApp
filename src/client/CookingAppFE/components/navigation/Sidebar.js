@@ -73,6 +73,7 @@ const Sidebar = ({ open, setOpen }) => {
   const startNewChat = () => {
     clearChat();
     navigation.navigate('Home');
+    setOpen(false);
   };
 
   const getSectionTitle = date => {
@@ -107,13 +108,12 @@ const Sidebar = ({ open, setOpen }) => {
     <Modal visible={open} animationType="slide">
       <View style={[styles.sidebar, tw`${isDarkTheme ? 'bg-[#202020]' : 'bg-white'} mt-0 pt-0`]}>
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => setOpen(false)}>
-            <Ionicons name="menu" size={24} color={isDarkTheme ? 'white' : 'black'} />
-          </TouchableOpacity>
-
-          <View style={styles.headerContent}>
-            <TouchableOpacity onPress={startNewChat}>
-              <Ionicons name="chatbox-ellipses-sharp" size={20} color={isDarkTheme ? 'white' : 'gray'} style={tw`pt-2`} />
+          <View style={tw`flex-row items-center`}>
+            <TouchableOpacity onPress={() => setOpen(false)}>
+              <Ionicons name="menu" size={24} color={isDarkTheme ? 'white' : 'black'} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={startNewChat} style={tw`ml-2`}>
+              <Ionicons name="chatbox-ellipses-sharp" size={24} color={isDarkTheme ? 'white' : 'black'} />
             </TouchableOpacity>
           </View>
         </View>
