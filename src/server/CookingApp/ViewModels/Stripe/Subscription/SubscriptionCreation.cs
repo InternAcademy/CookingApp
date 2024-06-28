@@ -2,8 +2,7 @@
 {
     public class SubscriptionCreation
     {
-        public string CustomerId { get; set; } = string.Empty;
-
+        public string Email { get; set; } = string.Empty;
         public string PriceId { get; set; } = string.Empty;
     }
 }

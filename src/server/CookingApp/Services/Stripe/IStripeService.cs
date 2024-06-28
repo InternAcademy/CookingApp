@@ -6,7 +6,6 @@ namespace CookingApp.Services.Stripe
 {
     public interface IStripeService
     {
-        Task<CustomerCreationResponse> CreateCustomerAsync(string email);
         Task<IEnumerable<Product>> GetProductsAsync();
         Task<SubscriptionCreationResponse> CreateSubscriptionAsync(SubscriptionCreation model);
         Task<SubscriptionCancellationResponse> CancelSubscriptionAsync(SubscriptionCancellation model);
