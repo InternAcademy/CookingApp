@@ -1,5 +1,4 @@
-﻿
-namespace CookingApp.Services.Stripe
+﻿namespace CookingApp.Services.Stripe
 {
     using CookingApp.ViewModels.Stripe.Customer;
     using CookingApp.ViewModels.Stripe.Subscription;
@@ -7,43 +6,28 @@ namespace CookingApp.Services.Stripe
     using static CookingApp.Common.ExceptionMessages;
     using Product = ViewModels.Stripe.Product;
 
-    public class StripeService : IStripeService
+    public class StripeService(CustomerService customerService,
+        PriceService priceService,
+        ProductService productService,
+        SubscriptionService subscriptionService) : IStripeService
     {
-        private readonly CustomerService customerService;
-        private readonly PriceService priceService;
-        private readonly ProductService productService;
-        private readonly SubscriptionService subscriptionService;
-
-        public StripeService(CustomerService _customerService,
-            PriceService _priceService,
-            ProductService _productService,
-            SubscriptionService _subscriptionService)
-        {
-            customerService = _customerService;
-            priceService = _priceService;
-            productService = _productService;
-            subscriptionService = _subscriptionService;
-
-        }
         /// <summary>
         /// Creates a customer object in Stripe.
         /// It is used to create recurring charges and track payments that belong to the same customer.
         /// </summary>
         public async Task<CustomerCreationResponse> CreateCustomerAsync(string email)
         {
-           
-                ArgumentException.ThrowIfNullOrEmpty(email);
-                var options = new CustomerCreateOptions
-                {
-                    Email = email
-                };
-                Customer customer = await customerService.CreateAsync(options);
+            ArgumentException.ThrowIfNullOrEmpty(email);
+            var options = new CustomerCreateOptions
+            {
+                Email = email
+            };
+            Customer customer = await customerService.CreateAsync(options);
 
-                return (new CustomerCreationResponse(
-                              customer.Id,
-                              customer.Email)
-                      );
-           
+            return (new CustomerCreationResponse(
+                          customer.Id,
+                          customer.Email)
+                  );
         }
 
         /// <summary>
@@ -51,10 +35,10 @@ namespace CookingApp.Services.Stripe
         /// </summary>
         public async Task<IEnumerable<Product>> GetProductsAsync()
         {
-           var options = new ProductListOptions { Limit = 3 };
+            var options = new ProductListOptions { Limit = 3 };
 
             var products = await productService.ListAsync(options);
-            List<Product> result = new List<Product>();
+            var result = new List<Product>();
 
             foreach (var product in products)
             {
@@ -77,7 +61,7 @@ namespace CookingApp.Services.Stripe
         /// </summary>
         public async Task<SubscriptionCreationResponse> CreateSubscriptionAsync(SubscriptionCreation model)
         {
-            if(model == null || 
+            if (model == null ||
                 string.IsNullOrEmpty(model.CustomerId) ||
                 string.IsNullOrEmpty(model.PriceId))
             {
@@ -86,13 +70,13 @@ namespace CookingApp.Services.Stripe
             var subscriptionOptions = new SubscriptionCreateOptions
             {
                 Customer = model.CustomerId,
-                Items = new List<SubscriptionItemOptions>
-                {
+                Items =
+                [
                     new SubscriptionItemOptions
                     {
                         Price = model.PriceId,
                     },
-                },
+                ],
                 PaymentBehavior = "default_incomplete",
             };
             subscriptionOptions.AddExpand("latest_invoice.payment_intent");

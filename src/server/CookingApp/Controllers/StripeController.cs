@@ -12,15 +12,8 @@ namespace CookingApp.Controllers
 
     [Route("api/stripe")]
     [ApiController]
-    public class StripeController : ControllerBase
+    public class StripeController(IStripeService stripeService) : ControllerBase
     {
-        private readonly IStripeService stripeService;
-        private readonly StripeOptions stripeOptions;
-        public StripeController(IStripeService _stripeService,IOptions<StripeOptions> options)
-        {
-            stripeService = _stripeService;
-            stripeOptions = options.Value;
-        }
         [HttpGet("products")]
         public async Task<ApiResponse<List<Product>>> GetProductsAsync()
         {
