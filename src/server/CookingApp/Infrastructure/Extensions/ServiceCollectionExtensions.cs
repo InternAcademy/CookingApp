@@ -155,19 +155,19 @@ namespace CookingApp.Infrastructure.Extensions
 
         public static IHostApplicationBuilder AddStripeIntegration(this WebApplicationBuilder builder)
         {
-            builder.Services.AddScoped<IStripeService, StripeService>();
             builder.Services.AddScoped<CustomerService>();
             builder.Services.AddScoped<PriceService>();
             builder.Services.AddScoped<ProductService>();
             builder.Services.AddScoped<SubscriptionService>();
+            string apiKey = builder.Configuration.GetValue<string>("StripeOptions:SecretKey") ?? string.Empty;
+            string webhookSecret = builder.Configuration.GetValue<string>("StripeOptions:WebhookSecret") ?? string.Empty;
 
             builder.Services.Configure<StripeOptions>(options =>
             {
-                string key = builder.Configuration.GetValue<string>("StripeOptions:SecretKey") ?? string.Empty;
-                options.SecretKey = key;
-                StripeConfiguration.ApiKey = key;
+                options.SecretKey = apiKey;
+                options.WebhookSecret = webhookSecret;
             });
-
+            StripeConfiguration.ApiKey = apiKey;
             return builder;
         }
 
@@ -188,6 +188,7 @@ namespace CookingApp.Infrastructure.Extensions
 
         public static IHostApplicationBuilder AddServices(this WebApplicationBuilder builder)
         {
+            builder.Services.AddScoped<IStripeService, StripeService>();
             builder.Services.AddScoped<IUserProfileService, UserProfileService>();
 
             return builder;
