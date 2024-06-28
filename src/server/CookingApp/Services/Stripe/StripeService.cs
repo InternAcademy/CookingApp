@@ -22,7 +22,7 @@
             {
                 Email = email
             };
-            Customer customer = await customerService.CreateAsync(options);
+            var customer = await customerService.CreateAsync(options);
 
             return (new CustomerCreationResponse(
                           customer.Id,
@@ -50,6 +50,7 @@
                     product.DefaultPriceId,
                     product.Description));
             }
+
             return result;
         }
 
@@ -80,21 +81,15 @@
                 PaymentBehavior = "default_incomplete",
             };
             subscriptionOptions.AddExpand("latest_invoice.payment_intent");
-            try
-            {
-                Subscription subscription = await subscriptionService.CreateAsync(subscriptionOptions);
 
-                return new SubscriptionCreationResponse(
-                   subscription.Id,
-                   subscription.LatestInvoice.PaymentIntent.ClientSecret,
-                   subscription.LatestInvoiceId,
-                   subscription.LatestInvoice.HostedInvoiceUrl
-                );
-            }
-            catch (StripeException e)
-            {
-                throw new Exception(string.Format(SubscriptionCreationFail, e));
-            }
+            var subscription = await subscriptionService.CreateAsync(subscriptionOptions);
+
+            return new SubscriptionCreationResponse(
+               subscription.Id,
+               subscription.LatestInvoice.PaymentIntent.ClientSecret,
+               subscription.LatestInvoiceId,
+               subscription.LatestInvoice.HostedInvoiceUrl
+            );
         }
 
         /// <summary>
@@ -104,6 +99,7 @@
         {
             ArgumentException.ThrowIfNullOrEmpty(model.SubscriptionId);
             var subscription = await subscriptionService.CancelAsync(model.SubscriptionId);
+
             return new SubscriptionCancellationResponse(subscription.CanceledAt);
         }
     }
