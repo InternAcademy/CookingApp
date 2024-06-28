@@ -24,7 +24,7 @@
     "expo": "~51.0.8",
     "expo-auth-session": "~5.5.2",
     "expo-crypto": "~13.0.2",
-    "expo-dev-client": "~4.0.18",
+    "expo-dev-client": "~4.0.19",
     "expo-image-picker": "^15.0.5",
     "expo-status-bar": "~1.12.1",
     "framer-motion": "^11.2.11",
@@ -48,8 +48,7 @@
     "tailwind-react-native-classnames": "^1.5.1",
     "tailwind-rn": "^4.2.0",
     "tailwindcss-react-native": "^1.7.10",
-    "twrnc": "^4.3.0",
-    "expo-dev-client": "~4.0.18"
+    "twrnc": "^4.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

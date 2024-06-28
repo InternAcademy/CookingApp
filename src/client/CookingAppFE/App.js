@@ -11,20 +11,20 @@ import { NavigationProvider, useNavigationContext } from './context/NavigationCo
 import { ChatProvider } from './context/ChatContext';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Provider } from 'react-redux';
-import store from './redux/store';
+// import { Provider } from 'react-redux';
+// import store from './redux/store';
 
 export default function App() {
   return (
-    <Provider store={store}>
-      <ThemeProvider>
-        <NavigationProvider>
-          <ChatProvider>
-            <AppInner />
-          </ChatProvider>
-        </NavigationProvider>
-      </ThemeProvider>
-    </Provider>
+    // <Provider store={store}>
+    <ThemeProvider>
+      <NavigationProvider>
+        <ChatProvider>
+          <AppInner />
+        </ChatProvider>
+      </NavigationProvider>
+    </ThemeProvider>
+    // </Provider>
   );
 }
 
