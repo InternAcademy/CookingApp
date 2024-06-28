@@ -1,70 +1,177 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
-import { useWindowDimensions } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Modal, Animated } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import tw from 'twrnc';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTheme } from '../../context/ThemeContext';
+import { useChat } from '../../context/ChatContext';
+import jwtDecode from 'jwt-decode';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const Sidebar = () => {
-  const [open, setOpen] = useState(true);
-  const window = useWindowDimensions();
+const Sidebar = ({ open, setOpen }) => {
+  const [chatHistory, setChatHistory] = useState([]);
   const { isDarkTheme } = useTheme();
+  const navigation = useNavigation();
+  const { clearChat } = useChat();
+  const [animation] = useState(new Animated.Value(-300));
 
   useEffect(() => {
-    const handleResize = () => {
-      window.width <= 720 ? setOpen(false) : setOpen(true);
-    };
+    async function fetchData() {
+      try {
+        const token = await AsyncStorage.getItem('token');
+        if (!token) {
+          throw new Error('No OAuth2 token found');
+        }
+        const decodedToken = jwtDecode(token);
 
-    handleResize();
-  }, [window]);
+        const response = await fetch(`https://localhost:8001/user-chats/${decodedToken.sub}`, {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        const data = await response.json();
+        if (data) {
+          setChatHistory(data);
+        }
+      } catch (error) {
+        console.error('Error fetching chat history:', error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (open) {
+      Animated.timing(animation, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true
+      }).start();
+    } else {
+      Animated.timing(animation, {
+        toValue: -300,
+        duration: 300,
+        useNativeDriver: true
+      }).start();
+    }
+  }, [open, animation]);
+
+  const handleChatPress = chat => {
+    async function fetchData() {
+      try {
+        const token = await AsyncStorage.getItem('token');
+        if (!token) {
+          throw new Error('No OAuth2 token found');
+        }
+
+        const response = await fetch(`https://localhost:8001/c/${chat.chatId}`, {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        const data = await response.json();
+        if (data) {
+          navigation.navigate('Home', { selectedChat: data });
+        }
+      } catch (error) {
+        console.error('Error fetching chat:', error);
+      }
+    }
+
+    fetchData();
+  };
+
+  const startNewChat = () => {
+    clearChat();
+    navigation.navigate('Home');
+    setOpen(false);
+  };
+
+  const getSectionTitle = date => {
+    const today = new Date();
+    const chatDate = new Date(date);
+
+    today.setHours(0, 0, 0, 0);
+    chatDate.setHours(0, 0, 0, 0);
+
+    const diffTime = today - chatDate;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffDays === 0) return 'Today';
+    if (diffDays === 1) return 'Yesterday';
+    if (diffDays <= 7) return 'Previous 7 days';
+    if (diffDays <= 30) return 'Previous 30 days';
+    return 'Older than 30 days';
+  };
+
+  const sortedChatHistory = chatHistory.reduce((acc, chat) => {
+    const sectionTitle = getSectionTitle(chat.date);
+    if (!acc[sectionTitle]) {
+      acc[sectionTitle] = [];
+    }
+    acc[sectionTitle].push(chat);
+    return acc;
+  }, {});
+
+  const orderedSections = ['Today', 'Yesterday', 'Previous 7 days', 'Previous 30 days', 'Older than 30 days'];
 
   return (
-    <View style={[styles.sidebar, { width: open ? 256 : 64 }, tw`${isDarkTheme ? 'bg-[#202020]' : 'bg-white'}`]}>
-      <View style={styles.header}>
-        <View style={styles.headerContent}>{open && <Image source={require('../../assets/NavigationBar/previous2.png')} style={styles.icon} />}</View>
-        <TouchableOpacity onPress={() => setOpen(!open)}>
-          <Text style={[tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`, styles.toggleIcon]}>{open ? '×' : '≡'}</Text>
-        </TouchableOpacity>
-      </View>
-
-      {open && (
-        <ScrollView style={styles.scrollView}>
-          <View style={styles.section}>
-            <Text style={[tw`${isDarkTheme ? 'text-white' : 'text-gray-700'} ml-2 mt-4`, styles.title]}>Recent Chats</Text>
-            <View style={styles.recipeContainer}>
-              <Text style={[tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`, styles.recipeTitle]}>To make a delicious lava cake, follow these steps:</Text>
-              <Text style={tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`}>1. Prepare Ingredients:</Text>
-              <Text style={[styles.bullet, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>• 4 ounces of semi-sweet chocolate</Text>
-              <Text style={[styles.bullet, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>• 1/2 cup of unsalted butter</Text>
-              <Text style={[styles.bullet, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>• 1 cup of powdered sugar</Text>
-              <Text style={[styles.bullet, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>• 2 large eggs</Text>
-              <Text style={[styles.bullet, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>• 2 large egg yolks</Text>
-              <Text style={[styles.bullet, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>• 1 teaspoon of vanilla extract</Text>
-              <Text style={[styles.bullet, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>• 1/4 cup of all-purpose flour</Text>
-              <Text style={tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`}>2. Melt Chocolate and Butter:</Text>
-              <Text style={[styles.bullet, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>• In a microwave-safe bowl, melt the chocolate and butter together in 30-second intervals, stirring each time until smooth.</Text>
-              <Text style={tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`}>3. Combine Ingredients:</Text>
-              <Text style={[styles.bullet, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>• Whisk in powdered sugar until fully incorporated.</Text>
-              <Text style={[styles.bullet, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>• Add eggs and egg yolks, then vanilla, and mix until smooth.</Text>
-              <Text style={[styles.bullet, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>• Gently stir in flour until just combined.</Text>
-              <Text style={tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`}>4. Prepare Ramekins:</Text>
-              <Text style={[styles.bullet, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>• Grease four 6-ounce ramekins and dust them with cocoa powder.</Text>
-              <Text style={[styles.bullet, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>• Divide the batter evenly among the ramekins.</Text>
-              <Text style={tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`}>5. Bake:</Text>
-              <Text style={[styles.bullet, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>• Preheat your oven to 425°F (220°C).</Text>
-              <Text style={[styles.bullet, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>• Place the ramekins on a baking sheet and bake for 12-14 minutes until the edges are firm but the center is still soft.</Text>
-            </View>
+    <Modal transparent visible={open}>
+      <TouchableOpacity style={styles.overlay} onPress={() => setOpen(false)} />
+      <Animated.View style={[styles.sidebar, tw`${isDarkTheme ? 'bg-[#202020]' : 'bg-white'}`, { transform: [{ translateX: animation }] }]}>
+        <View style={styles.header}>
+          <View style={tw`flex-row items-center`}>
+            <TouchableOpacity onPress={() => setOpen(false)}>
+              <Ionicons name="menu" size={24} color={isDarkTheme ? 'white' : 'black'} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={startNewChat} style={tw`ml-2`}>
+              <Ionicons name="chatbox-ellipses-sharp" size={24} color={isDarkTheme ? 'white' : 'black'} />
+            </TouchableOpacity>
           </View>
+        </View>
+
+        <ScrollView style={styles.scrollView}>
+          {orderedSections.map(
+            sectionTitle =>
+              sortedChatHistory[sectionTitle] && (
+                <View key={sectionTitle} style={styles.section}>
+                  <Text style={[styles.title, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>{sectionTitle}</Text>
+                  {sortedChatHistory[sectionTitle].map((chat, idx) => (
+                    <TouchableOpacity key={idx} onPress={() => handleChatPress(chat)}>
+                      <Text style={[styles.bullet, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>{chat.title}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              )
+          )}
         </ScrollView>
-      )}
-    </View>
+      </Animated.View>
+    </Modal>
   );
 };
 
 const styles = StyleSheet.create({
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)'
+  },
   sidebar: {
-    flexDirection: 'column',
-    height: '100%',
-    padding: 16
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    width: 300,
+    padding: 16,
+    zIndex: 1
   },
   header: {
     flexDirection: 'row',
@@ -72,38 +179,24 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 8
   },
-  headerContent: {
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  icon: {
-    width: 16,
-    height: 16
-  },
   toggleIcon: {
-    fontSize: 30 // Промени размера на иконата
+    fontSize: 30
   },
   section: {
     flexDirection: 'column',
     paddingLeft: 4,
-    paddingRight: 4
+    paddingRight: 4,
+    marginBottom: 16
   },
   title: {
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 8
   },
-  recipeContainer: {
-    marginTop: 16
-  },
-  recipeTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 8
-  },
   bullet: {
     marginLeft: 16,
-    marginBottom: 4
+    marginBottom: 4,
+    fontSize: 14
   },
   scrollView: {
     paddingRight: 16

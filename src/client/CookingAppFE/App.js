@@ -1,3 +1,4 @@
+// App.js
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
@@ -10,9 +11,12 @@ import { NavigationProvider, useNavigationContext } from './context/NavigationCo
 import { ChatProvider } from './context/ChatContext';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+// import { Provider } from 'react-redux';
+// import store from './redux/store';
 
 export default function App() {
   return (
+    // <Provider store={store}>
     <ThemeProvider>
       <NavigationProvider>
         <ChatProvider>
@@ -20,6 +24,7 @@ export default function App() {
         </ChatProvider>
       </NavigationProvider>
     </ThemeProvider>
+    // </Provider>
   );
 }
 
@@ -38,7 +43,6 @@ const AppInner = () => {
   return (
     <NavigationContainer>
       <View style={tw`flex-1 flex-row ${isDarkTheme ? 'bg-[#202020]' : 'bg-white'}`}>
-        {currentRoute !== 'LandingPage' && <Sidebar />}
         <View style={tw`flex-1`}>
           {currentRoute !== 'LandingPage' && <Navigation />}
           <MainStack />
