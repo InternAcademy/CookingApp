@@ -10,7 +10,7 @@ const UserMenu = () => {
   const { isDarkTheme } = useTheme();
 
   return (
-    <View style={tw`flex-1  ${isDarkTheme ? 'bg-[#202020]' : 'bg-[#FFF4E9]'} p-4`}>
+    <View style={tw`flex-1 h-full w-full ${isDarkTheme ? 'bg-[#202020]' : 'bg-[#FFF4E9]'} p-4`}>
       <View style={tw`flex-row justify-between items-center mb-4`}>
         <Ionicons name="person-circle" size={40} color={isDarkTheme ? 'white' : 'black'} />
         <TouchableOpacity onPress={() => console.log('Close menu')}>
@@ -68,10 +68,10 @@ const UserMenu = () => {
         <Text style={tw`text-lg font-bold ${isDarkTheme ? 'text-white' : 'text-black'}`}>Contacts</Text>
       </TouchableOpacity>
 
-      <View style={tw`mt-auto items-center flex ${isDarkTheme ? 'bg-gray-800' : 'bg-[#FFE9CC]'} py-2 rounded-t-lg`}>
-        <TouchableOpacity onPress={() => console.log('Sign Out')} style={tw`flex-row justify-center items-center`}>
-          <Text style={tw`text-lg ${isDarkTheme ? 'text-white' : 'text-[#FFA500]'} font-bold`}>Sign Out</Text>
-          <Ionicons name="log-out" size={22} color={isDarkTheme ? 'white' : '#FFA500'} style={tw`ml-2 `} />
+      <View style={tw`mt-auto justify-center items-center flex ${isDarkTheme ? 'bg-gray-800' : 'bg-[#FFE9CC]'} py-2 rounded-t-lg`}>
+        <TouchableOpacity onPress={() => console.log('Sign Out')} style={tw`flex-row justify-center items-center `}>
+          <Text style={tw`text-lg  ${isDarkTheme  ? 'text-white' : 'text-[#FFA500]'} font-bold`}>Sign Out</Text>
+          <Ionicons name="log-out" size={24} color={isDarkTheme ? 'white' : '#FFA500'} style={tw`ml-2 pt-1 `} />
         </TouchableOpacity>
       </View>
     </View>
