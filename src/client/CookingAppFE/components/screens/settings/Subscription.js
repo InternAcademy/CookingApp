@@ -11,7 +11,6 @@ import { jwtDecode } from "jwt-decode";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useTheme } from "../../../context/ThemeContext";
 import { fetchSubs, createSub } from "../../../http/subs";
-import { useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const Subscription = () => {
   const { isPending, isError, data, error } = useQuery({
@@ -40,7 +39,6 @@ const Subscription = () => {
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
 
   async function handleSelection(id) {
-    console.log("hello");
     const token = await AsyncStorage.getItem("token");
     const cred = jwtDecode(token);
     console.log(cred.preferred_username);

@@ -6,16 +6,13 @@ import {
   useAutoDiscovery,
 } from "expo-auth-session";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useDispatch, useSelector } from "react-redux";
-import { userActions } from "../redux/userSlice";
 const useAuth = (clientId, instance, scopes) => {
   const discovery = useAutoDiscovery(instance);
-  const dispatch = useDispatch();
   const redirectUri = makeRedirectUri({
     scheme: undefined,
     path: "redirect",
   });
-
+  const [token, setToken] = useState(null);
   const [request, , promptAsync] = useAuthRequest(
     {
       clientId,
@@ -40,11 +37,11 @@ const useAuth = (clientId, instance, scopes) => {
         discovery
       );
       await AsyncStorage.setItem("token", res.accessToken);
-      dispatch(userActions.setToken(res.accessToken));
+      setToken(res.accessToken);
     }
   };
 
-  return { login, request };
+  return { login, token, request };
 };
 
 export default useAuth;

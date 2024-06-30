@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-const initialState = { token: null, isPremium: false };
+const initialState = { selectedChat: null, isPremium: false };
 
 const userSlice = createSlice({
   name: "userState",
   initialState: initialState,
   reducers: {
-    setToken(state, action) {
-      state.token = action.payload;
+    selectChat(state, action) {
+      state.selectedChat = action.payload;
     },
   },
 });

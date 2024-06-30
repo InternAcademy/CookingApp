@@ -8,35 +8,36 @@
     using IMessageService = Services.Message.IMessageService;
     using Request = Models.Request;
     using Response = Models.Response;
-
     [ApiController]
     public class ChatController(IChatService chatService,
         IMessageService messageService,
         IHttpContextAccessor httpContextAccessor) : ControllerBase
     {
-        [HttpGet("new-chat")]
-        public async Task<IActionResult> NewChat([FromBody] string message)
+        [HttpPost("new-chat")]
+        public async Task<IActionResult> NewChat([FromBody] NewChatRequest request)
         {
             var userId = GetUser.ProfileId(httpContextAccessor);
-            var responce = await messageService.CreateMessage(userId, message);
+            var response = await messageService.CreateMessage(userId, request.Message);
 
             var saveChatRequest = new SaveChatRequest
             {
                 UserId = userId,
-                Requests = [new Request { Message = message, Owner = userId }],
-                Responses = [new Response { Message = responce.First().Message.Content, Owner = userId }]
+                Requests = [new Request { Message = request.Message, Owner = userId }],
+                Responses = [new Response { Message = response.First().Message.Content, Owner = userId }]
             };
 
-            var result = new ChatMessageResponce
+            var Chat = await chatService.SaveChat(saveChatRequest);
+            var result = new ChatCreationResponse
             {
-                Chat = await chatService.SaveChat(saveChatRequest),
-                ChatChoiceResponses = responce
+                ChatId = Chat.Id,
+                Title = Chat.Title,
+                Response = response.First().Message.Content
             };
 
             return Ok(result);
         }
 
-        [HttpGet("continue/{chatId}")]
+        [HttpPost("continue/{chatId}")]
         public async Task<IActionResult> ContinueChat(string chatId, [FromBody] string message)
         {
             var userId = GetUser.ProfileId(httpContextAccessor);
