@@ -8,7 +8,7 @@ const Previous = ({ navigation }) => {
   const { isDarkTheme } = useTheme();
 
   return (
-    <ScrollView contentContainerStyle={tw`p-4 ${isDarkTheme ? 'bg-[#202020]' : 'bg-white'} pl-8`}>
+    <ScrollView contentContainerStyle={tw`p-4 h-full ${isDarkTheme ? 'bg-[#202020]' : 'bg-white'} pl-8`}>
       <View style={tw`flex-row items-center mb-4`}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="arrow-back" size={24} color={isDarkTheme ? 'white' : 'black'} style={tw`mr-2`} />
