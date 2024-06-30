@@ -8,19 +8,19 @@ const Previous = ({ navigation }) => {
   const { isDarkTheme } = useTheme();
 
   return (
-    <ScrollView contentContainerStyle={tw`p-4 h-full ${isDarkTheme ? 'bg-[#202020]' : 'bg-white'} pl-8`}>
-      <View style={tw`flex-row items-center mb-4`}>
+    <ScrollView contentContainerStyle={tw`p-4 h-full    w-full ${isDarkTheme ? 'bg-[#202020]' : 'bg-white'} pl-8`}>
+      <View style={tw`flex-row items-center  mb-4`}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="arrow-back" size={24} color={isDarkTheme ? 'white' : 'black'} style={tw`mr-2`} />
         </TouchableOpacity>
       </View>
-      <View style={tw`flex-row items-center mb-4 ml-4`}>
+      <View style={tw`flex-row items-center mb-4 m-4 justify-center flex items-center`}>
         <TouchableOpacity onPress={() => console.log('Previous pressed')}>
           <Ionicons name="time" size={24} color={isDarkTheme ? 'white' : 'black'} style={tw`mr-2`} />
         </TouchableOpacity>
-        <Text style={tw`text-lg ${isDarkTheme ? 'text-orange-400' : 'text-black'}`}>Recent Chats</Text>
+        <Text style={tw`text-lg  ${isDarkTheme ? 'text-orange-400' : 'text-black'}`}>Recent Chats</Text>
       </View>
-      <TouchableOpacity style={tw`p-4 rounded-lg mb-4 ${isDarkTheme ? 'bg-[#202020]' : 'bg-gray-100'}`}>
+      <TouchableOpacity style={tw`p-4 w-full rounded-lg mb-4 ${isDarkTheme ? 'bg-[#202020]' : 'bg-gray-100'}`}>
         <Text style={tw`text-lg font-bold mb-2 ${isDarkTheme ? 'text-white' : 'text-black'}`}>Strawberry ShortCake</Text>
         <Text style={tw`text-base mb-2 ${isDarkTheme ? 'text-white' : 'text-black'}`}>To make a delicious lava cake, follow these steps:</Text>
         <View style={tw`flex-row mb-2`}>
@@ -37,11 +37,11 @@ const Previous = ({ navigation }) => {
           </View>
         </View>
         <TouchableOpacity>
-          <Text style={tw`text-base mt-2 ${isDarkTheme ? 'text-orange-400' : 'text-orange-500'}`}>Show more</Text>
+          <Text style={tw`text-base mt-2 ${isDarkTheme ? 'text-orange-400' : 'text-orange-500'}`} className="">Show more</Text>
         </TouchableOpacity>
       </TouchableOpacity>
-      <TouchableOpacity>
-        <Text style={tw`text-base mt-0 pl-4 ${isDarkTheme ? 'text-orange-400' : 'text-orange-500'}`}>More results</Text>
+      <TouchableOpacity style={tw` flex justify-center items-center p-4 `}>
+        <Text style={tw`text-base mt-0 pl-4  ${isDarkTheme ? 'text-orange-400' : 'text-orange-500'}`}>More results</Text>
       </TouchableOpacity>
     </ScrollView>
   );
