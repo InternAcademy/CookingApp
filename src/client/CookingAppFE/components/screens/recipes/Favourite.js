@@ -8,7 +8,7 @@ const Favourite = () => {
   const { isDarkTheme } = useTheme();
 
   return (
-    <View style={tw`flex-1 mx-4 ${isDarkTheme ? 'bg-[#202020]' : 'bg-white'}`}>
+    <View style={tw`flex-1 w-full px-4 ${isDarkTheme ? 'bg-[#202020]' : 'bg-white'}`}>
       <View style={tw`${isDarkTheme ? 'bg-[#202020]' : 'bg-white'}`}>
         <View style={tw`flex-row items-center mt-20 mb-2`}>
           <Ionicons name="heart" size={24} color={isDarkTheme ? 'white' : 'black'} style={tw`mr-2`} />
