@@ -9,7 +9,6 @@ import {
   NavigationProvider,
   useNavigationContext,
 } from "./context/NavigationContext";
-import { ChatProvider } from "./context/ChatContext";
 import { useSelector } from "react-redux";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Provider } from "react-redux";
@@ -19,11 +18,9 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationProvider>
-        <ChatProvider>
-          <QueryClientProvider client={client}>
-            <AppInner />
-          </QueryClientProvider>
-        </ChatProvider>
+        <QueryClientProvider client={client}>
+          <AppInner />
+        </QueryClientProvider>
       </NavigationProvider>
     </Provider>
   );

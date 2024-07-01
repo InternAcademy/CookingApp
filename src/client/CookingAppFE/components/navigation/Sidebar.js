@@ -12,7 +12,6 @@ import { useNavigation } from "@react-navigation/native";
 import tw from "twrnc";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSelector } from "react-redux";
-import { useChat } from "../../context/ChatContext";
 import { jwtDecode } from "jwt-decode";
 import Ionicons from "react-native-vector-icons/Ionicons";
 const Sidebar = ({ open, setOpen }) => {
@@ -21,7 +20,6 @@ const Sidebar = ({ open, setOpen }) => {
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
 
   const navigation = useNavigation();
-  const { clearChat } = useChat();
   const [animation] = useState(new Animated.Value(-300));
   useEffect(() => {
     if (!token) return; // Exit early if token is falsy (e.g., not yet loaded)
@@ -99,7 +97,6 @@ const Sidebar = ({ open, setOpen }) => {
   };
 
   const startNewChat = () => {
-    clearChat();
     navigation.navigate("Home");
     setOpen(false);
   };

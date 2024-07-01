@@ -8,6 +8,9 @@ const userSlice = createSlice({
     selectChat(state, action) {
       state.selectedChat = action.payload;
     },
+    clearChat(state) {
+      state.selectedChat = null;
+    },
   },
 });
 
