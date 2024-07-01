@@ -70,6 +70,7 @@ const Sidebar = ({ open, setOpen }) => {
   useEffect(() => {
     refetch();
   }, [chat]);
+  console.log(chatHistory);
   useEffect(() => {
     if (open) {
       Animated.timing(animation, {
@@ -120,7 +121,7 @@ const Sidebar = ({ open, setOpen }) => {
   const sortedChatHistory =
     chatHistory &&
     chatHistory.reduce((acc, chat) => {
-      const sectionTitle = getSectionTitle(chat.date);
+      const sectionTitle = getSectionTitle(chat.time);
       if (!acc[sectionTitle]) {
         acc[sectionTitle] = [];
       }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -7,7 +7,7 @@ import {
   SafeAreaView,
   ScrollView,
 } from "react-native";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import tw from "twrnc";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Thinking from "../bot/Thinking";
@@ -15,11 +15,10 @@ import { useSelector } from "react-redux";
 import ChatInput from "./ChatInput";
 const Home = () => {
   const navigation = useNavigation();
-  const route = useRoute();
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
   const isThinking = useSelector((state) => state.ui.isThinking);
   const chat = useSelector((state) => state.user.selectedChat);
-  useEffect(() => {}, [isDarkTheme]);
+
   useEffect(() => {
     const checkToken = async () => {
       const token = await AsyncStorage.getItem("token");
@@ -30,11 +29,6 @@ const Home = () => {
 
     checkToken();
   }, []);
-  useEffect(() => {
-    if (route.params?.selectedChat) {
-      setSelectedChat(route.params.selectedChat);
-    }
-  }, [route.params]);
 
   const renderPost = () => {
     if (chat) {
@@ -93,28 +87,22 @@ const Home = () => {
     }
 
     return (
-      <>
-        {isThinking ? (
-          <Thinking />
-        ) : (
-          <View style={tw`flex w-full h-full justify-center items-center`}>
-            <Image
-              source={require("../../assets/Main/icon2.png")}
-              style={tw`w-26 h-26 mb-2`}
-            />
-            <Text
-              style={tw`text-lg font-bold ${isDarkTheme ? "text-white" : "text-black"}`}
-            >
-              Let's figure out a recipe
-            </Text>
-            <Text
-              style={tw`text-base ${isDarkTheme ? "text-gray-400" : "text-black"}`}
-            >
-              Begin by typing a message
-            </Text>
-          </View>
-        )}
-      </>
+      <View style={tw`flex w-full h-full justify-center items-center`}>
+        <Image
+          source={require("../../assets/Main/icon2.png")}
+          style={tw`w-26 h-26 mb-2`}
+        />
+        <Text
+          style={tw`text-lg font-bold ${isDarkTheme ? "text-white" : "text-black"}`}
+        >
+          Let's figure out a recipe
+        </Text>
+        <Text
+          style={tw`text-base ${isDarkTheme ? "text-gray-400" : "text-black"}`}
+        >
+          Begin by typing a message
+        </Text>
+      </View>
     );
   };
 

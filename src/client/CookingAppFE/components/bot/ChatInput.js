@@ -4,7 +4,6 @@ import { uiActions } from "../../redux/uiSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
 import { newChat, continueChat } from "../../http/chat";
-import { jwtDecode } from "jwt-decode";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { userActions } from "../../redux/userSlice";
 export default function ChatInput() {
