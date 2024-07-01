@@ -21,15 +21,15 @@ export default function ChatInput() {
     mutationFn: newChat,
     onMutate: () => {
       dispatch(uiActions.setIsThinking(true));
+      dispatch(uiActions.setInput(""));
     },
     onSuccess: (response) => {
-      const newMessage = { role: "user", content: input };
       dispatch(
         userActions.selectChat({
           id: response.data.chatId,
           title: response.data.title,
           content: [
-            newMessage,
+            ...selectedChat.content,
             { role: "bot", content: response.data.response },
           ],
         })
@@ -51,7 +51,6 @@ export default function ChatInput() {
       dispatch(uiActions.setInput(""));
     },
     onSuccess: (response) => {
-      console.log("onSuccess called with response:", response);
       dispatch(
         userActions.selectChat({
           ...selectedChat,
@@ -63,26 +62,29 @@ export default function ChatInput() {
       );
       dispatch(uiActions.setIsThinking(false));
     },
-    onError: (error) => {
-      console.error("Error in keepChatting:", error);
-    },
+    onError: (error) => {},
   });
-
-  console.log(selectedChat);
 
   async function sendMessage() {
     const token = await AsyncStorage.getItem("token");
+    const newMessage = { role: "user", content: input };
+
     if (!selectedChat) {
       initialMessage({ token: token, message: input });
+      dispatch(
+        userActions.selectChat({
+          ...selectedChat,
+          content: [newMessage],
+        })
+      );
     } else {
-      const newMessage = { role: "user", content: input };
+      keepChatting({ token: token, chatId: selectedChat.id, message: input });
       dispatch(
         userActions.selectChat({
           ...selectedChat,
           content: [...selectedChat.content, newMessage],
         })
       );
-      keepChatting({ token: token, chatId: selectedChat.id, message: input });
     }
   }
   function handleTyping(value) {

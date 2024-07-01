@@ -45,7 +45,6 @@ export async function getChat({ token, chatId }) {
     throw new Error(response.errors);
   }
   const data = await response.json();
-  console.log(data);
   return data;
 }
 export async function getUserChats({ token, userId }) {

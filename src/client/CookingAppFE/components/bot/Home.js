@@ -19,9 +19,7 @@ const Home = () => {
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
   const isThinking = useSelector((state) => state.ui.isThinking);
   const chat = useSelector((state) => state.user.selectedChat);
-  useEffect(() => {
-    console.log(isDarkTheme);
-  }, [isDarkTheme]);
+  useEffect(() => {}, [isDarkTheme]);
   useEffect(() => {
     const checkToken = async () => {
       const token = await AsyncStorage.getItem("token");
@@ -32,7 +30,6 @@ const Home = () => {
 
     checkToken();
   }, []);
-
   useEffect(() => {
     if (route.params?.selectedChat) {
       setSelectedChat(route.params.selectedChat);
@@ -41,19 +38,6 @@ const Home = () => {
 
   const renderPost = () => {
     if (chat) {
-      // const messages = [
-      //   ...chat.content.requests.map((req) => ({
-      //     ...req,
-      //     role: "user",
-      //     content: req.message,
-      //   })),
-      //   ...selectedChat.responses.map((res) => ({
-      //     ...res,
-      //     role: "bot",
-      //     content: res.message,
-      //   })),
-      // ].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
-
       return (
         <SafeAreaView
           style={tw`flex-1 ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}

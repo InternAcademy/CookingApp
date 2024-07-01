@@ -80,9 +80,26 @@
         }
 
         [HttpGet("c/{chatId}")]
-        public async Task<IActionResult> ChatId(string chatId)
+        public async Task<ApiResponse<ChatResponse>> ChatId(string chatId)
         {
-            return Ok(await chatService.GetById(chatId));
+            var chat = await chatService.GetById(chatId);
+
+            ChatResponse chatDto = new ChatResponse()
+            {
+                Id=chat.Id,
+                Title=chat.Title,
+                Chat=new Dialog()
+                {
+                    Requests=chat.Requests.Select(req=>req.Message).ToList(),
+                    Responses=chat.Responses.Select(res=>res.Message).ToList(),
+                }
+            };
+            ApiResponse<ChatResponse> response = new ApiResponse<ChatResponse>()
+            {
+                Status=200,
+                Data=chatDto
+            };
+            return response;
         }
 
         [HttpGet("user-chats/{userId}")]

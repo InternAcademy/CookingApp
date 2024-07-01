@@ -11,45 +11,65 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import tw from "twrnc";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { getChat, getUserChats } from "../../http/chat";
+import { userActions } from "../../redux/userSlice";
 const Sidebar = ({ open, setOpen }) => {
-  const [chatHistory, setChatHistory] = useState([]);
-  const token = useSelector((state) => state.user.token);
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
+  const chat = useSelector((state) => state.user.selectedChat);
+  const dispatch = useDispatch();
+  const {
+    data: chatHistory,
+    isPending,
+    isError,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["getHistory"],
+    queryFn: async () => {
+      const token = await AsyncStorage.getItem("token");
+      const decodedToken = jwtDecode(token);
+      return (
+        decodedToken && getUserChats({ token: token, userId: decodedToken.sub })
+      );
+    },
+  });
+  const { mutate } = useMutation({
+    mutationFn: getChat,
+    onSuccess: (response) => {
+      const { requests, responses } = response.data.chat;
+      const minLength = Math.min(requests.length, responses.length);
+      let combinedArray = [];
+      for (let i = 0; i < minLength; i++) {
+        combinedArray.push({ content: requests[i], role: "user" });
+        combinedArray.push({ content: responses[i], role: "bot" });
+      }
 
+      for (let i = minLength; i < requests.length; i++) {
+        combinedArray.push({ content: requests[i], role: "user" });
+      }
+
+      for (let i = minLength; i < responses.length; i++) {
+        combinedArray.push({ content: responses[i], role: "bot" });
+      }
+      dispatch(
+        userActions.selectChat({
+          id: response.data.id,
+          title: response.data.title,
+          content: combinedArray,
+        })
+      );
+      setOpen(false);
+    },
+  });
   const navigation = useNavigation();
   const [animation] = useState(new Animated.Value(-300));
   useEffect(() => {
-    if (!token) return; // Exit early if token is falsy (e.g., not yet loaded)
-    const decodedToken = jwtDecode(token);
-
-    async function fetchChatHistory(userId) {
-      try {
-        const response = await fetch(
-          `https://localhost:8001/user-chats/${userId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch chat history");
-        }
-
-        const data = await response.json();
-        setChatHistory(data);
-      } catch (error) {
-        console.error("Error fetching chat history:", error);
-      }
-    }
-
-    fetchChatHistory(decodedToken.sub);
-  }, [token]);
-
+    refetch();
+  }, [chat]);
   useEffect(() => {
     if (open) {
       Animated.timing(animation, {
@@ -66,34 +86,13 @@ const Sidebar = ({ open, setOpen }) => {
     }
   }, [open, animation]);
 
-  const handleChatPress = (chat) => {
-    async function fetchData() {
-      try {
-        const token = await AsyncStorage.getItem("token");
-        if (!token) {
-          throw new Error("No OAuth2 token found");
-        }
-
-        const response = await fetch(
-          `https://localhost:8001/c/${chat.chatId}`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        const data = await response.json();
-        if (data) {
-          navigation.navigate("Home", { selectedChat: data });
-        }
-      } catch (error) {
-        console.error("Error fetching chat:", error);
-      }
+  const handleChatPress = async (chat) => {
+    const token = await AsyncStorage.getItem("token");
+    if (token) {
+      mutate({ token, chatId: chat.id });
+    } else {
+      navigation.navigate("LandingPage");
     }
-
-    fetchData();
   };
 
   const startNewChat = () => {
@@ -118,14 +117,16 @@ const Sidebar = ({ open, setOpen }) => {
     return "Older than 30 days";
   };
 
-  const sortedChatHistory = chatHistory.reduce((acc, chat) => {
-    const sectionTitle = getSectionTitle(chat.date);
-    if (!acc[sectionTitle]) {
-      acc[sectionTitle] = [];
-    }
-    acc[sectionTitle].push(chat);
-    return acc;
-  }, {});
+  const sortedChatHistory =
+    chatHistory &&
+    chatHistory.reduce((acc, chat) => {
+      const sectionTitle = getSectionTitle(chat.date);
+      if (!acc[sectionTitle]) {
+        acc[sectionTitle] = [];
+      }
+      acc[sectionTitle].push(chat);
+      return acc;
+    }, {});
 
   const orderedSections = [
     "Today",
@@ -165,36 +166,37 @@ const Sidebar = ({ open, setOpen }) => {
         </View>
 
         <ScrollView style={styles.scrollView}>
-          {orderedSections.map(
-            (sectionTitle) =>
-              sortedChatHistory[sectionTitle] && (
-                <View key={sectionTitle} style={styles.section}>
-                  <Text
-                    style={[
-                      styles.title,
-                      tw`${isDarkTheme ? "text-white" : "text-gray-700"}`,
-                    ]}
-                  >
-                    {sectionTitle}
-                  </Text>
-                  {sortedChatHistory[sectionTitle].map((chat, idx) => (
-                    <TouchableOpacity
-                      key={idx}
-                      onPress={() => handleChatPress(chat)}
+          {chatHistory &&
+            orderedSections.map(
+              (sectionTitle) =>
+                sortedChatHistory[sectionTitle] && (
+                  <View key={sectionTitle} style={styles.section}>
+                    <Text
+                      style={[
+                        styles.title,
+                        tw`${isDarkTheme ? "text-white" : "text-gray-700"}`,
+                      ]}
                     >
-                      <Text
-                        style={[
-                          styles.bullet,
-                          tw`${isDarkTheme ? "text-white" : "text-gray-700"}`,
-                        ]}
+                      {sectionTitle}
+                    </Text>
+                    {sortedChatHistory[sectionTitle].map((chat, idx) => (
+                      <TouchableOpacity
+                        key={idx}
+                        onPress={() => handleChatPress(chat)}
                       >
-                        {chat.title}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-                </View>
-              )
-          )}
+                        <Text
+                          style={[
+                            styles.bullet,
+                            tw`${isDarkTheme ? "text-white" : "text-gray-700"}`,
+                          ]}
+                        >
+                          {chat.title}
+                        </Text>
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                )
+            )}
         </ScrollView>
       </Animated.View>
     </Modal>

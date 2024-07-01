@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-const initialState = { selectedChat: null, isPremium: false };
+const initialState = {
+  selectedChat: null,
+  isPremium: false,
+  chatHistory: null,
+};
 
 const userSlice = createSlice({
   name: "userState",
@@ -10,6 +14,9 @@ const userSlice = createSlice({
     },
     clearChat(state) {
       state.selectedChat = null;
+    },
+    setChatHistory(state, action) {
+      state.selectedChat = action.payload;
     },
   },
 });
