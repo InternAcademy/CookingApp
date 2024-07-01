@@ -21,8 +21,6 @@ const Home = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const { isDarkTheme } = useTheme();
-  const [selectedChat, setSelectedChat] = useState(null);
-  const message = useSelector((state) => state.ui.message);
   const isThinking = useSelector((state) => state.ui.isThinking);
   const chat = useSelector((state) => state.user.selectedChat);
   useEffect(() => {
@@ -84,6 +82,7 @@ const Home = () => {
                 </Text>
               </View>
             </View>
+
             {chat.content.map((msg, index) => (
               <View key={index} style={tw`mb-4 flex-row items-center wrap`}>
                 <Image
@@ -108,6 +107,7 @@ const Home = () => {
                 </View>
               </View>
             ))}
+            {isThinking && <Thinking />}
           </ScrollView>
         </SafeAreaView>
       );
@@ -150,13 +150,8 @@ const Home = () => {
         contentContainerStyle={tw`flex-grow`}
       />
       <View
-        style={tw`flex w-full flex-row items-center   mb-5 ${isDarkTheme ? "border-gray-700 bg-[#202020]" : "border-gray-300 bg-white"}`}
+        style={tw`flex w-full flex-row justify-center   mb-5 ${isDarkTheme ? "border-gray-700 bg-[#202020]" : "border-gray-300 bg-white"}`}
       >
-        <View style={tw`flex w-1/8 flex-row items-center justify-center  `}>
-          {/* <TouchableOpacity onPress={sendMessage} style={tw``}>
-            <Image source={require('../../assets/HomeMessageBar/paperClip.png')} style={tw`w-5 h-5 ${isDarkTheme ? 'tint-white' : ''}`} />
-          </TouchableOpacity> */}
-        </View>
         <ChatInput />
       </View>
     </SafeAreaView>

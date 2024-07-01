@@ -2,6 +2,7 @@
 {
     using CookingApp.Common.Helpers.Profiles;
     using CookingApp.Services.ChatService;
+    using CookingApp.ViewModels.Api;
     using CookingApp.ViewModels.Chat;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
@@ -14,34 +15,38 @@
         IHttpContextAccessor httpContextAccessor) : ControllerBase
     {
         [HttpPost("new-chat")]
-        public async Task<IActionResult> NewChat([FromBody] NewChatRequest request)
+        public async Task<ApiResponse<ChatCreationResponse>> NewChat([FromBody] NewChatRequest request)
         {
             var userId = GetUser.ProfileId(httpContextAccessor);
-            var response = await messageService.CreateMessage(userId, request.Message);
+            var message = await messageService.CreateMessage(userId, request.Message);
 
             var saveChatRequest = new SaveChatRequest
             {
                 UserId = userId,
                 Requests = [new Request { Message = request.Message, Owner = userId }],
-                Responses = [new Response { Message = response.First().Message.Content, Owner = userId }]
+                Responses = [new Response { Message = message.First().Message.Content, Owner = userId }]
             };
 
             var Chat = await chatService.SaveChat(saveChatRequest);
-            var result = new ChatCreationResponse
+            var data = new ChatCreationResponse
             {
                 ChatId = Chat.Id,
                 Title = Chat.Title,
-                Response = response.First().Message.Content
+                Response = message.First().Message.Content
             };
 
-            return Ok(result);
+            ApiResponse<ChatCreationResponse> response = new ApiResponse<ChatCreationResponse>(){
+                Status=200,
+                Data=data
+            };
+            return response;
         }
 
-        [HttpPost("continue/{chatId}")]
-        public async Task<IActionResult> ContinueChat(string chatId, [FromBody] string message)
+        [HttpPost("continue")]
+        public async Task<ApiResponse<ContinueChatResponse>> ContinueChat([FromBody] ContinueChatRequest request)
         {
             var userId = GetUser.ProfileId(httpContextAccessor);
-            var responce = await messageService.SendMessage(chatId, message);
+            var responce = await messageService.SendMessage(request.ChatId, request.Message);
 
             var saveChatRequest = new SaveChatRequest
             {
@@ -54,7 +59,7 @@
             saveChatRequest.Requests
                 .Add(new Request
                 {
-                    Message = message,
+                    Message = request.Message,
                     Owner = userId
                 });
 
@@ -66,8 +71,12 @@
                 });
 
             await chatService.SaveChat(saveChatRequest);
-
-            return Ok(responce);
+            ContinueChatResponse data = new ContinueChatResponse(responce.Chat.Responses.Last().Message);
+            ApiResponse<ContinueChatResponse> response = new ApiResponse<ContinueChatResponse>(){
+                Status=200,
+                Data=data
+            };
+            return response;
         }
 
         [HttpGet("c/{chatId}")]

@@ -22,13 +22,16 @@ export default function ChatInput() {
     onMutate: () => {
       dispatch(uiActions.setIsThinking(true));
     },
-    onSuccess: (data) => {
+    onSuccess: (response) => {
       const newMessage = { role: "user", content: input };
       dispatch(
         userActions.selectChat({
-          id: data.chatId,
-          title: data.title,
-          content: [newMessage, { role: "bot", content: data.response }],
+          id: response.data.chatId,
+          title: response.data.title,
+          content: [
+            newMessage,
+            { role: "bot", content: response.data.response },
+          ],
         })
       );
       dispatch(uiActions.setInput(""));
@@ -41,33 +44,45 @@ export default function ChatInput() {
     isError: isChatError,
     error: chatError,
   } = useMutation({
+    mutationKey: "continue",
     mutationFn: continueChat,
     onMutate: () => {
       dispatch(uiActions.setIsThinking(true));
+      dispatch(uiActions.setInput(""));
     },
-    onSuccess: (data) => {
-      const newMessage = { role: "user", content: input };
+    onSuccess: (response) => {
+      console.log("onSuccess called with response:", response);
       dispatch(
         userActions.selectChat({
           ...selectedChat,
           content: [
             ...selectedChat.content,
-            newMessage,
-            { role: "bot", content: data.response },
+            { role: "bot", content: response.data.response },
           ],
         })
       );
-      dispatch(uiActions.setInput(""));
       dispatch(uiActions.setIsThinking(false));
     },
+    onError: (error) => {
+      console.error("Error in keepChatting:", error);
+    },
   });
-  async function sendMessage(value) {
+
+  console.log(selectedChat);
+
+  async function sendMessage() {
     const token = await AsyncStorage.getItem("token");
-    const cred = jwtDecode(token);
     if (!selectedChat) {
       initialMessage({ token: token, message: input });
     } else {
-      //...
+      const newMessage = { role: "user", content: input };
+      dispatch(
+        userActions.selectChat({
+          ...selectedChat,
+          content: [...selectedChat.content, newMessage],
+        })
+      );
+      keepChatting({ token: token, chatId: selectedChat.id, message: input });
     }
   }
   function handleTyping(value) {
@@ -97,11 +112,6 @@ export default function ChatInput() {
             style={tw`w-6 h-6 ${isDarkTheme ? "tint-white" : ""}`}
           />
         </TouchableOpacity>
-      </View>
-      <View style={tw`flex w-1/8 flex-row items-center`}>
-        {/* <TouchableOpacity onPress={sendMessage} style={tw`p-1`}>
-      <Image source={require('../../assets/HomeMessageBar/paperClip.png')} style={tw`w-5 h-5 ${isDarkTheme ? 'tint-white' : ''}`} />
-    </TouchableOpacity> */}
       </View>
     </>
   );

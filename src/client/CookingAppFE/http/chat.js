@@ -1,19 +1,20 @@
 export async function continueChat({ token, chatId, message }) {
-  const response = await fetch(
-    `https://localhost:8001/continue/${chatId}/${message}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    }
-  );
+  const response = await fetch(`https://localhost:8001/continue`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      chatId: chatId,
+      message: message,
+    }),
+  });
   if (!response.ok) {
     throw new Error(response.errors);
   }
-  const data = await response.json();
-  console.log(data);
-  return data;
+  const body = await response.json();
+  return body;
 }
 export async function newChat({ token, message }) {
   console.log(message);
