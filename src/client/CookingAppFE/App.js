@@ -10,7 +10,7 @@ import {
   useNavigationContext,
 } from "./context/NavigationContext";
 import { ChatProvider } from "./context/ChatContext";
-import { ThemeProvider, useTheme } from "./context/ThemeContext";
+import { useSelector } from "react-redux";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Provider } from "react-redux";
 import store from "./redux/store";
@@ -18,22 +18,20 @@ const client = new QueryClient();
 export default function App() {
   return (
     <Provider store={store}>
-      <ThemeProvider>
-        <NavigationProvider>
-          <ChatProvider>
-            <QueryClientProvider client={client}>
-              <AppInner />
-            </QueryClientProvider>
-          </ChatProvider>
-        </NavigationProvider>
-      </ThemeProvider>
+      <NavigationProvider>
+        <ChatProvider>
+          <QueryClientProvider client={client}>
+            <AppInner />
+          </QueryClientProvider>
+        </ChatProvider>
+      </NavigationProvider>
     </Provider>
   );
 }
 
 const AppInner = () => {
   const { currentRoute, isLoading } = useNavigationContext();
-  const { isDarkTheme } = useTheme();
+  const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
 
   if (isLoading) {
     return (

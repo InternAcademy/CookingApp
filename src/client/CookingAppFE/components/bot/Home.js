@@ -11,22 +11,17 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import tw from "twrnc";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Thinking from "../bot/Thinking";
-import { useChat } from "../../context/ChatContext";
-import { useTheme } from "../../context/ThemeContext";
-import { uiActions } from "../../redux/uiSlice";
 import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
 import ChatInput from "./ChatInput";
 const Home = () => {
   const navigation = useNavigation();
   const route = useRoute();
-  const { isDarkTheme } = useTheme();
+  const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
   const isThinking = useSelector((state) => state.ui.isThinking);
   const chat = useSelector((state) => state.user.selectedChat);
   useEffect(() => {
-    console.log(isThinking);
-  }, [isThinking]);
-  const dispatch = useDispatch();
+    console.log(isDarkTheme);
+  }, [isDarkTheme]);
   useEffect(() => {
     const checkToken = async () => {
       const token = await AsyncStorage.getItem("token");

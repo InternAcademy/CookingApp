@@ -11,15 +11,15 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import tw from "twrnc";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useTheme } from "../../context/ThemeContext";
+import { useSelector } from "react-redux";
 import { useChat } from "../../context/ChatContext";
 import { jwtDecode } from "jwt-decode";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { useSelector } from "react-redux";
 const Sidebar = ({ open, setOpen }) => {
   const [chatHistory, setChatHistory] = useState([]);
   const token = useSelector((state) => state.user.token);
-  const { isDarkTheme } = useTheme();
+  const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
+
   const navigation = useNavigation();
   const { clearChat } = useChat();
   const [animation] = useState(new Animated.Value(-300));

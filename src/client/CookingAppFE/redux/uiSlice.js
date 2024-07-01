@@ -17,6 +17,13 @@ const uiSlice = createSlice({
     setIsThinking(state, action) {
       state.isThinking = action.payload;
     },
+    toggleTheme(state) {
+      if (state.isDarkTheme) {
+        state.isDarkTheme = false;
+      } else {
+        state.isDarkTheme = true;
+      }
+    },
   },
 });
 

@@ -9,7 +9,7 @@ import {
 import tw from "twrnc";
 import { jwtDecode } from "jwt-decode";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { useTheme } from "../../../context/ThemeContext";
+import { useSelector } from "react-redux";
 import { fetchSubs, createSub } from "../../../http/subs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const Subscription = () => {
@@ -35,7 +35,8 @@ const Subscription = () => {
       queryClient.invalidateQueries("subs");
     },
   });
-  const { isDarkTheme } = useTheme();
+  const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
+
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
 
   async function handleSelection(id) {
