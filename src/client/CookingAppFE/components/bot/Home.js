@@ -18,7 +18,6 @@ const Home = () => {
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
   const isThinking = useSelector((state) => state.ui.isThinking);
   const chat = useSelector((state) => state.user.selectedChat);
-
   useEffect(() => {
     const checkToken = async () => {
       const token = await AsyncStorage.getItem("token");

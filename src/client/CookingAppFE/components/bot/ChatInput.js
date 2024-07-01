@@ -2,67 +2,18 @@ import { View, Image, TextInput, TouchableOpacity } from "react-native";
 import tw from "twrnc";
 import { uiActions } from "../../redux/uiSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { useMutation } from "@tanstack/react-query";
-import { newChat, continueChat } from "../../http/chat";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { userActions } from "../../redux/userSlice";
+import useChatMutation from "../../hooks/useNewChat";
+import useContinueChatMutation from "../../hooks/useKeepChatting";
 export default function ChatInput() {
   const input = useSelector((state) => state.ui.input);
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
   const selectedChat = useSelector((state) => state.user.selectedChat);
   const dispatch = useDispatch();
-  const {
-    mutate: initialMessage,
-    isPending,
-    isError,
-    error,
-  } = useMutation({
-    mutationFn: newChat,
-    onMutate: () => {
-      dispatch(uiActions.setIsThinking(true));
-      dispatch(uiActions.setInput(""));
-    },
-    onSuccess: (response) => {
-      dispatch(
-        userActions.selectChat({
-          id: response.data.chatId,
-          title: response.data.title,
-          content: [
-            ...selectedChat.content,
-            { role: "bot", content: response.data.response },
-          ],
-        })
-      );
-      dispatch(uiActions.setInput(""));
-      dispatch(uiActions.setIsThinking(false));
-    },
-  });
-  const {
-    mutate: keepChatting,
-    isPending: isChatting,
-    isError: isChatError,
-    error: chatError,
-  } = useMutation({
-    mutationKey: "continue",
-    mutationFn: continueChat,
-    onMutate: () => {
-      dispatch(uiActions.setIsThinking(true));
-      dispatch(uiActions.setInput(""));
-    },
-    onSuccess: (response) => {
-      dispatch(
-        userActions.selectChat({
-          ...selectedChat,
-          content: [
-            ...selectedChat.content,
-            { role: "bot", content: response.data.response },
-          ],
-        })
-      );
-      dispatch(uiActions.setIsThinking(false));
-    },
-    onError: (error) => {},
-  });
+  const { initialMessage, isPending, isError, error } = useChatMutation();
+  const { keepChatting, isChatting, isChatError, chatError } =
+    useContinueChatMutation();
 
   async function sendMessage() {
     const token = await AsyncStorage.getItem("token");

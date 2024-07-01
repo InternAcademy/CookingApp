@@ -16,7 +16,7 @@ const userSlice = createSlice({
       state.selectedChat = null;
     },
     setChatHistory(state, action) {
-      state.selectedChat = action.payload;
+      state.chatHistory = action.payload;
     },
   },
 });

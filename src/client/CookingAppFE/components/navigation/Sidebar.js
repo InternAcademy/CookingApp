@@ -14,63 +14,20 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch, useSelector } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { getChat, getUserChats } from "../../http/chat";
+import useSelectChat from "../../hooks/useSelectChat";
 import { userActions } from "../../redux/userSlice";
+import useChatHistory from "../../hooks/useChatHistory";
 const Sidebar = ({ open, setOpen }) => {
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
   const chat = useSelector((state) => state.user.selectedChat);
+  const chatHistory = useSelector((state) => state.user.chatHistory);
+  const selectChat = useSelectChat();
+  const { refetchChatHistory } = useChatHistory();
   const dispatch = useDispatch();
-  const {
-    data: chatHistory,
-    isPending,
-    isError,
-    error,
-    refetch,
-  } = useQuery({
-    queryKey: ["getHistory"],
-    queryFn: async () => {
-      const token = await AsyncStorage.getItem("token");
-      const decodedToken = jwtDecode(token);
-      return (
-        decodedToken && getUserChats({ token: token, userId: decodedToken.sub })
-      );
-    },
-  });
-  const { mutate } = useMutation({
-    mutationFn: getChat,
-    onSuccess: (response) => {
-      const { requests, responses } = response.data.chat;
-      const minLength = Math.min(requests.length, responses.length);
-      let combinedArray = [];
-      for (let i = 0; i < minLength; i++) {
-        combinedArray.push({ content: requests[i], role: "user" });
-        combinedArray.push({ content: responses[i], role: "bot" });
-      }
-
-      for (let i = minLength; i < requests.length; i++) {
-        combinedArray.push({ content: requests[i], role: "user" });
-      }
-
-      for (let i = minLength; i < responses.length; i++) {
-        combinedArray.push({ content: responses[i], role: "bot" });
-      }
-      dispatch(
-        userActions.selectChat({
-          id: response.data.id,
-          title: response.data.title,
-          content: combinedArray,
-        })
-      );
-      setOpen(false);
-    },
-  });
-  const navigation = useNavigation();
   const [animation] = useState(new Animated.Value(-300));
   useEffect(() => {
-    refetch();
+    refetchChatHistory();
   }, [chat]);
-  console.log(chatHistory);
   useEffect(() => {
     if (open) {
       Animated.timing(animation, {
@@ -88,19 +45,13 @@ const Sidebar = ({ open, setOpen }) => {
   }, [open, animation]);
 
   const handleChatPress = async (chat) => {
-    const token = await AsyncStorage.getItem("token");
-    if (token) {
-      mutate({ token, chatId: chat.id });
-    } else {
-      navigation.navigate("LandingPage");
-    }
-  };
-
-  const startNewChat = () => {
-    navigation.navigate("Home");
+    selectChat(chat);
     setOpen(false);
   };
-
+  const startNewChat = () => {
+    dispatch(userActions.clearChat());
+    setOpen(false);
+  };
   const getSectionTitle = (date) => {
     const today = new Date();
     const chatDate = new Date(date);
