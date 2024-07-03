@@ -12,25 +12,6 @@
         SubscriptionService subscriptionService) : IStripeService
     {
         /// <summary>
-        /// Creates a customer object in Stripe.
-        /// It is used to create recurring charges and track payments that belong to the same customer.
-        /// </summary>
-        public async Task<CustomerCreationResponse> CreateCustomerAsync(string email)
-        {
-            ArgumentException.ThrowIfNullOrEmpty(email);
-            var options = new CustomerCreateOptions
-            {
-                Email = email
-            };
-            var customer = await customerService.CreateAsync(options);
-
-            return (new CustomerCreationResponse(
-                          customer.Id,
-                          customer.Email)
-                  );
-        }
-
-        /// <summary>
         /// Gets all products that are in the Stripe account.
         /// </summary>
         public async Task<IEnumerable<Product>> GetProductsAsync()
@@ -42,13 +23,15 @@
 
             foreach (var product in products)
             {
+                
                 var price = await priceService.GetAsync(product.DefaultPriceId);
                 result.Add(
                     new Product(product.Id,
                     product.Name,
                     price.UnitAmount,
                     product.DefaultPriceId,
-                    product.Description));
+                    product.Description,
+                    price.Recurring.Interval));
             }
 
             return result;
@@ -63,14 +46,19 @@
         public async Task<SubscriptionCreationResponse> CreateSubscriptionAsync(SubscriptionCreation model)
         {
             if (model == null ||
-                string.IsNullOrEmpty(model.CustomerId) ||
+                string.IsNullOrEmpty(model.Email) ||
                 string.IsNullOrEmpty(model.PriceId))
             {
                 throw new ArgumentException(NullOrEmptyInputValues);
             }
+            var options = new CustomerCreateOptions
+            {
+                Email = model.Email
+            };
+            var customer = await customerService.CreateAsync(options);
             var subscriptionOptions = new SubscriptionCreateOptions
             {
-                Customer = model.CustomerId,
+                Customer = customer.Id,
                 Items =
                 [
                     new SubscriptionItemOptions

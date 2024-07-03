@@ -27,18 +27,6 @@ namespace CookingApp.Controllers
 
         }
 
-        [HttpPost("customer")]
-        public async Task<ApiResponse<CustomerCreationResponse>> CreateCustomerAsync ([FromBody] CustomerCreation model)
-        {
-            var customer = await stripeService.CreateCustomerAsync(model.Email);
-               
-            return new ApiResponse<CustomerCreationResponse>()
-            {
-                Status = 200,
-                Data = customer
-            };
-        }
-
         [HttpPost("subscription")]
         public async Task<ApiResponse<SubscriptionCreationResponse>> CreateSubscriptionAsync([FromBody] SubscriptionCreation model)
         {

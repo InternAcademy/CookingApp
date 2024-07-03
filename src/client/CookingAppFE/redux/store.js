@@ -1,12 +1,11 @@
-import { configureStore } from '@reduxjs/toolkit';
-import thunk from 'redux-thunk';
-import subscriptionReducer from './subscriptionSlice';
-
+import { configureStore } from "@reduxjs/toolkit";
+import userSlice from "./userSlice";
+import uiSlice from "./uiSlice.js";
 const store = configureStore({
   reducer: {
-    subscription: subscriptionReducer
+    user: userSlice,
+    ui:uiSlice
   },
-  middleware: [thunk]
 });
 
 export default store;

@@ -5,5 +5,6 @@
         string Name,
         long? Price,
         string PriceId,
-        string Description);
+        string Description,
+        string Period);
 }

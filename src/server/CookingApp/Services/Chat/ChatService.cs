@@ -76,7 +76,7 @@
 
             return chats
                 .Where(a => !a.IsDeleted && !a.IsArchived)
-                .Select(a => new ChatContentResponse { Title = a.Title, Time = a.CreatedDateTime });
+                .Select(a => new ChatContentResponse {Id=a.Id, Title = a.Title, Time = a.CreatedDateTime });
         }
     }
 }
