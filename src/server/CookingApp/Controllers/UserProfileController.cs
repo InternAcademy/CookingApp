@@ -1,5 +1,6 @@
 ﻿using CookingApp.Common.Helpers.Profiles;
 using CookingApp.Services.UserProfile;
+using CookingApp.ViewModels.Api;
 using CookingApp.ViewModels.Chat;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,14 +12,18 @@ namespace CookingApp.Controllers
         IUserProfileService userProfileService) : ControllerBase
     {
 
-        [HttpGet("create-profile")]
-        public async Task<IActionResult> CreateProfile([FromBody] string allergies)
+        [HttpGet("verify-profile")]
+        public async Task<IActionResult> VerifyProfile()
         {
             var userId = GetUser.ProfileId(httpContextAccessor);
 
-            await userProfileService.CreateProfile(userId);
+            await userProfileService.VerifyProfile(userId);
 
-            return Ok(userId);
+            return new ApiResponse<string>()
+            {
+                Status = 200,
+                Data = userId
+            };
         }
 
         [HttpGet("configure-profile")]
@@ -26,7 +31,11 @@ namespace CookingApp.Controllers
         {
             await userProfileService.ConfigureProfile(configureProfileRequest);
 
-            return Ok(configureProfileRequest);
+            return new ApiResponse<ConfigureProfileRequest>()
+            {
+                Status = 200,
+                Data = configureProfileRequest
+            };
         }
     }
 }

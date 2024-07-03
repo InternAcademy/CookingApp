@@ -15,7 +15,7 @@ namespace CookingApp.Controllers
     public class StripeController(IStripeService stripeService) : ControllerBase
     {
         [HttpGet("products")]
-        public async Task<ApiResponse<List<Product>>> GetProductsAsync()
+        public async Task<IActionResult> GetProductsAsync()
         {
             var products = await stripeService.GetProductsAsync();
 
@@ -24,11 +24,10 @@ namespace CookingApp.Controllers
                 Status = 200,
                 Data = products.ToList()
             };
-
         }
 
         [HttpPost("subscription")]
-        public async Task<ApiResponse<SubscriptionCreationResponse>> CreateSubscriptionAsync([FromBody] SubscriptionCreation model)
+        public async Task<IActionResult> CreateSubscriptionAsync([FromBody] SubscriptionCreation model)
         {
             var customer = await stripeService.CreateSubscriptionAsync(model);
 
@@ -40,7 +39,7 @@ namespace CookingApp.Controllers
         }
 
         [HttpPost("cancel")]
-        public async Task<ApiResponse<SubscriptionCancellationResponse>> CancelSubscriptionAsync([FromBody] SubscriptionCancellation model)
+        public async Task<IActionResult> CancelSubscriptionAsync([FromBody] SubscriptionCancellation model)
         {
             var subscription = await stripeService.CancelSubscriptionAsync(model);
 

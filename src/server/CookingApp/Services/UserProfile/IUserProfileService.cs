@@ -4,7 +4,7 @@ namespace CookingApp.Services.UserProfile
 {
     public interface IUserProfileService
     {
-        Task CreateProfile(string userId);
+        Task VerifyProfile(string userId);
 
         Task ConfigureProfile(ConfigureProfileRequest configureProfileRequest);
     }

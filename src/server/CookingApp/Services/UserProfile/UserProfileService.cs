@@ -7,7 +7,7 @@ namespace CookingApp.Services.UserProfile
 {
     public class UserProfileService(IRepository<Models.UserProfile> profileRepo) : IUserProfileService
     {
-        public async Task CreateProfile(string userId)
+        public async Task VerifyProfile(string userId)
         {
             var profileExists = await profileRepo.GetFirstOrDefaultAsync(a => a.UserId == userId);
 
