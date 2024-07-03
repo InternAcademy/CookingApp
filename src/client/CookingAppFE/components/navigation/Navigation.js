@@ -10,19 +10,17 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import tw from "twrnc";
-import { useNavigationContext } from "../../context/NavigationContext";
-import { useTheme } from "../../context/ThemeContext";
-import { useChat } from "../../context/ChatContext";
+import { useSelector } from "react-redux";
 import Sidebar from "./Sidebar";
-
+import { useDispatch } from "react-redux";
+import { userActions } from "../../redux/userSlice";
 const Navigation = () => {
   const navigation = useNavigation();
-  const { currentRoute } = useNavigationContext();
-  const { clearChat } = useChat();
-  const { isDarkTheme } = useTheme();
+  const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const startNewChat = () => {
-    clearChat();
+    dispatch(userActions.clearChat());
     navigation.navigate("Home");
   };
 

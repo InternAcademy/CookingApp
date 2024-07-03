@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import { Text, View, TouchableOpacity, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import useAuth from "../../hooks/useAuth";
 import * as WebBrowser from "expo-web-browser";
 import tw from "twrnc";
-import { useTheme } from "../../context/ThemeContext";
-import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const tenantId = process.env.EXPO_PUBLIC_TENANT_ID;
 const clientId = process.env.EXPO_PUBLIC_CLIENT_ID;
 const instance = process.env.EXPO_PUBLIC_INSTANCE;
@@ -15,15 +14,20 @@ const scopes = process.env.EXPO_PUBLIC_SCOPES.split(" ");
 WebBrowser.maybeCompleteAuthSession();
 
 const LandingPage = () => {
-  const token = useSelector((state) => state.user.token);
-  const { isDarkTheme } = useTheme();
+  const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
   const navigation = useNavigation();
-  const { login, request } = useAuth(clientId, instance, scopes);
-
+  const { login, token, request } = useAuth(clientId, instance, scopes);
+  console.log(token);
   useEffect(() => {
-    if (token) {
-      navigation.navigate("Home");
-    }
+    const checkToken = async () => {
+      const token = await AsyncStorage.getItem("token");
+      if (!token) {
+        navigation.navigate("LandingPage");
+      } else {
+        navigation.navigate("Home");
+      }
+    };
+    checkToken();
   }, [token]);
 
   return (
@@ -59,7 +63,6 @@ const LandingPage = () => {
           Get Started
         </Text>
       </TouchableOpacity>
-      <Text>{token}</Text>
     </View>
   );
 };
