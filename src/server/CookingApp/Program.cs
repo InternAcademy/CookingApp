@@ -1,17 +1,23 @@
 using CookingApp.Infrastructure.Configurations.Database;
 using CookingApp.Infrastructure.Configurations.Swagger;
 using CookingApp.Infrastructure.Extensions;
-using MongoDB.Bson;
-using System.Diagnostics.CodeAnalysis;
+using CookingApp.Infrastructure.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
-using CookingApp.Infrastructure.Middleware;
+using MongoDB.Bson;
+using System.Diagnostics.CodeAnalysis;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
     Args = args,
     ApplicationName = typeof(Program).Assembly.FullName,
     ContentRootPath = Directory.GetCurrentDirectory()
+});
+
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.ListenAnyIP(8000);
+    serverOptions.ListenAnyIP(8001, listenOptions => listenOptions.UseHttps());
 });
 
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
