@@ -1,14 +1,14 @@
 export async function continueChat({ token, chatId, message }) {
-  const response = await fetch(`https://localhost:8001/continue`, {
-    method: "POST",
+  const response = await fetch(`http://192.168.39.5:8001/continue`, {
+    method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({
       chatId: chatId,
-      message: message,
-    }),
+      message: message
+    })
   });
   if (!response.ok) {
     throw new Error(response.errors);
@@ -18,15 +18,15 @@ export async function continueChat({ token, chatId, message }) {
 }
 export async function newChat({ token, message }) {
   console.log(message);
-  const response = await fetch("https://localhost:8001/new-chat", {
-    method: "POST",
+  const response = await fetch('http://192.168.39.5:8001/new-chat', {
+    method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      message: message,
-    }),
+      message: message
+    })
   });
   if (!response.ok) {
     throw new Error(response.errors);
@@ -35,11 +35,11 @@ export async function newChat({ token, message }) {
   return data;
 }
 export async function getChat({ token, chatId }) {
-  const response = await fetch(`https://localhost:8001/c/${chatId}`, {
+  const response = await fetch(`http://192.168.39.5:8001/c/${chatId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
+      'Content-Type': 'application/json'
+    }
   });
   if (!response.ok) {
     throw new Error(response.errors);
@@ -48,11 +48,11 @@ export async function getChat({ token, chatId }) {
   return data;
 }
 export async function getUserChats({ token, userId }) {
-  const response = await fetch(`https://localhost:8001/user-chats/${userId}`, {
+  const response = await fetch(`http://192.168.39.5:8001/user-chats/${userId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
+      'Content-Type': 'application/json'
+    }
   });
   if (!response.ok) {
     throw new Error(response.errors);
