@@ -1,4 +1,6 @@
-﻿namespace CookingApp.Services.Message
+﻿using OpenAI.ObjectModels;
+
+namespace CookingApp.Services.Message
 {
     using CookingApp.Common.CompletionConstants;
     using CookingApp.Infrastructure.Exceptions;
@@ -44,14 +46,14 @@
             return await SendCompletionRequest(completionRequest);
         }
 
-        public async Task<ChatMessageResponce> SendMessage(string chatId, string message)
+        public async Task<ObjectResponse> SendMessage(string chatId, string message)
         {
             var chat = await chatRepo.GetByIdAsync(chatId);
             var userProfile = await profileRepo.GetFirstOrDefaultAsync(a => a.UserId == chat.UserId);
 
             var completionRequest = BuildCompletionRequest(chat, userProfile, message);
 
-            return new ChatMessageResponce
+            return new ObjectResponse
             {
                 Chat = chat,
                 ChatChoiceResponses = await SendCompletionRequest(completionRequest)
@@ -74,8 +76,9 @@
             var completionRequest = new ChatCompletionCreateRequest
             {
                 Messages = [ChatMessage.FromSystem(Completions.BuildSystemMessage(userProfile))],
-                MaxTokens = 500,
-                N = 1
+                MaxTokens = 2000,
+                N = 1,
+                ResponseFormat = new() {Type = StaticValues.CompletionStatics.ResponseFormat.Json}
             };
 
             if (chat != null)

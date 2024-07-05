@@ -1,52 +1,58 @@
-﻿namespace CookingApp.Controllers
+﻿using CookingApp.Common.Helpers.Recipes;
+using CookingApp.Models.Entities;
+using Newtonsoft.Json;
+
+namespace CookingApp.Controllers
 {
     using CookingApp.Common.Helpers.Profiles;
+    using CookingApp.Models;
     using CookingApp.Services.ChatService;
-    using CookingApp.ViewModels.Api;
     using CookingApp.ViewModels.Chat;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using OpenAI.ObjectModels.SharedModels;
+    using System;
+    using System.Text.RegularExpressions;
     using IMessageService = Services.Message.IMessageService;
     using Request = Models.Request;
     using Response = Models.Response;
+
     [ApiController]
     public class ChatController(IChatService chatService,
         IMessageService messageService,
         IHttpContextAccessor httpContextAccessor) : ControllerBase
     {
-        [HttpPost("new-chat")]
-        public async Task<ApiResponse<ChatCreationResponse>> NewChat([FromBody] NewChatRequest request)
+        [HttpPost("new-chat/{message}")]
+        public async Task<IActionResult> NewChat(string message)
         {
             var userId = GetUser.ProfileId(httpContextAccessor);
-            var message = await messageService.CreateMessage(userId, request.Message);
+            var responce = await messageService.CreateMessage(userId, message);
 
             var saveChatRequest = new SaveChatRequest
             {
                 UserId = userId,
-                Requests = [new Request { Message = request.Message, Owner = userId }],
-                Responses = [new Response { Message = message.First().Message.Content, Owner = userId }]
+                Requests = [new Request { Message = message, Owner = userId }],
+                Responses = [new Response { Message = responce.First().Message.Content, Owner = userId }]
             };
 
-            var Chat = await chatService.SaveChat(saveChatRequest);
-            var data = new ChatCreationResponse
+            var chat = await chatService.SaveChat(saveChatRequest);
+
+            var result = new ViewModels.Chat.MessageResponse
             {
-                ChatId = Chat.Id,
-                Title = Chat.Title,
-                Response = message.First().Message.Content
+                ChatId = chat.Id,
+                Title = chat.Title,
+                Content = responce.First().Message.Content
             };
 
-            ApiResponse<ChatCreationResponse> response = new ApiResponse<ChatCreationResponse>(){
-                Status=200,
-                Data=data
-            };
-            return response;
+            var json = JsonConvert.DeserializeObject<Recipe>(result.Content);
+            return Ok(result);
         }
 
-        [HttpPost("continue")]
-        public async Task<ApiResponse<ContinueChatResponse>> ContinueChat([FromBody] ContinueChatRequest request)
+        [HttpPost("continue/{chatId}/{message}")]
+        public async Task<IActionResult> ContinueChat(string chatId, string message)
         {
             var userId = GetUser.ProfileId(httpContextAccessor);
-            var responce = await messageService.SendMessage(request.ChatId, request.Message);
+            var responce = await messageService.SendMessage(chatId, message);
 
             var saveChatRequest = new SaveChatRequest
             {
@@ -59,7 +65,7 @@
             saveChatRequest.Requests
                 .Add(new Request
                 {
-                    Message = request.Message,
+                    Message = message,
                     Owner = userId
                 });
 
@@ -71,35 +77,21 @@
                 });
 
             await chatService.SaveChat(saveChatRequest);
-            ContinueChatResponse data = new ContinueChatResponse(responce.Chat.Responses.Last().Message);
-            ApiResponse<ContinueChatResponse> response = new ApiResponse<ContinueChatResponse>(){
-                Status=200,
-                Data=data
+
+            var result = new ViewModels.Chat.MessageResponse
+            {
+                ChatId = responce.Chat.Id,
+                Title = responce.Chat.Title,
+                Content = responce.ChatChoiceResponses.First().Message.Content
             };
-            return response;
+
+            return Ok(result);
         }
 
         [HttpGet("c/{chatId}")]
-        public async Task<ApiResponse<ChatResponse>> ChatId(string chatId)
+        public async Task<IActionResult> ChatById(string chatId)
         {
-            var chat = await chatService.GetById(chatId);
-
-            ChatResponse chatDto = new ChatResponse()
-            {
-                Id=chat.Id,
-                Title=chat.Title,
-                Chat=new Dialog()
-                {
-                    Requests=chat.Requests.Select(req=>req.Message).ToList(),
-                    Responses=chat.Responses.Select(res=>res.Message).ToList(),
-                }
-            };
-            ApiResponse<ChatResponse> response = new ApiResponse<ChatResponse>()
-            {
-                Status=200,
-                Data=chatDto
-            };
-            return response;
+            return Ok(await chatService.GetById(chatId));
         }
 
         [HttpGet("user-chats/{userId}")]
