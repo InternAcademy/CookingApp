@@ -37,3 +37,7 @@ yarn-error.*
 # Prettier
 .prettierignore
 .prettierrc
+
+# .vscode
+launch.json
+tasks.json
