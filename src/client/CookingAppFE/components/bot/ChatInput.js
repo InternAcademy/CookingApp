@@ -76,6 +76,7 @@ export default function ChatInput() {
           <TouchableOpacity onPress={sendMessage} style={tw`p-1`}>
             <Image source={require('../../assets/HomeMessageBar/paperClip.png')} style={tw`w-5 h-5 ${isDarkTheme ? 'tint-white' : ''}`} />
           </TouchableOpacity>
+
           <TextInput style={tw`flex-1 h-10 px-1 ${isDarkTheme ? 'text-white' : 'text-black'}`} placeholder="Message MealMasterBot" placeholderTextColor={isDarkTheme ? 'gray' : 'black'} value={input} onChangeText={handleTyping} />
           <TouchableOpacity onPress={sendMessage} style={tw`p-1`}>
             <Image source={require('../../assets/HomeMessageBar/arrowUpCircle.png')} style={tw`w-6 h-6 ${isDarkTheme ? 'tint-white' : ''}`} />

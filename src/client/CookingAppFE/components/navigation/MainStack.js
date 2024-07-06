@@ -17,6 +17,7 @@ import AlergensAndFoodPreferences from '../../components/screens/settings/Alerge
 import LanguageAndTheme from '../../components/screens/settings/LanguageAndTheme';
 import RulesAndPolicies from '../../components/screens/settings/RulesAndPolicies';
 import CameraScreen from '../../components/bot/CameraScreen';
+import ImageScreen from '../../components/bot/ImageScreen';
 
 const Stack = createStackNavigator();
 

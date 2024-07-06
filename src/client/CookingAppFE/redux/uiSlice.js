@@ -5,7 +5,7 @@ const initialState = {
   input: '',
   isThinking: false,
   isDarkTheme: false,
-  photoUri: null // Добавяме photoUri в началното състояние
+  photoUri: null
 };
 
 const uiSlice = createSlice({
@@ -22,11 +22,9 @@ const uiSlice = createSlice({
       state.isDarkTheme = !state.isDarkTheme;
     },
     setPhotoUri(state, action) {
-      // Добавяме нова действие за задаване на photoUri
       state.photoUri = action.payload;
     },
     clearPhotoUri(state) {
-      // Добавяме нова действие за премахване на photoUri
       state.photoUri = null;
     }
   }
