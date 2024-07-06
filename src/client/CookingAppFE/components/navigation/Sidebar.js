@@ -1,26 +1,18 @@
-import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-  Modal,
-  Animated,
-} from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import tw from "twrnc";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useDispatch, useSelector } from "react-redux";
-import { jwtDecode } from "jwt-decode";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import useSelectChat from "../../hooks/useSelectChat";
-import { userActions } from "../../redux/userSlice";
-import useChatHistory from "../../hooks/useChatHistory";
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Modal, Animated } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import tw from 'twrnc';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch, useSelector } from 'react-redux';
+import { jwtDecode } from 'jwt-decode';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import useSelectChat from '../../hooks/useSelectChat';
+import { userActions } from '../../redux/userSlice';
+import useChatHistory from '../../hooks/useChatHistory';
 const Sidebar = ({ open, setOpen }) => {
-  const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
-  const chat = useSelector((state) => state.user.selectedChat);
-  const chatHistory = useSelector((state) => state.user.chatHistory);
+  const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
+  const chat = useSelector(state => state.user.selectedChat);
+  const chatHistory = useSelector(state => state.user.chatHistory);
   const selectChat = useSelectChat();
   const { refetchChatHistory } = useChatHistory();
   const dispatch = useDispatch();
@@ -33,18 +25,18 @@ const Sidebar = ({ open, setOpen }) => {
       Animated.timing(animation, {
         toValue: 0,
         duration: 300,
-        useNativeDriver: true,
+        useNativeDriver: true
       }).start();
     } else {
       Animated.timing(animation, {
         toValue: -300,
         duration: 300,
-        useNativeDriver: true,
+        useNativeDriver: true
       }).start();
     }
   }, [open, animation]);
 
-  const handleChatPress = async (chat) => {
+  const handleChatPress = async chat => {
     selectChat(chat);
     setOpen(false);
   };
@@ -52,7 +44,7 @@ const Sidebar = ({ open, setOpen }) => {
     dispatch(userActions.clearChat());
     setOpen(false);
   };
-  const getSectionTitle = (date) => {
+  const getSectionTitle = date => {
     const today = new Date();
     const chatDate = new Date(date);
 
@@ -62,11 +54,11 @@ const Sidebar = ({ open, setOpen }) => {
     const diffTime = today - chatDate;
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-    if (diffDays === 0) return "Today";
-    if (diffDays === 1) return "Yesterday";
-    if (diffDays <= 7) return "Previous 7 days";
-    if (diffDays <= 30) return "Previous 30 days";
-    return "Older than 30 days";
+    if (diffDays === 0) return 'Today';
+    if (diffDays === 1) return 'Yesterday';
+    if (diffDays <= 7) return 'Previous 7 days';
+    if (diffDays <= 30) return 'Previous 30 days';
+    return 'Older than 30 days';
   };
 
   const sortedChatHistory =
@@ -80,39 +72,19 @@ const Sidebar = ({ open, setOpen }) => {
       return acc;
     }, {});
 
-  const orderedSections = [
-    "Today",
-    "Yesterday",
-    "Previous 7 days",
-    "Previous 30 days",
-    "Older than 30 days",
-  ];
+  const orderedSections = ['Today', 'Yesterday', 'Previous 7 days', 'Previous 30 days', 'Older than 30 days'];
 
   return (
     <Modal transparent visible={open}>
       <TouchableOpacity style={styles.overlay} onPress={() => setOpen(false)} />
-      <Animated.View
-        style={[
-          styles.sidebar,
-          tw`${isDarkTheme ? "bg-[#202020]" : "bg-white"}`,
-          { transform: [{ translateX: animation }] },
-        ]}
-      >
+      <Animated.View style={[styles.sidebar, tw`${isDarkTheme ? 'bg-[#202020]' : 'bg-white'}`, { transform: [{ translateX: animation }] }]}>
         <View style={styles.header}>
           <View style={tw`flex-row items-center`}>
             <TouchableOpacity onPress={() => setOpen(false)}>
-              <Ionicons
-                name="menu"
-                size={24}
-                color={isDarkTheme ? "white" : "black"}
-              />
+              <Ionicons name="menu" size={24} color={isDarkTheme ? 'white' : 'black'} />
             </TouchableOpacity>
             <TouchableOpacity onPress={startNewChat} style={tw`ml-2`}>
-              <Ionicons
-                name="chatbox-ellipses-sharp"
-                size={24}
-                color={isDarkTheme ? "white" : "black"}
-              />
+              <Ionicons name="chatbox-ellipses-sharp" size={24} color={isDarkTheme ? 'white' : 'black'} />
             </TouchableOpacity>
           </View>
         </View>
@@ -120,30 +92,13 @@ const Sidebar = ({ open, setOpen }) => {
         <ScrollView style={styles.scrollView}>
           {chatHistory &&
             orderedSections.map(
-              (sectionTitle) =>
+              sectionTitle =>
                 sortedChatHistory[sectionTitle] && (
                   <View key={sectionTitle} style={styles.section}>
-                    <Text
-                      style={[
-                        styles.title,
-                        tw`${isDarkTheme ? "text-white" : "text-gray-700"}`,
-                      ]}
-                    >
-                      {sectionTitle}
-                    </Text>
+                    <Text style={[styles.title, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>{sectionTitle}</Text>
                     {sortedChatHistory[sectionTitle].map((chat, idx) => (
-                      <TouchableOpacity
-                        key={idx}
-                        onPress={() => handleChatPress(chat)}
-                      >
-                        <Text
-                          style={[
-                            styles.bullet,
-                            tw`${isDarkTheme ? "text-white" : "text-gray-700"}`,
-                          ]}
-                        >
-                          {chat.title}
-                        </Text>
+                      <TouchableOpacity key={idx} onPress={() => handleChatPress(chat)}>
+                        <Text style={[styles.bullet, tw`${isDarkTheme ? 'text-white' : 'text-gray-700'}`]}>{chat.title}</Text>
                       </TouchableOpacity>
                     ))}
                   </View>
@@ -157,50 +112,50 @@ const Sidebar = ({ open, setOpen }) => {
 
 const styles = StyleSheet.create({
   overlay: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    backgroundColor: 'rgba(0, 0, 0, 0.5)'
   },
   sidebar: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     bottom: 0,
     left: 0,
     width: 300,
     padding: 16,
-    zIndex: 1,
+    zIndex: 1
   },
   header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingVertical: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 8
   },
   toggleIcon: {
-    fontSize: 30,
+    fontSize: 30
   },
   section: {
-    flexDirection: "column",
+    flexDirection: 'column',
     paddingLeft: 4,
     paddingRight: 4,
-    marginBottom: 16,
+    marginBottom: 16
   },
   title: {
     fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 8,
+    fontWeight: 'bold',
+    marginBottom: 8
   },
   bullet: {
     marginLeft: 16,
     marginBottom: 4,
-    fontSize: 14,
+    fontSize: 14
   },
   scrollView: {
-    paddingRight: 16,
-  },
+    paddingRight: 16
+  }
 });
 
 export default Sidebar;

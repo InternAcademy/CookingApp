@@ -1,12 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   selectedChat: null,
   isPremium: false,
-  chatHistory: null,
+  chatHistory: null
 };
 
 const userSlice = createSlice({
-  name: "userState",
+  name: 'userState',
   initialState: initialState,
   reducers: {
     selectChat(state, action) {
@@ -17,8 +17,8 @@ const userSlice = createSlice({
     },
     setChatHistory(state, action) {
       state.chatHistory = action.payload;
-    },
-  },
+    }
+  }
 });
 
 export const userActions = userSlice.actions;

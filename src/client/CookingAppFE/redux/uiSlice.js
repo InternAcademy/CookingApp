@@ -1,14 +1,14 @@
 // uiSlice.js
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  input: "",
+  input: '',
   isThinking: false,
-  isDarkTheme: false,
+  isDarkTheme: false
 };
 
 const uiSlice = createSlice({
-  name: "uiState",
+  name: 'uiState',
   initialState: initialState,
   reducers: {
     setInput(state, action) {
@@ -23,8 +23,8 @@ const uiSlice = createSlice({
       } else {
         state.isDarkTheme = true;
       }
-    },
-  },
+    }
+  }
 });
 
 export const uiActions = uiSlice.actions;

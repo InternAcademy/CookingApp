@@ -1,32 +1,32 @@
-import { useEffect } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useSelector, useDispatch } from "react-redux";
-import { jwtDecode } from "jwt-decode";
-import { useQuery } from "@tanstack/react-query";
-import { getUserChats } from "../http/chat";
-import { userActions } from "../redux/userSlice";
+import { useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useSelector, useDispatch } from 'react-redux';
+import { jwtDecode } from 'jwt-decode';
+import { useQuery } from '@tanstack/react-query';
+import { getUserChats } from '../http/chat';
+import { userActions } from '../redux/userSlice';
 
 const useChatHistory = () => {
   const dispatch = useDispatch();
-  const chatHistory = useSelector((state) => state.user.chatHistory);
+  const chatHistory = useSelector(state => state.user.chatHistory);
 
   const {
     data: chatHistoryData,
     isPending,
     isError,
     error,
-    refetch,
+    refetch
   } = useQuery({
-    queryKey: ["getHistory"],
+    queryKey: ['getHistory'],
     queryFn: async () => {
-      const token = await AsyncStorage.getItem("token");
+      const token = await AsyncStorage.getItem('token');
       const decodedToken = jwtDecode(token);
       const userChats = await getUserChats({
         token: token,
-        userId: decodedToken.sub,
+        userId: decodedToken.sub
       });
       return userChats;
-    },
+    }
   });
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const useChatHistory = () => {
     isPending,
     isError,
     error,
-    refetchChatHistory: refetch,
+    refetchChatHistory: refetch
   };
 };
 
