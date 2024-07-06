@@ -2,20 +2,23 @@ import { CameraView, useCameraPermissions } from 'expo-camera';
 import { useState, useRef } from 'react';
 import { Button, Text, TouchableOpacity, View, Image } from 'react-native';
 import tw from 'twrnc';
+import { useDispatch } from 'react-redux';
+import { uiActions } from '../../redux/uiSlice';
+import { useNavigation } from '@react-navigation/native';
 
 export default function CameraScreen() {
   const [facing, setFacing] = useState('back');
   const [permission, requestPermission] = useCameraPermissions();
   const [photo, setPhoto] = useState(null);
   const cameraRef = useRef(null);
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   if (!permission) {
-    // Camera permissions are still loading.
     return <View />;
   }
 
   if (!permission.granted) {
-    // Camera permissions are not granted yet.
     return (
       <View style={tw`flex-1 justify-center items-center`}>
         <Text style={tw`text-center`}>We need your permission to show the camera</Text>
@@ -39,6 +42,11 @@ export default function CameraScreen() {
     setPhoto(null);
   }
 
+  function handleOk() {
+    dispatch(uiActions.setPhotoUri(photo));
+    navigation.navigate('Home'); // Пренасочване към Home
+  }
+
   return (
     <View style={tw`flex-1 justify-center`}>
       {photo ? (
@@ -48,7 +56,7 @@ export default function CameraScreen() {
             <TouchableOpacity style={tw`bg-gray-800 p-3 rounded`} onPress={handleRetry}>
               <Text style={tw`text-lg text-white`}>Retry</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={tw`bg-gray-800 p-3 rounded`} onPress={() => {}}>
+            <TouchableOpacity style={tw`bg-gray-800 p-3 rounded`} onPress={handleOk}>
               <Text style={tw`text-lg text-white`}>OK</Text>
             </TouchableOpacity>
           </View>

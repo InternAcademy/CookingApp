@@ -4,7 +4,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   input: '',
   isThinking: false,
-  isDarkTheme: false
+  isDarkTheme: false,
+  photoUri: null // Добавяме photoUri в началното състояние
 };
 
 const uiSlice = createSlice({
@@ -18,11 +19,11 @@ const uiSlice = createSlice({
       state.isThinking = action.payload;
     },
     toggleTheme(state) {
-      if (state.isDarkTheme) {
-        state.isDarkTheme = false;
-      } else {
-        state.isDarkTheme = true;
-      }
+      state.isDarkTheme = !state.isDarkTheme;
+    },
+    setPhotoUri(state, action) {
+      // Добавяме нова действие за задаване на photoUri
+      state.photoUri = action.payload;
     }
   }
 });
