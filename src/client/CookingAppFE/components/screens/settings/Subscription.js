@@ -89,6 +89,15 @@ const Subscription = () => {
               </Text>
             </View>
           )}
+          {isError && (
+            <View style={tw`mb-4`}>
+              <Text
+                style={tw`text-xs mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
+              >
+                {error.message}
+              </Text>
+            </View>
+          )}
           {data && (
             <>
               {/* Free sub */}

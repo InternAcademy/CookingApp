@@ -15,15 +15,13 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Provider } from "react-redux";
 import store from "./redux/store";
-import LandingPage from "./components/screens/LandingPage";
-import Home from "./components/bot/Home";
 import Nav from "./components/navigation/Nav";
 const client = new QueryClient();
 export default function App() {
   return (
     <Provider store={store}>
       <QueryClientProvider client={client}>
-        <Nav></Nav>
+        <MainStack />
       </QueryClientProvider>
     </Provider>
   );

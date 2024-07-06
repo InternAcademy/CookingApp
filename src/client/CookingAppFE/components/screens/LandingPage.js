@@ -24,15 +24,15 @@ const LandingPage = ({ route }) => {
   const state = useNavigationState((state) => state);
   console.log("Current route state:", state);
   useEffect(() => {
-    // const checkToken = async () => {
-    //   const token = await AsyncStorage.getItem("token");
-    //   if (!token) {
-    //     navigation.navigate("LandingPage");
-    //   } else {
-    //     navigation.navigate("Home");
-    //   }
-    // };
-    // checkToken();
+    const checkToken = async () => {
+      const token = await AsyncStorage.getItem("token");
+      if (!token) {
+        navigation.navigate("LandingPage");
+      } else {
+        navigation.navigate("Home");
+      }
+    };
+    checkToken();
   }, [token]);
 
   return (
@@ -57,7 +57,6 @@ const LandingPage = ({ route }) => {
         Easy way to manage all your cooking tasks as easy as tapping your finger
       </Text>
       <TouchableOpacity
-        disabled={!request}
         title="Login"
         onPress={() => login()}
         style={tw`bg-white py-4 px-10  mt-40 -mb-46  rounded-full`}

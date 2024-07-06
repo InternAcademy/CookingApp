@@ -6,12 +6,10 @@ import {
   useAutoDiscovery,
 } from "expo-auth-session";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as Linking from "expo-linking";
-
 const useAuth = (clientId, instance, scopes) => {
   const discovery = useAutoDiscovery(instance);
   const redirectUri = makeRedirectUri({
-    scheme: "myapp", // Make sure to replace 'myapp' with your actual app scheme
+    scheme: undefined,
     path: "redirect",
   });
   const [token, setToken] = useState(null);
@@ -40,8 +38,6 @@ const useAuth = (clientId, instance, scopes) => {
       );
       await AsyncStorage.setItem("token", res.accessToken);
       setToken(res.accessToken);
-
-      //Linking.openURL("home");
     }
   };
 
