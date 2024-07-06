@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons';
 
 export default function Button({ title, onPress, icon, color }) {
   return (

@@ -1,127 +1,74 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import Constants from 'expo-constants';
-import { Camera, CameraType } from 'expo-camera';
-import * as MediaLibrary from 'expo-media-library';
-import { MaterialIcons } from '@expo/vector-icons';
-import Button from './Button';
+import { CameraView, useCameraPermissions } from 'expo-camera';
+import { useState, useRef } from 'react';
+import { Button, Text, TouchableOpacity, View, Image } from 'react-native';
+import tw from 'twrnc';
 
 export default function CameraScreen() {
-  const [hasCameraPermission, setHasCameraPermission] = useState(null);
-  const [image, setImage] = useState(null);
-  const [type, setType] = useState(Camera.Constants.Type.back);
-  const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
+  const [facing, setFacing] = useState('back');
+  const [permission, requestPermission] = useCameraPermissions();
+  const [photo, setPhoto] = useState(null);
   const cameraRef = useRef(null);
 
-  useEffect(() => {
-    (async () => {
-      MediaLibrary.requestPermissionsAsync();
-      const cameraStatus = await Camera.requestCameraPermissionsAsync();
-      setHasCameraPermission(cameraStatus.status === 'granted');
-    })();
-  }, []);
+  if (!permission) {
+    // Camera permissions are still loading.
+    return <View />;
+  }
 
-  const takePicture = async () => {
-    if (cameraRef) {
-      try {
-        const data = await cameraRef.current.takePictureAsync();
-        console.log(data);
-        setImage(data.uri);
-      } catch (error) {
-        console.log(error);
-      }
+  if (!permission.granted) {
+    // Camera permissions are not granted yet.
+    return (
+      <View style={tw`flex-1 justify-center items-center`}>
+        <Text style={tw`text-center`}>We need your permission to show the camera</Text>
+        <Button onPress={requestPermission} title="grant permission" />
+      </View>
+    );
+  }
+
+  function toggleCameraFacing() {
+    setFacing(current => (current === 'back' ? 'front' : 'back'));
+  }
+
+  async function takePicture() {
+    if (cameraRef.current) {
+      const photo = await cameraRef.current.takePictureAsync();
+      setPhoto(photo.uri);
     }
-  };
+  }
 
-  const savePicture = async () => {
-    if (image) {
-      try {
-        const asset = await MediaLibrary.createAssetAsync(image);
-        alert('Picture saved! 🎉');
-        setImage(null);
-        console.log('saved successfully');
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
-
-  if (hasCameraPermission === false) {
-    return <Text>No access to camera</Text>;
+  function handleRetry() {
+    setPhoto(null);
   }
 
   return (
-    <View style={styles.container}>
-      {!image ? (
-        <Camera style={styles.camera} type={type} ref={cameraRef} flashMode={flash}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              paddingHorizontal: 30
-            }}>
-            <Button
-              title=""
-              icon="retweet"
+    <View style={tw`flex-1 justify-center`}>
+      {photo ? (
+        <View style={tw`flex-1 justify-center items-center`}>
+          <Image source={{ uri: photo }} style={tw`w-full h-4/5`} />
+          <View style={tw`flex-row justify-around items-end bg-transparent mt-16`}>
+            <TouchableOpacity style={tw`bg-gray-800 p-3 rounded`} onPress={handleRetry}>
+              <Text style={tw`text-lg text-white`}>Retry</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={tw`bg-gray-800 p-3 rounded`}
               onPress={() => {
-                setType(type === CameraType.back ? CameraType.front : CameraType.back);
-              }}
-            />
-            <Button onPress={() => setFlash(flash === Camera.Constants.FlashMode.off ? Camera.Constants.FlashMode.on : Camera.Constants.FlashMode.off)} icon="flash" color={flash === Camera.Constants.FlashMode.off ? 'gray' : '#fff'} />
+                /* Handle OK action */
+              }}>
+              <Text style={tw`text-lg text-white`}>OK</Text>
+            </TouchableOpacity>
           </View>
-        </Camera>
+        </View>
       ) : (
-        <Image source={{ uri: image }} style={styles.camera} />
-      )}
-
-      <View style={styles.controls}>
-        {image ? (
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              paddingHorizontal: 50
-            }}>
-            <Button title="Re-take" onPress={() => setImage(null)} icon="retweet" />
-            <Button title="Save" onPress={savePicture} icon="check" />
+        <CameraView style={tw`flex-1`} facing={facing} ref={cameraRef}>
+          <View style={[tw`absolute bottom-0 w-full flex-row justify-around items-center`, { backgroundColor: 'rgba(0, 0, 0, 0.5)', padding: 16 }]}>
+            <TouchableOpacity style={tw`bg-gray-800 p-3 rounded`} onPress={toggleCameraFacing}>
+              <Text style={tw`text-lg text-white`}>Flip Camera</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={tw`bg-gray-800 p-3 rounded`} onPress={takePicture}>
+              <Text style={tw`text-lg text-white`}>Take Picture</Text>
+            </TouchableOpacity>
           </View>
-        ) : (
-          <Button title="Take a picture" onPress={takePicture} icon="camera" />
-        )}
-      </View>
+        </CameraView>
+      )}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
-    backgroundColor: '#000',
-    padding: 8
-  },
-  controls: {
-    flex: 0.5
-  },
-  button: {
-    height: 40,
-    borderRadius: 6,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  text: {
-    fontWeight: 'bold',
-    fontSize: 16,
-    color: '#E9730F',
-    marginLeft: 10
-  },
-  camera: {
-    flex: 5,
-    borderRadius: 20
-  },
-  topControls: {
-    flex: 1
-  }
-});
