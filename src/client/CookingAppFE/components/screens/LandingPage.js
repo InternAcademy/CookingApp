@@ -5,24 +5,17 @@ import useAuth from "../../hooks/useAuth";
 import * as WebBrowser from "expo-web-browser";
 import tw from "twrnc";
 import { useSelector } from "react-redux";
-import { useNavigationState } from "@react-navigation/native";
-import { Linking } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-const tenantId = process.env.EXPO_PUBLIC_TENANT_ID;
 const clientId = process.env.EXPO_PUBLIC_CLIENT_ID;
 const instance = process.env.EXPO_PUBLIC_INSTANCE;
 const scopes = process.env.EXPO_PUBLIC_SCOPES.split(" ");
-
 WebBrowser.maybeCompleteAuthSession();
 
 const LandingPage = ({ route }) => {
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
   const navigation = useNavigation();
   const { login, token, request } = useAuth(clientId, instance, scopes);
-  console.log(token);
-  console.log(route);
-  const state = useNavigationState((state) => state);
-  console.log("Current route state:", state);
+
   useEffect(() => {
     const checkToken = async () => {
       const token = await AsyncStorage.getItem("token");
