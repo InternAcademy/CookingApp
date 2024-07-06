@@ -1,29 +1,24 @@
-using System.Diagnostics.CodeAnalysis;
 using CookingApp.Infrastructure.Common;
 using CookingApp.Infrastructure.Configurations.Database;
+using CookingApp.Infrastructure.Configurations.Stripe;
 using CookingApp.Infrastructure.Configurations.Swagger;
 using CookingApp.Infrastructure.Interfaces;
+using CookingApp.Services.ChatService;
+using CookingApp.Services.OpenAI;
+using CookingApp.Services.Stripe;
+using CookingApp.Services.UserProfile;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.OpenApi.Models;
-using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using CookingApp.Services.Stripe;
+using OpenAI.Chat;
 using Stripe;
-using CookingApp.Infrastructure.Configurations.Stripe;
-using OpenAI.Extensions;
-using OpenAI;
-using Microsoft.AspNetCore.DataProtection.KeyManagement;
-using CookingApp.Services.ChatService;
-using OpenAI.Managers;
-using Microsoft.Extensions.DependencyInjection;
-using OpenAI.Interfaces;
-using CookingApp.Services.Message;
-using CookingApp.Services.UserProfile;
+using System.Diagnostics.CodeAnalysis;
 
 namespace CookingApp.Infrastructure.Extensions
 {
@@ -173,15 +168,12 @@ namespace CookingApp.Infrastructure.Extensions
 
         public static IHostApplicationBuilder AddOpenAIIntegration(this WebApplicationBuilder builder)
         {
-            builder.Services.AddOpenAIService();
-            builder.Services.Configure<OpenAiOptions>(options =>
-            {
-                options.ApiKey = builder.Configuration.GetValue<string>("OpenAIOptions:ApiKey") ?? string.Empty;
-                options.DefaultModelId = OpenAI.ObjectModels.Models.Gpt_3_5_Turbo;
-            });
+            string apiKey = builder.Configuration.GetValue<string>("OpenAIOptions:ApiKey") ?? string.Empty;
+
+            builder.Services.AddSingleton(new ChatClient(model: "gpt-4o", apiKey));
 
             builder.Services.AddScoped<IChatService, ChatService>();
-            builder.Services.AddScoped<Services.Message.IMessageService, MessageService>();
+            builder.Services.AddScoped<IOpenAIService, OpenAIService>();
 
             return builder;
         }

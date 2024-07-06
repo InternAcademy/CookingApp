@@ -5,6 +5,7 @@
     using System;
     using CookingApp.Infrastructure.Common;
     using CookingApp.Models.Enums;
+    using CookingApp.Models.ValueObjects;
 
     public class UserProfile : MongoEntity
     {

@@ -9,7 +9,7 @@ namespace CookingApp.ViewModels.Chat
         public string Title { get; set; } = default!;
         public string UserId { get; set; } = default!;
 
-        public List<Request> Requests { get; set; } = default!;
-        public List<Response> Responses { get; set; } = default!;
+        public List<Message> Requests { get; set; } = default!;
+        public List<Message> Responses { get; set; } = default!;
     }
 }

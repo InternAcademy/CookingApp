@@ -1,15 +1,15 @@
-﻿namespace CookingApp.Models
+﻿namespace CookingApp.Models.ValueObjects
 {
     using CookingApp.Infrastructure.Common;
     using CookingApp.Models.Enums;
     using MongoDB.Bson.Serialization.Attributes;
 
-    public class Allergy : MongoEntity
+    public class Food : ValueObject
     {
         [BsonElement("name")]
         public string Name { get; set; } = default!;
 
-        [BsonElement("severity")]
-        public AllergySeverity Severity { get; set; }
+        [BsonElement("type")]
+        public FoodType Type { get; set; }
     }
 }

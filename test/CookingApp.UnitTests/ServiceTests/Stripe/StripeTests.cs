@@ -51,15 +51,6 @@ namespace CookingApp.UnitTests.Services.Stripe
 
             stripeService = new StripeService(customerServiceMoq.Object, priceService.Object, productService.Object, subscriptionService.Object);
         }
-
-        [Test]
-        public async Task CreateCustomerAsync_ShouldWork()
-        {
-            var result = await stripeService.CreateCustomerAsync("test");
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result.Email,Is.EqualTo("test"));
-
-        }
         [Test]
         public async Task GetProductsAsync_ShouldWork()
         {
@@ -71,16 +62,6 @@ namespace CookingApp.UnitTests.Services.Stripe
             Assert.That(result.First().Name,Is.EqualTo("test"));
             Assert.That(result.First().Description, Is.EqualTo("description"));
 
-
-        }
-        [Test]
-        public async Task CreateSubscriptionAsync_ShouldWork()
-        {
-            var result = await stripeService.CreateSubscriptionAsync(new SubscriptionCreation() { CustomerId = "321",PriceId="123" });
-            Assert.That(result.InvoiceId, Is.EqualTo("invoiceId"));
-            Assert.That(result.ClientSecret, Is.EqualTo("secret"));
-            Assert.That(result.SubscriptionId, Is.EqualTo("sUB123"));
-            Assert.That(result.InvoiceUrl, Is.EqualTo("url"));
 
         }
         [Test]

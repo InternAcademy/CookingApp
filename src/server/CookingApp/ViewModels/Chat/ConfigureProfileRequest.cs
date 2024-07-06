@@ -1,7 +1,7 @@
 ﻿namespace CookingApp.ViewModels.Chat
 {
     using CookingApp.Models.Enums;
-    using CookingApp.Models;
+    using CookingApp.Models.ValueObjects;
 
     public class ConfigureProfileRequest
     {
