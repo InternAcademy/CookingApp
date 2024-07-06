@@ -13,7 +13,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Thinking from "../bot/Thinking";
 import { useSelector } from "react-redux";
 import ChatInput from "./ChatInput";
-import UserMenu from "../screens/UserMenu";
 import Navigation from "../navigation/Navigation";
 const ip = process.env.PERSONAL_IP;
 const Home = () => {
