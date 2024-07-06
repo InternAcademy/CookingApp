@@ -48,7 +48,8 @@ const MainStack = () => {
         { name: 'AlergensAndFoodPreferences', component: AlergensAndFoodPreferences },
         { name: 'LanguageAndTheme', component: LanguageAndTheme },
         { name: 'RulesAndPolicies', component: RulesAndPolicies },
-        { name: 'CameraScreen', component: CameraScreen } // Added CameraScreen
+        { name: 'CameraScreen', component: CameraScreen },
+        { name: 'ImageScreen', component: ImageScreen }
       ].map(route => (
         <Stack.Screen
           key={route.name}
