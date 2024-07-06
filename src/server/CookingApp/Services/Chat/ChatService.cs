@@ -4,43 +4,35 @@
     using CookingApp.Infrastructure.Exceptions;
     using CookingApp.Infrastructure.Interfaces;
     using CookingApp.Models;
-    using CookingApp.Services.Message;
     using CookingApp.ViewModels.Chat;
     using System.Threading.Tasks;
 
-
-    public class ChatService(
-        IRepository<Chat> repo,
-        IMessageService messageService,
-        IMapper mapper) : IChatService
+    public class ChatService(IRepository<Chat> repo) : IChatService
     {
-        public async Task<Chat> SaveChat(SaveChatRequest request)
+        public async Task<Chat> CreateChat(string userId)
         {
-            var chatMap = mapper.Map<Chat>(request);
-
-            var chatObject = await repo.GetByIdAsync(request.ExternalId);
-            if (chatObject is null)
+            var chat = new Chat()
             {
-                var titleResponse = await messageService.GenerateTitle(chatMap);
-                chatMap.Title = titleResponse.FirstOrDefault().Message.Content;
+                UserId = userId,
+                Requests = [],
+                Responses = []
+            };
+            await repo.InsertAsync(chat);
 
-                await repo.InsertAsync(chatMap);
-            }
-            else
-            {
-                var chat = await repo.GetFirstOrDefaultAsync(a => a.Id == request.ExternalId);
-                if (chat is null)
-                {
-                    throw new NotFoundException();
-                }
+            return chat;
+        }
 
-                chat.Requests = chatMap.Requests;
-                chat.Responses = chatMap.Responses;
+        public async Task<Chat> UpdateChat(string chatId, Message request, Message response)
+        {
+            var chat = await repo.GetFirstOrDefaultAsync(a => a.Id == chatId);
+            ArgumentNullException.ThrowIfNull(chat);
 
-                await repo.UpdateAsync(chat);
-            }
+            chat.Requests.Add(request);
+            chat.Responses.Add(response);
 
-            return chatMap;
+            await repo.UpdateAsync(chat);
+
+            return chat;
         }
 
         public async Task ArchiveChat(string chatId)

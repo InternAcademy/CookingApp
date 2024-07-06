@@ -78,6 +78,7 @@ namespace CookingApp.Common.CompletionConstants
         public const string UserAllergiesPrompt = "User allergies :";
         public const string UserAvoidedFoodsPrompt = "User avoided foods :";
         public const string UserDietaryPreferencePrompt = "User dietary preference :";
+        public const string ImageRequest = "Tell me what products do you see in the image. In the response provide only the products in the following way -> product1, product2, etc.";
 
         public static string BuildSystemMessage(UserProfile profile)
         {
