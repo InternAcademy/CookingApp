@@ -24,7 +24,17 @@ const linking = {
       LandingPage: "landing",
       Home: "home",
       Favourite: "favourite",
+      UserMenu: "user-menu",
+      About: "about",
+      Contact: "contact",
+      Previous: "previous",
+      ArchivedRecipes: "archived-recipes",
+      ProfileSettings: "profile-settings",
+      RecentRecipes: "recent-recipes",
       Subscription: "subscription",
+      AlergensAndFoodPreferences: "alergens-and-food-preferences",
+      LanguageAndTheme: "language-and-theme",
+      RulesAndPolicies: "rules-and-policies",
     },
   },
 };
@@ -38,13 +48,11 @@ const MainStack = () => {
         detachInactiveScreens={true}
         initialRouteName={"landing"}
         screenOptions={{
-          headerStyle: {
-            display: "none",
-          },
+          headerStyle: {},
         }}
       >
-        <Stack.Screen name="LandingPage" component={LandingPage} />
         <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="LandingPage" component={LandingPage} />
         <Stack.Screen name="Favourite" component={Favourite} />
         <Stack.Screen name="UserMenu" component={UserMenu} />
         <Stack.Screen name="About" component={About} />
@@ -60,28 +68,6 @@ const MainStack = () => {
         <Stack.Screen name="LanguageAndTheme" component={LanguageAndTheme} />
         <Stack.Screen name="RulesAndPolicies" component={RulesAndPolicies} />
         <Stack.Screen name="Subscription" component={Subscription} />
-
-        {/* {[
-        { name: "LandingPage", component: LandingPage },
-        { name: "Home", component: Home },
-        { name: "Favourite", component: Favourite },
-        { name: "UserMenu", component: UserMenu },
-        { name: "About", component: About },
-        { name: "Contact", component: Contact },
-        { name: "Previous", component: Previous },
-        { name: "ArchivedRecipes", component: ArchivedRecipes },
-        { name: "ProfileSettings", component: ProfileSettings },
-        { name: "RecentRecipes", component: RecentRecipes },
-        { name: "Subscription", component: Subscription },
-        {
-          name: "AlergensAndFoodPreferences",
-          component: AlergensAndFoodPreferences,
-        },
-        { name: "LanguageAndTheme", component: LanguageAndTheme },
-        { name: "RulesAndPolicies", component: RulesAndPolicies },
-      ].map((route) => (
-        <Stack.Screen options={{ headerShown: false }} />
-      ))} */}
       </Stack.Navigator>
     </NavigationContainer>
   );
