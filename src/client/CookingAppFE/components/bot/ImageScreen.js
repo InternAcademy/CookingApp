@@ -1,12 +1,16 @@
 import { useState } from 'react';
 import { Button, Image, View, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import { useDispatch } from 'react-redux';
+import { uiActions } from '../../redux/uiSlice';
+import { useNavigation } from '@react-navigation/native';
 
 export default function ImageScreen() {
   const [image, setImage] = useState(null);
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
@@ -18,6 +22,8 @@ export default function ImageScreen() {
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
+      dispatch(uiActions.setPhotoUri(result.assets[0].uri));
+      navigation.goBack();
     }
   };
 
