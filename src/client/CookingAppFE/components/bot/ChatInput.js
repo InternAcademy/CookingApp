@@ -75,7 +75,7 @@ export default function ChatInput() {
 
         <View style={tw`flex w-full flex-row justify-center items-center`}>
           <TouchableOpacity onPress={openCamera} style={tw`p-1`}>
-            <Ionicons name="camera" size={30} color="orange" />
+            <Ionicons name="camera" size={30} color={isDarkTheme ? 'white' : 'orange'} />
           </TouchableOpacity>
 
           <TouchableOpacity onPress={openGallery} style={tw`p-1`}>
