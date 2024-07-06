@@ -11,16 +11,6 @@ const Previous = ({ navigation }) => {
     <ScrollView
       contentContainerStyle={tw`p-4 h-full ${isDarkTheme ? "bg-[#202020]" : "bg-white"} pl-8`}
     >
-      <View style={tw`flex-row items-center mb-4`}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Ionicons
-            name="arrow-back"
-            size={24}
-            color={isDarkTheme ? "white" : "black"}
-            style={tw`mr-2`}
-          />
-        </TouchableOpacity>
-      </View>
       <View style={tw`flex-row items-center mb-4 ml-4`}>
         <TouchableOpacity onPress={() => console.log("Previous pressed")}>
           <Ionicons

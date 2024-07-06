@@ -13,6 +13,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Thinking from "../bot/Thinking";
 import { useSelector } from "react-redux";
 import ChatInput from "./ChatInput";
+import UserMenu from "../screens/UserMenu";
+import Navigation from "../navigation/Navigation";
 const Home = () => {
   const navigation = useNavigation();
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
@@ -109,6 +111,7 @@ const Home = () => {
     <SafeAreaView
       style={tw`flex pt-22 w-full h-full ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}
     >
+      <Navigation />
       <FlatList
         data={[{ key: "1" }]}
         renderItem={renderPost}
