@@ -5,7 +5,7 @@ const useAuth = (clientId, instance, scopes) => {
   const discovery = useAutoDiscovery(instance);
   const redirectUri = makeRedirectUri({
     scheme: undefined,
-    path: 'redirect'
+    path: 'logout'
   });
   const [token, setToken] = useState(null);
   const [request, , promptAsync] = useAuthRequest(
