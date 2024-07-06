@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
-import { View, Text, Image, FlatList, SafeAreaView, ScrollView } from 'react-native';
+import { View, Text, Image, FlatList, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import tw from 'twrnc';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Thinking from '../bot/Thinking';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import ChatInput from './ChatInput';
+import Ionicons from '@expo/vector-icons/Ionicons'; // Добавяме Ionicons за иконата "X"
 
 const Home = () => {
   const navigation = useNavigation();
@@ -13,6 +14,7 @@ const Home = () => {
   const isThinking = useSelector(state => state.ui.isThinking);
   const chat = useSelector(state => state.user.selectedChat);
   const photoUri = useSelector(state => state.ui.photoUri); // Извличаме photoUri от състоянието
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const checkToken = async () => {
@@ -62,16 +64,23 @@ const Home = () => {
     );
   };
 
+  const handleRemovePhoto = () => {
+    dispatch(uiActions.clearPhotoUri());
+  };
+
   return (
     <SafeAreaView style={tw`flex pt-22 w-full h-full ${isDarkTheme ? 'bg-[#202020]' : 'bg-white'}`}>
       <FlatList data={[{ key: '1' }]} renderItem={renderPost} keyExtractor={item => item.key} contentContainerStyle={tw`flex-grow`} />
       {photoUri && ( // Проверяваме дали има зададено изображение
-        <View style={tw`flex w-full flex-row justify-center items-center mb-5`}>
+        <View style={tw`flex w-full flex-row justify-center items-center mb-5 relative`}>
           <Image source={{ uri: photoUri }} style={tw`w-16 h-16 rounded-full mr-2`} />
+          <TouchableOpacity style={tw`absolute right-0 p-1`} onPress={handleRemovePhoto}>
+            <Ionicons name="close-circle" size={24} color="red" />
+          </TouchableOpacity>
           <Text style={tw`text-base ${isDarkTheme ? 'text-white' : 'text-black'}`}>Image captured!</Text>
         </View>
       )}
-      <View style={tw`flex w-full flex-row justify-center   mb-5 ${isDarkTheme ? 'border-gray-700 bg-[#202020]' : 'border-gray-300 bg-white'}`}>
+      <View style={tw`flex w-full flex-row justify-center mb-5 ${isDarkTheme ? 'border-gray-700 bg-[#202020]' : 'border-gray-300 bg-white'}`}>
         <ChatInput />
       </View>
     </SafeAreaView>

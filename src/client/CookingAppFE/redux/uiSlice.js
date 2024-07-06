@@ -24,6 +24,10 @@ const uiSlice = createSlice({
     setPhotoUri(state, action) {
       // Добавяме нова действие за задаване на photoUri
       state.photoUri = action.payload;
+    },
+    clearPhotoUri(state) {
+      // Добавяме нова действие за премахване на photoUri
+      state.photoUri = null;
     }
   }
 });
