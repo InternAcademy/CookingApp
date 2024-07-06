@@ -73,10 +73,12 @@ const Home = () => {
       <FlatList data={[{ key: '1' }]} renderItem={renderPost} keyExtractor={item => item.key} contentContainerStyle={tw`flex-grow`} />
       {photoUri && (
         <View style={tw`flex w-full flex-row justify-center items-center mb-5 relative`}>
-          <Image source={{ uri: photoUri }} style={tw`w-16 h-16`} />
-          <TouchableOpacity style={tw`absolute right-0 p-1`} onPress={handleRemovePhoto}>
-            <Ionicons name="close-circle" size={24} color="red" />
-          </TouchableOpacity>
+          <View style={tw`relative`}>
+            <Image source={{ uri: photoUri }} style={tw`w-16 h-16`} />
+            <TouchableOpacity style={tw`absolute top-0 right-0 p-1`} onPress={handleRemovePhoto}>
+              <Ionicons name="close-circle" size={16} color="red" />
+            </TouchableOpacity>
+          </View>
         </View>
       )}
       <View style={tw`flex w-full flex-row justify-center mb-5 ${isDarkTheme ? 'border-gray-700 bg-[#202020]' : 'border-gray-300 bg-white'}`}>
