@@ -1,3 +1,4 @@
+// ChatInput.js
 import { View, Image, TextInput, TouchableOpacity } from 'react-native';
 import tw from 'twrnc';
 import { uiActions } from '../../redux/uiSlice';
@@ -7,25 +8,16 @@ import { userActions } from '../../redux/userSlice';
 import useChatMutation from '../../hooks/useNewChat';
 import useContinueChatMutation from '../../hooks/useKeepChatting';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 export default function ChatInput() {
   const input = useSelector(state => state.ui.input);
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
   const selectedChat = useSelector(state => state.user.selectedChat);
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const { initialMessage, isPending, isError, error } = useChatMutation();
   const { keepChatting, isChatting, isChatError, chatError } = useContinueChatMutation();
-  const navigation = useNavigation();
-  const route = useRoute();
-  const [photo, setPhoto] = useState(null);
-
-  useEffect(() => {
-    if (route.params?.photo) {
-      setPhoto(route.params.photo);
-    }
-  }, [route.params?.photo]);
 
   async function sendMessage() {
     const token = await AsyncStorage.getItem('token');
@@ -54,11 +46,14 @@ export default function ChatInput() {
     dispatch(uiActions.setInput(value));
   }
 
+  function openCamera() {
+    navigation.navigate('CameraScreen');
+  }
+
   return (
     <>
-      {photo && <Image source={{ uri: photo }} style={tw`w-20 h-20 mx-auto my-2 rounded-full`} />}
       <View style={tw`flex w-6/8 flex-row justify-center items-center border ${isDarkTheme ? 'border-gray-700 bg-gray-900' : 'border-gray-300 bg-amber-50'} rounded-full px-2 mx-1`}>
-        <TouchableOpacity onPress={() => navigation.navigate('CameraScreen')} style={tw`p-1`}>
+        <TouchableOpacity onPress={openCamera} style={tw`p-1`}>
           <Ionicons name="camera" size={30} color="orange" />
         </TouchableOpacity>
 
