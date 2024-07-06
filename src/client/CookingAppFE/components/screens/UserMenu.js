@@ -4,10 +4,16 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import tw from "twrnc";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
+import useAuth from "../../hooks/useAuth";
+
+const clientId = process.env.EXPO_PUBLIC_CLIENT_ID;
+const instance = process.env.EXPO_PUBLIC_INSTANCE;
+const scopes = process.env.EXPO_PUBLIC_SCOPES.split(" ");
 
 const UserMenu = () => {
   const navigation = useNavigation();
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
+  const auth = useAuth(clientId, instance, scopes);
 
   return (
     <View
@@ -200,7 +206,7 @@ const UserMenu = () => {
         style={tw`mt-auto items-center flex ${isDarkTheme ? "bg-gray-800" : "bg-[#FFE9CC]"} py-2 rounded-t-lg`}
       >
         <TouchableOpacity
-          onPress={() => console.log("Sign Out")}
+          onPress={() => auth.logout()}
           style={tw`flex-row justify-center items-center`}
         >
           <Text

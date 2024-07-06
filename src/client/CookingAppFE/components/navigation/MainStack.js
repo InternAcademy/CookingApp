@@ -16,6 +16,7 @@ import Subscription from "../../components/screens/settings/Subscription";
 import AlergensAndFoodPreferences from "../../components/screens/settings/AlergensAndFoodPreferences";
 import LanguageAndTheme from "../../components/screens/settings/LanguageAndTheme";
 import RulesAndPolicies from "../../components/screens/settings/RulesAndPolicies";
+import Logout from "../../components/screens/Logout.js"
 import { NavigationContainer } from "@react-navigation/native";
 const Stack = createStackNavigator();
 const linking = {
@@ -35,6 +36,7 @@ const linking = {
       AlergensAndFoodPreferences: "alergens-and-food-preferences",
       LanguageAndTheme: "language-and-theme",
       RulesAndPolicies: "rules-and-policies",
+      Logout: "logout"
     },
   },
 };
@@ -68,6 +70,7 @@ const MainStack = () => {
         <Stack.Screen name="LanguageAndTheme" component={LanguageAndTheme} />
         <Stack.Screen name="RulesAndPolicies" component={RulesAndPolicies} />
         <Stack.Screen name="Subscription" component={Subscription} />
+        <Stack.Screen name="Logout" component={Logout} />
       </Stack.Navigator>
     </NavigationContainer>
   );
