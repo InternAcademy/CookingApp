@@ -58,7 +58,7 @@ export default function ChatInput() {
     <>
       <View style={tw`flex w-6/8 flex-col justify-center items-center border ${isDarkTheme ? 'border-gray-700 bg-gray-900' : 'border-gray-300 bg-amber-50'} rounded-full px-2 mx-1`}>
         {photoUri && (
-          <View style={tw`flex w-full flex-row justify-center items-center mb-2 relative`}>
+          <View style={tw`flex w-full flex-row justify-start items-center mb-2 relative`}>
             <View style={tw`relative`}>
               <Image source={{ uri: photoUri }} style={tw`w-16 h-16`} />
               <TouchableOpacity style={tw`absolute top-0 right-0 p-1`} onPress={handleRemovePhoto}>
@@ -67,6 +67,7 @@ export default function ChatInput() {
             </View>
           </View>
         )}
+
         <View style={tw`flex w-full flex-row justify-center items-center`}>
           <TouchableOpacity onPress={openCamera} style={tw`p-1`}>
             <Ionicons name="camera" size={30} color="orange" />
