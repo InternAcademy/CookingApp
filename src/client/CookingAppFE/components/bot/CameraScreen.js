@@ -44,15 +44,11 @@ export default function CameraScreen() {
       {photo ? (
         <View style={tw`flex-1 justify-center items-center`}>
           <Image source={{ uri: photo }} style={tw`w-full h-4/5`} />
-          <View style={tw`flex-row justify-around items-end bg-transparent mt-16`}>
+          <View style={[tw`flex-row items-end bg-transparent mt-16`, { gap: 150 }]}>
             <TouchableOpacity style={tw`bg-gray-800 p-3 rounded`} onPress={handleRetry}>
               <Text style={tw`text-lg text-white`}>Retry</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={tw`bg-gray-800 p-3 rounded`}
-              onPress={() => {
-                /* Handle OK action */
-              }}>
+            <TouchableOpacity style={tw`bg-gray-800 p-3 rounded`} onPress={() => {}}>
               <Text style={tw`text-lg text-white`}>OK</Text>
             </TouchableOpacity>
           </View>
