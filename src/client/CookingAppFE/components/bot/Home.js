@@ -71,13 +71,12 @@ const Home = () => {
   return (
     <SafeAreaView style={tw`flex pt-22 w-full h-full ${isDarkTheme ? 'bg-[#202020]' : 'bg-white'}`}>
       <FlatList data={[{ key: '1' }]} renderItem={renderPost} keyExtractor={item => item.key} contentContainerStyle={tw`flex-grow`} />
-      {photoUri && ( // Проверяваме дали има зададено изображение
+      {photoUri && (
         <View style={tw`flex w-full flex-row justify-center items-center mb-5 relative`}>
           <Image source={{ uri: photoUri }} style={tw`w-16 h-16 rounded-full mr-2`} />
           <TouchableOpacity style={tw`absolute right-0 p-1`} onPress={handleRemovePhoto}>
             <Ionicons name="close-circle" size={24} color="red" />
           </TouchableOpacity>
-          <Text style={tw`text-base ${isDarkTheme ? 'text-white' : 'text-black'}`}>Image captured!</Text>
         </View>
       )}
       <View style={tw`flex w-full flex-row justify-center mb-5 ${isDarkTheme ? 'border-gray-700 bg-[#202020]' : 'border-gray-300 bg-white'}`}>
