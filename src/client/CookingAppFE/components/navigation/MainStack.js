@@ -16,57 +16,60 @@ import Subscription from "../../components/screens/settings/Subscription";
 import AlergensAndFoodPreferences from "../../components/screens/settings/AlergensAndFoodPreferences";
 import LanguageAndTheme from "../../components/screens/settings/LanguageAndTheme";
 import RulesAndPolicies from "../../components/screens/settings/RulesAndPolicies";
-
+import { NavigationContainer } from "@react-navigation/native";
 const Stack = createStackNavigator();
+const linking = {
+  config: {
+    screens: {
+      LandingPage: "landing",
+      Home: "home",
+      Favourite: "favourite",
+      UserMenu: "user-menu",
+      About: "about",
+      Contact: "contact",
+      Previous: "previous",
+      ArchivedRecipes: "archived-recipes",
+      ProfileSettings: "profile-settings",
+      RecentRecipes: "recent-recipes",
+      Subscription: "subscription",
+      AlergensAndFoodPreferences: "alergens-and-food-preferences",
+      LanguageAndTheme: "language-and-theme",
+      RulesAndPolicies: "rules-and-policies",
+    },
+  },
+};
 
 const MainStack = () => {
-  const { currentRoute, setCurrentRoute } = useNavigationContext();
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
 
   return (
-    <Stack.Navigator
-      initialRouteName={currentRoute}
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: isDarkTheme ? "#202020" : "white",
-        },
-        headerTintColor: isDarkTheme ? "white" : "black",
-      }}
-    >
-      {[
-        { name: "LandingPage", component: LandingPage },
-        { name: "Home", component: Home },
-        { name: "Favourite", component: Favourite },
-        { name: "UserMenu", component: UserMenu },
-        { name: "About", component: About },
-        { name: "Contact", component: Contact },
-        { name: "Previous", component: Previous },
-        { name: "ArchivedRecipes", component: ArchivedRecipes },
-        { name: "ProfileSettings", component: ProfileSettings },
-        { name: "RecentRecipes", component: RecentRecipes },
-        { name: "Subscription", component: Subscription },
-        {
-          name: "AlergensAndFoodPreferences",
-          component: AlergensAndFoodPreferences,
-        },
-        { name: "LanguageAndTheme", component: LanguageAndTheme },
-        { name: "RulesAndPolicies", component: RulesAndPolicies },
-      ].map((route) => (
+    <NavigationContainer linking={linking}>
+      <Stack.Navigator
+        detachInactiveScreens={true}
+        initialRouteName={"landing"}
+        screenOptions={{
+          headerStyle: {},
+        }}
+      >
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="LandingPage" component={LandingPage} />
+        <Stack.Screen name="Favourite" component={Favourite} />
+        <Stack.Screen name="UserMenu" component={UserMenu} />
+        <Stack.Screen name="About" component={About} />
+        <Stack.Screen name="Contact" component={Contact} />
+        <Stack.Screen name="Previous" component={Previous} />
+        <Stack.Screen name="ArchivedRecipes" component={ArchivedRecipes} />
+        <Stack.Screen name="ProfileSettings" component={ProfileSettings} />
+        <Stack.Screen name="RecentRecipes" component={RecentRecipes} />
         <Stack.Screen
-          key={route.name}
-          name={route.name}
-          component={route.component}
-          options={{ headerShown: false }}
-          listeners={({ navigation }) => ({
-            focus: () => setCurrentRoute(route.name),
-            state: (e) => {
-              const routeName = e.data.state.routes[e.data.state.index].name;
-              setCurrentRoute(routeName);
-            },
-          })}
+          name="AlergensAndFoodPreferences"
+          component={AlergensAndFoodPreferences}
         />
-      ))}
-    </Stack.Navigator>
+        <Stack.Screen name="LanguageAndTheme" component={LanguageAndTheme} />
+        <Stack.Screen name="RulesAndPolicies" component={RulesAndPolicies} />
+        <Stack.Screen name="Subscription" component={Subscription} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
