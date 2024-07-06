@@ -16,6 +16,7 @@ import Subscription from '../../components/screens/settings/Subscription';
 import AlergensAndFoodPreferences from '../../components/screens/settings/AlergensAndFoodPreferences';
 import LanguageAndTheme from '../../components/screens/settings/LanguageAndTheme';
 import RulesAndPolicies from '../../components/screens/settings/RulesAndPolicies';
+import CameraScreen from '../../components/bot/CameraScreen';
 
 const Stack = createStackNavigator();
 
@@ -44,12 +45,10 @@ const MainStack = () => {
         { name: 'ProfileSettings', component: ProfileSettings },
         { name: 'RecentRecipes', component: RecentRecipes },
         { name: 'Subscription', component: Subscription },
-        {
-          name: 'AlergensAndFoodPreferences',
-          component: AlergensAndFoodPreferences
-        },
+        { name: 'AlergensAndFoodPreferences', component: AlergensAndFoodPreferences },
         { name: 'LanguageAndTheme', component: LanguageAndTheme },
-        { name: 'RulesAndPolicies', component: RulesAndPolicies }
+        { name: 'RulesAndPolicies', component: RulesAndPolicies },
+        { name: 'CameraScreen', component: CameraScreen } // Added CameraScreen
       ].map(route => (
         <Stack.Screen
           key={route.name}
