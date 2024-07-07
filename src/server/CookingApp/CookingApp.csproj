@@ -36,7 +36,7 @@
     <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="8.0.0" />
     <PackageReference Include="Serilog.Sinks.Seq" Version="7.0.1" />
-    <PackageReference Include="Stripe.net" Version="44.10.0" />
+    <PackageReference Include="Stripe.net" Version="45.2.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
