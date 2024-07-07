@@ -154,6 +154,7 @@ namespace CookingApp.Infrastructure.Extensions
             builder.Services.AddScoped<PriceService>();
             builder.Services.AddScoped<ProductService>();
             builder.Services.AddScoped<SubscriptionService>();
+            builder.Services.AddScoped<InvoiceService>();
             string apiKey = builder.Configuration.GetValue<string>("StripeOptions:SecretKey") ?? string.Empty;
             string webhookSecret = builder.Configuration.GetValue<string>("StripeOptions:WebhookSecret") ?? string.Empty;
 

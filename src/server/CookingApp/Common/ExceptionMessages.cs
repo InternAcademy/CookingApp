@@ -2,8 +2,15 @@
 {
     public static class ExceptionMessages
     {
-        public const string NullOrEmptyInputValues = "The provided input contains either null or an empty value";
-        public const string SubscriptionCreationFail = "Failed to create a subscription. {0}";
+        public class Stripe 
+        {
+            public const string NullOrEmptyInputValues = "The provided input contains either null or an empty value";
+            public const string SubscriptionCreationFail = "Failed to create a subscription. {0}";
+
+            public const string TheUserIsAlreadySubscribed = "The user has an active subscription";
+            
+        }
+       
 
         public class ChatGPT
         {
