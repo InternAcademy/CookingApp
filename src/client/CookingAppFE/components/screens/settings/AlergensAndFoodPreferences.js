@@ -91,7 +91,7 @@ const AlergensAndFoodPreferences = () => {
         </Text>
 
         {/* Alergens Section */}
-        <View style={tw`w-full mb-6 pb-6 bg-zinc-200/50 rounded-xl py-4`}>
+        <View style={tw`w-full mb-6 pb-6 ${isDarkTheme ? 'bg-[#2a2a2a]' : 'bg-zinc-200/50'} rounded-xl py-4`}>
           <Text
             style={tw`text-lg font-semibold mb-2 text-center ${
               isDarkTheme ? 'text-white' : 'text-black'
@@ -105,8 +105,8 @@ const AlergensAndFoodPreferences = () => {
                 {alergens.map((alergen, index) => (
                   <TouchableOpacity key={index} onPress={() => handleRemoveAlergen(index)}>
                     <Text
-                      style={tw`border rounded-full px-3 py-1 mx-1 mb-2 ${
-                        isDarkTheme ? 'border-gray-600 text-white' : 'border-gray-300 text-black'
+                      style={tw`border rounded-full px-3 py-1 mx-1 mb-2  ${
+                        isDarkTheme ? 'border-amber-200   text-white  shadow-white' : 'border-gray-300 bg-white shadow-md text-black '
                       }`}
                     >
                       {alergen}
@@ -120,7 +120,7 @@ const AlergensAndFoodPreferences = () => {
           )}
           <TextInput
             style={tw`border mx-4 ${
-              isDarkTheme ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white text-black'
+              isDarkTheme ? 'border-gray-600 bg-gray-200 text-black' : 'border-gray-300 bg-white text-black'
             } rounded-lg px-4 py-2 mb-2`}
             placeholder="Add your allergens"
             placeholderTextColor={isDarkTheme ? 'gray' : 'black'}
@@ -130,17 +130,17 @@ const AlergensAndFoodPreferences = () => {
           {error && <Text style={tw`text-red-500 mb-2 text-center`}>{error}</Text>}
           <TouchableOpacity style={tw`w-full flex items-center justify-center`} onPress={handleAddAlergen}>
             <View style={tw`w-[200px] py-2 mt-2 bg-amber-200 rounded-full flex items-center justify-center`}>
-              <Text style={tw`${isDarkTheme ? 'text-white' : 'text-black'} text-center text-base font-medium`}>
+              <Text style={tw`${isDarkTheme ? 'text-black' : 'text-black'} text-center text-base font-medium`}>
                 Add Allergen
               </Text>
             </View>
           </TouchableOpacity>
         </View>
 
-        <View style={tw`w-full border-b-2 border-amber-200/40 mb-6 items-center justify-center`}></View>
+        <View style={tw`w-full border-b-2 ${isDarkTheme ? 'border-amber-200/40' : 'border-amber-200/40'} mb-6 items-center justify-center`}></View>
 
         {/* Food Preferences Section */}
-        <View style={tw`w-full mb-6 pb-6 bg-zinc-200/50 rounded-xl py-4`}>
+        <View style={tw`w-full mb-6 pb-6 ${isDarkTheme ? 'bg-[#2a2a2a]' : 'bg-zinc-200/50'} rounded-xl py-4`}>
           <Text
             style={tw`text-lg font-semibold mb-2 text-center ${
               isDarkTheme ? 'text-white' : 'text-black'
@@ -155,7 +155,7 @@ const AlergensAndFoodPreferences = () => {
                   <TouchableOpacity key={index} onPress={() => handleRemoveFoodPreference(index)}>
                     <Text
                       style={tw`border rounded-full px-3 py-1 mx-1 mb-2 ${
-                        isDarkTheme ? 'border-gray-600 text-white' : 'border-gray-300 text-black'
+                        isDarkTheme ? 'border-gray-600 text-white' : 'border-gray-300 bg-white shadow-md text-black'
                       }`}
                     >
                       {preference}
@@ -169,7 +169,7 @@ const AlergensAndFoodPreferences = () => {
           )}
           <TextInput
             style={tw`mx-4 border ${
-              isDarkTheme ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white text-black'
+              isDarkTheme ? 'border-gray-600 bg-gray-200 text-black' : 'border-gray-300 bg-white text-black'
             } rounded-lg px-4 py-2 mb-2`}
             placeholder="Add your food preferences"
             placeholderTextColor={isDarkTheme ? 'gray' : 'black'}
@@ -179,7 +179,7 @@ const AlergensAndFoodPreferences = () => {
           {foodError && <Text style={tw`text-red-500 mb-2`}>{foodError}</Text>}
           <TouchableOpacity style={tw`w-full flex items-center justify-center`} onPress={handleAddFoodPreference}>
             <View style={tw`w-[200px] py-2 mt-2 bg-amber-200 rounded-full flex items-center justify-center`}>
-              <Text style={tw`${isDarkTheme ? 'text-white' : 'text-black'} text-center text-base font-medium`}>
+              <Text style={tw`${isDarkTheme ? 'text-black' : 'text-black'} text-center text-base font-medium`}>
                 Save Preferences
               </Text>
             </View>
