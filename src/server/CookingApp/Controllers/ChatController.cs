@@ -19,12 +19,12 @@
         public async Task<IActionResult> SendMessage([FromForm] MessageRequest message)
         {
             var userId = GetUser.ProfileId(httpContextAccessor);
-            var responce = await openAIService.SendMessage(userId, message);
+            var response = await openAIService.SendMessage(userId, message);
 
             return new ApiResponse<MessageResponse>()
             {
                 Status = 200,
-                Data = responce
+                Data = response
             };
         }
 

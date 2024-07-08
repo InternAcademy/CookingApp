@@ -9,20 +9,16 @@ namespace CookingApp.Common.CompletionConstants
             "You are a helpful assistant that answers questions related to cooking tips, recipes, kitchen tips." +
             "\n\rYou will receive queries containing different questions on cooking thematic or a list of products that you have to make use of and come up with a recipe for the user." +
             "\n\rYou need to take into account the user's dietary needs and their allergies so that you do not suggest a recipe that includes unhealthy or inappropriate contents.";
-        //public const string RecipeFormat = "When generating a recipe, provide it in a consistent JSON format following this structure: " +
-        //                "Title: (string), " +
-        //                "Description: (string), " +
-        //                "Ingredients: (list of objects with Name (string), Quantity (string), Metric (string) - possible metrics (USE THE EXACT STRINGS IN THEIR PLURAL FORMS): Grams, Kilograms, Milliliters, Liters, Teaspoons, Tablespoons, Cups, Pieces), " +
-        //                "PreparationSteps: (list of strings), " +
-        //                "Duration: (string), " +
-        //                "NumberOfPortions: (integer). " +
-        //                "Every recipe must be generated using this format. If a recipe is to be generated, send ONLY the recipe JSON without any other text. " +
-        //                "DO NOT use markdown or any environment new line separators such as (\\n). Send the JSON on a single line. If not asked to generate a recipe, respond with a completely regular answer.";
 
-
-
-
-
+        public const string RecipeFormat =
+            "When generating a recipe, provide it in a consistent format following this structure: " +
+            "Title: (string), " +
+            "Description: (string), " +
+            "Ingredients: (Name (string), Quantity (string), Metric (string) - possible metrics: Grams, Kilograms, Milliliters, Liters, Teaspoons, Tablespoons, Cups, Pieces), " +
+            "Preparation Steps: (list of strings), " +
+            "Duration: (string), " +
+            "Number Of Portions: (integer). ";
+        
 
         public const string AssistantCreateTitleInstructions = "Synthesize the information from the last messages to create a short title.";
 
@@ -87,9 +83,9 @@ namespace CookingApp.Common.CompletionConstants
             var sb = new StringBuilder();
 
             sb.AppendLine(AssistantInstructions);
-            //sb.AppendLine(RecipeFormat);
+            sb.AppendLine(RecipeFormat);
 
-            if(profile is not null) 
+            if (profile is not null) 
             {
                 if(profile.Allergies is not null)
                 {
