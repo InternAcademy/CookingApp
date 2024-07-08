@@ -197,7 +197,7 @@ const UserMenu = () => {
       </TouchableOpacity>
 
       <View
-        style={tw` mx-12 mt-auto items-center flex mb-4 ${isDarkTheme ? "bg-zinc-700" : "bg-[#FFE9CC]/30"} py-2 rounded-full`}
+        style={tw` mx-12 mt-auto items-center flex  ${isDarkTheme ? "" : ""} py-2 `}
       >
         <TouchableOpacity
           onPress={() => console.log("Sign Out")}
