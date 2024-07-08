@@ -1,10 +1,12 @@
 ﻿namespace CookingApp.Services.Stripe
 {
     using AutoMapper;
+    using CookingApp.Common;
     using CookingApp.ViewModels.Stripe.Customer;
     using CookingApp.ViewModels.Stripe.Statistics;
     using CookingApp.ViewModels.Stripe.Subscription;
     using global::Stripe;
+    using System.Diagnostics.Eventing.Reader;
     using static CookingApp.Common.ExceptionMessages;
     using Product = ViewModels.Stripe.Product;
 
@@ -12,7 +14,9 @@
         PriceService priceService,
         ProductService productService,
         SubscriptionService subscriptionService,
-        IMapper mapper) : IStripeService
+        BalanceTransactionService balanceTransactionService,
+        IMapper mapper,
+        ILogger logger) : IStripeService
     {
         /// <summary>
         /// Gets all products that are in the Stripe account.
@@ -96,26 +100,19 @@
 
         public async Task<List<CustomerData>> GetAllSubs()
         {
-            var options = new SubscriptionSearchOptions
+            var options = new SubscriptionListOptions
             {
-                Query = $"status:'active'"
+                Status = "active"
             };
 
-            var subscriptions = await subscriptionService.SearchAsync(options);
+            var subscriptions = await subscriptionService.ListAsync(options);
             var allActiveUsers = new List<CustomerData>();
 
             foreach (var subscription in subscriptions)
             {
-                try
-                {
-                    var customer = await customerService.GetAsync(subscription.CustomerId);
-                    var customerModel = mapper.Map<CustomerData>(customer);
-                    allActiveUsers.Add(customerModel);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error mapping customer for subscription {subscription.CustomerId}: {ex.Message}");
-                }
+                var customer = await customerService.GetAsync(subscription.CustomerId);
+                var customerModel = mapper.Map<CustomerData>(customer);
+                allActiveUsers.Add(customerModel);
             }
 
             return allActiveUsers;
@@ -125,13 +122,11 @@
         {
             var subStats = new SubscriptionStatistics();
 
-            // List active subscriptions
             var activeOptions = new SubscriptionListOptions()
             {
                 Status = "active"
             };
 
-            // List ended (canceled) subscriptions
             var canceledOptions = new SubscriptionListOptions()
             {
                 Status = "canceled"
@@ -143,18 +138,12 @@
             subStats.ActiveSubscriptions = activeSubscriptions.Data.Count;
             subStats.CanceledSubscriptions = canceledSubscriptions.Data.Count;
 
-            if (subStats.CanceledSubscriptions == 0)
-            {
-                return null;
-            }
-
             return subStats;
         }
 
         public async Task<IncomeStatistics> GetIncome30DaysBack()
         {
             var incomeStat = new IncomeStatistics();
-            var balanceTransactionService = new BalanceTransactionService();
 
             var options = new BalanceTransactionListOptions()
             {
@@ -165,22 +154,14 @@
                 }
             };
 
-            try
+            var last30DayTransactions = await balanceTransactionService.ListAsync(options);
+
+            incomeStat.TotalTransactions = last30DayTransactions.Count();
+
+            foreach (var transaction in last30DayTransactions)
             {
-                var last30DayTransactions = await balanceTransactionService.ListAsync(options);
-
-                incomeStat.TotalTransactions = last30DayTransactions.Count();
-
-                foreach (var transaction in last30DayTransactions)
-                {
-                    incomeStat.Total += transaction.Amount;
-                    incomeStat.AmountAfterTax += transaction.Amount - transaction.Fee;
-                }
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"{ex.Message}");
+                incomeStat.Total += transaction.Amount;
+                incomeStat.AmountAfterTax += transaction.Amount - transaction.Fee;
             }
 
             return incomeStat;
