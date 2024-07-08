@@ -5,7 +5,25 @@ import { useSelector } from 'react-redux';
 
 const AlergensAndFoodPreferences = () => {
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
-
+  const possibleAllergens = [
+    'Peanuts',
+    'Soy',
+    'Egg',
+    'Milk',
+    'Fish',
+    'Wheat',
+    'Shellfish',
+    'Tree nuts',
+    'Sesame',
+    'Mustard',
+    'Celery',
+    'Molluscs',
+    'Sulphites',
+    'Nuts',
+    'Ketchup',
+    'Onion',
+    'Garlic',    
+  ];
   const [alergens, setAlergens] = useState([]);
   const [foodPreferences, setFoodPreferences] = useState([]);
   const [alergenInput, setAlergenInput] = useState('');
@@ -14,10 +32,15 @@ const AlergensAndFoodPreferences = () => {
   const [foodError, setFoodError] = useState('');
 
   const handleAddAlergen = () => {
+    const normalizedInput = alergenInput.trim().toLowerCase();
+    const normalizedAllergens = possibleAllergens.map(alergen => alergen.toLowerCase());
+
     if (alergenInput.trim() !== '') {
-      if (alergens.length >= 12) {
+      if (!normalizedAllergens.includes(normalizedInput)) {
+        setError('Allergen not found.');
+      } else if (alergens.length >= 12) {
         setError('You can add a maximum of 12 allergens.');
-      } else if (alergens.includes(alergenInput.trim())) {
+      } else if (alergens.map(alergen => alergen.toLowerCase()).includes(normalizedInput)) {
         setError('Allergen already added.');
       } else {
         setAlergens((prevAlergens) => [...prevAlergens, alergenInput.trim()]);
