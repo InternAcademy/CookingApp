@@ -1,6 +1,8 @@
 ﻿namespace CookingApp.Services.Stripe
 {
+    using AutoMapper;
     using CookingApp.ViewModels.Stripe.Customer;
+    using CookingApp.ViewModels.Stripe.Statistics;
     using CookingApp.ViewModels.Stripe.Subscription;
     using global::Stripe;
     using static CookingApp.Common.ExceptionMessages;
@@ -9,7 +11,8 @@
     public class StripeService(CustomerService customerService,
         PriceService priceService,
         ProductService productService,
-        SubscriptionService subscriptionService) : IStripeService
+        SubscriptionService subscriptionService,
+        IMapper mapper) : IStripeService
     {
         /// <summary>
         /// Gets all products that are in the Stripe account.
@@ -23,7 +26,7 @@
 
             foreach (var product in products)
             {
-                
+
                 var price = await priceService.GetAsync(product.DefaultPriceId);
                 result.Add(
                     new Product(product.Id,
@@ -89,6 +92,98 @@
             var subscription = await subscriptionService.CancelAsync(model.SubscriptionId);
 
             return new SubscriptionCancellationResponse(subscription.CanceledAt);
+        }
+
+        public async Task<List<CustomerData>> GetAllSubs()
+        {
+            var options = new SubscriptionSearchOptions
+            {
+                Query = $"status:'active'"
+            };
+
+            var subscriptions = await subscriptionService.SearchAsync(options);
+            var allActiveUsers = new List<CustomerData>();
+
+            foreach (var subscription in subscriptions)
+            {
+                try
+                {
+                    var customer = await customerService.GetAsync(subscription.CustomerId);
+                    var customerModel = mapper.Map<CustomerData>(customer);
+                    allActiveUsers.Add(customerModel);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error mapping customer for subscription {subscription.CustomerId}: {ex.Message}");
+                }
+            }
+
+            return allActiveUsers;
+        }
+
+        public async Task<SubscriptionStatistics> GetSubsStats()
+        {
+            var subStats = new SubscriptionStatistics();
+
+            // List active subscriptions
+            var activeOptions = new SubscriptionListOptions()
+            {
+                Status = "active"
+            };
+
+            // List ended (canceled) subscriptions
+            var canceledOptions = new SubscriptionListOptions()
+            {
+                Status = "canceled"
+            };
+
+            var activeSubscriptions = await subscriptionService.ListAsync(activeOptions);
+            var canceledSubscriptions = await subscriptionService.ListAsync(canceledOptions);
+
+            subStats.ActiveSubscriptions = activeSubscriptions.Data.Count;
+            subStats.CanceledSubscriptions = canceledSubscriptions.Data.Count;
+
+            if (subStats.CanceledSubscriptions == 0)
+            {
+                return null;
+            }
+
+            return subStats;
+        }
+
+        public async Task<IncomeStatistics> GetIncome30DaysBack()
+        {
+            var incomeStat = new IncomeStatistics();
+            var balanceTransactionService = new BalanceTransactionService();
+
+            var options = new BalanceTransactionListOptions()
+            {
+                Created = new DateRangeOptions
+                {
+                    GreaterThanOrEqual = DateTime.UtcNow.AddDays(-30),
+                    LessThanOrEqual = DateTime.UtcNow
+                }
+            };
+
+            try
+            {
+                var last30DayTransactions = await balanceTransactionService.ListAsync(options);
+
+                incomeStat.TotalTransactions = last30DayTransactions.Count();
+
+                foreach (var transaction in last30DayTransactions)
+                {
+                    incomeStat.Total += transaction.Amount;
+                    incomeStat.AmountAfterTax += transaction.Amount - transaction.Fee;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"{ex.Message}");
+            }
+
+            return incomeStat;
         }
     }
 }
