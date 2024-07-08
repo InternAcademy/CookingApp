@@ -1,4 +1,4 @@
-﻿using CookingApp.ViewModels.Chat;
+﻿using CookingApp.ViewModels.Profile;
 
 namespace CookingApp.Services.UserProfile
 {

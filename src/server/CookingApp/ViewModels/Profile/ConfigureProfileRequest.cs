@@ -1,4 +1,4 @@
-﻿namespace CookingApp.ViewModels.Chat
+﻿namespace CookingApp.ViewModels.Profile
 {
     using CookingApp.Models.Enums;
     using CookingApp.Models.ValueObjects;

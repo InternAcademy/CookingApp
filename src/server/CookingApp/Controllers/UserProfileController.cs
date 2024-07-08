@@ -1,6 +1,6 @@
 ﻿using CookingApp.Common.Helpers.Profiles;
 using CookingApp.Services.UserProfile;
-using CookingApp.ViewModels.Chat;
+using CookingApp.ViewModels.Profile;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,7 +12,7 @@ namespace CookingApp.Controllers
     {
 
         [HttpGet("create-profile")]
-        public async Task<IActionResult> CreateProfile([FromBody] string allergies)
+        public async Task<IActionResult> CreateProfile()
         {
             var userId = GetUser.ProfileId(httpContextAccessor);
 
