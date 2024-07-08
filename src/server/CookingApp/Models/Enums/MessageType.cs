@@ -3,7 +3,7 @@
     public enum MessageType
     {
         Text,
-        ImageURL,
+        Image,
         JSON
     }
 }

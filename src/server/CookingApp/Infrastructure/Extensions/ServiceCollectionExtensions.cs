@@ -4,6 +4,8 @@ using CookingApp.Infrastructure.Configurations.Stripe;
 using CookingApp.Infrastructure.Configurations.Swagger;
 using CookingApp.Infrastructure.Interfaces;
 using CookingApp.Services.ChatService;
+using CookingApp.Services.File;
+using CookingApp.Services.Message;
 using CookingApp.Services.OpenAI;
 using CookingApp.Services.Stripe;
 using CookingApp.Services.UserProfile;
@@ -174,7 +176,7 @@ namespace CookingApp.Infrastructure.Extensions
             builder.Services.AddSingleton(new ChatClient(model: "gpt-4o", apiKey));
 
             builder.Services.AddScoped<IChatService, ChatService>();
-            builder.Services.AddScoped<IOpenAIService, OpenAIService>();
+            builder.Services.AddScoped<IMessageService, MessageService>();
 
             return builder;
         }

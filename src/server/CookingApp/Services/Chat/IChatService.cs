@@ -10,6 +10,6 @@
         Task ArchiveChat(string chatId);
         Task DeleteChat(string chatId);
         Task<Chat> CreateChat(string userId);
-        Task<IEnumerable<ContentResponse>> GetActiveUserChats(string userId);
+        Task<IEnumerable<ChatDataResponse>> GetActiveUserChats(string userId);
     }
 }

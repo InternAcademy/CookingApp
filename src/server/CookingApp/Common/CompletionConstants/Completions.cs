@@ -74,11 +74,13 @@ namespace CookingApp.Common.CompletionConstants
                     "\r\nFeel free to add other herbs or spices that you like." +
                     "\r\nEnjoy your meal!";
 #endregion
-        public const string TitleGenerationPrompt = "Generate a title for this content. Use upto 5 words! :";
+        public const string TitleGenerationPrompt = "Generate a title for this content. Note that all of the generated titles sould be in the context of cooking, kitchen, recipe names and so on. Use upto 5 words! :";
         public const string UserAllergiesPrompt = "User allergies :";
         public const string UserAvoidedFoodsPrompt = "User avoided foods :";
         public const string UserDietaryPreferencePrompt = "User dietary preference :";
-        public const string ImageRequest = "Tell me what products do you see in the image. In the response provide only the products in the following way -> product1, product2, etc.";
+        public const string ImageRequest = "Based on the cooking products that you see in the provided image I want you to generate a recipe! " +
+            "If the image does not contain any products do not create a recipe but insted tell the user that you are unable to process the image and kindly ask him to try with another one. " +
+            "And if the image contains any harmful or unapropriete content tell the user that this is strongly forbidden!";
 
         public static string BuildSystemMessage(UserProfile profile)
         {
