@@ -91,7 +91,7 @@ const AlergensAndFoodPreferences = () => {
         </Text>
 
         {/* Alergens Section */}
-        <View style={tw`w-full mb-6 pb-6 ${isDarkTheme ? 'bg-[#2a2a2a]' : 'bg-zinc-200/50'} rounded-xl py-4`}>
+        <View style={tw`w-full mb-6 pb-6  ${isDarkTheme ? 'bg-[#2a2a2a]' : 'bg-zinc-200/50'} rounded-xl py-4`}>
           <Text
             style={tw`text-lg font-semibold mb-2 text-center ${
               isDarkTheme ? 'text-white' : 'text-black'
@@ -101,7 +101,7 @@ const AlergensAndFoodPreferences = () => {
           </Text>
           {alergens.length > 0 ? (
             <>
-              <View style={tw`flex flex-row flex-wrap px-1 mb-1`}>
+              <View style={tw`flex flex-row flex-wrap px-4 mb-1`}>
                 {alergens.map((alergen, index) => (
                   <TouchableOpacity key={index} onPress={() => handleRemoveAlergen(index)}>
                     <Text
@@ -150,7 +150,7 @@ const AlergensAndFoodPreferences = () => {
           </Text>
           {foodPreferences.length > 0 ? (
             <>
-              <View style={tw`flex flex-row flex-wrap px-1 mb-1`}>
+              <View style={tw`flex flex-row flex-wrap px-1 mb-1 px-4`}>
                 {foodPreferences.map((preference, index) => (
                   <TouchableOpacity key={index} onPress={() => handleRemoveFoodPreference(index)}>
                     <Text
