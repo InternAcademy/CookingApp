@@ -32,7 +32,6 @@ namespace CookingApp.Controllers
         [HttpPost("subscription")]
         public async Task<ApiResponse<SubscriptionCreationResponse>> CreateSubscriptionAsync([FromBody] SubscriptionCreation model)
         {
-            var test = stripeOptions.Value.WebhookSecret;
             var customer = await stripeService.CreateSubscriptionAsync(model);
 
             return new ApiResponse<SubscriptionCreationResponse>()
@@ -57,10 +56,8 @@ namespace CookingApp.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Webhook()
         {
-            
            var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
-            try
-            {
+            
                 var stripeEvent = EventUtility.ConstructEvent(json,
                     Request.Headers["Stripe-Signature"], stripeOptions.Value.WebhookSecret,300,false);
 
@@ -72,6 +69,7 @@ namespace CookingApp.Controllers
                     if (invoice != null)
                     {
                         var subscriptionId = invoice.SubscriptionId;
+                        //Make the user premium
                         Console.WriteLine($"Invoice Paid for Subscription ID: {subscriptionId}");
                     }
                 }
@@ -83,17 +81,22 @@ namespace CookingApp.Controllers
                 {
                     Console.WriteLine("Invoice created");
                 }
+                else if (stripeEvent.Type == Events.CustomerSubscriptionDeleted)
+                {
+                    var subscription = stripeEvent.Data.Object as Subscription;
+
+                    if (subscription != null)
+                    {
+                        var customerId = subscription.CustomerId;
+                        Console.WriteLine($"Subscription Deleted for Customer ID: {customerId}");
+                    }
+                }
                 else
                 {
                     Console.WriteLine("Unhandled event type: {0}", stripeEvent.Type);
                 }
 
                 return Ok();
-            }
-            catch (StripeException e)
-            {
-                return BadRequest();
-            }
         }
 
     }

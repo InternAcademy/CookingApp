@@ -1,16 +1,21 @@
 ﻿namespace CookingApp.Services.Stripe
 {
-    using CookingApp.ViewModels.Stripe.Customer;
+    using CookingApp.Common.Helpers.Profiles;
+    using CookingApp.Infrastructure.Exceptions;
+    using CookingApp.Infrastructure.Interfaces;
     using CookingApp.ViewModels.Stripe.Subscription;
     using global::Stripe;
+    using Microsoft.AspNetCore.Http.HttpResults;
     using static CookingApp.Common.ExceptionMessages;
     using Product = ViewModels.Stripe.Product;
-
+    using UserProfile = Models.UserProfile;
     public class StripeService(CustomerService customerService,
         PriceService priceService,
         ProductService productService,
         SubscriptionService subscriptionService,
-        InvoiceService invoiceService) : IStripeService
+        InvoiceService invoiceService,
+        IHttpContextAccessor httpContextAccessor,
+        IRepository<UserProfile> userRepo) : IStripeService
     {
         /// <summary>
         /// Gets all products that are in the Stripe account.
@@ -53,17 +58,19 @@
                 throw new ArgumentException(Stripe.NullOrEmptyInputValues);
             }
 
-            var customerListOptions = new CustomerListOptions
-            {
-                Email=model.Email,
-                //TestClock="clock_1PZsjDGDavrFdJvjIW5JFkXc"
-            };
+            var userId = GetUser.ProfileId(httpContextAccessor);
 
-            var customers = await customerService.ListAsync(customerListOptions);
-            var customer = customers.Data.FirstOrDefault();
+            var profile = await userRepo.GetFirstOrDefaultAsync(x=>x.UserId == userId);
             
-            if(customer is not null)
+
+            if(profile is null)
             {
+                throw new NotFoundException();
+            }
+            
+            if(profile.StripeId is not null)
+            {
+                var customer = await customerService.GetAsync(profile.StripeId);
                 var subscriptionListOptions = new SubscriptionListOptions
                 {
                     Customer = customer.Id,
@@ -95,18 +102,20 @@
                 }
             }
             
-            if(customer is null)
+                        
+            var options = new CustomerCreateOptions
             {
-                var options = new CustomerCreateOptions
-                {
-                    Email = model.Email
-                };
-                customer = await customerService.CreateAsync(options);
-            }
-           
+                Email = model.Email
+            };
+            var newCustomer = await customerService.CreateAsync(options);
+
+            profile.StripeId=newCustomer.Id;
+            await userRepo.UpdateAsync(profile);
+        
+          
             var subscriptionOptions = new SubscriptionCreateOptions
             {
-                Customer = customer.Id,
+                Customer = newCustomer.Id,
                 Items =
                 [
                     new SubscriptionItemOptions

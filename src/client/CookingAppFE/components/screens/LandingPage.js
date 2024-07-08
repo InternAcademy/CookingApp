@@ -19,6 +19,7 @@ const LandingPage = ({ route }) => {
   useEffect(() => {
     const checkToken = async () => {
       const token = await AsyncStorage.getItem("token");
+
       if (!token) {
         navigation.navigate("LandingPage");
       } else {
