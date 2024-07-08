@@ -2,46 +2,29 @@
 {
     using CookingApp.Common.Helpers.Profiles;
     using CookingApp.Models;
-    using CookingApp.Models.Enums;
     using CookingApp.Services.ChatService;
     using CookingApp.Services.OpenAI;
     using CookingApp.ViewModels.Api;
     using CookingApp.ViewModels.Chat;
+    using CookingApp.ViewModels.Message;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using System;
 
     [ApiController]
     public class ChatController(IChatService chatService,
-        IOpenAIService openAIService,
+        IMessageService openAIService,
         IHttpContextAccessor httpContextAccessor) : ControllerBase
     {
-        [HttpPost("chat")]
-        public async Task<IActionResult> ContinueChat(MessageModel message, string? chatId)
+        [HttpPost("message")]
+        public async Task<IActionResult> SendMessage([FromForm] MessageRequest message)
         {
             var userId = GetUser.ProfileId(httpContextAccessor);
-            var responce = await openAIService.SendMessage(userId, message, chatId);
-            var chat = await chatService.UpdateChat(responce.ChatId, new Message
-            {
-                Content = message.Content,
-                DateTime = DateTime.Now,
-                Type = MessageType.Text
-            }, new Message
-            {
-                Content = responce.ChatCompletion.Content[0].Text,
-                DateTime = DateTime.Now,
-                Type = MessageType.Text
-            });
+            var responce = await openAIService.SendMessage(userId, message);
 
             return new ApiResponse<MessageResponse>()
             {
                 Status = 200,
-                Data = new MessageResponse
-                {
-                    ChatId = chat.Id,
-                    Title = chat.Title,
-                    Content = responce.ChatCompletion.Content[0].Text
-                }
+                Data = responce
             };
         }
 
@@ -58,7 +41,7 @@
         [HttpGet("user-chats/{userId}")]
         public async Task<IActionResult> ChatsByUser(string userId)
         {
-            return new ApiResponse<IEnumerable<ContentResponse>>()
+            return new ApiResponse<IEnumerable<ChatDataResponse>>()
             {
                 Status = 200,
                 Data = await chatService.GetActiveUserChats(userId)

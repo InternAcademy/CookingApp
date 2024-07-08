@@ -1,6 +1,6 @@
 ﻿using CookingApp.Infrastructure.Exceptions;
 using CookingApp.Infrastructure.Interfaces;
-using CookingApp.ViewModels.Chat;
+using CookingApp.ViewModels.Profile;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CookingApp.Services.UserProfile

@@ -6,7 +6,7 @@
     using CookingApp.ViewModels.Chat;
 
 
-    public class Chat : MongoEntity, IMapFrom<SaveChatRequest>
+    public class Chat : MongoEntity
     {
         [BsonElement("external-id")]
         public string ExternalId { get; set; } = default!;

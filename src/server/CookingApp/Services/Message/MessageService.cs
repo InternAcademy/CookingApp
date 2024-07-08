@@ -1,26 +1,29 @@
-﻿namespace CookingApp.Services.OpenAI
+﻿namespace CookingApp.Services.Message
 {
     using CookingApp.Common.CompletionConstants;
     using CookingApp.Infrastructure.Interfaces;
     using CookingApp.Models;
     using CookingApp.Models.Enums;
     using CookingApp.Services.ChatService;
-    using CookingApp.ViewModels.Chat;
+    using CookingApp.Services.File;
+    using CookingApp.Services.OpenAI;
+    using CookingApp.ViewModels.Message;
     using global::OpenAI.Chat;
     using System;
 
-    public class OpenAIService(ChatClient client,
+    public class MessageService(ChatClient client,
         IChatService chatService,
         IRepository<Chat> chatRepo,
-        IRepository<UserProfile> profileRepo) : IOpenAIService
+        IRepository<UserProfile> profileRepo,
+        HttpClient httpClient) : IMessageService
     {
-        public async Task<OpenAIResponse> SendMessage(string userId, MessageModel message, string? chatId)
+        public async Task<MessageResponse> SendMessage(string userId, MessageRequest request)
         {
             var chat = new Chat();
-            if (chatId == null)
+            if (request.ChatId == null)
                 chat = await chatService.CreateChat(userId);
             else
-                chat = await chatRepo.GetByIdAsync(chatId);
+                chat = await chatRepo.GetByIdAsync(request.ChatId);
             ArgumentNullException.ThrowIfNull(chat);
 
             var userProfile = await profileRepo.GetFirstOrDefaultAsync(a => a.UserId == chat.UserId);
@@ -39,27 +42,45 @@
                 }
             }
 
-            switch (message.Type)
+            var saveRequest = new Message()
             {
-                case MessageType.Text:
-                    messages.Add(new UserChatMessage(message.Content));
-                    break;
-                case MessageType.ImageURL:
-                    messages.Add(new UserChatMessage(
+                DateTime = DateTime.Now,
+                Type = request.Type
+            };
+            var saveResponse = new Message()
+            {
+                DateTime = DateTime.Now,
+                Type = MessageType.Text
+            };
+
+            if(request.Type == MessageType.Image && request.Image != null)
+            {
+                var imgPath = await UploadFile.ToImgur(request.Image, httpClient);
+
+                messages.Add(new UserChatMessage(
                         ChatMessageContentPart.CreateTextMessageContentPart(Completions.ImageRequest),
-                        ChatMessageContentPart.CreateImageMessageContentPart(new Uri(message.Content))
-                    ));
-                    break;
+                        ChatMessageContentPart.CreateImageMessageContentPart(new Uri(imgPath))));
+
+                saveRequest.Content = imgPath;
+            }
+            else if(request.Content != null)
+            {
+                messages.Add(new UserChatMessage(request.Content));
+
+                saveRequest.Content = request.Content;
             }
 
             var response = await client.CompleteChatAsync(messages);
+            saveResponse.Content = response.Value.Content[0].Text;
 
+            await chatService.UpdateChat(chat.Id, saveRequest, saveResponse);
             await AddTitle(chat.Id, response.Value.Content[0].Text);
 
-            return new OpenAIResponse
+            return new MessageResponse
             {
                 ChatId = chat.Id,
-                ChatCompletion = response
+                Content = response.Value.Content[0].Text,
+                Type = MessageType.Text
             };
         }
 

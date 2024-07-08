@@ -62,13 +62,13 @@
             return chat;
         }
 
-        public async Task<IEnumerable<ContentResponse>> GetActiveUserChats(string userId)
+        public async Task<IEnumerable<ChatDataResponse>> GetActiveUserChats(string userId)
         {
             var chats = await repo.GetAllAsync(a => a.UserId == userId);
 
             return chats
                 .Where(a => !a.IsDeleted && !a.IsArchived)
-                .Select(a => new ContentResponse { ChatId = a.Id, Title = a.Title, Time = a.CreatedDateTime });
+                .Select(a => new ChatDataResponse { ChatId = a.Id, Title = a.Title, Time = a.CreatedDateTime });
         }
     }
 }
