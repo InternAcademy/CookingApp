@@ -24,7 +24,7 @@ export async function continueChat({ token, chatId, messageType, content, image 
     });
   }
 
-  const response = await fetch(`${ip}/continue`, {
+  const response = await fetch(`${ip}:8000/continue`, {
     method: "POST",
     headers: headers,
     body: body
@@ -61,7 +61,7 @@ export async function newChat({ token, messageType, content, image }) {
     });
   }
 
-  const response = await fetch(`${ip}/new-chat`, {
+  const response = await fetch(`${ip}:8000/new-chat`, {
     method: "POST",
     headers: headers,
     body: body
@@ -76,7 +76,7 @@ export async function newChat({ token, messageType, content, image }) {
 }
 
 export async function getChat({ token, chatId }) {
-  const response = await fetch(`${ip}/c/${chatId}`, {
+  const response = await fetch(`${ip}:8000/c/${chatId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json"
@@ -92,7 +92,7 @@ export async function getChat({ token, chatId }) {
 }
 
 export async function getUserChats({ token, userId }) {
-  const response = await fetch(`${ip}/user-chats/${userId}`, {
+  const response = await fetch(`${ip}:8000/user-chats/${userId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json"
