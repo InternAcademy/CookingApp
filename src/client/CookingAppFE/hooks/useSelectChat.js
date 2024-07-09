@@ -11,7 +11,7 @@ const useSelectChat = () => {
 
   const { mutate } = useMutation({
     mutationFn: getChat,
-    onSuccess: (response) => {
+    onSuccess: response => {
       const { requests, responses } = response.data.chat;
       const minLength = Math.min(requests.length, responses.length);
       let combinedArray = [];
@@ -31,14 +31,14 @@ const useSelectChat = () => {
         userActions.selectChat({
           id: response.data.id,
           title: response.data.title,
-          content: combinedArray,
+          content: combinedArray
         })
       );
       navigation.navigate("Home");
-    },
+    }
   });
 
-  const selectChat = async (chat) => {
+  const selectChat = async chat => {
     const token = await AsyncStorage.getItem("token");
     if (token) {
       mutate({ token, chatId: chat.id });
