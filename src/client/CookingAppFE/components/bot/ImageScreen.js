@@ -2,27 +2,47 @@ import { useState } from "react";
 import { Button, Image, View, StyleSheet } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { useDispatch } from "react-redux";
-import { uiActions } from "../../redux/uiSlice";
+import { chatActions } from "../../redux/chatSlice";
 import { useNavigation } from "@react-navigation/native";
-
+import { userActions } from "../../redux/userSlice";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useSelector } from "react-redux";
+import useChatMutation from "../../hooks/useChatMutation";
 export default function ImageScreen() {
   const [image, setImage] = useState(null);
   const dispatch = useDispatch();
+  const selectedChat = useSelector((state) => state.user.selectedChat);
   const navigation = useNavigation();
+  const { mutate, isPending, isError, error } = useChatMutation();
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 1
+      quality: 0.1,
     });
+    const uri = result.assets[0].uri;
+    const token = await AsyncStorage.getItem("token");
+    dispatch(
+      userActions.selectChat({
+        ...selectedChat,
+        content: [
+          ...(selectedChat?.content || []),
+          { role: "user", content: "Image inserted" },
+        ],
+      })
+    );
 
-    console.log(result);
-
+    mutate({
+      token: token,
+      chatId: selectedChat && selectedChat.id,
+      type: "Image",
+      content: uri,
+    });
     if (!result.canceled) {
       setImage(result.assets[0].uri);
-      dispatch(uiActions.setPhotoUri(result.assets[0].uri));
+      dispatch(chatActions.setUri(uri));
       navigation.goBack();
     }
   };
@@ -39,10 +59,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   image: {
     width: 200,
-    height: 200
-  }
+    height: 200,
+  },
 });

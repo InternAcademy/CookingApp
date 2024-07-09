@@ -2,10 +2,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  input: "",
+  input: null,
   isThinking: false,
   isDarkTheme: false,
-  photoUri: null // Добавяме photoUri в началното състояние
+  photoUri: null,
 };
 
 const uiSlice = createSlice({
@@ -26,8 +26,8 @@ const uiSlice = createSlice({
     },
     clearPhotoUri(state) {
       state.photoUri = null;
-    }
-  }
+    },
+  },
 });
 
 export const uiActions = uiSlice.actions;

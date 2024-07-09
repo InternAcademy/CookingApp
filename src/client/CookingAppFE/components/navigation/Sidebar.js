@@ -45,6 +45,7 @@ const Sidebar = ({ open, setOpen }) => {
   }, [open, animation]);
 
   const handleChatPress = async (chat) => {
+    console.log(chat);
     selectChat(chat);
     setOpen(false);
   };
