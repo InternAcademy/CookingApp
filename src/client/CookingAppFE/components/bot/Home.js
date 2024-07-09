@@ -3,8 +3,10 @@ import { View, Text, Image, FlatList, SafeAreaView, ScrollView } from "react-nat
 import { useNavigation } from "@react-navigation/native";
 import tw from "twrnc";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useSelector } from "react-redux";
+
+import Navigation from "../navigation/Navigation";
 import Thinking from "../bot/Thinking";
-import { useSelector, useDispatch } from "react-redux";
 import ChatInput from "./ChatInput";
 
 const Home = () => {
@@ -12,8 +14,6 @@ const Home = () => {
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
   const isThinking = useSelector(state => state.ui.isThinking);
   const chat = useSelector(state => state.user.selectedChat);
-  const dispatch = useDispatch();
-
   useEffect(() => {
     const checkToken = async () => {
       const token = await AsyncStorage.getItem("token");
@@ -24,7 +24,7 @@ const Home = () => {
 
     checkToken();
   }, []);
-
+  console.log(process.env);
   const renderPost = () => {
     if (chat) {
       return (
@@ -34,7 +34,7 @@ const Home = () => {
               <Image source={require("../../assets/Main/icon2.png")} style={tw`w-8 h-8 rounded-full mr-2 mb-7`} />
               <View>
                 <Text style={tw`text-base font-semibold mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{chat.title}</Text>
-                <Text style={tw`text-base mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}></Text>
+                <Text style={tw`text-base mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{/* Additional details if needed */}</Text>
               </View>
             </View>
 
@@ -43,7 +43,7 @@ const Home = () => {
                 <Image source={msg.role === "user" ? require("../../assets/NavigationBar/user.png") : require("../../assets/Main/icon2.png")} style={tw`w-8 h-8 rounded-full mr-2 mb-7`} />
                 <View>
                   <Text style={tw`text-base font-semibold mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{msg.role === "user" ? "You" : "MealMasterBot"}:</Text>
-                  <Text style={tw`text-base w-screen mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{msg.content}</Text>
+                  {msg.content.startsWith("http") ? <Image source={{ uri: msg.content }} style={tw`w-40 h-40 rounded mb-1`} /> : <Text style={tw`text-base w-screen mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{msg.content}</Text>}
                 </View>
               </View>
             ))}
@@ -64,6 +64,7 @@ const Home = () => {
 
   return (
     <SafeAreaView style={tw`flex pt-22 w-full h-full ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}>
+      <Navigation />
       <FlatList data={[{ key: "1" }]} renderItem={renderPost} keyExtractor={item => item.key} contentContainerStyle={tw`flex-grow`} />
       <View style={tw`flex w-full flex-row justify-center mb-5 ${isDarkTheme ? "border-gray-700 bg-[#202020]" : "border-gray-300 bg-white"}`}>
         <ChatInput />
@@ -73,3 +74,4 @@ const Home = () => {
 };
 
 export default Home;
+//flex w-full h-full  justify-center items-center pr-15

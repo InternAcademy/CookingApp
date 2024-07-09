@@ -19,6 +19,7 @@ import AlergensAndFoodPreferences from "../../components/screens/settings/Alerge
 import LanguageAndTheme from "../../components/screens/settings/LanguageAndTheme";
 import RulesAndPolicies from "../../components/screens/settings/RulesAndPolicies";
 import CameraScreen from "../../components/bot/CameraScreen";
+import ImageScreen from "../../components/bot/ImageScreen";
 
 const Stack = createStackNavigator();
 const linking = {
@@ -37,7 +38,9 @@ const linking = {
       Subscription: "subscription",
       AlergensAndFoodPreferences: "alergens-and-food-preferences",
       LanguageAndTheme: "language-and-theme",
-      RulesAndPolicies: "rules-and-policies"
+      RulesAndPolicies: "rules-and-policies",
+      CameraScreen: "camera-screen",
+      ImageScreen: "image-screen"
     }
   }
 };
@@ -68,6 +71,7 @@ const MainStack = () => {
         <Stack.Screen name="RulesAndPolicies" component={RulesAndPolicies} />
         <Stack.Screen name="Subscription" component={Subscription} />
         <Stack.Screen name="CameraScreen" component={CameraScreen} />
+        <Stack.Screen name="ImageScreen" component={ImageScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
