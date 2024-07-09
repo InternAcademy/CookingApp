@@ -3,12 +3,11 @@ import { View, Text, Image, FlatList, SafeAreaView, ScrollView } from "react-nat
 import { useNavigation } from "@react-navigation/native";
 import tw from "twrnc";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
 import { useSelector } from "react-redux";
+
 import Navigation from "../navigation/Navigation";
 import Thinking from "../bot/Thinking";
 import ChatInput from "./ChatInput";
-const ip = process.env.PERSONAL_IP;
 
 const Home = () => {
   const navigation = useNavigation();
@@ -67,7 +66,7 @@ const Home = () => {
     <SafeAreaView style={tw`flex pt-22 w-full h-full ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}>
       <Navigation />
       <FlatList data={[{ key: "1" }]} renderItem={renderPost} keyExtractor={item => item.key} contentContainerStyle={tw`flex-grow`} />
-      <View style={tw`flex w-full flex-row justify-center   mb-5 ${isDarkTheme ? "border-gray-700 bg-[#202020]" : "border-gray-300 bg-white"}`}>
+      <View style={tw`flex w-full flex-row justify-center mb-5 ${isDarkTheme ? "border-gray-700 bg-[#202020]" : "border-gray-300 bg-white"}`}>
         <ChatInput />
       </View>
     </SafeAreaView>

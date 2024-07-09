@@ -1,4 +1,5 @@
 // Nav.js
+const ip = process.env.EXPO_PUBLIC_PERSONAL_IP;
 
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
@@ -12,7 +13,7 @@ const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 const linking = {
-  prefixes: ["http://192.168.100.221"],
+  prefixes: [`${ip}:8081`],
   config: {
     screens: {
       logIn: "landing",
