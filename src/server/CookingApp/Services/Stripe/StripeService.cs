@@ -1,15 +1,22 @@
 ﻿namespace CookingApp.Services.Stripe
 {
+    using AutoMapper;
+    using CookingApp.Common;
     using CookingApp.ViewModels.Stripe.Customer;
+    using CookingApp.ViewModels.Stripe.Statistics;
     using CookingApp.ViewModels.Stripe.Subscription;
     using global::Stripe;
+    using System.Diagnostics.Eventing.Reader;
     using static CookingApp.Common.ExceptionMessages;
     using Product = ViewModels.Stripe.Product;
 
     public class StripeService(CustomerService customerService,
         PriceService priceService,
         ProductService productService,
-        SubscriptionService subscriptionService) : IStripeService
+        SubscriptionService subscriptionService,
+        BalanceTransactionService balanceTransactionService,
+        IMapper mapper,
+        ILogger logger) : IStripeService
     {
         /// <summary>
         /// Gets all products that are in the Stripe account.
@@ -23,7 +30,7 @@
 
             foreach (var product in products)
             {
-                
+
                 var price = await priceService.GetAsync(product.DefaultPriceId);
                 result.Add(
                     new Product(product.Id,
@@ -89,6 +96,75 @@
             var subscription = await subscriptionService.CancelAsync(model.SubscriptionId);
 
             return new SubscriptionCancellationResponse(subscription.CanceledAt);
+        }
+
+        public async Task<List<CustomerData>> GetAllSubs()
+        {
+            var options = new SubscriptionListOptions
+            {
+                Status = "active"
+            };
+
+            var subscriptions = await subscriptionService.ListAsync(options);
+            var allActiveUsers = new List<CustomerData>();
+
+            foreach (var subscription in subscriptions)
+            {
+                var customer = await customerService.GetAsync(subscription.CustomerId);
+                var customerModel = mapper.Map<CustomerData>(customer);
+                allActiveUsers.Add(customerModel);
+            }
+
+            return allActiveUsers;
+        }
+
+        public async Task<SubscriptionStatistics> GetSubsStats()
+        {
+            var subStats = new SubscriptionStatistics();
+
+            var activeOptions = new SubscriptionListOptions()
+            {
+                Status = "active"
+            };
+
+            var canceledOptions = new SubscriptionListOptions()
+            {
+                Status = "canceled"
+            };
+
+            var activeSubscriptions = await subscriptionService.ListAsync(activeOptions);
+            var canceledSubscriptions = await subscriptionService.ListAsync(canceledOptions);
+
+            subStats.ActiveSubscriptions = activeSubscriptions.Data.Count;
+            subStats.CanceledSubscriptions = canceledSubscriptions.Data.Count;
+
+            return subStats;
+        }
+
+        public async Task<IncomeStatistics> GetIncome30DaysBack()
+        {
+            var incomeStat = new IncomeStatistics();
+
+            var options = new BalanceTransactionListOptions()
+            {
+                Created = new DateRangeOptions
+                {
+                    GreaterThanOrEqual = DateTime.UtcNow.AddDays(-30),
+                    LessThanOrEqual = DateTime.UtcNow
+                }
+            };
+
+            var last30DayTransactions = await balanceTransactionService.ListAsync(options);
+
+            incomeStat.TotalTransactions = last30DayTransactions.Count();
+
+            foreach (var transaction in last30DayTransactions)
+            {
+                incomeStat.Total += transaction.Amount;
+                incomeStat.AmountAfterTax += transaction.Amount - transaction.Fee;
+            }
+
+            return incomeStat;
         }
     }
 }
