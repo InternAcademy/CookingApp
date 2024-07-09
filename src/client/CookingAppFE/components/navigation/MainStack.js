@@ -1,7 +1,9 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useNavigationContext } from "../../context/NavigationContext";
 import { useSelector } from "react-redux";
+import { NavigationContainer } from "@react-navigation/native";
+
+// import { useNavigationContext } from "../../context/NavigationContext";
 import LandingPage from "../../components/screens/LandingPage";
 import Home from "../../components/bot/Home";
 import Favourite from "../../components/screens/recipes/Favourite";
@@ -16,7 +18,8 @@ import Subscription from "../../components/screens/settings/Subscription";
 import AlergensAndFoodPreferences from "../../components/screens/settings/AlergensAndFoodPreferences";
 import LanguageAndTheme from "../../components/screens/settings/LanguageAndTheme";
 import RulesAndPolicies from "../../components/screens/settings/RulesAndPolicies";
-import { NavigationContainer } from "@react-navigation/native";
+import CameraScreen from "../../components/bot/CameraScreen";
+
 const Stack = createStackNavigator();
 const linking = {
   config: {
@@ -34,13 +37,13 @@ const linking = {
       Subscription: "subscription",
       AlergensAndFoodPreferences: "alergens-and-food-preferences",
       LanguageAndTheme: "language-and-theme",
-      RulesAndPolicies: "rules-and-policies",
-    },
-  },
+      RulesAndPolicies: "rules-and-policies"
+    }
+  }
 };
 
 const MainStack = () => {
-  const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
+  const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
 
   return (
     <NavigationContainer linking={linking}>
@@ -48,9 +51,8 @@ const MainStack = () => {
         detachInactiveScreens={true}
         initialRouteName={"landing"}
         screenOptions={{
-          headerStyle: {},
-        }}
-      >
+          headerStyle: {}
+        }}>
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="LandingPage" component={LandingPage} />
         <Stack.Screen name="Favourite" component={Favourite} />
@@ -61,13 +63,12 @@ const MainStack = () => {
         <Stack.Screen name="ArchivedRecipes" component={ArchivedRecipes} />
         <Stack.Screen name="ProfileSettings" component={ProfileSettings} />
         <Stack.Screen name="RecentRecipes" component={RecentRecipes} />
-        <Stack.Screen
-          name="AlergensAndFoodPreferences"
-          component={AlergensAndFoodPreferences}
-        />
+        <Stack.Screen name="AlergensAndFoodPreferences" component={AlergensAndFoodPreferences} />
         <Stack.Screen name="LanguageAndTheme" component={LanguageAndTheme} />
         <Stack.Screen name="RulesAndPolicies" component={RulesAndPolicies} />
         <Stack.Screen name="Subscription" component={Subscription} />
+        <Stack.Screen name="Subscription" component={Subscription} />
+        <Stack.Screen name="CameraScreen" component={CameraScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
