@@ -44,7 +44,7 @@ const Home = () => {
                 <Image source={msg.role === "user" ? require("../../assets/NavigationBar/user.png") : require("../../assets/Main/icon2.png")} style={tw`w-8 h-8 rounded-full mr-2 mb-7`} />
                 <View>
                   <Text style={tw`text-base font-semibold mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{msg.role === "user" ? "You" : "MealMasterBot"}:</Text>
-                  <Text style={tw`text-base w-screen mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{msg.content}</Text>
+                  {msg.content.startsWith("http") ? <Image source={{ uri: msg.content }} style={tw`w-40 h-40 rounded mb-1`} /> : <Text style={tw`text-base w-screen mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{msg.content}</Text>}
                 </View>
               </View>
             ))}
