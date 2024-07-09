@@ -28,7 +28,7 @@ const ProfileSettings = () => {
 
   const updateProfile = async () => {
     try {
-      const response = await fetch(`${ip}:8001/api/update-profile`, {
+      const response = await fetch(`${ip}:8000/api/update-profile`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
