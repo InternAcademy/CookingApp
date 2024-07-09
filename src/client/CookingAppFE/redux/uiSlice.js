@@ -5,6 +5,7 @@ const initialState = {
   input: "",
   isThinking: false,
   isDarkTheme: false,
+  photoUri: null // Добавяме photoUri в началното състояние
 };
 
 const uiSlice = createSlice({
@@ -18,13 +19,15 @@ const uiSlice = createSlice({
       state.isThinking = action.payload;
     },
     toggleTheme(state) {
-      if (state.isDarkTheme) {
-        state.isDarkTheme = false;
-      } else {
-        state.isDarkTheme = true;
-      }
+      state.isDarkTheme = !state.isDarkTheme;
     },
-  },
+    setPhotoUri(state, action) {
+      state.photoUri = action.payload;
+    },
+    clearPhotoUri(state) {
+      state.photoUri = null;
+    }
+  }
 });
 
 export const uiActions = uiSlice.actions;

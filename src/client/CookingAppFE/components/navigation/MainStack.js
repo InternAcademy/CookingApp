@@ -67,7 +67,6 @@ const MainStack = () => {
         <Stack.Screen name="LanguageAndTheme" component={LanguageAndTheme} />
         <Stack.Screen name="RulesAndPolicies" component={RulesAndPolicies} />
         <Stack.Screen name="Subscription" component={Subscription} />
-        <Stack.Screen name="Subscription" component={Subscription} />
         <Stack.Screen name="CameraScreen" component={CameraScreen} />
       </Stack.Navigator>
     </NavigationContainer>
