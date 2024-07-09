@@ -20,11 +20,11 @@ const linking = {
       main: {
         screens: {
           index: "home",
-          subs: "subs"
-        }
-      }
-    }
-  }
+          subs: "subs",
+        },
+      },
+    },
+  },
 };
 
 const TabNavigator = () => (
@@ -33,16 +33,17 @@ const TabNavigator = () => (
       activeTintColor: "white",
       inactiveTintColor: "grey",
       style: {
-        backgroundColor: "rgb(37,37,38)"
+        backgroundColor: "rgb(37,37,38)",
       },
       labelStyle: {
         fontSize: 20,
         margin: 0,
-        padding: 0
-      }
+        padding: 0,
+      },
     }}
     initialRouteName="index"
-    screenOptions={{ headerShown: false }}>
+    screenOptions={{ headerShown: false }}
+  >
     <Tab.Screen name="index" component={Home} />
     <Tab.Screen name="subs" component={Subscription} />
   </Tab.Navigator>

@@ -16,12 +16,12 @@
         IHttpContextAccessor httpContextAccessor) : ControllerBase
     {
         [HttpPost("message")]
-        public async Task<IActionResult> SendMessage([FromForm] MessageRequest message)
+        public async Task<IActionResult> SendMessage([FromBody] MessageData message)
         {
             var userId = GetUser.ProfileId(httpContextAccessor);
             var responce = await openAIService.SendMessage(userId, message);
 
-            return new ApiResponse<MessageResponse>()
+            return new ApiResponse<MessageData>()
             {
                 Status = 200,
                 Data = responce

@@ -2,7 +2,7 @@
 
 namespace CookingApp.ViewModels.Message
 {
-    public class MessageResponse
+    public class MessageData
     {
         public MessageType Type { get; set; } = default!;
         public string Content { get; set; } = default!;
