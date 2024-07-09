@@ -15,8 +15,7 @@
         ProductService productService,
         SubscriptionService subscriptionService,
         BalanceTransactionService balanceTransactionService,
-        IMapper mapper,
-        ILogger logger) : IStripeService
+        IMapper mapper) : IStripeService
     {
         /// <summary>
         /// Gets all products that are in the Stripe account.
