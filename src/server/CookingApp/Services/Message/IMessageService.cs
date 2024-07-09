@@ -4,6 +4,6 @@
 
     public interface IMessageService
     {
-        Task<MessageResponse> SendMessage(string userId, MessageRequest message);
+        Task<MessageData> SendMessage(string userId, MessageData message);
     }
 }

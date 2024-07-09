@@ -10,14 +10,15 @@
     using CookingApp.ViewModels.Message;
     using global::OpenAI.Chat;
     using System;
+    using System.Text.RegularExpressions;
 
-    public class MessageService(ChatClient client,
+    public partial class MessageService(ChatClient client,
         IChatService chatService,
         IRepository<Chat> chatRepo,
         IRepository<UserProfile> profileRepo,
         HttpClient httpClient) : IMessageService
     {
-        public async Task<MessageResponse> SendMessage(string userId, MessageRequest request)
+        public async Task<MessageData> SendMessage(string userId, MessageData request)
         {
             var chat = new Chat();
             if (request.ChatId == null)
@@ -53,9 +54,9 @@
                 Type = MessageType.Text
             };
 
-            if(request.Type == MessageType.Image && request.Image != null)
+            if(request.Type == MessageType.Image && request.Content != null)
             {
-                var imgPath = await UploadFile.ToImgur(request.Image, httpClient);
+                var imgPath = await UploadFile.ToImgur(ConvertDataUriToFormFile(request.Content), httpClient);
 
                 messages.Add(new UserChatMessage(
                         ChatMessageContentPart.CreateTextMessageContentPart(Completions.ImageRequest),
@@ -76,12 +77,35 @@
             await chatService.UpdateChat(chat.Id, saveRequest, saveResponse);
             await AddTitle(chat.Id, response.Value.Content[0].Text);
 
-            return new MessageResponse
+            return new MessageData
             {
                 ChatId = chat.Id,
                 Content = response.Value.Content[0].Text,
                 Type = MessageType.Text
             };
+        }
+
+        public IFormFile ConvertDataUriToFormFile(string dataUri)
+        {
+            var match = ContentType().Match(dataUri);
+            if (!match.Success)
+            {
+                throw new ArgumentException("Invalid data URI");
+            }
+
+            string contentType = match.Groups["type"].Value;
+            string base64Data = match.Groups["data"].Value;
+
+            byte[] fileBytes = Convert.FromBase64String(base64Data);
+
+            var memoryStream = new MemoryStream(fileBytes);
+            var file = new FormFile(memoryStream, 0, fileBytes.Length, string.Empty, "file")
+            {
+                Headers = new HeaderDictionary(),
+                ContentType = contentType
+            };
+
+            return file;
         }
 
         private async Task<string> AddTitle(string chatId, string message)
@@ -103,5 +127,8 @@
 
             return chat.Title;
         }
+
+        [GeneratedRegex(@"data:(?<type>.*?);base64,(?<data>.*)")]
+        private static partial Regex ContentType();
     }
 }

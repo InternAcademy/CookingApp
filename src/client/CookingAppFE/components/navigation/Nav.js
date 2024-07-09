@@ -12,18 +12,18 @@ const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 const linking = {
-  prefixes: ["http://192.168.39.5:8081"],
+  prefixes: ["http://192.168.100.221"],
   config: {
     screens: {
       logIn: "landing",
       main: {
         screens: {
           index: "home",
-          subs: "subs"
-        }
-      }
-    }
-  }
+          subs: "subs",
+        },
+      },
+    },
+  },
 };
 
 const TabNavigator = () => (
@@ -32,16 +32,17 @@ const TabNavigator = () => (
       activeTintColor: "white",
       inactiveTintColor: "grey",
       style: {
-        backgroundColor: "rgb(37,37,38)"
+        backgroundColor: "rgb(37,37,38)",
       },
       labelStyle: {
         fontSize: 20,
         margin: 0,
-        padding: 0
-      }
+        padding: 0,
+      },
     }}
     initialRouteName="index"
-    screenOptions={{ headerShown: false }}>
+    screenOptions={{ headerShown: false }}
+  >
     <Tab.Screen name="index" component={Home} />
     <Tab.Screen name="subs" component={Subscription} />
   </Tab.Navigator>
