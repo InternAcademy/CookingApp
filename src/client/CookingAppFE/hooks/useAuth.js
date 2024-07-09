@@ -1,23 +1,18 @@
 import { useState } from "react";
-import {
-  exchangeCodeAsync,
-  makeRedirectUri,
-  useAuthRequest,
-  useAutoDiscovery,
-} from "expo-auth-session";
+import { exchangeCodeAsync, makeRedirectUri, useAuthRequest, useAutoDiscovery } from "expo-auth-session";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const useAuth = (clientId, instance, scopes) => {
   const discovery = useAutoDiscovery(instance);
   const redirectUri = makeRedirectUri({
     scheme: undefined,
-    path: "redirect",
+    path: "logout"
   });
   const [token, setToken] = useState(null);
   const [request, , promptAsync] = useAuthRequest(
     {
       clientId,
       scopes: scopes,
-      redirectUri,
+      redirectUri
     },
     discovery
   );
@@ -29,10 +24,8 @@ const useAuth = (clientId, instance, scopes) => {
         {
           clientId,
           code: codeResponse.params.code,
-          extraParams: request.codeVerifier
-            ? { code_verifier: request.codeVerifier }
-            : undefined,
-          redirectUri,
+          extraParams: request.codeVerifier ? { code_verifier: request.codeVerifier } : undefined,
+          redirectUri
         },
         discovery
       );
