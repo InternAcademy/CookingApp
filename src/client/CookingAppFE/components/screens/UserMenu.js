@@ -11,7 +11,7 @@ const UserMenu = () => {
 
   return (
     <View
-      style={tw`flex-1  ${isDarkTheme ? "bg-[#202020]" : "bg-[#FFF4E9]"} p-4`}
+      style={tw`flex-1  ${isDarkTheme ? "bg-[#202020]" : "bg-white"} p-4`}
     >
       <View style={tw`flex-row justify-between items-center mb-4`}>
         <Ionicons
@@ -33,11 +33,11 @@ const UserMenu = () => {
         <Ionicons
           name="heart"
           size={24}
-          color={isDarkTheme ? "white" : "#FFA500"}
+          color={isDarkTheme ? "#FFA500" : "#FFA500"}
           style={tw`mr-2`}
         />
         <Text
-          style={tw`text-lg font-bold ${isDarkTheme ? "text-white" : "text-[#FFA500]"}`}
+          style={tw`text-lg font-bold ${isDarkTheme ? "text-[#FFA500]" : "text-[#FFA500]"}`}
         >
           Favorite Recipes
         </Text>
@@ -197,22 +197,22 @@ const UserMenu = () => {
       </TouchableOpacity>
 
       <View
-        style={tw`mt-auto items-center flex ${isDarkTheme ? "bg-gray-800" : "bg-[#FFE9CC]"} py-2 rounded-t-lg`}
+        style={tw` mx-12 mt-auto items-center flex  ${isDarkTheme ? "" : ""} py-2 `}
       >
         <TouchableOpacity
           onPress={() => console.log("Sign Out")}
-          style={tw`flex-row justify-center items-center`}
+          style={tw`flex-row justify-center items-center   `}
         >
           <Text
-            style={tw`text-lg ${isDarkTheme ? "text-white" : "text-[#FFA500]"} font-bold`}
+            style={tw`text-lg  ${isDarkTheme ? "text-gray-100/20" : "text-black/20 "} font-bold`}
           >
             Sign Out
           </Text>
           <Ionicons
             name="log-out"
-            size={22}
-            color={isDarkTheme ? "white" : "#FFA500"}
-            style={tw`ml-2 `}
+            size={24}
+            color={isDarkTheme ? "gray" : "gray"}
+            style={tw`ml-2 mt-0.5  `}
           />
         </TouchableOpacity>
       </View>
