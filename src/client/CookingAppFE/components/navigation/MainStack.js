@@ -40,13 +40,13 @@ const linking = {
       LanguageAndTheme: "language-and-theme",
       RulesAndPolicies: "rules-and-policies",
       CameraScreen: "camera-screen",
-      ImageScreen: "image-screen"
-    }
-  }
+      ImageScreen: "image-screen",
+    },
+  },
 };
 
 const MainStack = () => {
-  const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
+  const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
 
   return (
     <NavigationContainer linking={linking}>
@@ -54,10 +54,19 @@ const MainStack = () => {
         detachInactiveScreens={true}
         initialRouteName={"landing"}
         screenOptions={{
-          headerStyle: {}
-        }}>
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="LandingPage" component={LandingPage} />
+          headerStyle: {},
+        }}
+      >
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="LandingPage"
+          component={LandingPage}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen name="Favourite" component={Favourite} />
         <Stack.Screen name="UserMenu" component={UserMenu} />
         <Stack.Screen name="About" component={About} />
@@ -66,7 +75,10 @@ const MainStack = () => {
         <Stack.Screen name="ArchivedRecipes" component={ArchivedRecipes} />
         <Stack.Screen name="ProfileSettings" component={ProfileSettings} />
         <Stack.Screen name="RecentRecipes" component={RecentRecipes} />
-        <Stack.Screen name="AlergensAndFoodPreferences" component={AlergensAndFoodPreferences} />
+        <Stack.Screen
+          name="AlergensAndFoodPreferences"
+          component={AlergensAndFoodPreferences}
+        />
         <Stack.Screen name="LanguageAndTheme" component={LanguageAndTheme} />
         <Stack.Screen name="RulesAndPolicies" component={RulesAndPolicies} />
         <Stack.Screen name="Subscription" component={Subscription} />
