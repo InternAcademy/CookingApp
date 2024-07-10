@@ -15,11 +15,13 @@ import { useSelector } from "react-redux";
 import Navigation from "../navigation/Navigation";
 import Thinking from "../bot/Thinking";
 import ChatInput from "./ChatInput";
+import ChatError from "./ChatError";
 
 const Home = () => {
   const navigation = useNavigation();
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
   const isThinking = useSelector((state) => state.ui.isThinking);
+  const responseError = useSelector((state) => state.ui.responseError);
   const chat = useSelector((state) => state.user.selectedChat);
   useEffect(() => {
     const checkToken = async () => {
@@ -28,7 +30,6 @@ const Home = () => {
         navigation.navigate("LandingPage");
       }
     };
-
     checkToken();
   }, []);
   console.log(chat);
@@ -43,7 +44,7 @@ const Home = () => {
         >
           <ScrollView contentContainerStyle={tw`p-6 mt-10`}>
             {chat.content.map((msg, index) => (
-              <View key={index} style={tw`mb-4 flex-row items-center wrap`}>
+              <View key={index} style={tw`mb-4 flex-row items-start wrap`}>
                 <Image
                   source={
                     msg.role === "user"
@@ -58,16 +59,33 @@ const Home = () => {
                   >
                     {msg.role === "user" ? "You" : "MealMasterBot"}:
                   </Text>
+                  {msg.role === "user" && msg.type === "Text" && (
+                    <Text
+                      style={tw`text-base w-screen mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
+                    >
+                      {msg.content}
+                    </Text>
+                  )}
 
-                  <Text
-                    style={tw`text-base w-screen mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
-                  >
-                    {msg.content}
-                  </Text>
+                  {console.log(msg)}
+                  {msg.role === "user" && msg.type === "Image" && (
+                    <Image
+                      source={{ uri: msg.content }}
+                      style={tw`w-32 h-32 rounded-full mr-2 mb-7`}
+                    ></Image>
+                  )}
+                  {msg.role === "bot" && (
+                    <Text
+                      style={tw`text-base w-screen mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
+                    >
+                      {msg.content}
+                    </Text>
+                  )}
                 </View>
               </View>
             ))}
-            {isThinking && <Thinking />}
+            {isThinking && !responseError && <Thinking />}
+            {responseError && <ChatError message={responseError} />}
           </ScrollView>
         </SafeAreaView>
       );

@@ -8,10 +8,12 @@ import { userActions } from "../../redux/userSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSelector } from "react-redux";
 import useChatMutation from "../../hooks/useChatMutation";
+import { uiActions } from "../../redux/uiSlice";
 export default function ImageScreen() {
   const [image, setImage] = useState(null);
   const dispatch = useDispatch();
   const selectedChat = useSelector((state) => state.user.selectedChat);
+  const responseError = useSelector((state) => state.ui.responseError);
   const navigation = useNavigation();
   const { mutate, isPending, isError, error } = useChatMutation();
 
@@ -29,11 +31,11 @@ export default function ImageScreen() {
         ...selectedChat,
         content: [
           ...(selectedChat?.content || []),
-          { role: "user", content: "Image inserted" },
+          { role: "user", type: "Image", content: uri },
         ],
       })
     );
-
+    dispatch(uiActions.setResponseError(null));
     mutate({
       token: token,
       chatId: selectedChat && selectedChat.id,

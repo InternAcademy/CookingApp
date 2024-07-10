@@ -16,12 +16,20 @@ const useSelectChat = () => {
       const minLength = Math.min(requests.length, responses.length);
       let combinedArray = [];
       for (let i = 0; i < minLength; i++) {
-        combinedArray.push({ content: requests[i].content, role: "user" });
+        combinedArray.push({
+          type: requests[i].type,
+          content: requests[i].content,
+          role: "user",
+        });
         combinedArray.push({ content: responses[i].content, role: "bot" });
       }
 
       for (let i = minLength; i < requests.length; i++) {
-        combinedArray.push({ content: requests[i].content, role: "user" });
+        combinedArray.push({
+          type: requests[i].type,
+          content: requests[i].content,
+          role: "user",
+        });
       }
 
       for (let i = minLength; i < responses.length; i++) {

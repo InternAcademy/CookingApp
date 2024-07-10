@@ -14,17 +14,19 @@ export async function sendMessage({ token, chatId, type, content }) {
       chatId,
     }),
   });
-
   if (!response.ok) {
-    throw new Error(response.statusText);
+    console.log(response);
+    throw new Error("Resource not found");
   }
+
   const responseBody = await response.json();
+
+  console.log(responseBody);
 
   return responseBody.data;
 }
 
 export async function getChat({ token, chatId }) {
-  console.log({ token, chatId });
   const response = await fetch(`${ip}/c/${chatId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -37,6 +39,7 @@ export async function getChat({ token, chatId }) {
   }
 
   const data = await response.json();
+  console.log(data);
   return data;
 }
 

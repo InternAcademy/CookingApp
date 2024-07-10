@@ -37,7 +37,7 @@ export default function ChatInput() {
         ...selectedChat,
         content: [
           ...(selectedChat?.content || []),
-          { role: "user", content: input },
+          { type: "Text", role: "user", content: input },
         ],
       })
     );

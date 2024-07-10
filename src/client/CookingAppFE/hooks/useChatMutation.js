@@ -38,6 +38,10 @@ const useChatMutation = () => {
       dispatch(uiActions.setInput(""));
       dispatch(uiActions.setIsThinking(false));
     },
+    onError: (error) => {
+      console.log(error);
+      dispatch(uiActions.setResponseError(error.message));
+    },
   });
 
   return {

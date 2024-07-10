@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   input: null,
   isThinking: false,
+  responseError: null,
   isDarkTheme: false,
   photoUri: null,
 };
@@ -17,6 +18,9 @@ const uiSlice = createSlice({
     },
     setIsThinking(state, action) {
       state.isThinking = action.payload;
+    },
+    setResponseError(state, action) {
+      state.responseError = action.payload;
     },
     toggleTheme(state) {
       state.isDarkTheme = !state.isDarkTheme;
