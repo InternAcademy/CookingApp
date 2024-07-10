@@ -65,9 +65,9 @@ const Subscription = () => {
 
   return (
     <ScrollView
-      style={tw`flex-1 ${isDarkTheme ? "bg-[#202020]" : "bg-white"} mt-10`}
+      style={tw`flex-1 ${isDarkTheme ? "bg-[#202020]" : "bg-white"}  `}
     >
-      <View style={tw`flex-1 items-center p-6`}>
+      <View style={tw`flex-1 items-center p-6 mt-10`}>
         <Text
           style={tw`text-3xl font-bold mb-2 ${isDarkTheme ? "text-white" : "text-black"}`}
         >

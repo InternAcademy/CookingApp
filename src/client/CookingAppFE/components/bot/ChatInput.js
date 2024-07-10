@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Image, TextInput, TouchableOpacity } from "react-native";
 import tw from "twrnc";
+import * as ImagePicker from "expo-image-picker";
 import { useSelector, useDispatch } from "react-redux";
 import { uiActions } from "../../redux/uiSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -25,8 +26,35 @@ export default function ChatInput() {
     navigation.navigate("CameraScreen");
   }
 
-  function openGallery() {
-    navigation.navigate("ImageScreen");
+  async function openGallery() {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 0.1,
+    });
+    const uri = result.assets[0].uri;
+    const token = await AsyncStorage.getItem("token");
+    dispatch(
+      userActions.selectChat({
+        ...selectedChat,
+        content: [
+          ...(selectedChat?.content || []),
+          { role: "user", type: "Image", content: uri },
+        ],
+      })
+    );
+    dispatch(uiActions.setResponseError(null));
+    mutate({
+      token: token,
+      chatId: selectedChat && selectedChat.id,
+      type: "Image",
+      content: uri,
+    });
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+      navigation.goBack();
+    }
   }
   async function sendMessage() {
     if (input) {

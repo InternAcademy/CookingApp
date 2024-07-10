@@ -1,7 +1,7 @@
 const ip = process.env.EXPO_PUBLIC_PERSONAL_IP;
 
 export async function sendMessage({ token, chatId, type, content }) {
-  const response = await fetch(`${ip}/messag`, {
+  const response = await fetch(`${ip}/message`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
