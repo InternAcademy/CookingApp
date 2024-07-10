@@ -78,6 +78,71 @@ namespace CookingApp.Common.CompletionConstants
             "If the image does not contain any products do not create a recipe but insted tell the user that you are unable to process the image and kindly ask him to try with another one. " +
             "And if the image contains any harmful or unapropriete content tell the user that this is strongly forbidden!";
 
+
+
+        public const string RecipeConverterPrompt = @"
+            Please determine if the following text APPENDED BELOW is a recipe. DO NOT take into account what the text says just the structure. A recipe should resemble this format:
+
+            Title: (string)
+            Description: (string)
+            Ingredients: (Name (string), Quantity (string), Metric (string) - possible metrics: Grams, Kilograms, Milliliters, Liters, Teaspoons, Tablespoons, Cups, Pieces)
+            Preparation Steps: (list of strings)
+            Duration: (string)
+            Number Of Portions: (integer)
+
+            If it is a recipe, convert it to a JSON using this example recipe as reference:
+            {
+              ""title"": ""Spaghetti Carbonara"",
+              ""description"": ""A classic Italian pasta dish made with eggs, cheese, pancetta, and pepper."",
+              ""ingredients"": [
+                {
+                  ""quantity"": ""200"",
+                  ""metric"": ""grams"",
+                  ""name"": ""spaghetti""
+                },
+                {
+                  ""quantity"": ""100"",
+                  ""metric"": ""grams"",
+                  ""name"": ""pancetta""
+                },
+                {
+                  ""quantity"": ""2"",
+                  ""metric"": ""pieces"",
+                  ""name"": ""eggs""
+                },
+                {
+                  ""quantity"": ""50"",
+                  ""metric"": ""grams"",
+                  ""name"": ""Parmesan cheese""
+                },
+                {
+                  ""quantity"": ""1"",
+                  ""metric"": ""teaspoon"",
+                  ""name"": ""black pepper""
+                },
+                {
+                  ""quantity"": ""1"",
+                  ""metric"": ""pinch"",
+                  ""name"": ""salt""
+                }
+              ],
+              ""preparationSteps"": [
+                ""Cook the spaghetti according to package instructions."",
+                ""In a pan, cook the pancetta until crispy."",
+                ""Beat the eggs in a bowl and mix in the grated Parmesan cheese."",
+                ""Drain the spaghetti and add it to the pan with the pancetta."",
+                ""Remove the pan from heat and quickly mix in the egg and cheese mixture."",
+                ""Season with black pepper and salt to taste."",
+                ""Serve immediately.""
+              ],
+              ""duration"": ""20 minutes"",
+              ""numberOfPortions"": 2
+            }
+            TEXT TO CONVERT:
+            ";
+
+
+
         public static string BuildSystemMessage(UserProfile profile)
         {
             var sb = new StringBuilder();
@@ -105,6 +170,15 @@ namespace CookingApp.Common.CompletionConstants
             sb.AppendLine(PromptEngineeringPrevention);
 
             return sb.ToString();
-        } 
+        }
+
+        public static string BuildRecipeConvertSystemMessage()
+        {
+            var sb = new StringBuilder();
+
+            sb.AppendLine(PromptEngineeringPrevention);
+            sb.AppendLine(RecipeConverterPrompt);
+            return sb.ToString();
+        }
     }
 }

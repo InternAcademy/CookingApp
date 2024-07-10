@@ -21,6 +21,7 @@ using Newtonsoft.Json.Serialization;
 using OpenAI.Chat;
 using Stripe;
 using System.Diagnostics.CodeAnalysis;
+using CookingApp.Services.Recipe;
 
 namespace CookingApp.Infrastructure.Extensions
 {
@@ -184,6 +185,7 @@ namespace CookingApp.Infrastructure.Extensions
         {
             builder.Services.AddScoped<IStripeService, StripeService>();
             builder.Services.AddScoped<IUserProfileService, UserProfileService>();
+            builder.Services.AddScoped<IRecipeService, RecipeService>();
 
             return builder;
         }
