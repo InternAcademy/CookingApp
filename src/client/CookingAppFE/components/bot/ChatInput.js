@@ -32,7 +32,9 @@ export default function ChatInput() {
       allowsEditing: true,
       aspect: [4, 3],
       quality: 0.1,
+      base64: true,
     });
+    console.log(result);
     const uri = result.assets[0].uri;
     const token = await AsyncStorage.getItem("token");
     dispatch(
@@ -49,11 +51,11 @@ export default function ChatInput() {
       token: token,
       chatId: selectedChat && selectedChat.id,
       type: "Image",
-      content: uri,
+      content: `data:${result.assets[0].mimeType};base64,${result.assets[0].base64}`,
     });
     if (!result.canceled) {
       setImage(result.assets[0].uri);
-      navigation.goBack();
+      // navigation.goBack();
     }
   }
   async function sendMessage() {
