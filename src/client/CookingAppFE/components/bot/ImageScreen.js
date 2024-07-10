@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Button, Image, View, StyleSheet } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { useDispatch } from "react-redux";
-import { chatActions } from "../../redux/chatSlice";
 import { useNavigation } from "@react-navigation/native";
 import { userActions } from "../../redux/userSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -13,7 +12,6 @@ export default function ImageScreen() {
   const [image, setImage] = useState(null);
   const dispatch = useDispatch();
   const selectedChat = useSelector((state) => state.user.selectedChat);
-  const responseError = useSelector((state) => state.ui.responseError);
   const navigation = useNavigation();
   const { mutate, isPending, isError, error } = useChatMutation();
 
@@ -44,7 +42,6 @@ export default function ImageScreen() {
     });
     if (!result.canceled) {
       setImage(result.assets[0].uri);
-      dispatch(chatActions.setUri(uri));
       navigation.goBack();
     }
   };

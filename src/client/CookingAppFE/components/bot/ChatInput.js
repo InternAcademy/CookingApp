@@ -1,17 +1,16 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { View, Image, TextInput, TouchableOpacity } from "react-native";
 import tw from "twrnc";
 import { useSelector, useDispatch } from "react-redux";
 import { uiActions } from "../../redux/uiSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import userSlice, { userActions } from "../../redux/userSlice";
+import { userActions } from "../../redux/userSlice";
 import useChatMutation from "../../hooks/useChatMutation";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 export default function ChatInput() {
   const input = useSelector((state) => state.ui.input);
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
-  const uri = useSelector((state) => state.chat.uri);
   const selectedChat = useSelector((state) => state.user.selectedChat);
   const { mutate, isPending, isError, error } = useChatMutation();
 
@@ -30,24 +29,25 @@ export default function ChatInput() {
     navigation.navigate("ImageScreen");
   }
   async function sendMessage() {
-    const token = await AsyncStorage.getItem("token");
+    if (input) {
+      const token = await AsyncStorage.getItem("token");
 
-    dispatch(
-      userActions.selectChat({
-        ...selectedChat,
-        content: [
-          ...(selectedChat?.content || []),
-          { type: "Text", role: "user", content: input },
-        ],
-      })
-    );
-    console.log(selectedChat && selectedChat.id);
-    mutate({
-      token: token,
-      chatId: selectedChat ? selectedChat.id : null,
-      type: "Text",
-      content: input,
-    });
+      dispatch(
+        userActions.selectChat({
+          ...selectedChat,
+          content: [
+            ...(selectedChat?.content || []),
+            { type: "Text", role: "user", content: input },
+          ],
+        })
+      );
+      mutate({
+        token: token,
+        chatId: selectedChat ? selectedChat.id : null,
+        type: "Text",
+        content: input,
+      });
+    }
   }
   function handleRemovePhoto() {
     dispatch(uiActions.clearPhotoUri());

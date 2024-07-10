@@ -1,7 +1,7 @@
 const ip = process.env.EXPO_PUBLIC_PERSONAL_IP;
 
 export async function sendMessage({ token, chatId, type, content }) {
-  const response = await fetch(`${ip}/message`, {
+  const response = await fetch(`${ip}/messag`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -15,13 +15,10 @@ export async function sendMessage({ token, chatId, type, content }) {
     }),
   });
   if (!response.ok) {
-    console.log(response);
     throw new Error("Resource not found");
   }
 
   const responseBody = await response.json();
-
-  console.log(responseBody);
 
   return responseBody.data;
 }
@@ -39,7 +36,6 @@ export async function getChat({ token, chatId }) {
   }
 
   const data = await response.json();
-  console.log(data);
   return data;
 }
 

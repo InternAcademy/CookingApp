@@ -10,12 +10,12 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import tw from "twrnc";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
 import Navigation from "../navigation/Navigation";
 import Thinking from "../bot/Thinking";
 import ChatInput from "./ChatInput";
 import ChatError from "./ChatError";
+import { uiActions } from "../../redux/uiSlice";
 
 const Home = () => {
   const navigation = useNavigation();
@@ -23,19 +23,24 @@ const Home = () => {
   const isThinking = useSelector((state) => state.ui.isThinking);
   const responseError = useSelector((state) => state.ui.responseError);
   const chat = useSelector((state) => state.user.selectedChat);
+  const dispatch = useDispatch();
   useEffect(() => {
-    const checkToken = async () => {
+    const checkTokeAndTheme = async () => {
       const token = await AsyncStorage.getItem("token");
+      const theme = await AsyncStorage.getItem("theme");
       if (!token) {
         navigation.navigate("LandingPage");
       }
+      if (theme) {
+        console.log(theme);
+        dispatch(uiActions.setTheme(theme === "dark" ? "dark" : null));
+      }
     };
-    checkToken();
+    checkTokeAndTheme();
   }, []);
-  console.log(chat);
   useEffect(() => {
-    console.log(chat);
-  }, [chat]);
+    console.log(isDarkTheme);
+  }, [isDarkTheme]);
   const renderPost = () => {
     if (chat) {
       return (
@@ -67,7 +72,6 @@ const Home = () => {
                     </Text>
                   )}
 
-                  {console.log(msg)}
                   {msg.role === "user" && msg.type === "Image" && (
                     <Image
                       source={{ uri: msg.content }}

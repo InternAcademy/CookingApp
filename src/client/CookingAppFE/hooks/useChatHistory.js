@@ -34,7 +34,6 @@ const useChatHistory = () => {
   }, []);
 
   useEffect(() => {
-    console.log(chatHistoryData);
     if (chatHistoryData) {
       dispatch(userActions.setChatHistory(chatHistoryData.data));
     }
