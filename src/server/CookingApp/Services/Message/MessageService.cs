@@ -1,4 +1,6 @@
-﻿namespace CookingApp.Services.Message
+﻿using CookingApp.Common.Helpers.Recipes;
+
+namespace CookingApp.Services.Message
 {
     using CookingApp.Common.CompletionConstants;
     using CookingApp.Infrastructure.Interfaces;
@@ -81,7 +83,7 @@
             {
                 ChatId = chat.Id,
                 Content = response.Value.Content[0].Text,
-                Type = MessageType.Text
+                Type = RecipeHelpers.IsRecipe(response.Value.Content[0].Text) ? MessageType.Recipe : MessageType.Text 
             };
         }
 
