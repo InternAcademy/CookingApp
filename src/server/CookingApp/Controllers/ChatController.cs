@@ -15,7 +15,6 @@ namespace CookingApp.Controllers
 
     [ApiController]
     public class ChatController(IChatService chatService,
-        IRecipeService recipeService,
         IMessageService openAIService,
         IHttpContextAccessor httpContextAccessor) : ControllerBase
     {
@@ -31,19 +30,6 @@ namespace CookingApp.Controllers
                 Data = response
             };
         }
-        [HttpPost("convert")]
-        public async Task<IActionResult> ConvertRecipe([FromBody] string request)
-        {
-            var recipe = await recipeService.TryConvertToRecipe(request);
-
-            return new ApiResponse<Recipe>()
-            {
-                Status = 200,
-                Data = recipe
-            };
-        }
-
-
 
         [HttpGet("c/{chatId}")]
         public async Task<IActionResult> ChatById(string chatId)
