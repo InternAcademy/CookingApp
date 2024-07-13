@@ -18,9 +18,11 @@ import Thinking from "../bot/Thinking";
 import ChatInput from "./ChatInput";
 import ChatError from "./ChatError";
 import { uiActions } from "../../redux/uiSlice";
+import useSaveRecipe from "../../hooks/useSaveRecipe";
 
 const Home = () => {
   const navigation = useNavigation();
+  const { save } = useSaveRecipe();
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
   const isThinking = useSelector((state) => state.ui.isThinking);
   const responseError = useSelector((state) => state.ui.responseError);
@@ -44,6 +46,10 @@ const Home = () => {
   useEffect(() => {
     console.log(isDarkTheme);
   }, [isDarkTheme]);
+  async function handleRecipeSave(request) {
+    const token = await AsyncStorage.getItem("token");
+    save({ token, request });
+  }
   const renderPost = () => {
     if (chat) {
       {
@@ -95,7 +101,7 @@ const Home = () => {
                         {msg.content}
                       </Text>
                       <TouchableOpacity
-                        onPress={() => console.log("Save Recipe!")}
+                        onPress={() => handleRecipeSave(msg.content)}
                         style={tw`mx-2 self-end`}
                       >
                         <Ionicons
