@@ -21,6 +21,7 @@ export default function ImageScreen() {
       allowsEditing: true,
       aspect: [4, 3],
       quality: 0.1,
+      base64,
     });
     const uri = result.assets[0].uri;
     const token = await AsyncStorage.getItem("token");
@@ -38,7 +39,7 @@ export default function ImageScreen() {
       token: token,
       chatId: selectedChat && selectedChat.id,
       type: "Image",
-      content: uri,
+      content: `data:${result.assets[0].mimeType};base64,${result.assets[0].base64}`,
     });
     if (!result.canceled) {
       setImage(result.assets[0].uri);
