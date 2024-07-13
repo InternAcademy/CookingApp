@@ -17,6 +17,7 @@ const useChatMutation = () => {
     onSuccess: (response) => {
       console.log(response);
       const newChatMessage = {
+        type: response.type,
         role: "bot",
         content: response.content,
       };
