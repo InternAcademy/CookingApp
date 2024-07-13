@@ -4,6 +4,6 @@
     {
         Text,
         Image,
-        JSON
+        Recipe
     }
 }

@@ -1,4 +1,7 @@
-﻿namespace CookingApp.Controllers
+﻿using CookingApp.Models.Entities;
+using CookingApp.Services.Recipe;
+
+namespace CookingApp.Controllers
 {
     using CookingApp.Common.Helpers.Profiles;
     using CookingApp.Models;
@@ -19,12 +22,12 @@
         public async Task<IActionResult> SendMessage([FromBody] MessageData message)
         {
             var userId = GetUser.ProfileId(httpContextAccessor);
-            var responce = await openAIService.SendMessage(userId, message);
+            var response = await openAIService.SendMessage(userId, message);
 
             return new ApiResponse<MessageData>()
             {
                 Status = 200,
-                Data = responce
+                Data = response
             };
         }
 
