@@ -7,11 +7,24 @@ namespace CookingApp.Common.Helpers.Recipes
 {
     public class RecipeHelpers
     {
-        private static readonly TimeSpan RegexTimeout = TimeSpan.FromSeconds(2); // Set the timeout to 2 seconds
+        private static readonly string[] RequiredSections =
+        [
+            "Title:",
+            "Description:",
+            "Ingredients:",
+            "Preparation Steps:",
+            "Duration:",
+            "Number Of Portions:"
+        ];
 
-        public static bool TryParseRecipe(string response, out Recipe recipe)
+        public static bool IsRecipe(string text)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return false;
+            }
+
+            return RequiredSections.All(section => text.Contains(section, StringComparison.OrdinalIgnoreCase));
         }
     }
 }
