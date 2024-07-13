@@ -6,6 +6,9 @@ namespace CookingApp.Models.Entities
 {
     public class Recipe : MongoEntity
     {
+        [BsonElement("user-id")]
+        public string UserId { get; set; } = default!;
+
         [BsonElement("title")]
         public string Title { get; set; } = default!;
 
