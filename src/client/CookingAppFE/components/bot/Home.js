@@ -50,14 +50,14 @@ const Home = () => {
         >
           <ScrollView contentContainerStyle={tw`p-6 mt-10`}>
             {chat.content.map((msg, index) => (
-              <View key={index} style={tw`mb-4 flex-row items-start wrap`}>
+              <View key={index} style={tw`mb-2 flex-row justify-start   wrap  pt-1`}>
                 <Image
                   source={
                     msg.role === "user"
                       ? require("../../assets/NavigationBar/user.png")
                       : require("../../assets/Main/icon2.png")
                   }
-                  style={tw`w-8 h-8 rounded-full mr-2 mb-7`}
+                  style={tw`w-8 h-8 rounded-full mr-2 mb-7 items-start -mt-1`}
                 />
                 <View>
                   <Text
@@ -81,7 +81,7 @@ const Home = () => {
                   )}
                   {msg.role === "bot" && (
                     <Text
-                      style={tw`text-base w-screen mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
+                      style={tw` max-w-full mr-12   text-base  mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
                     >
                       {msg.content}
                     </Text>
