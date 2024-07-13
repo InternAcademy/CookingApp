@@ -106,6 +106,13 @@ const Home = () => {
                       </TouchableOpacity>
                     </>
                   )}
+                  {msg.role === "bot" && msg.type === "Text" && (
+                    <Text
+                      style={tw`max-w-full mr-12   text-base  mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
+                    >
+                      {msg.content}
+                    </Text>
+                  )}
                 </View>
               </View>
             ))}
