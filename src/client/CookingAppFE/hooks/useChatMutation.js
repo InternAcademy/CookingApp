@@ -15,6 +15,7 @@ const useChatMutation = () => {
       dispatch(uiActions.setInput(""));
     },
     onSuccess: (response) => {
+      console.log(response);
       const newChatMessage = {
         role: "bot",
         content: response.content,

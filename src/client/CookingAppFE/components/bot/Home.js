@@ -6,7 +6,9 @@ import {
   FlatList,
   SafeAreaView,
   ScrollView,
+  TouchableOpacity,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import tw from "twrnc";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -44,6 +46,9 @@ const Home = () => {
   }, [isDarkTheme]);
   const renderPost = () => {
     if (chat) {
+      {
+        console.log(chat);
+      }
       return (
         <SafeAreaView
           style={tw`flex-1 ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}
@@ -79,12 +84,24 @@ const Home = () => {
                       style={tw`w-32 h-32 rounded-full mr-2 mb-7`}
                     ></Image>
                   )}
-                  {msg.role === "bot" && (
-                    <Text
-                      style={tw`text-base w-screen mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
-                    >
-                      {msg.content}
-                    </Text>
+                  {msg.role === "bot" && msg.type === "Recipe" && (
+                    <>
+                      <Text
+                        style={tw`text-base w-screen mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
+                      >
+                        {msg.content}{" "}
+                      </Text>
+                      <TouchableOpacity
+                        onPress={() => console.log("Save Recipe!")}
+                        style={tw`mx-2 self-end`}
+                      >
+                        <Ionicons
+                          name="menu"
+                          size={24}
+                          color={isDarkTheme ? "white" : "black"}
+                        />
+                      </TouchableOpacity>
+                    </>
                   )}
                 </View>
               </View>

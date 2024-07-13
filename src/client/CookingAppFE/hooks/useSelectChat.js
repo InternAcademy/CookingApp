@@ -21,7 +21,11 @@ const useSelectChat = () => {
           content: requests[i].content,
           role: "user",
         });
-        combinedArray.push({ content: responses[i].content, role: "bot" });
+        combinedArray.push({
+          type: responses[i].type,
+          content: responses[i].content,
+          role: "bot",
+        });
       }
 
       for (let i = minLength; i < requests.length; i++) {
@@ -33,7 +37,11 @@ const useSelectChat = () => {
       }
 
       for (let i = minLength; i < responses.length; i++) {
-        combinedArray.push({ content: responses[i].content, role: "bot" });
+        combinedArray.push({
+          type: responses[i].type,
+          content: responses[i].content,
+          role: "bot",
+        });
       }
       dispatch(
         userActions.selectChat({
