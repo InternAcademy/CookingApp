@@ -8,7 +8,9 @@ namespace CookingApp.Services.Recipe
     using Models.Entities;
     using CookingApp.Infrastructure.Interfaces;
     using Newtonsoft.Json;
-    public class RecipeService(ChatClient client, IRepository<Recipe> repo) : IRecipeService
+    using CookingApp.Services.Image;
+
+    public class RecipeService(ChatClient client, IRepository<Recipe> repo, IImageService imageService) : IRecipeService
     {
         ///<inheritdoc/>
         public async Task<string> CreateRecipe(string request)
@@ -29,11 +31,11 @@ namespace CookingApp.Services.Recipe
             {
                 throw new InvalidRecipeRequestException();
             }
+            recipe.ImageUrl = await imageService.GenerateImage(recipe.Title);
 
             await repo.InsertAsync(recipe);
-            var id = (await repo.GetFirstOrDefaultAsync(r => r.Title == recipe.Title))!.Id;
 
-            return id;
+            return recipe.Id;
         }
         ///<inheritdoc/>
         public async Task<Recipe> GetById(string recipeId)

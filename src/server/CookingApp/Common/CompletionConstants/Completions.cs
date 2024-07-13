@@ -30,7 +30,7 @@ namespace CookingApp.Common.CompletionConstants
         public const string Suggestion = "I have a list of ingredients and I need to cook something for myself. Suggest a suitable recipe: Fish, Potatoes, Garlic, Dill, Olive oil.";
 
         
-        public const string TitleGenerationPrompt = "Generate a title for this content. Note that all of the generated titles sould be in the context of cooking, kitchen, recipe names and so on. Use upto 5 words! :";
+        public const string TitleGenerationPrompt = "Generate a title for this content. Note that all of the generated titles sould be in the context of cooking, kitchen, recipe names and so on. Use upto 5 words! Do NOT use any markdown symbols in the response! Do NOT bold it! :";
         public const string UserAllergiesPrompt = "User allergies :";
         public const string UserAvoidedFoodsPrompt = "User avoided foods :";
         public const string UserDietaryPreferencePrompt = "User dietary preference :";
