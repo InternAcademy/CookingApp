@@ -58,7 +58,7 @@ namespace CookingApp.Services.Message
 
             if(request.Type == MessageType.Image && request.Content != null)
             {
-                var imgPath = await UploadFile.ToImgur(ConvertDataUriToFormFile(request.Content), httpClient);
+                var imgPath = await UploadFile.ToImgur(File.ConvertDataUriToFormFile(request.Content), httpClient);
 
                 messages.Add(new UserChatMessage(
                         ChatMessageContentPart.CreateTextMessageContentPart(Completions.ImageRequest),
@@ -88,29 +88,6 @@ namespace CookingApp.Services.Message
             };
         }
 
-        public IFormFile ConvertDataUriToFormFile(string dataUri)
-        {
-            var match = ContentType().Match(dataUri);
-            if (!match.Success)
-            {
-                throw new ArgumentException("Invalid data URI");
-            }
-
-            string contentType = match.Groups["type"].Value;
-            string base64Data = match.Groups["data"].Value;
-
-            byte[] fileBytes = Convert.FromBase64String(base64Data);
-
-            var memoryStream = new MemoryStream(fileBytes);
-            var file = new FormFile(memoryStream, 0, fileBytes.Length, string.Empty, "file")
-            {
-                Headers = new HeaderDictionary(),
-                ContentType = contentType
-            };
-
-            return file;
-        }
-
         private async Task<string> AddTitle(string chatId, string message)
         {
             var chat = await chatRepo.GetByIdAsync(chatId);
@@ -130,8 +107,5 @@ namespace CookingApp.Services.Message
 
             return chat.Title;
         }
-
-        [GeneratedRegex(@"data:(?<type>.*?);base64,(?<data>.*)")]
-        private static partial Regex ContentType();
     }
 }

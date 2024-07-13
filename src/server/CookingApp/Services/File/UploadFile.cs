@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
+using System.Text.RegularExpressions;
 
 namespace CookingApp.Services.File
 {

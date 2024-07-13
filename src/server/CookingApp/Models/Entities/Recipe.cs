@@ -13,13 +13,16 @@ namespace CookingApp.Models.Entities
         public string Description { get; set; } = default!;
 
         [BsonElement("ingredients")]
-        public IEnumerable<Ingredient> Ingredients { get; set; }
+        public IEnumerable<Ingredient> Ingredients { get; set; } = default!;
 
         [BsonElement("preparationSteps")]
-        public IEnumerable<string> PreparationSteps { get; set; }
+        public IEnumerable<string> PreparationSteps { get; set; } = default!;
 
         [BsonElement("duration")]
-        public string Duration { get; set; }
+        public string Duration { get; set; } = default!;
+
+        [BsonElement("image-url")]
+        public string ImageUrl { get; set; } = default!;
 
         [BsonElement("numberOfPortions")]
         public int NumberOfPortions { get; set; }

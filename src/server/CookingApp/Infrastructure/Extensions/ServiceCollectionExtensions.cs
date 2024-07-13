@@ -22,6 +22,8 @@ using OpenAI.Chat;
 using Stripe;
 using System.Diagnostics.CodeAnalysis;
 using CookingApp.Services.Recipe;
+using CookingApp.Services.Image;
+using OpenAI.Images;
 
 namespace CookingApp.Infrastructure.Extensions
 {
@@ -175,9 +177,11 @@ namespace CookingApp.Infrastructure.Extensions
             string apiKey = builder.Configuration.GetValue<string>("OpenAIOptions:ApiKey") ?? string.Empty;
 
             builder.Services.AddSingleton(new ChatClient(model: "gpt-4o", apiKey));
+            builder.Services.AddSingleton(new ImageClient(model: "dall-e-3", apiKey));
 
             builder.Services.AddScoped<IChatService, ChatService>();
             builder.Services.AddScoped<IMessageService, MessageService>();
+            builder.Services.AddScoped<IImageService, ImageService>();
 
             return builder;
         }
