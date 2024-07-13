@@ -13,7 +13,7 @@ namespace CookingApp.Services.Recipe
     public class RecipeService(ChatClient client, IRepository<Recipe> repo, IImageService imageService) : IRecipeService
     {
         ///<inheritdoc/>
-        public async Task<string> CreateRecipe(string request)
+        public async Task<string> CreateRecipe(string request, string userId)
         {
             var messages = new List<ChatMessage>
             {
@@ -32,11 +32,18 @@ namespace CookingApp.Services.Recipe
                 throw new InvalidRecipeRequestException();
             }
             recipe.ImageUrl = await imageService.GenerateImage(recipe.Title);
+            recipe.UserId = userId;
 
             await repo.InsertAsync(recipe);
 
             return recipe.Id;
         }
+
+        public async Task<IEnumerable<Recipe>> GetAll(string userId)
+        {
+            return await repo.GetAllAsync(a => a.UserId == userId && !a.IsDeleted);
+        }
+
         ///<inheritdoc/>
         public async Task<Recipe> GetById(string recipeId)
         {
