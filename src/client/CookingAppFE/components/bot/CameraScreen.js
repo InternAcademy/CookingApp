@@ -4,7 +4,6 @@ import { Button, Text, TouchableOpacity, View, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { useDispatch } from "react-redux";
-
 import { uiActions } from "../../redux/uiSlice";
 
 export default function CameraScreen() {
@@ -22,19 +21,22 @@ export default function CameraScreen() {
   if (!permission.granted) {
     return (
       <View style={tw`flex-1 justify-center items-center`}>
-        <Text style={tw`text-center`}>We need your permission to show the camera</Text>
+        <Text style={tw`text-center`}>
+          We need your permission to show the camera
+        </Text>
         <Button onPress={requestPermission} title="grant permission" />
       </View>
     );
   }
 
   function toggleCameraFacing() {
-    setFacing(current => (current === "back" ? "front" : "back"));
+    setFacing((current) => (current === "back" ? "front" : "back"));
   }
 
   async function takePicture() {
     if (cameraRef.current) {
       const photo = await cameraRef.current.takePictureAsync();
+      console.log(photo);
       setPhoto(photo.uri);
     }
   }
@@ -53,22 +55,41 @@ export default function CameraScreen() {
       {photo ? (
         <View style={tw`flex-1 justify-center items-center`}>
           <Image source={{ uri: photo }} style={tw`w-full h-4/5`} />
-          <View style={[tw`flex-row items-end bg-transparent mt-16`, { gap: 150 }]}>
-            <TouchableOpacity style={tw`bg-gray-800 p-3 rounded`} onPress={handleRetry}>
+          <View
+            style={[tw`flex-row items-end bg-transparent mt-16`, { gap: 150 }]}
+          >
+            <TouchableOpacity
+              style={tw`bg-gray-800 p-3 rounded`}
+              onPress={handleRetry}
+            >
               <Text style={tw`text-lg text-white`}>Retry</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={tw`bg-gray-800 p-3 rounded`} onPress={handleOk}>
+            <TouchableOpacity
+              style={tw`bg-gray-800 p-3 rounded`}
+              onPress={handleOk}
+            >
               <Text style={tw`text-lg text-white`}>OK</Text>
             </TouchableOpacity>
           </View>
         </View>
       ) : (
         <CameraView style={tw`flex-1`} facing={facing} ref={cameraRef}>
-          <View style={[tw`absolute bottom-0 w-full flex-row justify-around items-center`, { backgroundColor: "rgba(0, 0, 0, 0.5)", padding: 16 }]}>
-            <TouchableOpacity style={tw`bg-gray-800 p-3 rounded`} onPress={toggleCameraFacing}>
+          <View
+            style={[
+              tw`absolute bottom-0 w-full flex-row justify-around items-center`,
+              { backgroundColor: "rgba(0, 0, 0, 0.5)", padding: 16 },
+            ]}
+          >
+            <TouchableOpacity
+              style={tw`bg-gray-800 p-3 rounded`}
+              onPress={toggleCameraFacing}
+            >
               <Text style={tw`text-lg text-white`}>Flip Camera</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={tw`bg-gray-800 p-3 rounded`} onPress={takePicture}>
+            <TouchableOpacity
+              style={tw`bg-gray-800 p-3 rounded`}
+              onPress={takePicture}
+            >
               <Text style={tw`text-lg text-white`}>Take Picture</Text>
             </TouchableOpacity>
           </View>

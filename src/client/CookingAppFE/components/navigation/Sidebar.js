@@ -2,17 +2,14 @@ import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
-  TouchableOpacity,
+  Pressable,
   StyleSheet,
   ScrollView,
   Modal,
   Animated,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import tw from "twrnc";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch, useSelector } from "react-redux";
-import { jwtDecode } from "jwt-decode";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import useSelectChat from "../../hooks/useSelectChat";
 import { userActions } from "../../redux/userSlice";
@@ -90,7 +87,7 @@ const Sidebar = ({ open, setOpen }) => {
 
   return (
     <Modal transparent visible={open}>
-      <TouchableOpacity style={styles.overlay} onPress={() => setOpen(false)} />
+      <Pressable style={styles.overlay} onPress={() => setOpen(false)} />
       <Animated.View
         style={[
           styles.sidebar,
@@ -100,20 +97,20 @@ const Sidebar = ({ open, setOpen }) => {
       >
         <View style={styles.header}>
           <View style={tw`flex-row items-center`}>
-            <TouchableOpacity onPress={() => setOpen(false)}>
+            <Pressable onPress={() => setOpen(false)}>
               <Ionicons
                 name="menu"
                 size={24}
                 color={isDarkTheme ? "white" : "black"}
               />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={startNewChat} style={tw`ml-2`}>
+            </Pressable>
+            <Pressable onPress={startNewChat} style={tw`ml-2`}>
               <Ionicons
                 name="chatbox-ellipses-sharp"
                 size={24}
                 color={isDarkTheme ? "white" : "black"}
               />
-            </TouchableOpacity>
+            </Pressable>
           </View>
         </View>
 
@@ -132,7 +129,7 @@ const Sidebar = ({ open, setOpen }) => {
                       {sectionTitle}
                     </Text>
                     {sortedChatHistory[sectionTitle].map((chat, idx) => (
-                      <TouchableOpacity
+                      <Pressable
                         key={idx}
                         onPress={() => handleChatPress(chat)}
                       >
@@ -144,7 +141,7 @@ const Sidebar = ({ open, setOpen }) => {
                         >
                           {chat.title}
                         </Text>
-                      </TouchableOpacity>
+                      </Pressable>
                     ))}
                   </View>
                 )

@@ -1,11 +1,11 @@
-// uiSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   input: "",
   isThinking: false,
+  responseError: null,
   isDarkTheme: false,
-  photoUri: null // Добавяме photoUri в началното състояние
+  photoUri: null,
 };
 
 const uiSlice = createSlice({
@@ -18,16 +18,22 @@ const uiSlice = createSlice({
     setIsThinking(state, action) {
       state.isThinking = action.payload;
     },
+    setResponseError(state, action) {
+      state.responseError = action.payload;
+    },
     toggleTheme(state) {
       state.isDarkTheme = !state.isDarkTheme;
+    },
+    setTheme(state, action) {
+      state.isDarkTheme = action.payload;
     },
     setPhotoUri(state, action) {
       state.photoUri = action.payload;
     },
     clearPhotoUri(state) {
       state.photoUri = null;
-    }
-  }
+    },
+  },
 });
 
 export const uiActions = uiSlice.actions;
