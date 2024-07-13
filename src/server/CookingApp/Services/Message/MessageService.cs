@@ -75,6 +75,7 @@ namespace CookingApp.Services.Message
 
             var response = await client.CompleteChatAsync(messages);
             saveResponse.Content = response.Value.Content[0].Text;
+            saveResponse.Type = RecipeHelpers.IsRecipe(saveResponse.Content) ? MessageType.Recipe : MessageType.Text;
 
             await chatService.UpdateChat(chat.Id, saveRequest, saveResponse);
             await AddTitle(chat.Id, response.Value.Content[0].Text);
@@ -83,7 +84,7 @@ namespace CookingApp.Services.Message
             {
                 ChatId = chat.Id,
                 Content = response.Value.Content[0].Text,
-                Type = RecipeHelpers.IsRecipe(response.Value.Content[0].Text) ? MessageType.Recipe : MessageType.Text 
+                Type = saveResponse.Type
             };
         }
 
