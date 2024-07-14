@@ -12,7 +12,9 @@ const UserMenu = () => {
   return (
     <View style={tw`flex-1 ${isDarkTheme ? "bg-[#202020]" : "bg-white"} p-4`}>
       <View style={tw`flex-row justify-between items-center mb-4`}>
-        <Ionicons name="person-circle" size={40} color={isDarkTheme ? "white" : "black"} />
+        <TouchableOpacity onPress={() => navigation.navigate("ProfileSettings")}>
+          <Ionicons name="person-circle" size={40} color={isDarkTheme ? "white" : "black"} />
+        </TouchableOpacity>
 
         <TouchableOpacity onPress={() => console.log("Close menu")}>
           <Text style={tw`text-2xl font-bold ${isDarkTheme ? "text-white" : "text-black"}`}></Text>
@@ -22,11 +24,6 @@ const UserMenu = () => {
       <TouchableOpacity style={tw`flex-row items-center mb-4`} onPress={() => navigation.navigate("RecentRecipes")}>
         <Ionicons name="time" size={24} color={isDarkTheme ? "white" : "black"} style={tw`mr-2`} />
         <Text style={tw`text-lg font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>Recipes</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={tw`flex-row items-center mb-4`} onPress={() => navigation.navigate("ProfileSettings")}>
-        <Ionicons name="settings" size={24} color={isDarkTheme ? "white" : "black"} style={tw`mr-2`} />
-        <Text style={tw`text-lg font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>Profile Settings</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={tw`flex-row items-center mb-4`} onPress={() => navigation.navigate("Subscription")}>
