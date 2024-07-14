@@ -71,7 +71,7 @@ const UserMenu = () => {
       <View style={tw`mx-12 mt-auto items-center py-2`}>
         <TouchableOpacity onPress={() => console.log("Sign Out")} style={tw`flex-row justify-center items-center`}>
           <Text style={tw`text-lg font-bold ${isDarkTheme ? "text-gray-100" : "text-black"}`}>Sign Out</Text>
-          <Ionicons name="log-out" size={24} color={tw.color("yellow-500")} style={tw`ml-2`} />
+          <Ionicons name="log-out" size={24} color={isDarkTheme ? "white" : "black"} style={tw`ml-2`} />
         </TouchableOpacity>
       </View>
     </View>
