@@ -6,6 +6,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import useSelectChat from "../../hooks/useSelectChat";
 import { userActions } from "../../redux/userSlice";
 import useChatHistory from "../../hooks/useChatHistory";
+
 const Sidebar = ({ open, setOpen }) => {
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
   const chat = useSelector(state => state.user.selectedChat);
@@ -14,9 +15,11 @@ const Sidebar = ({ open, setOpen }) => {
   const { refetchChatHistory } = useChatHistory();
   const dispatch = useDispatch();
   const [animation] = useState(new Animated.Value(-300));
+
   useEffect(() => {
     refetchChatHistory();
   }, [chat]);
+
   useEffect(() => {
     if (open) {
       Animated.timing(animation, {
@@ -37,10 +40,12 @@ const Sidebar = ({ open, setOpen }) => {
     selectChat(chat);
     setOpen(false);
   };
+
   const startNewChat = () => {
     dispatch(userActions.clearChat());
     setOpen(false);
   };
+
   const getSectionTitle = date => {
     const today = new Date();
     const chatDate = new Date(date);
@@ -77,11 +82,11 @@ const Sidebar = ({ open, setOpen }) => {
       <Animated.View style={[styles.sidebar, tw`${isDarkTheme ? "bg-[#202020]" : "bg-white"}`, { transform: [{ translateX: animation }] }]}>
         <View style={styles.header}>
           <View style={tw`flex-row items-center`}>
-            <Pressable onPress={() => setOpen(false)}>
-              <Ionicons name="menu" size={24} color={isDarkTheme ? "white" : "black"} />
-            </Pressable>
             <Pressable onPress={startNewChat} style={tw`ml-2`}>
               <Ionicons name="chatbox-ellipses-sharp" size={24} color={isDarkTheme ? "white" : "black"} />
+            </Pressable>
+            <Pressable onPress={() => setOpen(false)}>
+              <Ionicons name="close" size={30} color={isDarkTheme ? "white" : "black"} />
             </Pressable>
           </View>
         </View>
