@@ -13,19 +13,15 @@ const UserMenu = () => {
     <View style={tw`flex-1 ${isDarkTheme ? "bg-[#202020]" : "bg-white"} p-4`}>
       <View style={tw`flex-row justify-between items-center mb-4`}>
         <Ionicons name="person-circle" size={40} color={isDarkTheme ? "white" : "black"} />
+
         <TouchableOpacity onPress={() => console.log("Close menu")}>
           <Text style={tw`text-2xl font-bold ${isDarkTheme ? "text-white" : "text-black"}`}></Text>
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={tw`flex-row items-center mb-4`} onPress={() => navigation.navigate("Favourite")}>
-        <Ionicons name="heart" size={24} color="#FFA500" style={tw`mr-2`} />
-        <Text style={tw`text-lg font-bold text-[#FFA500]`}>Favorite Recipes</Text>
-      </TouchableOpacity>
-
       <TouchableOpacity style={tw`flex-row items-center mb-4`} onPress={() => navigation.navigate("RecentRecipes")}>
         <Ionicons name="time" size={24} color={isDarkTheme ? "white" : "black"} style={tw`mr-2`} />
-        <Text style={tw`text-lg font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>Recent Recipes</Text>
+        <Text style={tw`text-lg font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>Recipes</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={tw`flex-row items-center mb-4`} onPress={() => navigation.navigate("ProfileSettings")}>
@@ -40,7 +36,7 @@ const UserMenu = () => {
 
       <TouchableOpacity style={tw`flex-row items-center mb-4`} onPress={() => navigation.navigate("AlergensAndFoodPreferences")}>
         <Ionicons name="nutrition" size={24} color={isDarkTheme ? "white" : "black"} style={tw`mr-2`} />
-        <Text style={tw`text-lg font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>Alergens and Food Preferences</Text>
+        <Text style={tw`text-lg font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>Food Preferences</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={tw`flex-row items-center mb-4`} onPress={() => navigation.navigate("ArchivedRecipes")}>

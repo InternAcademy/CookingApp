@@ -33,7 +33,6 @@ const LanguageAndTheme = () => {
           </TouchableOpacity>
         </View>
 
-        {/* Theme Selector */}
         <View style={tw`mb-4 `}>
           <TouchableOpacity onPress={() => handleThemeChange(selectedTheme === "Light" ? "Dark" : "Light")} style={tw`border rounded-full p-4 ${isDarkTheme ? "bg-[#303030] border-gray-300" : "bg-white border-gray-600"}`}>
             <Text style={tw`${isDarkTheme ? "text-white bg-[#303030]" : "bg-white text-black"} text-base`}>{`Theme: ${selectedTheme}`}</Text>
