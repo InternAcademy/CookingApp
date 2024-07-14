@@ -81,11 +81,11 @@ const Sidebar = ({ open, setOpen }) => {
       <Pressable style={styles.overlay} onPress={() => setOpen(false)} />
       <Animated.View style={[styles.sidebar, tw`${isDarkTheme ? "bg-[#202020]" : "bg-white"}`, { transform: [{ translateX: animation }] }]}>
         <View style={styles.header}>
-          <View style={tw`flex-row items-center`}>
+          <View style={tw`flex-row items-center justify-between w-full`}>
             <Pressable onPress={startNewChat} style={tw`ml-2`}>
               <Ionicons name="chatbox-ellipses-sharp" size={24} color={isDarkTheme ? "white" : "black"} />
             </Pressable>
-            <Pressable onPress={() => setOpen(false)}>
+            <Pressable onPress={() => setOpen(false)} style={tw`mr-2`}>
               <Ionicons name="close" size={30} color={isDarkTheme ? "white" : "black"} />
             </Pressable>
           </View>
