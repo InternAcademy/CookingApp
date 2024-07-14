@@ -31,6 +31,7 @@ const Home = () => {
   useEffect(() => {
     const checkTokeAndTheme = async () => {
       const token = await AsyncStorage.getItem("token");
+      
       console.log(token);
       const theme = await AsyncStorage.getItem("theme");
       if (!token) {
@@ -81,7 +82,7 @@ const Home = () => {
                   </Text>
                   {msg.role === "user" && msg.type === "Text" && (
                     <Text
-                      style={tw`text-base w-screen mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
+                      style={tw`text-base mr-4 w-screen mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
                     >
                       {msg.content}
                     </Text>
