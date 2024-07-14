@@ -102,7 +102,7 @@ export default function ChatInput() {
           <TextInput
             style={tw`flex-1 h-10 px-1 ${isDarkTheme ? "text-white" : "text-black"}`}
             placeholder="Message MealMasterBot"
-            placeholderTextColor={isDarkTheme ? "gray" : "black"}
+            placeholderTextColor={isDarkTheme ? "gray" : "gray"}
             value={input}
             onChangeText={handleTyping}
           />
