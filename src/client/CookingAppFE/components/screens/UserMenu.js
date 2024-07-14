@@ -11,9 +11,9 @@ const UserMenu = () => {
 
   return (
     <View style={tw`flex-1 ${isDarkTheme ? "bg-[#202020]" : "bg-white"} p-4`}>
-      <View style={tw`flex-row justify-between items-center mb-4`}>
+      <View style={tw`flex-row justify-center items-center mb-4`}>
         <TouchableOpacity onPress={() => navigation.navigate("ProfileSettings")}>
-          <Ionicons name="person-circle" size={40} color={isDarkTheme ? "white" : "black"} />
+          <Ionicons name="person-circle" size={50} color={isDarkTheme ? "white" : "black"} />
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => console.log("Close menu")}>
