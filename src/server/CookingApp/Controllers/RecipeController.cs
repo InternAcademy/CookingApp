@@ -12,7 +12,8 @@ namespace CookingApp.Controllers
         [HttpPost("create-recipe")]
         public async Task<IActionResult> CreateRecipe([FromBody] string request)
         {
-            var recipeId = await recipeService.CreateRecipe(request, GetUser.ProfileId(httpContext));
+            var recipeId
+                = await recipeService.CreateRecipe(request, GetUser.ProfileId(httpContext));
 
             return new ApiResponse<string>()
             {
