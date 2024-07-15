@@ -33,6 +33,7 @@
     "expo-image-picker": "~15.0.7",
     "expo-media-library": "~16.0.4",
     "expo-permissions": "^14.4.0",
+    "expo-random": "~14.0.1",
     "expo-status-bar": "~1.12.1",
     "framer-motion": "^11.2.11",
     "jwt-decode": "^4.0.0",
@@ -41,6 +42,7 @@
     "react-dom": "18.2.0",
     "react-icons": "^5.2.1",
     "react-native": "0.74.3",
+    "react-native-autocomplete-input": "^5.4.0",
     "react-native-elements": "^3.4.3",
     "react-native-gesture-handler": "~2.16.1",
     "react-native-heroicons": "^4.0.0",
@@ -55,8 +57,7 @@
     "tailwind-react-native-classnames": "^1.5.1",
     "tailwind-rn": "^4.2.0",
     "tailwindcss-react-native": "^1.7.10",
-    "twrnc": "^4.3.0",
-    "expo-random": "~14.0.1"
+    "twrnc": "^4.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",

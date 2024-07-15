@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, ScrollView, FlatList } from "react-native";
 import tw from "twrnc";
 import { Picker } from "@react-native-picker/picker";
 import { useSelector } from "react-redux";
+import Autocomplete from "react-native-autocomplete-input";
 
 const FoodPreferences = () => {
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
@@ -14,6 +15,7 @@ const FoodPreferences = () => {
   const [error, setError] = useState("");
   const [foodError, setFoodError] = useState("");
   const [selectedPreference, setSelectedPreference] = useState("none");
+  const [filteredAllergens, setFilteredAllergens] = useState([]);
 
   const handleAddAlergen = () => {
     const normalizedInput = alergenInput.trim().toLowerCase();
@@ -56,6 +58,16 @@ const FoodPreferences = () => {
     setFoodError("");
   };
 
+  const handleAlergenInputChange = text => {
+    setAlergenInput(text);
+    if (text) {
+      const filtered = possibleAllergens.filter(item => item.toLowerCase().startsWith(text.toLowerCase()));
+      setFilteredAllergens(filtered);
+    } else {
+      setFilteredAllergens([]);
+    }
+  };
+
   return (
     <ScrollView style={tw`flex-1 ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}>
       <View style={tw`flex-1 items-center p-6`}>
@@ -73,7 +85,21 @@ const FoodPreferences = () => {
           ) : (
             <Text style={tw`text-gray-500 text-center mb-4`}>No Allergens added</Text>
           )}
-          <TextInput style={tw`border ${isDarkTheme ? "border-gray-600 bg-gray-200 text-black" : "border-gray-300 bg-white text-black"} rounded-lg px-4 py-2 mb-2`} placeholder="Add your allergens" placeholderTextColor={isDarkTheme ? "gray" : "black"} value={alergenInput} onChangeText={setAlergenInput} />
+          <Autocomplete
+            data={filteredAllergens}
+            defaultValue={alergenInput}
+            onChangeText={handleAlergenInputChange}
+            flatListProps={{
+              keyExtractor: (_, idx) => idx.toString(),
+              renderItem: ({ item }) => (
+                <TouchableOpacity onPress={() => setAlergenInput(item)}>
+                  <Text style={tw`text-black p-2`}>{item}</Text>
+                </TouchableOpacity>
+              )
+            }}
+            inputContainerStyle={tw`border ${isDarkTheme ? "border-gray-600 bg-gray-200 text-black" : "border-gray-300 bg-white text-black"} rounded-lg px-4 py-2 mb-2`}
+            listContainerStyle={tw`border ${isDarkTheme ? "border-gray-600 bg-gray-200" : "border-gray-300 bg-white"} rounded-lg`}
+          />
           {error && <Text style={tw`text-red-500 mb-2 text-center`}>{error}</Text>}
           <TouchableOpacity style={tw`w-full flex items-center justify-center`} onPress={handleAddAlergen}>
             <View style={tw`w-[200px] py-2 bg-yellow-400 rounded-full flex items-center justify-center`}>
@@ -109,7 +135,7 @@ const FoodPreferences = () => {
           {foodError && <Text style={tw`text-red-500 mb-2 text-center`}>{foodError}</Text>}
           <TouchableOpacity style={tw`w-full flex items-center justify-center`} onPress={handleAddFoodPreference}>
             <View style={tw`w-[200px] py-2 bg-yellow-400 rounded-full flex items-center justify-center`}>
-              <Text style={tw`${isDarkTheme ? "text-black" : "text-black"} text-center text-base font-medium`}>Save Preferences</Text>
+              <Text style={tw`${isDarkTheme ? "text-black" : "text-black"} text-center text-base font-medium`}>Save Food</Text>
             </View>
           </TouchableOpacity>
         </View>
