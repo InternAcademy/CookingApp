@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { userActions } from "../../redux/userSlice";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { ChatBubbleBottomCenterTextIcon } from "react-native-heroicons/solid";
+import { ChatBubbleBottomCenterTextIcon, Bars3BottomLeftIcon } from "react-native-heroicons/solid";
 import Sidebar from "./Sidebar";
 
 const Navigation = () => {
@@ -26,10 +26,10 @@ const Navigation = () => {
       <View style={[styles.navBar, tw`${isDarkTheme ? "bg-[#202020]" : "bg-white"}`]}>
         <View style={styles.leftContainer}>
           <TouchableOpacity onPress={() => setOpen(true)} style={tw`mx-2`}>
-            <Ionicons name="menu" size={24} color={isDarkTheme ? "white" : "black"} />
+            <Bars3BottomLeftIcon size={24} color={isDarkTheme ? "white" : "black"} />
           </TouchableOpacity>
           <TouchableOpacity onPress={startNewChat} style={tw`mx-0 mt-1`}>
-            <ChatBubbleBottomCenterTextIcon size={21} color={isDarkTheme ? "white" : "black"} />
+            <ChatBubbleBottomCenterTextIcon size={24} color={isDarkTheme ? "white" : "black"} />
           </TouchableOpacity>
         </View>
         <View style={styles.rightContainer}>
