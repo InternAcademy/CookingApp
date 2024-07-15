@@ -3,12 +3,13 @@ import React, { useState } from "react";
 import { View, TouchableOpacity, SafeAreaView, StatusBar, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import tw from "twrnc";
-
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { userActions } from "../../redux/userSlice";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { ChatBubbleBottomCenterTextIcon } from "react-native-heroicons/solid";
 import Sidebar from "./Sidebar";
+
 const Navigation = () => {
   const navigation = useNavigation();
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
@@ -28,10 +29,9 @@ const Navigation = () => {
             <Ionicons name="menu" size={24} color={isDarkTheme ? "white" : "black"} />
           </TouchableOpacity>
           <TouchableOpacity onPress={startNewChat} style={tw`mx-0 mt-1`}>
-            <Ionicons name="chatbox-ellipses-sharp" size={21} color={isDarkTheme ? "white" : "black"} />
+            <ChatBubbleBottomCenterTextIcon size={21} color={isDarkTheme ? "white" : "black"} />
           </TouchableOpacity>
         </View>
-
         <View style={styles.rightContainer}>
           <TouchableOpacity onPress={() => navigation.navigate("Previous")} style={tw`mx-2`}>
             <Ionicons name="restaurant" size={24} color={isDarkTheme ? "white" : "black"} />
