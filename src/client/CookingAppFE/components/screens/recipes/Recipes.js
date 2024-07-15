@@ -66,7 +66,8 @@ const Recipes = () => {
           <TouchableOpacity onPress={() => handleSelection(recipe.id)}>
             <View
               key={recipe.id}
-              style={tw`bg-white w-9/11 m-4 rounded-lg shadow-md overflow-hidden ${isDarkTheme ? "bg-[#303030]" : "bg-white"}`}
+              style={tw`bg-white w-80 m-4 rounded-lg shadow-md overflow-hidden ${isDarkTheme ? "bg-[#303030]" : "bg-white"}`}
+              //className="w-9"
               on
             >
               <Image
