@@ -32,6 +32,8 @@ const Home = () => {
   useEffect(() => {
     const checkTokeAndTheme = async () => {
       const token = await AsyncStorage.getItem("token");
+      //clear Token on mobile
+      //await AsyncStorage.clear();
       console.log(token);
       const theme = await AsyncStorage.getItem("theme");
       if (!token) {
