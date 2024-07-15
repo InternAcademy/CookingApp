@@ -5,7 +5,7 @@ const initialState = {
   isThinking: false,
   responseError: null,
   isDarkTheme: false,
-  photoUri: null,
+  photoUri: null
 };
 
 const uiSlice = createSlice({
@@ -32,8 +32,8 @@ const uiSlice = createSlice({
     },
     clearPhotoUri(state) {
       state.photoUri = null;
-    },
-  },
+    }
+  }
 });
 
 export const uiActions = uiSlice.actions;

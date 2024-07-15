@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, Text, TouchableOpacity, Image, Alert } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import tw from "twrnc";
 import { useNavigation } from "@react-navigation/native";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import * as ImagePicker from "expo-image-picker";
+import { uiActions } from "../../redux/uiSlice"; // Заменете с реалния път до uiSlice
 
 const UserMenu = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
-  const [profileImage, setProfileImage] = useState(null);
+  const profileImage = useSelector(state => state.ui.photoUri);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -20,7 +22,7 @@ const UserMenu = () => {
     });
 
     if (!result.canceled) {
-      setProfileImage(result.uri);
+      dispatch(uiActions.setPhotoUri(result.assets[0].uri));
     } else {
       Alert.alert("Error", "Image selection was cancelled");
     }
@@ -29,10 +31,7 @@ const UserMenu = () => {
   return (
     <View style={tw`flex-1 ${isDarkTheme ? "bg-[#202020]" : "bg-white"} p-4`}>
       <View style={tw`flex-row justify-center items-center mb-4`}>
-        <TouchableOpacity onPress={pickImage}>
-          <Ionicons name="person-circle" size={50} color={isDarkTheme ? "white" : "black"} />
-        </TouchableOpacity>
-        {profileImage && <Image source={{ uri: profileImage }} style={tw`w-32 h-32 rounded-full`} />}
+        <TouchableOpacity onPress={pickImage}>{profileImage ? <Image source={{ uri: profileImage }} style={tw`w-32 h-32 rounded-full`} /> : <Ionicons name="person-circle" size={50} color={isDarkTheme ? "white" : "black"} />}</TouchableOpacity>
         <TouchableOpacity onPress={() => console.log("Close menu")}>
           <Text style={tw`text-2xl font-bold ${isDarkTheme ? "text-white" : "text-black"}`}></Text>
         </TouchableOpacity>

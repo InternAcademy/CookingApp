@@ -15,7 +15,7 @@ import CameraScreen from "../../components/bot/CameraScreen";
 import ImageScreen from "../../components/bot/ImageScreen";
 import { useSelector } from "react-redux";
 
-import Recipes from "../../components/screens/recipes/Recipes";//
+import Recipes from "../../components/screens/recipes/Recipes";
 
 const Stack = createStackNavigator();
 const linking = {
