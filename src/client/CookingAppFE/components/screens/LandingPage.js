@@ -6,7 +6,6 @@ import * as WebBrowser from "expo-web-browser";
 import tw from "twrnc";
 import { useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
 const clientId = process.env.EXPO_PUBLIC_CLIENT_ID;
 const instance = process.env.EXPO_PUBLIC_INSTANCE;
 const scopes = process.env.EXPO_PUBLIC_SCOPES.split(" ");
@@ -31,14 +30,12 @@ const LandingPage = ({ route }) => {
 
   return (
     <View
-      style={tw`flex-col justify-center items-center bg-white w-full h-full`}
+      style={tw` flex-col justify-center items-center bg-yellow-500   w-full h-full `}
+      className=" "
     >
       <View style={tw`mb-20`}>
         <Image
-             
-             
-             source={require("../../assets/Main/icon2.png")}
-          // style={tw`w-30 h-30 rounded-full`}
+          source={require("../../assets/Main/icon2_dark.png")}
         />
       </View>
       <Text
@@ -47,17 +44,18 @@ const LandingPage = ({ route }) => {
         Let's Get Started
       </Text>
       <Text
-        style={tw`text-lg px-4 ${isDarkTheme ? "text-gray-400" : "text-black"} text-center mb-8`}
+        style={tw`text-lg px-4 ${isDarkTheme ? "text-gray-400" : "text-white"} text-center mb-8`}
       >
         Easy way to manage all your cooking tasks as easy as tapping your finger
       </Text>
       <TouchableOpacity
         title="Login"
         onPress={() => login()}
-        style={tw`bg-[#FFBF5E] py-4 px-10 mt-40 -mb-46 rounded-full`}
+        style={tw`bg-white py-4 px-10  mt-40 -mb-46  rounded-full`}
       >
         <Text
-          style={tw`text-lg font-bold text-black`}>
+          style={tw`text-lg font-bold  ${isDarkTheme ? "text-[#202020]" : "text-yellow-500"}`}
+        >
           Get Started
         </Text>
       </TouchableOpacity>
