@@ -41,7 +41,7 @@ namespace CookingApp.Services.Recipe
 
         public async Task<IEnumerable<Recipe>> GetAll(string userId)
         {
-            return await repo.GetAllAsync(a => a.UserId == userId && !a.IsDeleted);
+            return await repo.GetAllAsync(a => a.UserId == userId);
         }
 
         ///<inheritdoc/>
