@@ -13,7 +13,7 @@ const Recipes = () => {
       <Text
         style={tw`text-xl font-bold ${isDarkTheme ? "text-white" : "text-black"}`}
       >
-        Recent Recipes
+           Recipes
       </Text>
     </View>
   );

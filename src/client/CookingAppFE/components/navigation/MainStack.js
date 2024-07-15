@@ -27,7 +27,7 @@ const linking = {
       About: "about",
       Contact: "contact",
       ArchivedRecipes: "archived-recipes",
-      Recipes: "recent-recipes",
+      Recipes: "recipes",
       Subscription: "subscription",
       FoodPreferences: "food-preferences",
       LanguageAndTheme: "language-and-theme",
@@ -67,7 +67,7 @@ const MainStack = () => {
             ...screenStyle
           }}
         />
-        <Stack.Screen name="Recipes" component={Recipes} options={{ headerTitle: "Recent Recipes", ...screenStyle }} />
+        <Stack.Screen name="Recipes" component={Recipes} options={{ headerTitle: "Recipes", ...screenStyle }} />
         <Stack.Screen
           name="FoodPreferences"
           component={FoodPreferences}
