@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, ScrollView } from "react-native";
 import tw from "twrnc";
+import { Picker } from "@react-native-picker/picker";
 import { useSelector } from "react-redux";
 
 const AlergensAndFoodPreferences = () => {
@@ -12,6 +13,7 @@ const AlergensAndFoodPreferences = () => {
   const [foodPreferenceInput, setFoodPreferenceInput] = useState("");
   const [error, setError] = useState("");
   const [foodError, setFoodError] = useState("");
+  const [selectedPreference, setSelectedPreference] = useState("none");
 
   const handleAddAlergen = () => {
     const normalizedInput = alergenInput.trim().toLowerCase();
@@ -98,6 +100,13 @@ const AlergensAndFoodPreferences = () => {
           ) : (
             <Text style={tw`text-gray-500 text-center mb-4`}>There are no disliked foods added</Text>
           )}
+
+          <Picker selectedValue={selectedPreference} onValueChange={(itemValue, itemIndex) => setSelectedPreference(itemValue)} style={tw`mx-4 border ${isDarkTheme ? "border-gray-600 bg-gray-200 text-black" : "border-gray-300 bg-white text-black"} rounded-lg px-4 py-2 mb-2`}>
+            <Picker.Item label="None" value="none" />
+            <Picker.Item label="Vegetarian" value="vegetarian" />
+            <Picker.Item label="Vegan" value="vegan" />
+          </Picker>
+
           <TextInput style={tw`mx-4 border ${isDarkTheme ? "border-gray-600 bg-gray-200 text-black" : "border-gray-300 bg-white text-black"} rounded-lg px-4 py-2 mb-2`} placeholder="Add your disliked foods" placeholderTextColor={isDarkTheme ? "gray" : "black"} value={foodPreferenceInput} onChangeText={setFoodPreferenceInput} />
           {foodError && <Text style={tw`text-red-500 mb-2`}>{foodError}</Text>}
           <TouchableOpacity style={tw`w-full flex items-center justify-center`} onPress={handleAddFoodPreference}>
