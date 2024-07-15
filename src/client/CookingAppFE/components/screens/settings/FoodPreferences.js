@@ -4,7 +4,7 @@ import tw from "twrnc";
 import { Picker } from "@react-native-picker/picker";
 import { useSelector } from "react-redux";
 
-const AlergensAndFoodPreferences = () => {
+const FoodPreferences = () => {
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
   const possibleAllergens = ["Peanuts", "Soy", "Egg", "Milk", "Fish", "Wheat", "Shellfish", "Tree nuts", "Sesame", "Mustard", "Celery", "Molluscs", "Sulphites", "Nuts", "Ketchup", "Onion", "Garlic"];
   const [alergens, setAlergens] = useState([]);
@@ -99,15 +99,14 @@ const AlergensAndFoodPreferences = () => {
             <Text style={tw`text-gray-500 text-center mb-4`}>There are no disliked foods added</Text>
           )}
 
-          <TextInput style={tw`border ${isDarkTheme ? "border-gray-600 bg-gray-200 text-black" : "border-gray-300 bg-white text-black"} rounded-lg px-4 py-2 mb-2`} placeholder="Add your disliked foods" placeholderTextColor={isDarkTheme ? "gray" : "black"} value={foodPreferenceInput} onChangeText={setFoodPreferenceInput} />
-          {foodError && <Text style={tw`text-red-500 mb-2 text-center`}>{foodError}</Text>}
-
           <Picker selectedValue={selectedPreference} onValueChange={(itemValue, itemIndex) => setSelectedPreference(itemValue)} style={tw`border ${isDarkTheme ? "border-gray-600 bg-gray-200 text-black" : "border-gray-300 bg-white text-black"} rounded-lg mb-4`}>
             <Picker.Item label="None" value="none" />
             <Picker.Item label="Vegetarian" value="vegetarian" />
             <Picker.Item label="Vegan" value="vegan" />
           </Picker>
 
+          <TextInput style={tw`border ${isDarkTheme ? "border-gray-600 bg-gray-200 text-black" : "border-gray-300 bg-white text-black"} rounded-lg px-4 py-2 mb-2`} placeholder="Add your disliked foods" placeholderTextColor={isDarkTheme ? "gray" : "black"} value={foodPreferenceInput} onChangeText={setFoodPreferenceInput} />
+          {foodError && <Text style={tw`text-red-500 mb-2 text-center`}>{foodError}</Text>}
           <TouchableOpacity style={tw`w-full flex items-center justify-center`} onPress={handleAddFoodPreference}>
             <View style={tw`w-[200px] py-2 bg-yellow-400 rounded-full flex items-center justify-center`}>
               <Text style={tw`${isDarkTheme ? "text-black" : "text-black"} text-center text-base font-medium`}>Save Preferences</Text>
@@ -119,4 +118,4 @@ const AlergensAndFoodPreferences = () => {
   );
 };
 
-export default AlergensAndFoodPreferences;
+export default FoodPreferences;
