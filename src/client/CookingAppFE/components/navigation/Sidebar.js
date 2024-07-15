@@ -1,8 +1,10 @@
+// Sidebar.js
 import React, { useState, useEffect } from "react";
 import { View, Text, Pressable, StyleSheet, ScrollView, Modal, Animated } from "react-native";
 import tw from "twrnc";
 import { useDispatch, useSelector } from "react-redux";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { ChatBubbleBottomCenterTextIcon } from "react-native-heroicons/solid";
 import useSelectChat from "../../hooks/useSelectChat";
 import { userActions } from "../../redux/userSlice";
 import useChatHistory from "../../hooks/useChatHistory";
@@ -83,7 +85,7 @@ const Sidebar = ({ open, setOpen }) => {
         <View style={styles.header}>
           <View style={tw`flex-row items-center justify-between w-full`}>
             <Pressable onPress={startNewChat} style={tw`ml-2`}>
-              <Ionicons name="chatbox-ellipses-sharp" size={24} color={isDarkTheme ? "white" : "black"} />
+              <ChatBubbleBottomCenterTextIcon size={24} color={isDarkTheme ? "white" : "black"} />
             </Pressable>
             <Pressable onPress={() => setOpen(false)} style={tw`mr-2`}>
               <Ionicons name="close" size={30} color={isDarkTheme ? "white" : "black"} />
