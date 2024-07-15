@@ -51,3 +51,36 @@ export async function getRecipeById({ token, recipeId }) {
   console.log(responseBody);
   return responseBody.data;
 }
+
+export async function archive({ token, recipeId }) {
+  const response = await fetch(`${ip}/archive/${recipeId}`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+  if (!response.ok) {
+    throw new Error("Resource not found");
+  }
+
+  const responseBody = await response.json();
+
+  return responseBody.data;
+}
+export async function getArchivedRecipes({ token, userId }) {
+  const response = await fetch(`${ip}/archived-recipes/${userId}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+  if (!response.ok) {
+    throw new Error("Resource not found");
+  }
+
+  const responseBody = await response.json();
+
+  return responseBody.data;
+}
