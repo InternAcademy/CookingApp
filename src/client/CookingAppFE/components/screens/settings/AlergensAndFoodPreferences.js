@@ -59,25 +59,24 @@ const AlergensAndFoodPreferences = () => {
   return (
     <ScrollView style={tw`flex-1 ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}>
       <View style={tw`flex-1 items-center p-6`}>
-        <View style={tw`w-full mb-6 pb-6  ${isDarkTheme ? "bg-[#2a2a2a]" : "bg-zinc-200/50"} rounded-xl py-4`}>
-          <Text style={tw`text-lg font-semibold mb-2 text-center ${isDarkTheme ? "text-white" : "text-black"}`}>Allergens</Text>
+        {/* Allergens Section */}
+        <View style={tw`w-full mb-6 pb-6 ${isDarkTheme ? "bg-[#2a2a2a]" : "bg-zinc-200/50"} rounded-xl py-4 px-4`}>
+          <Text style={tw`text-lg font-semibold mb-4 text-center ${isDarkTheme ? "text-white" : "text-black"}`}>Allergens</Text>
           {alergens.length > 0 ? (
-            <>
-              <View style={tw`flex flex-row flex-wrap px-4 mb-1`}>
-                {alergens.map((alergen, index) => (
-                  <TouchableOpacity key={index} onPress={() => handleRemoveAlergen(index)}>
-                    <Text style={tw`border rounded-full px-3 py-1 mx-1 mb-2  ${isDarkTheme ? "border-amber-200   text-white  shadow-white" : "border-gray-300 bg-white shadow-md text-black "}`}>{alergen}</Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            </>
+            <View style={tw`flex flex-row flex-wrap mb-4`}>
+              {alergens.map((alergen, index) => (
+                <TouchableOpacity key={index} onPress={() => handleRemoveAlergen(index)}>
+                  <Text style={tw`border rounded-full px-3 py-1 mx-1 mb-2 ${isDarkTheme ? "border-amber-200 text-white" : "border-gray-300 bg-white shadow-md text-black"}`}>{alergen}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
           ) : (
             <Text style={tw`text-gray-500 text-center mb-4`}>No Allergens added</Text>
           )}
-          <TextInput style={tw`border mx-4 ${isDarkTheme ? "border-gray-600 bg-gray-200 text-black" : "border-gray-300 bg-white text-black"} rounded-lg px-4 py-2 mb-2`} placeholder="Add your allergens" placeholderTextColor={isDarkTheme ? "gray" : "black"} value={alergenInput} onChangeText={setAlergenInput} />
+          <TextInput style={tw`border ${isDarkTheme ? "border-gray-600 bg-gray-200 text-black" : "border-gray-300 bg-white text-black"} rounded-lg px-4 py-2 mb-2`} placeholder="Add your allergens" placeholderTextColor={isDarkTheme ? "gray" : "black"} value={alergenInput} onChangeText={setAlergenInput} />
           {error && <Text style={tw`text-red-500 mb-2 text-center`}>{error}</Text>}
           <TouchableOpacity style={tw`w-full flex items-center justify-center`} onPress={handleAddAlergen}>
-            <View style={tw`w-[200px] py-2 mt-2 bg-yellow-400 rounded-full flex items-center justify-center`}>
+            <View style={tw`w-[200px] py-2 bg-yellow-400 rounded-full flex items-center justify-center`}>
               <Text style={tw`${isDarkTheme ? "text-black" : "text-black"} text-center text-base font-medium`}>Add Allergen</Text>
             </View>
           </TouchableOpacity>
@@ -85,32 +84,32 @@ const AlergensAndFoodPreferences = () => {
 
         <View style={tw`w-full border-b-2 ${isDarkTheme ? "border-amber-200/40" : "border-amber-200/40"} mb-6 items-center justify-center`}></View>
 
-        <View style={tw`w-full mb-6 pb-6 ${isDarkTheme ? "bg-[#2a2a2a]" : "bg-zinc-200/50"} rounded-xl py-4`}>
-          <Text style={tw`text-lg font-semibold mb-2 text-center ${isDarkTheme ? "text-white" : "text-black"}`}>Disliked Foods</Text>
+        {/* Food Preferences Section */}
+        <View style={tw`w-full mb-6 pb-6 ${isDarkTheme ? "bg-[#2a2a2a]" : "bg-zinc-200/50"} rounded-xl py-4 px-4`}>
+          <Text style={tw`text-lg font-semibold mb-4 text-center ${isDarkTheme ? "text-white" : "text-black"}`}>Disliked Foods</Text>
           {foodPreferences.length > 0 ? (
-            <>
-              <View style={tw`flex flex-row flex-wrap px-1 mb-1 px-4`}>
-                {foodPreferences.map((preference, index) => (
-                  <TouchableOpacity key={index} onPress={() => handleRemoveFoodPreference(index)}>
-                    <Text style={tw`border rounded-full px-3 py-1 mx-1 mb-2 ${isDarkTheme ? "border-gray-600 text-white" : "border-gray-300 bg-white shadow-md text-black"}`}>{preference}</Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            </>
+            <View style={tw`flex flex-row flex-wrap mb-4`}>
+              {foodPreferences.map((preference, index) => (
+                <TouchableOpacity key={index} onPress={() => handleRemoveFoodPreference(index)}>
+                  <Text style={tw`border rounded-full px-3 py-1 mx-1 mb-2 ${isDarkTheme ? "border-gray-600 text-white" : "border-gray-300 bg-white shadow-md text-black"}`}>{preference}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
           ) : (
             <Text style={tw`text-gray-500 text-center mb-4`}>There are no disliked foods added</Text>
           )}
 
-          <Picker selectedValue={selectedPreference} onValueChange={(itemValue, itemIndex) => setSelectedPreference(itemValue)} style={tw`mx-4 border ${isDarkTheme ? "border-gray-600 bg-gray-200 text-black" : "border-gray-300 bg-white text-black"} rounded-lg px-4 py-2 mb-2`}>
+          <TextInput style={tw`border ${isDarkTheme ? "border-gray-600 bg-gray-200 text-black" : "border-gray-300 bg-white text-black"} rounded-lg px-4 py-2 mb-2`} placeholder="Add your disliked foods" placeholderTextColor={isDarkTheme ? "gray" : "black"} value={foodPreferenceInput} onChangeText={setFoodPreferenceInput} />
+          {foodError && <Text style={tw`text-red-500 mb-2 text-center`}>{foodError}</Text>}
+
+          <Picker selectedValue={selectedPreference} onValueChange={(itemValue, itemIndex) => setSelectedPreference(itemValue)} style={tw`border ${isDarkTheme ? "border-gray-600 bg-gray-200 text-black" : "border-gray-300 bg-white text-black"} rounded-lg mb-4`}>
             <Picker.Item label="None" value="none" />
             <Picker.Item label="Vegetarian" value="vegetarian" />
             <Picker.Item label="Vegan" value="vegan" />
           </Picker>
 
-          <TextInput style={tw`mx-4 border ${isDarkTheme ? "border-gray-600 bg-gray-200 text-black" : "border-gray-300 bg-white text-black"} rounded-lg px-4 py-2 mb-2`} placeholder="Add your disliked foods" placeholderTextColor={isDarkTheme ? "gray" : "black"} value={foodPreferenceInput} onChangeText={setFoodPreferenceInput} />
-          {foodError && <Text style={tw`text-red-500 mb-2`}>{foodError}</Text>}
           <TouchableOpacity style={tw`w-full flex items-center justify-center`} onPress={handleAddFoodPreference}>
-            <View style={tw`w-[200px] py-2 mt-2 bg-yellow-400 rounded-full flex items-center justify-center`}>
+            <View style={tw`w-[200px] py-2 bg-yellow-400 rounded-full flex items-center justify-center`}>
               <Text style={tw`${isDarkTheme ? "text-black" : "text-black"} text-center text-base font-medium`}>Save Preferences</Text>
             </View>
           </TouchableOpacity>
