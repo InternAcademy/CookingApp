@@ -33,7 +33,7 @@ const Navigation = () => {
           </TouchableOpacity>
         </View>
         <View style={styles.rightContainer}>
-          <TouchableOpacity onPress={() => navigation.navigate("Previous")} style={tw`mx-2`}>
+          <TouchableOpacity onPress={() => navigation.navigate("Recipes")} style={tw`mx-2`}>
             <Ionicons name="restaurant" size={24} color={isDarkTheme ? "white" : "black"} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate("UserMenu")} style={tw`mx-2`}>
