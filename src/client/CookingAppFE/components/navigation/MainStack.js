@@ -1,9 +1,9 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
-import LandingPage from "../../components/screens/LandingPage";
+import LandingPage from "../screens/main/LandingPage";
 import Home from "../../components/bot/Home";
-import UserMenu from "../../components/screens/UserMenu";
+import UserMenu from "../screens/main/UserMenu";
 import About from "../../components/screens/settings/About";
 import Contact from "../../components/screens/settings/Contacts";
 import Subscription from "../../components/screens/settings/Subscription";

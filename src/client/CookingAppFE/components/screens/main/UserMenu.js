@@ -5,7 +5,7 @@ import tw from "twrnc";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
 import * as ImagePicker from "expo-image-picker";
-import { uiActions } from "../../redux/uiSlice"; // Заменете с реалния път до uiSlice
+import { uiActions } from "../../../redux/uiSlice"; // Заменете с реалния път до uiSlice
 
 const UserMenu = () => {
   const navigation = useNavigation();
