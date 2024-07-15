@@ -1,6 +1,7 @@
 ﻿namespace CookingApp.Services.Feedback
 {
     using CookingApp.Common.Helpers.Profiles;
+    using CookingApp.Infrastructure.Exceptions;
     using CookingApp.Infrastructure.Interfaces;
     using CookingApp.Models.Entities;
     using CookingApp.ViewModels.Feedback;
@@ -27,24 +28,16 @@
             return feedback;
         }
 
-        public Task<List<Feedback>> GetAllFeedbacksAsync()
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<List<Feedback>> GetAllFeedbacksAsync() 
+            =>  await feedbackRepo.GetAllAsync();
 
-        public Task<List<Feedback>> GetAllFeedbacksByUserIdAsync(string userId)
-        {
-            throw new NotImplementedException();
-        }
 
-        public Task<Feedback> GetFeedbackByIdAndUserIdAsync(string id, string userId)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<List<Feedback>> GetAllFeedbacksByUserIdAsync(string userId)
+            => await feedbackRepo.GetAllAsync(f => f.UserId == userId); 
+        
 
-        public Task<Feedback> GetFeedbackByIdAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<Feedback> GetFeedbackByIdAsync(string id)
+         =>  await feedbackRepo.GetFirstOrDefaultAsync(f => f.Id == id);
+            
     }
 }

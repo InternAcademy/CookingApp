@@ -7,8 +7,7 @@
     {
         Task<Feedback> CreateFeedbackAsync(CreateFeedback feedback);
         //Task<List<Feedback>> GetFeedbacksByTitleAsync(string title);
-        Task<Feedback> GetFeedbackByIdAsync(int id);
-        Task<Feedback> GetFeedbackByIdAndUserIdAsync(string id, string userId);
+        Task<Feedback> GetFeedbackByIdAsync(string id);
         Task<List<Feedback>> GetAllFeedbacksByUserIdAsync(string userId);
         Task<List<Feedback>> GetAllFeedbacksAsync();
     }
