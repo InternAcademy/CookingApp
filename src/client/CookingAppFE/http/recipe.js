@@ -34,3 +34,20 @@ export async function getRecipes({ token, userId }) {
 
   return responseBody.data;
 }
+
+export async function getRecipeById({ token, recipeId }) {
+  console.log(recipeId);
+  const response = await fetch(`${ip}/r/${recipeId}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+  if (!response.ok) {
+    throw new Error("Resource not found");
+  }
+  const responseBody = await response.json();
+  console.log(responseBody);
+  return responseBody.data;
+}

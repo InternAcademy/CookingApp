@@ -14,9 +14,11 @@ import { getRecipes } from "../../../http/recipe";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from "jwt-decode";
 import Error from "../../common/Error";
+import { useNavigation } from "@react-navigation/native";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 const Recipes = () => {
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
+  const navigation = useNavigation();
   const [input, setInput] = useState("");
   const { data, isPending, isError, error, refetch } = useQuery({
     queryKey: ["getRecipes"],
@@ -34,7 +36,10 @@ const Recipes = () => {
   useEffect(() => {
     console.log(data);
   }, [data]);
-
+  function handleSelection(id) {
+    console.log("hellop");
+    navigation.navigate("RecipesDetails", { id });
+  }
   return (
     <ScrollView
       style={tw`flex flex-col ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}
@@ -58,34 +63,40 @@ const Recipes = () => {
       </View>
       {data &&
         data.map((recipe) => (
-          <View
-            key={recipe.id}
-            style={tw`bg-white w-9/11 m-4 rounded-lg shadow-md overflow-hidden ${isDarkTheme ? "bg-[#303030]" : "bg-white"}`}
-          >
-            <Image source={{ uri: recipe.imageUrl }} style={tw`w-full h-40`} />
-            <View style={tw`p-4 flex flex-col`}>
-              <View style={tw`flex-row justify-between items-center`}>
+          <TouchableOpacity onPress={() => handleSelection(recipe.id)}>
+            <View
+              key={recipe.id}
+              style={tw`bg-white w-9/11 m-4 rounded-lg shadow-md overflow-hidden ${isDarkTheme ? "bg-[#303030]" : "bg-white"}`}
+              on
+            >
+              <Image
+                source={{ uri: recipe.imageUrl }}
+                style={tw`w-full h-40`}
+              />
+              <View style={tw`p-4 flex flex-col`}>
+                <View style={tw`flex-row justify-between items-center`}>
+                  <Text
+                    style={tw`text-xl font-bold ${isDarkTheme ? "text-white" : "text-black"}`}
+                  >
+                    {recipe.title}
+                  </Text>
+                  <TouchableOpacity>
+                    <FontAwesome name={"heart"} size={24} color={"red"} />
+                  </TouchableOpacity>
+                </View>
                 <Text
-                  style={tw`text-xl font-bold ${isDarkTheme ? "text-white" : "text-black"}`}
+                  style={tw`text-md font-normal ${isDarkTheme ? "text-white" : "text-black"}`}
                 >
-                  {recipe.title}
+                  Duration: {recipe.duration}
                 </Text>
-                <TouchableOpacity>
-                  <FontAwesome name={"heart"} size={24} color={"red"} />
-                </TouchableOpacity>
+                <Text
+                  style={tw`text-md font-normal ${isDarkTheme ? "text-white" : "text-black"}`}
+                >
+                  Number of portions: {recipe.numberOfPortions}
+                </Text>
               </View>
-              <Text
-                style={tw`text-md font-normal ${isDarkTheme ? "text-white" : "text-black"}`}
-              >
-                Duration: {recipe.duration}
-              </Text>
-              <Text
-                style={tw`text-md font-normal ${isDarkTheme ? "text-white" : "text-black"}`}
-              >
-                Number of portions: {recipe.numberOfPortions}
-              </Text>
             </View>
-          </View>
+          </TouchableOpacity>
         ))}
     </ScrollView>
   );
