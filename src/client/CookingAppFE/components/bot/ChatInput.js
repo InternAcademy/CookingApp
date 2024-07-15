@@ -9,6 +9,7 @@ import { userActions } from "../../redux/userSlice";
 import useChatMutation from "../../hooks/useChatMutation";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
+
 export default function ChatInput() {
   const input = useSelector((state) => state.ui.input);
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
@@ -58,6 +59,7 @@ export default function ChatInput() {
       // navigation.goBack();
     }
   }
+
   async function sendMessage() {
     if (input) {
       const token = await AsyncStorage.getItem("token");
@@ -79,6 +81,7 @@ export default function ChatInput() {
       });
     }
   }
+
   function handleRemovePhoto() {
     dispatch(uiActions.clearPhotoUri());
   }
@@ -90,7 +93,7 @@ export default function ChatInput() {
       >
         <View style={tw`flex w-full flex-row justify-center items-center`}>
           <TouchableOpacity onPress={openCamera} style={tw`p-1`}>
-            <Ionicons name="camera" size={30} color="orange" />
+            <Ionicons name="camera" size={30} color={isDarkTheme ? "white" : "orange"} />
           </TouchableOpacity>
 
           <TouchableOpacity onPress={openGallery} style={tw`p-1`}>
