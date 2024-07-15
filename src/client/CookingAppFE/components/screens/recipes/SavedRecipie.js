@@ -13,7 +13,7 @@ import { useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import tw from "twrnc";
 import { Ionicons } from "@expo/vector-icons";
-export default function SavedRecipie({ recipe, refetch }) {
+export default function Recipe({ recipe, refetch }) {
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
