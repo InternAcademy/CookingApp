@@ -96,9 +96,9 @@ const AlergensAndFoodPreferences = () => {
               </View>
             </>
           ) : (
-            <Text style={tw`text-gray-500 text-center mb-4`}>There are no Disliked Foods added</Text>
+            <Text style={tw`text-gray-500 text-center mb-4`}>There are no disliked foods added</Text>
           )}
-          <TextInput style={tw`mx-4 border ${isDarkTheme ? "border-gray-600 bg-gray-200 text-black" : "border-gray-300 bg-white text-black"} rounded-lg px-4 py-2 mb-2`} placeholder="Add your Disliked Foods" placeholderTextColor={isDarkTheme ? "gray" : "black"} value={foodPreferenceInput} onChangeText={setFoodPreferenceInput} />
+          <TextInput style={tw`mx-4 border ${isDarkTheme ? "border-gray-600 bg-gray-200 text-black" : "border-gray-300 bg-white text-black"} rounded-lg px-4 py-2 mb-2`} placeholder="Add your disliked foods" placeholderTextColor={isDarkTheme ? "gray" : "black"} value={foodPreferenceInput} onChangeText={setFoodPreferenceInput} />
           {foodError && <Text style={tw`text-red-500 mb-2`}>{foodError}</Text>}
           <TouchableOpacity style={tw`w-full flex items-center justify-center`} onPress={handleAddFoodPreference}>
             <View style={tw`w-[200px] py-2 mt-2 bg-yellow-400 rounded-full flex items-center justify-center`}>
