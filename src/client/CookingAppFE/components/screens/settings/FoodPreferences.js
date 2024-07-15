@@ -69,6 +69,11 @@ const FoodPreferences = () => {
     }
   };
 
+  const handleSuggestionClick = item => {
+    setAlergenInput(item);
+    setFilteredAllergens([]); // Изчистване на предложенията
+  };
+
   return (
     <ScrollView style={tw`flex-1 ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}>
       <View style={tw`flex-1 items-center p-6`}>
@@ -92,7 +97,7 @@ const FoodPreferences = () => {
             flatListProps={{
               keyExtractor: (_, idx) => idx.toString(),
               renderItem: ({ item }) => (
-                <TouchableOpacity onPress={() => setAlergenInput(item)}>
+                <TouchableOpacity onPress={() => handleSuggestionClick(item)}>
                   <Text style={tw`text-black p-2`}>{item}</Text>
                 </TouchableOpacity>
               )
