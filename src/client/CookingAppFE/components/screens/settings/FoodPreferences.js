@@ -31,6 +31,7 @@ const FoodPreferences = () => {
       } else {
         setAlergens(prevAlergens => [...prevAlergens, alergenInput.trim()]);
         setAlergenInput("");
+        setFilteredAllergens([]); // Изчистване на предложенията
         setError("");
       }
     }
@@ -71,7 +72,6 @@ const FoodPreferences = () => {
   return (
     <ScrollView style={tw`flex-1 ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}>
       <View style={tw`flex-1 items-center p-6`}>
-        {/* Allergens Section */}
         <View style={tw`w-full mb-6 pb-6 ${isDarkTheme ? "bg-[#2a2a2a]" : "bg-zinc-200/50"} rounded-xl py-4 px-4`}>
           <Text style={tw`text-lg font-semibold mb-4 text-center ${isDarkTheme ? "text-white" : "text-black"}`}>Allergens</Text>
           {alergens.length > 0 ? (
@@ -110,7 +110,6 @@ const FoodPreferences = () => {
 
         <View style={tw`w-full border-b-2 ${isDarkTheme ? "border-amber-200/40" : "border-amber-200/40"} mb-6 items-center justify-center`}></View>
 
-        {/* Food Preferences Section */}
         <View style={tw`w-full mb-6 pb-6 ${isDarkTheme ? "bg-[#2a2a2a]" : "bg-zinc-200/50"} rounded-xl py-4 px-4`}>
           <Text style={tw`text-lg font-semibold mb-4 text-center ${isDarkTheme ? "text-white" : "text-black"}`}>Disliked Foods</Text>
           {foodPreferences.length > 0 ? (
