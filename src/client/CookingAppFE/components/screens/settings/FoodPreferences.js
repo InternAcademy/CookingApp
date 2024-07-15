@@ -114,6 +114,8 @@ const FoodPreferences = () => {
                   }}
                   inputContainerStyle={tw`border ${isDarkTheme ? "border-gray-600 bg-gray-200 text-black" : "border-gray-300 bg-white text-black"} rounded-lg px-4 py-2 mb-2`}
                   listContainerStyle={tw`border ${isDarkTheme ? "border-gray-600 bg-gray-200" : "border-gray-300 bg-white"} rounded-lg`}
+                  placeholder="Add your allergens" // Add the placeholder here
+                  placeholderTextColor={isDarkTheme ? "gray" : "black"} // Add placeholder text color
                 />
                 {error && <Text style={tw`text-red-500 mb-2 text-center`}>{error}</Text>}
                 <TouchableOpacity style={tw`w-full flex items-center justify-center`} onPress={handleAddAlergen}>
