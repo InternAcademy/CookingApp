@@ -3,7 +3,7 @@ import { View, Text } from "react-native";
 import tw from "twrnc";
 import { useSelector } from "react-redux";
 
-const RecentRecipes = () => {
+const Recipes = () => {
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
 
   return (
@@ -19,4 +19,4 @@ const RecentRecipes = () => {
   );
 };
 
-export default RecentRecipes;
+export default Recipes;

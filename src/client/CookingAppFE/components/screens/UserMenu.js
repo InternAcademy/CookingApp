@@ -21,7 +21,7 @@ const UserMenu = () => {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={tw`flex-row items-center mb-4`} onPress={() => navigation.navigate("RecentRecipes")}>
+      <TouchableOpacity style={tw`flex-row items-center mb-4`} onPress={() => navigation.navigate("Recipes")}>
         <Ionicons name="restaurant" size={24} color={isDarkTheme ? "white" : "black"} style={tw`mr-2`} />
         <Text style={tw`text-lg font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>Recipes</Text>
       </TouchableOpacity>

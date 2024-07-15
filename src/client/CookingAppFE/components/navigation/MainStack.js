@@ -16,7 +16,7 @@ import CameraScreen from "../../components/bot/CameraScreen";
 import ImageScreen from "../../components/bot/ImageScreen";
 import { useSelector } from "react-redux";
 
-import RecentRecipes from "../../components/screens/recipes/RecentRecipes";//
+import Recipes from "../../components/screens/recipes/Recipes";//
 
 const Stack = createStackNavigator();
 const linking = {
@@ -29,7 +29,7 @@ const linking = {
       Contact: "contact",
       ArchivedRecipes: "archived-recipes",
       ProfileSettings: "profile-settings",
-      RecentRecipes: "recent-recipes",
+      Recipes: "recent-recipes",
       Subscription: "subscription",
       FoodPreferences: "food-preferences",
       LanguageAndTheme: "language-and-theme",
@@ -70,7 +70,7 @@ const MainStack = () => {
           }}
         />
         <Stack.Screen name="ProfileSettings" component={ProfileSettings} options={{ headerTitle: "Profile Settings", ...screenStyle }} />
-        <Stack.Screen name="RecentRecipes" component={RecentRecipes} options={{ headerTitle: "Recent Recipes", ...screenStyle }} />
+        <Stack.Screen name="Recipes" component={Recipes} options={{ headerTitle: "Recent Recipes", ...screenStyle }} />
         <Stack.Screen
           name="FoodPreferences"
           component={FoodPreferences}
