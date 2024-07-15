@@ -35,8 +35,10 @@ const LandingPage = ({ route }) => {
     >
       <View style={tw`mb-20`}>
         <Image
-          source={require("../../assets/Main/icon2.png")}
-          style={tw`w-32 h-32 rounded-full`}
+             
+             
+             source={require("../../assets/Main/icon2.png")}
+          // style={tw`w-30 h-30 rounded-full`}
         />
       </View>
       <Text
@@ -55,8 +57,7 @@ const LandingPage = ({ route }) => {
         style={tw`bg-[#FFBF5E] py-4 px-10 mt-40 -mb-46 rounded-full`}
       >
         <Text
-          style={tw`text-lg font-bold text-black`}
-        >
+          style={tw`text-lg font-bold text-black`}>
           Get Started
         </Text>
       </TouchableOpacity>
