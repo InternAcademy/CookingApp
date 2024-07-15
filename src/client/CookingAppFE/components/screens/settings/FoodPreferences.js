@@ -31,7 +31,7 @@ const FoodPreferences = () => {
       } else {
         setAlergens(prevAlergens => [...prevAlergens, alergenInput.trim()]);
         setAlergenInput("");
-        setFilteredAllergens([]); // Изчистване на предложенията
+        setFilteredAllergens([]);
         setError("");
       }
     }
@@ -71,12 +71,16 @@ const FoodPreferences = () => {
 
   const handleSuggestionClick = item => {
     setAlergenInput(item);
-    setFilteredAllergens([]); // Изчистване на предложенията
+    setFilteredAllergens([]);
+  };
+
+  const handleSavePreferences = () => {
+    console.log("Preferences saved:", { alergens, foodPreferences, selectedPreference });
   };
 
   return (
     <FlatList
-      data={[{ key: "header" }, { key: "allergens" }, { key: "divider" }, { key: "foodPreferences" }]}
+      data={[{ key: "header" }, { key: "allergens" }, { key: "divider" }, { key: "foodPreferences" }, { key: "saveButton" }]}
       renderItem={({ item }) => {
         switch (item.key) {
           case "header":
@@ -114,8 +118,8 @@ const FoodPreferences = () => {
                   }}
                   inputContainerStyle={tw`border ${isDarkTheme ? "border-gray-600 bg-gray-200 text-black" : "border-gray-300 bg-white text-black"} rounded-lg px-4 py-2 mb-2`}
                   listContainerStyle={tw`border ${isDarkTheme ? "border-gray-600 bg-gray-200" : "border-gray-300 bg-white"} rounded-lg`}
-                  placeholder="Add your allergens" // Add the placeholder here
-                  placeholderTextColor={isDarkTheme ? "#A9A9A9" : "#A9A9A9"} // Lighter placeholder text color
+                  placeholder="Add your allergens"
+                  placeholderTextColor={isDarkTheme ? "#A9A9A9" : "#A9A9A9"}
                 />
                 {error && <Text style={tw`text-red-500 mb-2 text-center`}>{error}</Text>}
                 <TouchableOpacity style={tw`w-full flex items-center justify-center`} onPress={handleAddAlergen}>
@@ -142,17 +146,27 @@ const FoodPreferences = () => {
                 ) : (
                   <Text style={tw`text-gray-500 text-center mb-4`}>There are no disliked foods added</Text>
                 )}
-                <Picker selectedValue={selectedPreference} onValueChange={(itemValue, itemIndex) => setSelectedPreference(itemValue)} style={tw`border ${isDarkTheme ? "border-gray-600 bg-gray-200 text-black" : "border-gray-300 bg-white text-black"} rounded-lg mb-4`}>
-                  <Picker.Item label="None" value="none" />
-                  <Picker.Item label="Vegetarian" value="vegetarian" />
-                  <Picker.Item label="Vegan" value="vegan" />
-                </Picker>
                 <TextInput style={tw`border ${isDarkTheme ? "border-gray-600 bg-gray-200 text-black" : "border-gray-300 bg-white text-black"} rounded-lg px-4 py-2 mb-2`} placeholder="Add your disliked foods" placeholderTextColor={isDarkTheme ? "#A9A9A9" : "#A9A9A9"} value={foodPreferenceInput} onChangeText={setFoodPreferenceInput} />
                 {foodError && <Text style={tw`text-red-500 mb-2 text-center`}>{foodError}</Text>}
                 <TouchableOpacity style={tw`w-full flex items-center justify-center`} onPress={handleAddFoodPreference}>
                   <View style={tw`w-[200px] py-2 bg-yellow-400 rounded-full flex items-center justify-center`}>
-                    <Text style={tw`${isDarkTheme ? "text-black" : "text-black"} text-center text-base font-medium`}>Save Food</Text>
+                    <Text style={tw`${isDarkTheme ? "text-black" : "text-black"} text-center text-base font-medium`}>Add Food</Text>
                   </View>
+                </TouchableOpacity>
+                <View style={tw`mt-4`}>
+                  <Picker selectedValue={selectedPreference} onValueChange={(itemValue, itemIndex) => setSelectedPreference(itemValue)} style={tw`border ${isDarkTheme ? "border-gray-600 bg-gray-200 text-black" : "border-gray-300 bg-white text-black"} rounded-lg`}>
+                    <Picker.Item label="None" value="none" />
+                    <Picker.Item label="Vegetarian" value="vegetarian" />
+                    <Picker.Item label="Vegan" value="vegan" />
+                  </Picker>
+                </View>
+              </View>
+            );
+          case "saveButton":
+            return (
+              <View style={tw`w-full flex items-center mt-4 mb-8`}>
+                <TouchableOpacity style={tw`w-[200px] py-2 bg-green-500 rounded-full flex items-center justify-center`} onPress={handleSavePreferences}>
+                  <Text style={tw`text-white text-center text-base font-medium`}>Save Preferences</Text>
                 </TouchableOpacity>
               </View>
             );
