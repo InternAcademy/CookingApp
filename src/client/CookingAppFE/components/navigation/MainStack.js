@@ -6,7 +6,6 @@ import Home from "../../components/bot/Home";
 import UserMenu from "../../components/screens/UserMenu";
 import About from "../../components/screens/settings/About";
 import Contact from "../../components/screens/settings/Contacts";
-import ProfileSettings from "../../components/screens/settings/ProfileSettings";
 import ArchivedRecipes from "../../components/screens/recipes/ArchivedRecipes";
 import Subscription from "../../components/screens/settings/Subscription";
 import FoodPreferences from "../../components/screens/settings/FoodPreferences";
@@ -28,7 +27,6 @@ const linking = {
       About: "about",
       Contact: "contact",
       ArchivedRecipes: "archived-recipes",
-      ProfileSettings: "profile-settings",
       Recipes: "recent-recipes",
       Subscription: "subscription",
       FoodPreferences: "food-preferences",
@@ -69,7 +67,6 @@ const MainStack = () => {
             ...screenStyle
           }}
         />
-        <Stack.Screen name="ProfileSettings" component={ProfileSettings} options={{ headerTitle: "Profile Settings", ...screenStyle }} />
         <Stack.Screen name="Recipes" component={Recipes} options={{ headerTitle: "Recent Recipes", ...screenStyle }} />
         <Stack.Screen
           name="FoodPreferences"
