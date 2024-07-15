@@ -6,7 +6,7 @@ import tw from "twrnc";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch, useSelector } from "react-redux";
 
-import Navigation from "../navigation/Navigation";
+import NavBar from "../navigation/NavBar";
 import ChatError from "./ChatError";
 import ChatInput from "./ChatInput";
 import Thinking from "../bot/Thinking";
@@ -87,7 +87,7 @@ const Home = () => {
   };
   return (
     <SafeAreaView style={tw`flex pt-22 w-full h-full ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}>
-      <Navigation />
+      <NavBar />
       <FlatList data={[{ key: "1" }]} renderItem={renderPost} keyExtractor={item => item.key} contentContainerStyle={tw`flex-grow`} />
       <View style={tw`flex w-full flex-row justify-center mb-5 ${isDarkTheme ? "border-gray-700 bg-[#202020]" : "border-gray-300 bg-white"}`}>
         <ChatInput />

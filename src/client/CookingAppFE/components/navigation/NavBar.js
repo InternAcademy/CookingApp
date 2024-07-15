@@ -1,4 +1,3 @@
-// Navigation.js
 import React, { useState } from "react";
 import { View, TouchableOpacity, SafeAreaView, StatusBar, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -7,10 +6,10 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { userActions } from "../../redux/userSlice";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { ChatBubbleBottomCenterTextIcon, Bars3BottomLeftIcon } from "react-native-heroicons/solid";
 import Sidebar from "./Sidebar";
+import { ChatBubbleBottomCenterTextIcon, Bars3BottomLeftIcon } from "react-native-heroicons/solid";
 
-const Navigation = () => {
+const NavBar = () => {
   const navigation = useNavigation();
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
   const dispatch = useDispatch();
@@ -74,4 +73,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Navigation;
+export default NavBar;
