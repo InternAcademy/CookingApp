@@ -6,7 +6,6 @@ import Home from "../../components/bot/Home";
 import UserMenu from "../../components/screens/UserMenu";
 import About from "../../components/screens/settings/About";
 import Contact from "../../components/screens/settings/Contacts";
-import ArchivedRecipes from "../../components/screens/recipes/ArchivedRecipes";
 import Subscription from "../../components/screens/settings/Subscription";
 import FoodPreferences from "../../components/screens/settings/FoodPreferences";
 import LanguageAndTheme from "../../components/screens/settings/LanguageAndTheme";
@@ -15,7 +14,9 @@ import CameraScreen from "../../components/bot/CameraScreen";
 import ImageScreen from "../../components/bot/ImageScreen";
 import { useSelector } from "react-redux";
 
+import ArchivedRecipes from "../../components/screens/recipes/ArchivedRecipes";
 import Recipes from "../../components/screens/recipes/Recipes";
+import RecipesDetails from "../screens/recipes/RecipesDetails";
 
 const Stack = createStackNavigator();
 const linking = {
@@ -33,7 +34,8 @@ const linking = {
       LanguageAndTheme: "language-and-theme",
       RulesAndPolicies: "rules-and-policies",
       CameraScreen: "camera-screen",
-      ImageScreen: "image-screen"
+      ImageScreen: "image-screen",
+      RecipesDetails: "recipes-details"
     }
   }
 };
@@ -81,6 +83,7 @@ const MainStack = () => {
         <Stack.Screen name="Subscription" component={Subscription} options={{ headerTitle: "Subscriptios", ...screenStyle }} />
         <Stack.Screen name="CameraScreen" component={CameraScreen} options={{ ...screenStyle }} />
         <Stack.Screen name="ImageScreen" component={ImageScreen} options={{ ...screenStyle }} />
+        <Stack.Screen name="RecipesDetails" component={RecipesDetails} options={{ ...screenStyle }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
