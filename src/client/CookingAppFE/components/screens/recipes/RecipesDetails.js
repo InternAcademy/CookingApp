@@ -53,7 +53,7 @@ const RecipesDetails = () => {
         <View style={tw`p-4`}>
           <View style={tw`relative`}>
             <Image style={tw`w-full h-48 rounded-lg`} source={{ uri: data.imageUrl }} />
-            <View style={tw`absolute top-4 right-4`}>
+            <View style={tw`absolute top-2 right-2 p-2 bg-white rounded-full shadow`}>
               {loading ? (
                 <ActivityIndicator size="small" color={isDarkTheme ? "white" : "black"} />
               ) : (
