@@ -8,6 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from "jwt-decode";
 import { useNavigation } from "@react-navigation/native";
 import { Entypo, FontAwesome, Ionicons, MaterialIcons } from "@expo/vector-icons";
+import Svg, { Line } from "react-native-svg";
 
 const Recipes = () => {
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
@@ -49,14 +50,21 @@ const Recipes = () => {
     setInput("");
   };
 
+  const CustomCloseIcon = ({ color }) => (
+    <Svg height="14" width="14" viewBox="0 0 14 14">
+      <Line x1="1" y1="1" x2="13" y2="13" stroke={color} strokeWidth="2" strokeLinecap="round" />
+      <Line x1="1" y1="13" x2="13" y2="1" stroke={color} strokeWidth="2" strokeLinecap="round" />
+    </Svg>
+  );
+
   return (
     <ScrollView style={tw`flex flex-col ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`} contentContainerStyle={tw`items-center`}>
       <View style={tw`flex-row justify-between items-center px-4 py-2 w-full`}>
         <View style={tw`flex-row items-center flex-1 border ${isDarkTheme ? "border-gray-700" : "border-gray-300"} rounded-md`}>
           <TextInput style={tw`flex-1 p-2 ${isDarkTheme ? "text-white" : "text-black"}`} placeholder="Search for recipes" placeholderTextColor={isDarkTheme ? "gray" : "darkgray"} value={input} onChangeText={text => setInput(text)} />
           {input !== "" && (
-            <TouchableOpacity onPress={clearSearch} style={tw`pr-2`}>
-              <Ionicons name="close-circle" size={20} color={isDarkTheme ? "white" : "black"} />
+            <TouchableOpacity onPress={clearSearch} style={tw`pr-3 pl-2`}>
+              <CustomCloseIcon color={isDarkTheme ? "white" : "black"} />
             </TouchableOpacity>
           )}
         </View>
