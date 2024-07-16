@@ -54,7 +54,7 @@ const ArchivedRecipes = () => {
   const CustomCloseIcon = ({ color }) => (
     <Svg height="14" width="14" viewBox="0 0 14 14">
       <Line x1="1" y1="1" x2="13" y2="13" stroke={color} strokeWidth="2" strokeLinecap="round" />
-      <Line x1="1" y1="13" x2="13" y1="1" stroke={color} strokeWidth="2" strokeLinecap="round" />
+      <Line x1="1" y1="13" x2="13" y2="1" stroke={color} strokeWidth="2" strokeLinecap="round" />
     </Svg>
   );
 
