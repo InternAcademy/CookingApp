@@ -1,5 +1,6 @@
 ﻿namespace CookingApp.Services.ChatService
 {
+    using CookingApp.Infrastructure.Interfaces;
     using CookingApp.Models;
     using CookingApp.ViewModels.Chat;
 
@@ -10,6 +11,7 @@
         Task ArchiveChat(string chatId);
         Task DeleteChat(string chatId);
         Task<Chat> CreateChat(string userId);
-        Task<IEnumerable<ChatDataResponse>> GetActiveUserChats(string userId);
+
+        Task<IPagedList<ChatDataResponse>> GetActiveUserChats(string userId, int pageIndex, int pageSize = 10, bool includeDeleted = false);
     }
 }

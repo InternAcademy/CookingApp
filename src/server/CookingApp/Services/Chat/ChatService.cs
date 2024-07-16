@@ -1,4 +1,8 @@
-﻿namespace CookingApp.Services.ChatService
+﻿using CookingApp.Infrastructure.Enums;
+using CookingApp.Infrastructure.Extensions;
+using CookingApp.Infrastructure.Pagination;
+
+namespace CookingApp.Services.ChatService
 {
     using AutoMapper;
     using CookingApp.Infrastructure.Exceptions;
@@ -7,7 +11,7 @@
     using CookingApp.ViewModels.Chat;
     using System.Threading.Tasks;
 
-    public class ChatService(IRepository<Chat> repo) : IChatService
+    public class ChatService(IRepository<Chat> repo, IMapper mapper) : IChatService
     {
         public async Task<Chat> CreateChat(string userId)
         {
@@ -62,13 +66,17 @@
             return chat;
         }
 
-        public async Task<IEnumerable<ChatDataResponse>> GetActiveUserChats(string userId)
+        public async Task<IPagedList<ChatDataResponse>> GetActiveUserChats(string userId, int pageIndex, int pageSize = 10, bool includeDeleted = false)
         {
-            var chats = await repo.GetAllAsync(a => a.UserId == userId);
+            var chats = await repo.GetPagedListAsync(
+                pageIndex, 
+                pageSize, 
+                c => (c.UserId == userId) && !c.IsArchived,
+                null, 
+                SortDirection.Ascending, 
+                includeDeleted);
 
-            return chats
-                .Where(a => !a.IsDeleted && !a.IsArchived)
-                .Select(a => new ChatDataResponse { ChatId = a.Id, Title = a.Title, Time = a.CreatedDateTime });
+            return chats.MapPagedList<Chat, ChatDataResponse>(mapper);
         }
     }
 }

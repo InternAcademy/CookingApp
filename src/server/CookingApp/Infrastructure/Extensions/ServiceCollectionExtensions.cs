@@ -24,6 +24,7 @@ using System.Diagnostics.CodeAnalysis;
 using CookingApp.Services.Recipe;
 using CookingApp.Services.Image;
 using OpenAI.Images;
+using CookingApp.Infrastructure.Filters;
 
 namespace CookingApp.Infrastructure.Extensions
 {
@@ -46,6 +47,7 @@ namespace CookingApp.Infrastructure.Extensions
                     o.Filters.Add(new AuthorizeFilter(new AuthorizationPolicyBuilder().RequireAuthenticatedUser()
                         .Build()));
                 }
+                o.Filters.Add<PaginationHeadersFilter>();
             }).AddNewtonsoftJson(p =>
             {
                 p.SerializerSettings.Formatting = Formatting.Indented;
@@ -83,32 +85,6 @@ namespace CookingApp.Infrastructure.Extensions
                     Title = settings.ApiName,
                     Version = apiVersion
                 });
-                //if (swaggerConfig.Security != null)
-                //{
-                //    opts.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme()
-                //    {
-                //        Type = SecuritySchemeType.OAuth2,
-                //        Flows = new OpenApiOAuthFlows()
-                //        {
-                //            Implicit = new OpenApiOAuthFlow
-                //            {
-                //                AuthorizationUrl = new Uri($"{swaggerConfig.Security.Authority}/connect/authorize"),
-                //                TokenUrl = new Uri($"{swaggerConfig.Security.Authority}/connect/token"),
-                //                Scopes = swaggerConfig.Security.Scopes
-                //            }
-                //        }
-                //    });
-                //    opts.AddSecurityRequirement(new OpenApiSecurityRequirement
-                //    {
-                //        {
-                //            new OpenApiSecurityScheme
-                //            {
-                //                Reference = new OpenApiReference { Id = "oauth2", Type = ReferenceType.SecurityScheme }
-                //            },
-                //            swaggerConfig.Security.Scopes.Keys.ToArray()
-                //        }
-                //    });
-                //}
             });
             return builder;
         }
