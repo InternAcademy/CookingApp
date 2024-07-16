@@ -166,7 +166,7 @@ const FoodPreferences = () => {
             return (
               <View style={tw`w-full flex items-center mt-4 mb-8`}>
                 <TouchableOpacity style={tw`w-[200px] py-2 bg-green-500 rounded-full flex items-center justify-center`} onPress={handleSavePreferences}>
-                  <Text style={tw`text-white text-center text-base font-medium`}>Save Preferences</Text>
+                  <Text style={tw`text-white text-center text-base font-medium`}>Save Food</Text>
                 </TouchableOpacity>
               </View>
             );
