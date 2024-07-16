@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import tw from "twrnc";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -21,6 +21,7 @@ import ChatInput from "./ChatInput";
 import Thinking from "../bot/Thinking";
 import { uiActions } from "../../redux/uiSlice";
 import useSaveRecipe from "../../hooks/useSaveRecipe";
+
 const Home = () => {
   const navigation = useNavigation();
   const { save, isPending } = useSaveRecipe();
@@ -28,12 +29,14 @@ const Home = () => {
   const isThinking = useSelector((state) => state.ui.isThinking);
   const responseError = useSelector((state) => state.ui.responseError);
   const chat = useSelector((state) => state.user.selectedChat);
+  const profileImage = useSelector((state) => state.ui.photoUri);
   const dispatch = useDispatch();
+
   useEffect(() => {
     const checkTokeAndTheme = async () => {
       const token = await AsyncStorage.getItem("token");
       //clear Token on mobile
-      //await AsyncStorage.clear();
+      // await AsyncStorage.clear();
       console.log(token);
       const theme = await AsyncStorage.getItem("theme");
       if (!token) {
@@ -46,13 +49,16 @@ const Home = () => {
     };
     checkTokeAndTheme();
   }, []);
+
   useEffect(() => {
     console.log(isDarkTheme);
   }, [isDarkTheme]);
+
   async function handleRecipeSave(request) {
     const token = await AsyncStorage.getItem("token");
     save({ token, request });
   }
+
   const renderPost = () => {
     if (chat) {
       {
@@ -66,16 +72,28 @@ const Home = () => {
             {chat.content.map((msg, index) => (
               <View
                 key={index}
-                style={tw`mb-2 flex-row justify-start   wrap  pt-1`}
+                style={tw`mb-2 flex-row justify-start wrap pt-1`}
               >
-                <Image
-                  source={
-                    msg.role === "user"
-                      ? require("../../assets/NavigationBar/user.png")
-                      : require("../../assets/Main/icon2.png")
-                  }
-                  style={tw`w-8 h-8 rounded-full mr-2 mb-7 items-start -mt-1`}
-                />
+                {msg.role === "user" ? (
+                  profileImage ? (
+                    <Image
+                      source={{ uri: profileImage }}
+                      style={tw`w-8 h-8 rounded-full mr-2 mb-7`}
+                    />
+                  ) : (
+                    <Ionicons
+                      name="person-circle"
+                      size={32}
+                      color={isDarkTheme ? "white" : "black"}
+                      style={tw`mr-2 mb-7 items-start -mt-1`}
+                    />
+                  )
+                ) : (
+                  <Image
+                    source={require("../../assets/Main/icon2.png")}
+                    style={tw`w-8 h-8 rounded-full mr-2 mb-7 items-start -mt-1`}
+                  />
+                )}
                 <View>
                   <Text
                     style={tw`text-base font-semibold mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
@@ -94,12 +112,12 @@ const Home = () => {
                     <Image
                       source={{ uri: msg.content }}
                       style={tw`w-32 h-32 rounded-full mr-2 mb-7`}
-                    ></Image>
+                    />
                   )}
                   {msg.role === "bot" && msg.type === "Recipe" && (
                     <>
                       <Text
-                        style={tw`max-w-full mr-12   text-base  mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
+                        style={tw`max-w-full mr-12 text-base mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
                       >
                         {msg.content}
                       </Text>
@@ -109,7 +127,7 @@ const Home = () => {
                       >
                         {!isPending && (
                           <Ionicons
-                            name="heart"
+                            name="restaurant"
                             size={24}
                             color={isDarkTheme ? "white" : "black"}
                           />
@@ -126,7 +144,7 @@ const Home = () => {
                   )}
                   {msg.role === "bot" && msg.type === "Text" && (
                     <Text
-                      style={tw`max-w-full mr-12   text-base  mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
+                      style={tw`max-w-full mr-12 text-base mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
                     >
                       {msg.content}
                     </Text>
@@ -160,6 +178,7 @@ const Home = () => {
       </View>
     );
   };
+
   return (
     <SafeAreaView
       style={tw`flex pt-22 w-full h-full ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}

@@ -12,7 +12,7 @@ import { archive } from "../../../http/recipe";
 import { useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import tw from "twrnc";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, Entypo } from "@expo/vector-icons";
 export default function Recipe({ recipe, refetch }) {
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
   const [loading, setLoading] = useState(false);
@@ -32,18 +32,16 @@ export default function Recipe({ recipe, refetch }) {
     navigation.navigate("RecipesDetails", { id: recipe.id });
   }
   async function archiveThisRecipe() {
-    console.log();
+    console.log(recipe);
     const token = await AsyncStorage.getItem("token");
     setLoading(true);
 
     mutate({ token, recipeId: recipe.id });
   }
   return (
-    <TouchableOpacity onPress={handleSelection}>
+    <TouchableOpacity key={recipe.id} onPress={handleSelection}>
       <View
-        key={recipe.id}
         style={tw`bg-white w-80 m-4 rounded-lg shadow-md overflow-hidden ${isDarkTheme ? "bg-[#303030]" : "bg-white"}`}
-        on
       >
         <Image source={{ uri: recipe.imageUrl }} style={tw`w-full h-40`} />
         <View style={tw`p-4 flex flex-col`}>
@@ -62,27 +60,42 @@ export default function Recipe({ recipe, refetch }) {
             ) : (
               <TouchableOpacity onPress={archiveThisRecipe}>
                 {recipe.isArchived ? (
-                  <Ionicons name="heart" size={24} color={"red"} />
+                  <Ionicons name={"archive"} size={24} color={"black"} />
                 ) : (
                   <Ionicons
-                    name="heart-outline"
+                    name={"archive-outline"}
                     size={24}
-                    color={isDarkTheme ? "white" : "black"}
+                    color={"black"}
                   />
                 )}
               </TouchableOpacity>
             )}
           </View>
-          <Text
-            style={tw`text-md font-normal ${isDarkTheme ? "text-white" : "text-black"}`}
-          >
-            Duration: {recipe.duration}
-          </Text>
-          <Text
-            style={tw`text-md font-normal ${isDarkTheme ? "text-white" : "text-black"}`}
-          >
-            Number of portions: {recipe.numberOfPortions}
-          </Text>
+
+          <View style={tw`flex-row justify-start items-center`}>
+            <Ionicons
+              name={"time-sharp"}
+              size={20}
+              color={isDarkTheme ? "white" : "black"}
+            />
+            <Text
+              style={tw`text-[16px] font-semibold ml-1 ${isDarkTheme ? "text-white" : "text-black"}`}
+            >
+              {recipe.duration}
+            </Text>
+          </View>
+          <View style={tw`flex-row justify-start items-center`}>
+            <Entypo
+              name="bowl"
+              size={20}
+              color={isDarkTheme ? "white" : "black"}
+            />
+            <Text
+              style={tw`text-[16px] font-semibold ml-1 pt-1 ${isDarkTheme ? "text-white" : "text-black"}`}
+            >
+              {recipe.numberOfPortions}
+            </Text>
+          </View>
         </View>
       </View>
     </TouchableOpacity>

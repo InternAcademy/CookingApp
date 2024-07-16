@@ -7,7 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from "jwt-decode";
 import { MaterialIcons } from "@expo/vector-icons";
 import { getArchivedRecipes } from "../../../http/recipe";
-import SavedRecipie from "./SavedRecipie";
+import Recipe from "./Recipe";
 const Recipes = () => {
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
 
@@ -46,9 +46,7 @@ const Recipes = () => {
         </TouchableOpacity>
       </View>
       {data &&
-        data.map((recipe) => (
-          <SavedRecipie recipe={recipe} refetch={refetch} />
-        ))}
+        data.map((recipe) => <Recipe recipe={recipe} refetch={refetch} />)}
     </ScrollView>
   );
 };
