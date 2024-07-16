@@ -1,4 +1,5 @@
-﻿using OpenAI.Chat;
+﻿using CookingApp.Infrastructure.Enums;
+using OpenAI.Chat;
 
 namespace CookingApp.Services.Recipe
 {
@@ -39,9 +40,9 @@ namespace CookingApp.Services.Recipe
             return recipe.Id;
         }
 
-        public async Task<IEnumerable<Recipe>> GetAll(string userId)
+        public async Task<IPagedList<Recipe>> GetMine(string userId, int pageIndex, int pageSize = 10, bool includeDeleted = false)
         {
-            return await repo.GetAllAsync(a => a.UserId == userId && !a.IsDeleted);
+            return await repo.GetPagedListAsync(pageIndex, pageSize, r => r.UserId == userId, null, SortDirection.Ascending, includeDeleted);
         }
 
         ///<inheritdoc/>
