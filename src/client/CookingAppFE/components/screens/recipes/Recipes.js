@@ -59,8 +59,11 @@ const Recipes = () => {
 
   return (
     <ScrollView style={tw`flex flex-col ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`} contentContainerStyle={tw`items-center`}>
-      <View style={tw`flex-row justify-between items-center px-4 py-2 w-full`}>
+      <View style={tw`flex-row justify-between items-center px-4 py-2 w-86 `}>
         <View style={tw`flex-row items-center flex-1 border ${isDarkTheme ? "border-gray-700" : "border-gray-300"} rounded-md`}>
+          <TouchableOpacity style={tw`ml-2`} onPress={refetch}>
+            <MaterialIcons name="search" size={24} color={isDarkTheme ? "white" : "black"} />
+          </TouchableOpacity>
           <TextInput style={tw`flex-1 p-2 ${isDarkTheme ? "text-white" : "text-black"}`} placeholder="Search for recipes" placeholderTextColor={isDarkTheme ? "gray" : "darkgray"} value={input} onChangeText={text => setInput(text)} />
           {input !== "" && (
             <TouchableOpacity onPress={clearSearch} style={tw`pr-3 pl-2`}>
@@ -68,9 +71,6 @@ const Recipes = () => {
             </TouchableOpacity>
           )}
         </View>
-        <TouchableOpacity style={tw`ml-2`} onPress={refetch}>
-          <MaterialIcons name="search" size={24} color={isDarkTheme ? "white" : "black"} />
-        </TouchableOpacity>
       </View>
       {filteredRecipes.map(recipe => (
         <TouchableOpacity key={recipe.id} onPress={() => handleSelection(recipe.id)}>
@@ -83,6 +83,7 @@ const Recipes = () => {
                   <FontAwesome name={"heart"} size={24} color={"red"} />
                 </TouchableOpacity>
               </View>
+
               <View style={tw`flex-row justify-start items-center`}>
                 <Ionicons name={"time-sharp"} size={20} color={isDarkTheme ? "white" : "black"} />
                 <Text style={tw`text-[16px] font-semibold ml-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{recipe.duration}</Text>
