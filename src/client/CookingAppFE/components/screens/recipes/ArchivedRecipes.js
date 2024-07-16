@@ -74,7 +74,7 @@ const ArchivedRecipes = () => {
         </View>
       </View>
       {filteredRecipes.map(recipe => (
-        <Recipe recipe={recipe} refetch={refetch} />
+        <Recipe key={recipe.id} recipe={recipe} refetch={refetch} />
       ))}
     </ScrollView>
   );
