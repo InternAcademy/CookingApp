@@ -70,7 +70,7 @@ const Home = () => {
                     <>
                       <Text style={tw`max-w-full mr-12 text-base mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{msg.content}</Text>
                       <TouchableOpacity onPress={() => handleRecipeSave(msg.content)} style={tw`mx-2 self-end`}>
-                        {!isPending && <Ionicons name="heart" size={24} color={isDarkTheme ? "white" : "black"} />}
+                        {!isPending && <Ionicons name="restaurant" size={24} color={isDarkTheme ? "white" : "black"} />}
                         {isPending && <ActivityIndicator size="small" color={isDarkTheme ? "white" : "black"} style={tw`mr-2`} />}
                       </TouchableOpacity>
                     </>
