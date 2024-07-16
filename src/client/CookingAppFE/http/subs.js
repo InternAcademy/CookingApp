@@ -14,7 +14,7 @@ export async function fetchSubs(token) {
   return data;
 }
 export async function createSub({ token, email, priceId }) {
-  const response = await fetch(`${ip}:/api/stripe/subscription`, {
+  const response = await fetch(`${ip}/api/stripe/subscription`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,

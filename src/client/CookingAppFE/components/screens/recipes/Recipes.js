@@ -1,34 +1,38 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { View, ScrollView, TouchableOpacity, TextInput } from "react-native";
 import tw from "twrnc";
 import { useSelector } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
+import { getRecipes } from "../../../http/recipe";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from "jwt-decode";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
 import Svg, { Line } from "react-native-svg";
 import Recipe from "./Recipe";
-import { getArchivedRecipes } from "../../../http/recipe";
 
-const ArchivedRecipes = () => {
+const Recipes = () => {
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
   const navigation = useNavigation();
   const [input, setInput] = useState("");
   const [filteredRecipes, setFilteredRecipes] = useState([]);
 
   const { data, isPending, isError, error, refetch } = useQuery({
-    queryKey: ["getArchivedRecipes"],
+    queryKey: ["getRecipes"],
     queryFn: async () => {
       const token = await AsyncStorage.getItem("token");
       const decodedToken = jwtDecode(token);
-      const userRecipes = await getArchivedRecipes({
+      const userRecipes = await getRecipes({
         token: token,
         userId: decodedToken.sub
       });
       return userRecipes;
     }
   });
+
+  const memoizedRefetch = useCallback(() => {
+    refetch();
+  }, [refetch]);
 
   useEffect(() => {
     if (data) {
@@ -62,7 +66,7 @@ const ArchivedRecipes = () => {
     <ScrollView style={tw`flex flex-col ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`} contentContainerStyle={tw`items-center`}>
       <View style={tw`flex-row justify-between items-center px-4 py-2 w-86 `}>
         <View style={tw`flex-row items-center flex-1 border ${isDarkTheme ? "border-gray-700" : "border-gray-300"} rounded-md`}>
-          <TouchableOpacity style={tw`ml-2`} onPress={refetch}>
+          <TouchableOpacity style={tw`ml-2`} onPress={memoizedRefetch}>
             <MaterialIcons name="search" size={24} color={isDarkTheme ? "white" : "black"} />
           </TouchableOpacity>
           <TextInput style={tw`flex-1 p-2 ${isDarkTheme ? "text-white" : "text-black"}`} placeholder="Search for recipes" placeholderTextColor={isDarkTheme ? "gray" : "darkgray"} value={input} onChangeText={text => setInput(text)} />
@@ -74,10 +78,10 @@ const ArchivedRecipes = () => {
         </View>
       </View>
       {filteredRecipes.map(recipe => (
-        <Recipe key={recipe.id} recipe={recipe} refetch={refetch} />
+        <Recipe key={recipe.id} recipe={recipe} refetch={memoizedRefetch} />
       ))}
     </ScrollView>
   );
 };
 
-export default ArchivedRecipes;
+export default Recipes;

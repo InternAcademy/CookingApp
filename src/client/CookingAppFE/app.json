@@ -5,7 +5,7 @@
     "slug": "CookingAppFE",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/Main/icon.png",
+    "icon": "./assets/Main/icon2.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/Main/splash.png",

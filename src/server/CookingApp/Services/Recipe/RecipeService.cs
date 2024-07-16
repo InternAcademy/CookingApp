@@ -33,15 +33,21 @@ namespace CookingApp.Services.Recipe
             }
             recipe.ImageUrl = await imageService.GenerateImage(recipe.Title);
             recipe.UserId = userId;
+            recipe.IsArchived = false;
 
             await repo.InsertAsync(recipe);
 
             return recipe.Id;
         }
-
+        public async Task ArchiveRecipe(string recipeId)
+        {
+            var recipe = await GetById(recipeId);
+            recipe.IsArchived=!recipe.IsArchived;
+            await repo.UpdateAsync(recipe);
+        }
         public async Task<IEnumerable<Recipe>> GetAll(string userId)
         {
-            return await repo.GetAllAsync(a => a.UserId == userId && !a.IsDeleted);
+            return await repo.GetAllAsync(a => a.UserId == userId);
         }
 
         ///<inheritdoc/>
@@ -54,6 +60,11 @@ namespace CookingApp.Services.Recipe
             }
 
             return recipe;
+        }
+
+        public async Task<IEnumerable<Recipe>> GetArchived(string userId)
+        {
+           return await repo.GetAllAsync(a => a.UserId == userId && a.IsArchived );
         }
     }
 }
