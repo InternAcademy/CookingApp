@@ -399,3 +399,4 @@ FodyWeavers.xsd
 
 .env
 appsettings.json
+src/server/CookingApp/Properties/launchSettings.json

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, FlatList } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, FlatList, Alert } from "react-native";
 import tw from "twrnc";
 import { Picker } from "@react-native-picker/picker";
 import { useSelector } from "react-redux";
@@ -74,24 +74,36 @@ const FoodPreferences = () => {
     setFilteredAllergens([]);
   };
 
-  const handleSavePreferences = () => {
-    console.log("Preferences saved:", { alergens, foodPreferences, selectedPreference });
+  const handleSavePreferences = async () => {
+    const preferences = { alergens, foodPreferences, selectedPreference };
+    console.log("Saving preferences:", preferences);
+
+    try {
+      // Simulating an API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // Simulating a successful save
+      Alert.alert("Success", "Your food preferences have been saved successfully!", [{ text: "OK" }]);
+    } catch (error) {
+      Alert.alert("Error", "There was an error saving your preferences. Please try again.", [{ text: "OK" }]);
+    }
   };
 
   return (
     <FlatList
+      style={tw`${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}
       data={[{ key: "header" }, { key: "allergens" }, { key: "divider" }, { key: "foodPreferences" }, { key: "saveButton" }]}
       renderItem={({ item }) => {
         switch (item.key) {
           case "header":
             return (
-              <View style={tw`flex-1 items-center p-6`}>
+              <View style={tw`flex-1 items-center p-6 ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}>
                 <Text style={tw`text-lg font-semibold mb-4 text-center ${isDarkTheme ? "text-white" : "text-black"}`}>Food Preferences</Text>
               </View>
             );
           case "allergens":
             return (
-              <View style={tw`w-full mb-6 pb-6 ${isDarkTheme ? "bg-[#2a2a2a]" : "bg-zinc-200/50"} rounded-xl py-4 px-4`}>
+              <View style={tw`w-full mb-6 pb-6 ${isDarkTheme ? "bg-[#202020]" : "bg-zinc-200/50"} rounded-xl py-4 px-4`}>
                 <Text style={tw`text-lg font-semibold mb-4 text-center ${isDarkTheme ? "text-white" : "text-black"}`}>Allergens</Text>
                 {alergens.length > 0 ? (
                   <View style={tw`flex flex-row flex-wrap mb-4`}>
@@ -102,7 +114,7 @@ const FoodPreferences = () => {
                     ))}
                   </View>
                 ) : (
-                  <Text style={tw`text-gray-500 text-center mb-4`}>No Allergens added</Text>
+                  <Text style={tw`${isDarkTheme ? "text-gray-400" : "text-gray-500"} text-center mb-4`}>No Allergens added</Text>
                 )}
                 <Autocomplete
                   data={filteredAllergens}
@@ -112,19 +124,20 @@ const FoodPreferences = () => {
                     keyExtractor: (_, idx) => idx.toString(),
                     renderItem: ({ item }) => (
                       <TouchableOpacity onPress={() => handleSuggestionClick(item)}>
-                        <Text style={tw`text-black p-2`}>{item}</Text>
+                        <Text style={tw`${isDarkTheme ? "text-white" : "text-black"} p-2`}>{item}</Text>
                       </TouchableOpacity>
                     )
                   }}
-                  inputContainerStyle={tw`border ${isDarkTheme ? "border-gray-600 bg-gray-200 text-black" : "border-gray-300 bg-white text-black"} rounded-lg px-4 py-2 mb-2`}
-                  listContainerStyle={tw`border ${isDarkTheme ? "border-gray-600 bg-gray-200" : "border-gray-300 bg-white"} rounded-lg`}
+                  inputContainerStyle={tw`border ${isDarkTheme ? "border-gray-600 bg-[#202020]" : "border-gray-300 bg-white"} rounded-lg px-4 py-2 mb-2`}
+                  listContainerStyle={tw`border ${isDarkTheme ? "border-gray-600 bg-[#202020]" : "border-gray-300 bg-white"} rounded-lg`}
                   placeholder="Add your allergens"
                   placeholderTextColor={isDarkTheme ? "#A9A9A9" : "#A9A9A9"}
+                  style={{ color: isDarkTheme ? "white" : "black" }}
                 />
                 {error && <Text style={tw`text-red-500 mb-2 text-center`}>{error}</Text>}
                 <TouchableOpacity style={tw`w-full flex items-center justify-center`} onPress={handleAddAlergen}>
                   <View style={tw`w-[200px] py-2 bg-yellow-400 rounded-full flex items-center justify-center`}>
-                    <Text style={tw`${isDarkTheme ? "text-black" : "text-black"} text-center text-base font-medium`}>Add Allergen</Text>
+                    <Text style={tw`text-black text-center text-base font-medium`}>Add Allergen</Text>
                   </View>
                 </TouchableOpacity>
               </View>
@@ -133,7 +146,7 @@ const FoodPreferences = () => {
             return <View style={tw`w-full border-b-2 ${isDarkTheme ? "border-amber-200/40" : "border-amber-200/40"} mb-6 items-center justify-center`} />;
           case "foodPreferences":
             return (
-              <View style={tw`w-full mb-6 pb-6 ${isDarkTheme ? "bg-[#2a2a2a]" : "bg-zinc-200/50"} rounded-xl py-4 px-4`}>
+              <View style={tw`w-full mb-6 pb-6 ${isDarkTheme ? "bg-[#202020]" : "bg-zinc-200/50"} rounded-xl py-4 px-4`}>
                 <Text style={tw`text-lg font-semibold mb-4 text-center ${isDarkTheme ? "text-white" : "text-black"}`}>Disliked Foods</Text>
                 {foodPreferences.length > 0 ? (
                   <View style={tw`flex flex-row flex-wrap mb-4`}>
@@ -144,29 +157,29 @@ const FoodPreferences = () => {
                     ))}
                   </View>
                 ) : (
-                  <Text style={tw`text-gray-500 text-center mb-4`}>There are no disliked foods added</Text>
+                  <Text style={tw`${isDarkTheme ? "text-gray-400" : "text-gray-500"} text-center mb-4`}>There are no disliked foods added</Text>
                 )}
-                <TextInput style={tw`border ${isDarkTheme ? "border-gray-600 bg-gray-200 text-black" : "border-gray-300 bg-white text-black"} rounded-lg px-4 py-2 mb-2`} placeholder="Add your disliked foods" placeholderTextColor={isDarkTheme ? "#A9A9A9" : "#A9A9A9"} value={foodPreferenceInput} onChangeText={setFoodPreferenceInput} />
+                <TextInput style={tw`border ${isDarkTheme ? "border-gray-600 bg-[#202020] text-white" : "border-gray-300 bg-white text-black"} rounded-lg px-4 py-2 mb-2`} placeholder="Add your disliked foods" placeholderTextColor={isDarkTheme ? "#A9A9A9" : "#A9A9A9"} value={foodPreferenceInput} onChangeText={setFoodPreferenceInput} />
                 {foodError && <Text style={tw`text-red-500 mb-2 text-center`}>{foodError}</Text>}
                 <TouchableOpacity style={tw`w-full flex items-center justify-center`} onPress={handleAddFoodPreference}>
                   <View style={tw`w-[200px] py-2 bg-yellow-400 rounded-full flex items-center justify-center`}>
-                    <Text style={tw`${isDarkTheme ? "text-black" : "text-black"} text-center text-base font-medium`}>Add Food</Text>
+                    <Text style={tw`text-black text-center text-base font-medium`}>Add Food</Text>
                   </View>
                 </TouchableOpacity>
-                <View style={tw`mt-4`}>
-                  <Picker selectedValue={selectedPreference} onValueChange={(itemValue, itemIndex) => setSelectedPreference(itemValue)} style={tw`border ${isDarkTheme ? "border-gray-600 bg-gray-200 text-black" : "border-gray-300 bg-white text-black"} rounded-lg`}>
-                    <Picker.Item label="None" value="none" />
-                    <Picker.Item label="Vegetarian" value="vegetarian" />
-                    <Picker.Item label="Vegan" value="vegan" />
+                <View style={tw`mt-4 `}>
+                  <Picker selectedValue={selectedPreference} onValueChange={(itemValue, itemIndex) => setSelectedPreference(itemValue)} style={tw`border ${isDarkTheme ? "border-gray-600 bg-[#202020] text-white" : "border-gray-300 bg-white text-black"} rounded-lg`} dropdownIconColor={isDarkTheme ? "white" : "black"}>
+                    <Picker.Item label="None" value="none" color={isDarkTheme ? "#A9A9A9" : "black"} />
+                    <Picker.Item label="Vegetarian" value="vegetarian" color={isDarkTheme ? "#A9A9A9" : "black"} />
+                    <Picker.Item label="Vegan" value="vegan" color={isDarkTheme ? "#A9A9A9" : "black"} />
                   </Picker>
                 </View>
               </View>
             );
           case "saveButton":
             return (
-              <View style={tw`w-full flex items-center mt-4 mb-8`}>
+              <View style={tw`w-full flex items-center mt-4 mb-8 ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}>
                 <TouchableOpacity style={tw`w-[200px] py-2 bg-green-500 rounded-full flex items-center justify-center`} onPress={handleSavePreferences}>
-                  <Text style={tw`text-white text-center text-base font-medium`}>Save Preferences</Text>
+                  <Text style={tw`text-white text-center text-base font-medium`}>Save Food</Text>
                 </TouchableOpacity>
               </View>
             );
