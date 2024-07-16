@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { View, Text, Image, FlatList, SafeAreaView, ScrollView, TouchableOpacity, ActivityIndicator } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import tw from "twrnc";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -20,6 +20,7 @@ const Home = () => {
   const isThinking = useSelector(state => state.ui.isThinking);
   const responseError = useSelector(state => state.ui.responseError);
   const chat = useSelector(state => state.user.selectedChat);
+  const profileImage = useSelector(state => state.ui.photoUri);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -59,7 +60,7 @@ const Home = () => {
           <ScrollView contentContainerStyle={tw`p-6 mt-10`}>
             {chat.content.map((msg, index) => (
               <View key={index} style={tw`mb-2 flex-row justify-start wrap pt-1`}>
-                {msg.role === "user" ? <Ionicons name="person-circle" size={32} color={isDarkTheme ? "white" : "black"} style={tw`mr-2 mb-7 items-start -mt-1`} /> : <Image source={require("../../assets/Main/icon2.png")} style={tw`w-8 h-8 rounded-full mr-2 mb-7 items-start -mt-1`} />}
+                {msg.role === "user" ? profileImage ? <Image source={{ uri: profileImage }} style={tw`w-8 h-8 rounded-full mr-2 mb-7`} /> : <Ionicons name="person-circle" size={32} color={isDarkTheme ? "white" : "black"} style={tw`mr-2 mb-7 items-start -mt-1`} /> : <Image source={require("../../assets/Main/icon2.png")} style={tw`w-8 h-8 rounded-full mr-2 mb-7 items-start -mt-1`} />}
                 <View>
                   <Text style={tw`text-base font-semibold mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{msg.role === "user" ? "You" : "MealMasterBot"}:</Text>
                   {msg.role === "user" && msg.type === "Text" && <Text style={tw`text-base mr-4 w-screen mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{msg.content}</Text>}
