@@ -15,7 +15,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from "jwt-decode";
 import Error from "../../common/Error";
 import { useNavigation } from "@react-navigation/native";
-import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import {
+  Entypo,
+  FontAwesome,
+  Ionicons,
+  MaterialIcons,
+} from "@expo/vector-icons";
 const Recipes = () => {
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
   const navigation = useNavigation();
@@ -85,16 +90,22 @@ const Recipes = () => {
                     <FontAwesome name={"heart"} size={24} color={"red"} />
                   </TouchableOpacity>
                 </View>
-                <Text
-                  style={tw`text-md font-normal ${isDarkTheme ? "text-white" : "text-black"}`}
-                >
-                  Duration: {recipe.duration}
-                </Text>
-                <Text
-                  style={tw`text-md font-normal ${isDarkTheme ? "text-white" : "text-black"}`}
-                >
-                  Number of portions: {recipe.numberOfPortions}
-                </Text>
+                <View style={tw`flex-row justify-start items-center`}>
+                  <Ionicons name={"time-sharp"} size={20} color={"black"} />
+                  <Text
+                    style={tw`text-[16px] font-semibold ml-1  ${isDarkTheme ? "text-white" : "text-black"}`}
+                  >
+                    {recipe.duration}
+                  </Text>
+                </View>
+                <View style={tw`flex-row justify-start items-center`}>
+                  <Entypo name="bowl" size={20} color="black" />
+                  <Text
+                    style={tw`text-[16px]  font-semibold ml-1 pt-1  ${isDarkTheme ? "text-white" : "text-black"}`}
+                  >
+                    {recipe.numberOfPortions}
+                  </Text>
+                </View>
               </View>
             </View>
           </TouchableOpacity>
