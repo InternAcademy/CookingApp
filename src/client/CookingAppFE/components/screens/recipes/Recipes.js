@@ -3,26 +3,26 @@ import { View, ScrollView, TouchableOpacity, TextInput } from "react-native";
 import tw from "twrnc";
 import { useSelector } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
+import { getRecipes } from "../../../http/recipe";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from "jwt-decode";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
 import Svg, { Line } from "react-native-svg";
 import Recipe from "./Recipe";
-import { getArchivedRecipes } from "../../../http/recipe";
 
-const ArchivedRecipes = () => {
+const Recipes = () => {
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
   const navigation = useNavigation();
   const [input, setInput] = useState("");
   const [filteredRecipes, setFilteredRecipes] = useState([]);
 
   const { data, isPending, isError, error, refetch } = useQuery({
-    queryKey: ["getArchivedRecipes"],
+    queryKey: ["getRecipes"],
     queryFn: async () => {
       const token = await AsyncStorage.getItem("token");
       const decodedToken = jwtDecode(token);
-      const userRecipes = await getArchivedRecipes({
+      const userRecipes = await getRecipes({
         token: token,
         userId: decodedToken.sub
       });
@@ -80,4 +80,4 @@ const ArchivedRecipes = () => {
   );
 };
 
-export default ArchivedRecipes;
+export default Recipes;
