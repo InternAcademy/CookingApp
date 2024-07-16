@@ -80,7 +80,7 @@ const Recipes = () => {
               <View style={tw`flex-row justify-between items-center`}>
                 <Text style={tw`text-xl font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>{recipe.title}</Text>
                 <TouchableOpacity>
-                  <Ionicons name={"archive"} size={24} color={"red"} />
+                  <Ionicons name={"archive"} size={24} color={"black"} />
                 </TouchableOpacity>
               </View>
 
