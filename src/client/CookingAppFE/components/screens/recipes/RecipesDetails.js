@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { View, Text, Image, ScrollView, TouchableOpacity, ActivityIndicator } from "react-native";
 import tw from "twrnc";
 import { useSelector } from "react-redux";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getRecipeById, archive } from "../../../http/recipe";
 import { useRoute } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -13,6 +14,7 @@ const RecipesDetails = () => {
   const { id } = route.params;
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
   const [loading, setLoading] = useState(false);
+  const queryClient = useQueryClient();
 
   const { data, isPending, isError, error, refetch } = useQuery({
     queryKey: ["getRecipeById", id],
@@ -26,14 +28,20 @@ const RecipesDetails = () => {
     }
   });
 
+  useFocusEffect(
+    React.useCallback(() => {
+      refetch();
+    }, [refetch])
+  );
+
   const { mutate } = useMutation({
     mutationFn: archive,
     onSuccess: () => {
       refetch();
+      queryClient.invalidateQueries(["getRecipes"]);
       setLoading(false);
     },
     onError: error => {
-      // тук можете да добавите обработка на грешки, ако е необходимо
       console.error(error);
       setLoading(false);
     }

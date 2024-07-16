@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { View, ScrollView, TouchableOpacity, TextInput } from "react-native";
 import tw from "twrnc";
 import { useSelector } from "react-redux";
@@ -29,6 +29,10 @@ const Recipes = () => {
       return userRecipes;
     }
   });
+
+  const memoizedRefetch = useCallback(() => {
+    refetch();
+  }, [refetch]);
 
   useEffect(() => {
     if (data) {
@@ -62,7 +66,7 @@ const Recipes = () => {
     <ScrollView style={tw`flex flex-col ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`} contentContainerStyle={tw`items-center`}>
       <View style={tw`flex-row justify-between items-center px-4 py-2 w-86 `}>
         <View style={tw`flex-row items-center flex-1 border ${isDarkTheme ? "border-gray-700" : "border-gray-300"} rounded-md`}>
-          <TouchableOpacity style={tw`ml-2`} onPress={refetch}>
+          <TouchableOpacity style={tw`ml-2`} onPress={memoizedRefetch}>
             <MaterialIcons name="search" size={24} color={isDarkTheme ? "white" : "black"} />
           </TouchableOpacity>
           <TextInput style={tw`flex-1 p-2 ${isDarkTheme ? "text-white" : "text-black"}`} placeholder="Search for recipes" placeholderTextColor={isDarkTheme ? "gray" : "darkgray"} value={input} onChangeText={text => setInput(text)} />
@@ -74,7 +78,7 @@ const Recipes = () => {
         </View>
       </View>
       {filteredRecipes.map(recipe => (
-        <Recipe recipe={recipe} refetch={refetch} />
+        <Recipe key={recipe.id} recipe={recipe} refetch={memoizedRefetch} />
       ))}
     </ScrollView>
   );
