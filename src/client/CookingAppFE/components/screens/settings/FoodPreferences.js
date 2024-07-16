@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, FlatList } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, FlatList, Alert } from "react-native";
 import tw from "twrnc";
 import { Picker } from "@react-native-picker/picker";
 import { useSelector } from "react-redux";
@@ -74,8 +74,19 @@ const FoodPreferences = () => {
     setFilteredAllergens([]);
   };
 
-  const handleSavePreferences = () => {
-    console.log("Preferences saved:", { alergens, foodPreferences, selectedPreference });
+  const handleSavePreferences = async () => {
+    const preferences = { alergens, foodPreferences, selectedPreference };
+    console.log("Saving preferences:", preferences);
+
+    try {
+      // Simulating an API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // Simulating a successful save
+      Alert.alert("Success", "Your food preferences have been saved successfully!", [{ text: "OK" }]);
+    } catch (error) {
+      Alert.alert("Error", "There was an error saving your preferences. Please try again.", [{ text: "OK" }]);
+    }
   };
 
   return (
