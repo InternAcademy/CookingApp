@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  Image,
-  ScrollView,
-  TouchableOpacity,
-  TextInput,
-} from "react-native";
+import { View, Text, Image, ScrollView, TouchableOpacity, TextInput } from "react-native";
 import tw from "twrnc";
 import { useSelector } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
@@ -15,14 +8,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from "jwt-decode";
 import Error from "../../common/Error";
 import { useNavigation } from "@react-navigation/native";
-import {
-  Entypo,
-  FontAwesome,
-  Ionicons,
-  MaterialIcons,
-} from "@expo/vector-icons";
+import { Entypo, FontAwesome, Ionicons, MaterialIcons } from "@expo/vector-icons";
 const Recipes = () => {
-  const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
+  const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
   const navigation = useNavigation();
   const [input, setInput] = useState("");
   const { data, isPending, isError, error, refetch } = useQuery({
@@ -32,10 +20,10 @@ const Recipes = () => {
       const decodedToken = jwtDecode(token);
       const userRecipes = await getRecipes({
         token: token,
-        userId: decodedToken.sub,
+        userId: decodedToken.sub
       });
       return userRecipes;
-    },
+    }
   });
 
   useEffect(() => {
@@ -46,65 +34,36 @@ const Recipes = () => {
     navigation.navigate("RecipesDetails", { id });
   }
   return (
-    <ScrollView
-      style={tw`flex flex-col ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}
-      contentContainerStyle={tw`items-center`}
-    >
+    <ScrollView style={tw`flex flex-col ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`} contentContainerStyle={tw`items-center`}>
       <View style={tw`flex-row justify-between items-center px-4 py-2`}>
-        <TextInput
-          style={tw`flex-1 border ${isDarkTheme ? "border-gray-700 text-white" : "border-gray-300 text-black"} p-2 rounded-md`}
-          placeholder="Search for recipes"
-          placeholderTextColor={isDarkTheme ? "gray" : "darkgray"}
-          value={input}
-          onChangeText={(text) => setInput(text)}
-        />
+        <TextInput style={tw`flex-1 border ${isDarkTheme ? "border-gray-700 text-white" : "border-gray-300 text-black"} p-2 rounded-md`} placeholder="Search for recipes" placeholderTextColor={isDarkTheme ? "gray" : "darkgray"} value={input} onChangeText={text => setInput(text)} />
         <TouchableOpacity style={tw`ml-2`} onPress={refetch}>
-          <MaterialIcons
-            name="search"
-            size={24}
-            color={isDarkTheme ? "white" : "black"}
-          />
+          <MaterialIcons name="search" size={24} color={isDarkTheme ? "white" : "black"} />
         </TouchableOpacity>
       </View>
       {data &&
-        data.map((recipe) => (
+        data.map(recipe => (
           <TouchableOpacity onPress={() => handleSelection(recipe.id)}>
             <View
               key={recipe.id}
               style={tw`bg-white w-80 m-4 rounded-lg shadow-md overflow-hidden ${isDarkTheme ? "bg-[#303030]" : "bg-white"}`}
               //className="w-9"
-              on
-            >
-              <Image
-                source={{ uri: recipe.imageUrl }}
-                style={tw`w-full h-40`}
-              />
+              on>
+              <Image source={{ uri: recipe.imageUrl }} style={tw`w-full h-40`} />
               <View style={tw`p-4 flex flex-col`}>
                 <View style={tw`flex-row justify-between items-center`}>
-                  <Text
-                    style={tw`text-xl font-bold ${isDarkTheme ? "text-white" : "text-black"}`}
-                  >
-                    {recipe.title}
-                  </Text>
+                  <Text style={tw`text-xl font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>{recipe.title}</Text>
                   <TouchableOpacity>
                     <FontAwesome name={"heart"} size={24} color={"red"} />
                   </TouchableOpacity>
                 </View>
                 <View style={tw`flex-row justify-start items-center`}>
                   <Ionicons name={"time-sharp"} size={20} color={"black"} />
-                  <Text
-                    style={tw`text-[16px] font-semibold ml-1  ${isDarkTheme ? "text-white" : "text-black"}`}
-                  >
-                    {recipe.duration}
-                  </Text>
+                  <Text style={tw`text-[16px] font-semibold ml-1  ${isDarkTheme ? "text-white" : "text-black"}`}>{recipe.duration}</Text>
                 </View>
                 <View style={tw`flex-row justify-start items-center`}>
                   <Entypo name="bowl" size={20} color="black" />
-                  <Text
-                    style={tw`text-[16px]  font-semibold ml-1 pt-1  ${isDarkTheme ? "text-white" : "text-black"}`}
-                  >
-                    {recipe.numberOfPortions}
-                  </Text>
+                  <Text style={tw`text-[16px]  font-semibold ml-1 pt-1  ${isDarkTheme ? "text-white" : "text-black"}`}>{recipe.numberOfPortions}</Text>
                 </View>
               </View>
             </View>
