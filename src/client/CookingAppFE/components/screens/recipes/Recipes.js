@@ -45,10 +45,21 @@ const Recipes = () => {
     navigation.navigate("RecipesDetails", { id });
   }
 
+  const clearSearch = () => {
+    setInput("");
+  };
+
   return (
     <ScrollView style={tw`flex flex-col ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`} contentContainerStyle={tw`items-center`}>
-      <View style={tw`flex-row justify-between items-center px-4 py-2`}>
-        <TextInput style={tw`flex-1 border ${isDarkTheme ? "border-gray-700 text-white" : "border-gray-300 text-black"} p-2 rounded-md`} placeholder="Search for recipes" placeholderTextColor={isDarkTheme ? "gray" : "darkgray"} value={input} onChangeText={text => setInput(text)} />
+      <View style={tw`flex-row justify-between items-center px-4 py-2 w-full`}>
+        <View style={tw`flex-row items-center flex-1 border ${isDarkTheme ? "border-gray-700" : "border-gray-300"} rounded-md`}>
+          <TextInput style={tw`flex-1 p-2 ${isDarkTheme ? "text-white" : "text-black"}`} placeholder="Search for recipes" placeholderTextColor={isDarkTheme ? "gray" : "darkgray"} value={input} onChangeText={text => setInput(text)} />
+          {input !== "" && (
+            <TouchableOpacity onPress={clearSearch} style={tw`pr-2`}>
+              <Ionicons name="close-circle" size={20} color={isDarkTheme ? "white" : "black"} />
+            </TouchableOpacity>
+          )}
+        </View>
         <TouchableOpacity style={tw`ml-2`} onPress={refetch}>
           <MaterialIcons name="search" size={24} color={isDarkTheme ? "white" : "black"} />
         </TouchableOpacity>
