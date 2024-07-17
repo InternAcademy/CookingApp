@@ -1,5 +1,6 @@
 ﻿using CookingApp.Common.Helpers.Profiles;
 using CookingApp.Services.UserProfile;
+using CookingApp.ViewModels.Api;
 using CookingApp.ViewModels.Profile;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,11 +23,25 @@ namespace CookingApp.Controllers
         }
 
         [HttpGet("configure-profile")]
-        public async Task<IActionResult> ConfigureProfile([FromBody] ConfigureProfileRequest configureProfileRequest)
+        public async Task<ApiResponse<bool>> ConfigureProfile([FromBody] ConfigureProfileRequest request)
         {
-            await userProfileService.ConfigureProfile(configureProfileRequest);
+            await userProfileService.ConfigureProfile(request);
 
-            return Ok(configureProfileRequest);
+            return new ApiResponse<bool>()
+            {
+                Status = 200
+            };
+        }
+
+        [HttpPost("save-preferences")]
+        public async Task<ApiResponse<bool>> SavePreferences([FromBody] PreferencesRequest request)
+        {
+            await userProfileService.SaveInterfacePreferences(request);
+
+            return new ApiResponse<bool>()
+            {
+                Status = 200
+            };
         }
     }
 }
