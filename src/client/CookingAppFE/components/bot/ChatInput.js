@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
 import { View, Image, TextInput, TouchableOpacity } from "react-native";
 import tw from "twrnc";
 import * as ImagePicker from "expo-image-picker";
@@ -9,15 +9,21 @@ import { userActions } from "../../redux/userSlice";
 import useChatMutation from "../../hooks/useChatMutation";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
+import { TranslationContext } from "../../context/TranslationContext";
 
 export default function ChatInput({ isPending }) {
   const input = useSelector(state => state.ui.input);
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
   const selectedChat = useSelector(state => state.user.selectedChat);
   const { mutate, isPending: isChatPending, isError, error } = useChatMutation();
+  const { targetLanguage, translateStaticTexts, translatedTexts } = useContext(TranslationContext);
 
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
+  useEffect(() => {
+    translateStaticTexts(["Message MealMasterBot"], targetLanguage);
+  }, [targetLanguage]);
 
   function handleTyping(value) {
     dispatch(uiActions.setInput(value));
@@ -95,7 +101,7 @@ export default function ChatInput({ isPending }) {
           <TouchableOpacity onPress={openGallery} style={tw`p-1`} disabled={isPending}>
             <Image source={require("../../assets/HomeMessageBar/paperClip.png")} style={tw`w-5 h-5 ${isDarkTheme ? "tint-white" : ""} ${isPending ? "tint-gray-400" : ""}`} />
           </TouchableOpacity>
-          <TextInput style={tw`flex-1 h-10 px-1 ${isDarkTheme ? "text-white" : "text-black"}`} placeholder="Message MealMasterBot" placeholderTextColor={isDarkTheme ? "gray" : "gray"} value={input} onChangeText={handleTyping} />
+          <TextInput style={tw`flex-1 h-10 px-1 ${isDarkTheme ? "text-white" : "text-black"}`} placeholder={translatedTexts["Message MealMasterBot"] || "Message MealMasterBot"} placeholderTextColor={isDarkTheme ? "gray" : "gray"} value={input} onChangeText={handleTyping} />
           <TouchableOpacity onPress={sendMessage} style={tw`p-1`} disabled={isPending}>
             <Image source={require("../../assets/HomeMessageBar/arrowUpCircle.png")} style={tw`w-6 h-6 ${isDarkTheme ? "tint-white" : ""} ${isPending ? "tint-gray-400" : ""}`} />
           </TouchableOpacity>
