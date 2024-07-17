@@ -43,21 +43,24 @@ export default function Recipe({ recipe, refetch }) {
   return (
     <TouchableOpacity onPress={handleSelection}>
       <View style={tw`bg-white w-80 m-4 rounded-lg shadow-md overflow-hidden ${isDarkTheme ? "bg-[#303030]" : "bg-white"}`}>
-        <Image source={{ uri: recipe.imageUrl }} style={tw`w-full h-40`} />
-        <View style={tw`p-4 flex flex-col`}>
+        <Image source={{ uri: recipe.imageUrl }} style={tw`w-full h-40  `} />
+        <View style={tw`pt-4 flex flex-col`}>
           <View style={tw`flex-row justify-between items-center`}>
-            <Text style={tw`text-xl font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>{recipe.title}</Text>
+            <Text style={tw`text-xl px-2 font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>{recipe.title}</Text>
+            
+          </View>
+          <View style={tw`flex-row px-4 py-2 justify-between items-center`}>
+            <View style={tw`flex-row justify-start items-center`}>
+              <Ionicons name={"time-sharp"} size={20} color={isDarkTheme ? "white" : "black"} />
+              <Text style={tw`text-[16px] font-semibold ml-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{recipe.duration}</Text>
+            </View>
+            <View style={tw`flex-row justify-start items-center`}>
+              <Entypo name="bowl" size={20} color={isDarkTheme ? "white" : "black"} />
+              <Text style={tw`text-[16px] font-semibold ml-1 pt-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{recipe.numberOfPortions}</Text>
+            </View>
             {loading ? <ActivityIndicator size="small" color={isDarkTheme ? "white" : "black"} style={tw`mr-2`} /> : <TouchableOpacity onPress={archiveThisRecipe}>{recipe.isArchived ? <Ionicons name={"archive"} size={24} color={isDarkTheme ? "white" : "black"} /> : <Ionicons name={"archive-outline"} size={24} color={isDarkTheme ? "white" : "black"} />}</TouchableOpacity>}
           </View>
-
-          <View style={tw`flex-row justify-start items-center`}>
-            <Ionicons name={"time-sharp"} size={20} color={isDarkTheme ? "white" : "black"} />
-            <Text style={tw`text-[16px] font-semibold ml-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{recipe.duration}</Text>
-          </View>
-          <View style={tw`flex-row justify-start items-center`}>
-            <Entypo name="bowl" size={20} color={isDarkTheme ? "white" : "black"} />
-            <Text style={tw`text-[16px] font-semibold ml-1 pt-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{recipe.numberOfPortions}</Text>
-          </View>
+         
         </View>
       </View>
     </TouchableOpacity>
