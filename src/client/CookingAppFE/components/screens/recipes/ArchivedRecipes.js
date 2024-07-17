@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { View, ScrollView, TouchableOpacity, TextInput } from "react-native";
 import tw from "twrnc";
 import { useSelector } from "react-redux";
@@ -10,12 +10,14 @@ import { MaterialIcons } from "@expo/vector-icons";
 import Svg, { Line } from "react-native-svg";
 import Recipe from "./Recipe";
 import { getArchivedRecipes } from "../../../http/recipe";
+import { TranslationContext } from "../../../context/TranslationContext";
 
 const ArchivedRecipes = () => {
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
   const navigation = useNavigation();
   const [input, setInput] = useState("");
   const [filteredRecipes, setFilteredRecipes] = useState([]);
+  const { targetLanguage, translateStaticTexts, translatedTexts } = useContext(TranslationContext);
 
   const { data, isPending, isError, error, refetch } = useQuery({
     queryKey: ["getArchivedRecipes"],
@@ -43,6 +45,10 @@ const ArchivedRecipes = () => {
     }
   }, [input, data]);
 
+  useEffect(() => {
+    translateStaticTexts(["Search for recipes"], targetLanguage);
+  }, [targetLanguage]);
+
   function handleSelection(id) {
     navigation.navigate("RecipesDetails", { id });
   }
@@ -65,7 +71,7 @@ const ArchivedRecipes = () => {
           <TouchableOpacity style={tw`ml-2`} onPress={refetch}>
             <MaterialIcons name="search" size={24} color={isDarkTheme ? "white" : "black"} />
           </TouchableOpacity>
-          <TextInput style={tw`flex-1 p-2 ${isDarkTheme ? "text-white" : "text-black"}`} placeholder="Search for recipes" placeholderTextColor={isDarkTheme ? "gray" : "darkgray"} value={input} onChangeText={text => setInput(text)} />
+          <TextInput style={tw`flex-1 p-2 ${isDarkTheme ? "text-white" : "text-black"}`} placeholder={translatedTexts["Search for recipes"] || "Search for recipes"} placeholderTextColor={isDarkTheme ? "gray" : "darkgray"} value={input} onChangeText={text => setInput(text)} />
           {input !== "" && (
             <TouchableOpacity onPress={clearSearch} style={tw`pr-3 pl-2`}>
               <CustomCloseIcon color={isDarkTheme ? "white" : "black"} />
