@@ -20,20 +20,10 @@ const LanguageAndTheme = () => {
   };
 
   const handleLanguageChange = async () => {
-    let newLanguage;
-    switch (targetLanguage) {
-      case "English":
-        newLanguage = "Spanish";
-        break;
-      case "Spanish":
-        newLanguage = "French";
-        break;
-      case "French":
-        newLanguage = "English";
-        break;
-      default:
-        newLanguage = "English";
-    }
+    const languages = ["English", "Spanish", "French", "Russian"];
+    const currentIndex = languages.indexOf(targetLanguage);
+    const newLanguage = languages[(currentIndex + 1) % languages.length];
+
     setTargetLanguage(newLanguage);
     await saveLanguagePreference(newLanguage);
     Alert.alert("Language Changed", `Selected language: ${newLanguage}`);

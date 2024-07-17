@@ -9,18 +9,37 @@ export const TranslationProvider = ({ children }) => {
   const [targetLanguage, setTargetLanguage] = useState("English");
   const [translatedTexts, setTranslatedTexts] = useState({});
 
+  const getLanguageCode = language => {
+    switch (language) {
+      case "English":
+        return "en";
+      case "Spanish":
+        return "es";
+      case "French":
+        return "fr";
+      case "Russian":
+        return "ru";
+      default:
+        return "en";
+    }
+  };
+
   const translateText = async (text, language) => {
-    const apiKey = "AIzaSyB3Ho3fTJCD-sFGL_-VZbghaxmTMDcI1Ro";
-    const url = `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`;
+    const apiKey = "AIzaSyB3Ho3fTJCD-sFGL_-VZbghaxmTMDcI1Ro"; // Replace with your actual API key
+    const url = `https://translation.googleapis.com/language/translate/v2`;
 
     try {
-      const response = await axios.post(url, {
-        q: text,
-        target: language === "English" ? "en" : language === "Spanish" ? "es" : "fr"
+      const response = await axios.post(url, null, {
+        params: {
+          q: text,
+          target: getLanguageCode(language),
+          key: apiKey
+        }
       });
+      console.log("API Response:", response.data); // Log the response for debugging
       return response.data.data.translations[0].translatedText;
     } catch (error) {
-      console.error(error);
+      console.error("Translation Error:", error.response ? error.response.data : error.message);
       return text; // Return original text if translation fails
     }
   };
