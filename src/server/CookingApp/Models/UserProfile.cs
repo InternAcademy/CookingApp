@@ -18,6 +18,9 @@
         [BsonElement("dietary-preference")]
         public DietaryPreference DietaryPreference { get; set; }
 
+        [BsonElement("interface-preference")]
+        public InterfacePreference InterfacePreference { get; set; } = default!;
+
         [BsonElement("allergies")]
         public List<Allergy> Allergies { get; set; } = default!;
 
