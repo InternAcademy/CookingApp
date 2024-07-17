@@ -63,7 +63,7 @@ const Home = () => {
                 {msg.role === "user" ? profileImage ? <Image source={{ uri: profileImage }} style={tw`w-8 h-8 rounded-full mr-2 mb-7`} /> : <Ionicons name="person-circle" size={32} color={isDarkTheme ? "white" : "black"} style={tw`mr-2 mb-7 items-start -mt-1`} /> : <Image source={require("../../assets/Main/icon2.png")} style={tw`w-8 h-8 rounded-full mr-2 mb-7 items-start -mt-1`} />}
                 <View>
                   <Text style={tw`text-base font-semibold mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{msg.role === "user" ? "You" : "MealMasterBot"}:</Text>
-                  {msg.role === "user" && msg.type === "Text" && <Text style={tw`text-base mr-4 w-screen mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{msg.content}</Text>}
+                  {msg.role === "user" && msg.type === "Text" && <Text style={tw`text-base mr-4 w-full mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{msg.content}</Text>}
 
                   {msg.role === "user" && msg.type === "Image" && <Image source={{ uri: msg.content }} style={tw`w-32 h-32 rounded-md mr-2 mb-7`} />}
                   {msg.role === "bot" && msg.type === "Recipe" && (
