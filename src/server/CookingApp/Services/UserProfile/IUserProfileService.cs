@@ -7,5 +7,7 @@ namespace CookingApp.Services.UserProfile
         Task CreateProfile(string userId);
 
         Task ConfigureProfile(ConfigureProfileRequest configureProfileRequest);
+
+        Task SaveInterfacePreferences (PreferencesRequest preferencesRequest);
     }
 }
