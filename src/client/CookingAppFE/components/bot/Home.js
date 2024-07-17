@@ -65,7 +65,7 @@ const Home = () => {
                   <Text style={tw`text-base font-semibold mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{msg.role === "user" ? "You" : "MealMasterBot"}:</Text>
                   {msg.role === "user" && msg.type === "Text" && <Text style={tw`text-base mr-4 w-screen mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{msg.content}</Text>}
 
-                  {msg.role === "user" && msg.type === "Image" && <Image source={{ uri: msg.content }} style={tw`w-32 h-32 mr-2 mb-7`} />}
+                  {msg.role === "user" && msg.type === "Image" && <Image source={{ uri: msg.content }} style={tw`w-32 h-32 rounded-md mr-2 mb-7`} />}
                   {msg.role === "bot" && msg.type === "Recipe" && (
                     <>
                       <Text style={tw`max-w-full mr-12 text-base mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{msg.content}</Text>
