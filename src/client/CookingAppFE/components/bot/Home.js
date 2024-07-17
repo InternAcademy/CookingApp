@@ -100,7 +100,7 @@ const Home = () => {
       <NavBar />
       <FlatList data={[{ key: "1" }]} renderItem={renderPost} keyExtractor={item => item.key} contentContainerStyle={tw`flex-grow`} />
       <View style={tw`flex w-full flex-row justify-center mb-5 ${isDarkTheme ? "border-gray-700 bg-[#202020]" : "border-gray-300 bg-white"}`}>
-        <ChatInput />
+        <ChatInput isPending={isPending} />
       </View>
     </SafeAreaView>
   );
