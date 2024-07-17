@@ -1,6 +1,6 @@
-import tw from "twrnc";
-import { useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import { Button, Text, TouchableOpacity, View, Image } from "react-native";
+import tw from "twrnc";
 import { useNavigation } from "@react-navigation/native";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,6 +8,7 @@ import { uiActions } from "../../redux/uiSlice";
 import { userActions } from "../../redux/userSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useChatMutation from "../../hooks/useChatMutation";
+import { TranslationContext } from "../../context/TranslationContext";
 
 export default function CameraScreen() {
   const [facing, setFacing] = useState("back");
@@ -18,6 +19,11 @@ export default function CameraScreen() {
   const navigation = useNavigation();
   const selectedChat = useSelector(state => state.user.selectedChat);
   const { mutate } = useChatMutation();
+  const { targetLanguage, translateStaticTexts, translatedTexts } = useContext(TranslationContext);
+
+  useEffect(() => {
+    translateStaticTexts(["We need your permission to show the camera", "grant permission", "Retry", "OK", "Flip Camera", "Take Picture"], targetLanguage);
+  }, [targetLanguage]);
 
   if (!permission) {
     return <View />;
@@ -26,8 +32,8 @@ export default function CameraScreen() {
   if (!permission.granted) {
     return (
       <View style={tw`flex-1 justify-center items-center`}>
-        <Text style={tw`text-center`}>We need your permission to show the camera</Text>
-        <Button onPress={requestPermission} title="grant permission" />
+        <Text style={tw`text-center`}>{translatedTexts["We need your permission to show the camera"] || "We need your permission to show the camera"}</Text>
+        <Button onPress={requestPermission} title={translatedTexts["grant permission"] || "grant permission"} />
       </View>
     );
   }
@@ -81,10 +87,10 @@ export default function CameraScreen() {
           <Image source={{ uri: photo.uri }} style={tw`w-full h-4/5`} />
           <View style={[tw`flex-row items-end bg-transparent mt-16`, { gap: 150 }]}>
             <TouchableOpacity style={tw`bg-gray-800 p-3 rounded`} onPress={handleRetry}>
-              <Text style={tw`text-lg text-white`}>Retry</Text>
+              <Text style={tw`text-lg text-white`}>{translatedTexts["Retry"] || "Retry"}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={tw`bg-gray-800 p-3 rounded`} onPress={handleOk}>
-              <Text style={tw`text-lg text-white`}>OK</Text>
+              <Text style={tw`text-lg text-white`}>{translatedTexts["OK"] || "OK"}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -92,10 +98,10 @@ export default function CameraScreen() {
         <CameraView style={tw`flex-1`} facing={facing} ref={cameraRef}>
           <View style={[tw`absolute bottom-0 w-full flex-row justify-around items-center`, { backgroundColor: "rgba(0, 0, 0, 0.5)", padding: 16 }]}>
             <TouchableOpacity style={tw`bg-gray-800 p-3 rounded`} onPress={toggleCameraFacing}>
-              <Text style={tw`text-lg text-white`}>Flip Camera</Text>
+              <Text style={tw`text-lg text-white`}>{translatedTexts["Flip Camera"] || "Flip Camera"}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={tw`bg-gray-800 p-3 rounded`} onPress={takePicture}>
-              <Text style={tw`text-lg text-white`}>Take Picture</Text>
+              <Text style={tw`text-lg text-white`}>{translatedTexts["Take Picture"] || "Take Picture"}</Text>
             </TouchableOpacity>
           </View>
         </CameraView>
