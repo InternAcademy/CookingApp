@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { View, Text, TextInput, TouchableOpacity, FlatList, Alert } from "react-native";
 import tw from "twrnc";
 import { Picker } from "@react-native-picker/picker";
 import { useSelector } from "react-redux";
 import Autocomplete from "react-native-autocomplete-input";
+import { TranslationContext } from "../../../context/TranslationContext";
 
 const FoodPreferences = () => {
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
@@ -16,6 +17,11 @@ const FoodPreferences = () => {
   const [foodError, setFoodError] = useState("");
   const [selectedPreference, setSelectedPreference] = useState("none");
   const [filteredAllergens, setFilteredAllergens] = useState([]);
+  const { targetLanguage, translateStaticTexts, translatedTexts } = useContext(TranslationContext);
+
+  useEffect(() => {
+    translateStaticTexts(["Food Preferences", "Allergens", "No Allergens added", "Add your allergens", "Add Allergen", "Disliked Foods", "There are no disliked foods added", "Add your disliked foods", "Add Food", "Save Food", "None", "Vegetarian", "Vegan"], targetLanguage);
+  }, [targetLanguage]);
 
   const handleAddAlergen = () => {
     const normalizedInput = alergenInput.trim().toLowerCase();
@@ -23,11 +29,11 @@ const FoodPreferences = () => {
 
     if (alergenInput.trim() !== "") {
       if (!normalizedAllergens.includes(normalizedInput)) {
-        setError("Allergen not found.");
+        setError(translatedTexts["Allergen not found."] || "Allergen not found.");
       } else if (alergens.length >= 12) {
-        setError("You can add a maximum of 12 allergens.");
+        setError(translatedTexts["You can add a maximum of 12 allergens."] || "You can add a maximum of 12 allergens.");
       } else if (alergens.map(alergen => alergen.toLowerCase()).includes(normalizedInput)) {
-        setError("Allergen already added.");
+        setError(translatedTexts["Allergen already added."] || "Allergen already added.");
       } else {
         setAlergens(prevAlergens => [...prevAlergens, alergenInput.trim()]);
         setAlergenInput("");
@@ -40,7 +46,7 @@ const FoodPreferences = () => {
   const handleAddFoodPreference = () => {
     if (foodPreferenceInput.trim() !== "") {
       if (foodPreferences.includes(foodPreferenceInput.trim())) {
-        setFoodError("Food preference already added.");
+        setFoodError(translatedTexts["Food preference already added."] || "Food preference already added.");
       } else {
         setFoodPreferences(prevFoodPreferences => [...prevFoodPreferences, foodPreferenceInput.trim()]);
         setFoodPreferenceInput("");
@@ -83,9 +89,9 @@ const FoodPreferences = () => {
       await new Promise(resolve => setTimeout(resolve, 1000));
 
       // Simulating a successful save
-      Alert.alert("Success", "Your food preferences have been saved successfully!", [{ text: "OK" }]);
+      Alert.alert(translatedTexts["Success"] || "Success", translatedTexts["Your food preferences have been saved successfully!"] || "Your food preferences have been saved successfully!", [{ text: "OK" }]);
     } catch (error) {
-      Alert.alert("Error", "There was an error saving your preferences. Please try again.", [{ text: "OK" }]);
+      Alert.alert(translatedTexts["Error"] || "Error", translatedTexts["There was an error saving your preferences. Please try again."] || "There was an error saving your preferences. Please try again.", [{ text: "OK" }]);
     }
   };
 
@@ -98,13 +104,13 @@ const FoodPreferences = () => {
           case "header":
             return (
               <View style={tw`flex-1 items-center p-6 ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}>
-                <Text style={tw`text-lg font-semibold mb-4 text-center ${isDarkTheme ? "text-white" : "text-black"}`}>Food Preferences</Text>
+                <Text style={tw`text-lg font-semibold mb-4 text-center ${isDarkTheme ? "text-white" : "text-black"}`}>{translatedTexts["Food Preferences"] || "Food Preferences"}</Text>
               </View>
             );
           case "allergens":
             return (
               <View style={tw`w-full mb-6 pb-6 ${isDarkTheme ? "bg-[#202020]" : "bg-zinc-200/50"} rounded-xl py-4 px-4`}>
-                <Text style={tw`text-lg font-semibold mb-4 text-center ${isDarkTheme ? "text-white" : "text-black"}`}>Allergens</Text>
+                <Text style={tw`text-lg font-semibold mb-4 text-center ${isDarkTheme ? "text-white" : "text-black"}`}>{translatedTexts["Allergens"] || "Allergens"}</Text>
                 {alergens.length > 0 ? (
                   <View style={tw`flex flex-row flex-wrap mb-4`}>
                     {alergens.map((alergen, index) => (
@@ -114,7 +120,7 @@ const FoodPreferences = () => {
                     ))}
                   </View>
                 ) : (
-                  <Text style={tw`${isDarkTheme ? "text-gray-400" : "text-gray-500"} text-center mb-4`}>No Allergens added</Text>
+                  <Text style={tw`${isDarkTheme ? "text-gray-400" : "text-gray-500"} text-center mb-4`}>{translatedTexts["No Allergens added"] || "No Allergens added"}</Text>
                 )}
                 <Autocomplete
                   data={filteredAllergens}
@@ -130,14 +136,14 @@ const FoodPreferences = () => {
                   }}
                   inputContainerStyle={tw`border ${isDarkTheme ? "border-gray-600 bg-[#202020]" : "border-gray-300 bg-white"} rounded-lg px-4 py-2 mb-2`}
                   listContainerStyle={tw`border ${isDarkTheme ? "border-gray-600 bg-[#202020]" : "border-gray-300 bg-white"} rounded-lg`}
-                  placeholder="Add your allergens"
+                  placeholder={translatedTexts["Add your allergens"] || "Add your allergens"}
                   placeholderTextColor={isDarkTheme ? "#A9A9A9" : "#A9A9A9"}
                   style={{ color: isDarkTheme ? "white" : "black" }}
                 />
                 {error && <Text style={tw`text-red-500 mb-2 text-center`}>{error}</Text>}
                 <TouchableOpacity style={tw`w-full flex items-center justify-center`} onPress={handleAddAlergen}>
                   <View style={tw`w-[200px] py-2 bg-yellow-400 rounded-full flex items-center justify-center`}>
-                    <Text style={tw`text-black text-center text-base font-medium`}>Add Allergen</Text>
+                    <Text style={tw`text-black text-center text-base font-medium`}>{translatedTexts["Add Allergen"] || "Add Allergen"}</Text>
                   </View>
                 </TouchableOpacity>
               </View>
@@ -147,7 +153,7 @@ const FoodPreferences = () => {
           case "foodPreferences":
             return (
               <View style={tw`w-full mb-6 pb-6 ${isDarkTheme ? "bg-[#202020]" : "bg-zinc-200/50"} rounded-xl py-4 px-4`}>
-                <Text style={tw`text-lg font-semibold mb-4 text-center ${isDarkTheme ? "text-white" : "text-black"}`}>Disliked Foods</Text>
+                <Text style={tw`text-lg font-semibold mb-4 text-center ${isDarkTheme ? "text-white" : "text-black"}`}>{translatedTexts["Disliked Foods"] || "Disliked Foods"}</Text>
                 {foodPreferences.length > 0 ? (
                   <View style={tw`flex flex-row flex-wrap mb-4`}>
                     {foodPreferences.map((preference, index) => (
@@ -157,20 +163,20 @@ const FoodPreferences = () => {
                     ))}
                   </View>
                 ) : (
-                  <Text style={tw`${isDarkTheme ? "text-gray-400" : "text-gray-500"} text-center mb-4`}>There are no disliked foods added</Text>
+                  <Text style={tw`${isDarkTheme ? "text-gray-400" : "text-gray-500"} text-center mb-4`}>{translatedTexts["There are no disliked foods added"] || "There are no disliked foods added"}</Text>
                 )}
-                <TextInput style={tw`border ${isDarkTheme ? "border-gray-600 bg-[#202020] text-white" : "border-gray-300 bg-white text-black"} rounded-lg px-4 py-2 mb-2`} placeholder="Add your disliked foods" placeholderTextColor={isDarkTheme ? "#A9A9A9" : "#A9A9A9"} value={foodPreferenceInput} onChangeText={setFoodPreferenceInput} />
+                <TextInput style={tw`border ${isDarkTheme ? "border-gray-600 bg-[#202020] text-white" : "border-gray-300 bg-white text-black"} rounded-lg px-4 py-2 mb-2`} placeholder={translatedTexts["Add your disliked foods"] || "Add your disliked foods"} placeholderTextColor={isDarkTheme ? "#A9A9A9" : "#A9A9A9"} value={foodPreferenceInput} onChangeText={setFoodPreferenceInput} />
                 {foodError && <Text style={tw`text-red-500 mb-2 text-center`}>{foodError}</Text>}
                 <TouchableOpacity style={tw`w-full flex items-center justify-center`} onPress={handleAddFoodPreference}>
                   <View style={tw`w-[200px] py-2 bg-yellow-400 rounded-full flex items-center justify-center`}>
-                    <Text style={tw`text-black text-center text-base font-medium`}>Add Food</Text>
+                    <Text style={tw`text-black text-center text-base font-medium`}>{translatedTexts["Add Food"] || "Add Food"}</Text>
                   </View>
                 </TouchableOpacity>
                 <View style={tw`mt-4 `}>
                   <Picker selectedValue={selectedPreference} onValueChange={(itemValue, itemIndex) => setSelectedPreference(itemValue)} style={tw`border ${isDarkTheme ? "border-gray-600 bg-[#202020] text-white" : "border-gray-300 bg-white text-black"} rounded-lg`} dropdownIconColor={isDarkTheme ? "white" : "black"}>
-                    <Picker.Item label="None" value="none" color={isDarkTheme ? "#A9A9A9" : "black"} />
-                    <Picker.Item label="Vegetarian" value="vegetarian" color={isDarkTheme ? "#A9A9A9" : "black"} />
-                    <Picker.Item label="Vegan" value="vegan" color={isDarkTheme ? "#A9A9A9" : "black"} />
+                    <Picker.Item label={translatedTexts["None"] || "None"} value="none" color={isDarkTheme ? "#A9A9A9" : "black"} />
+                    <Picker.Item label={translatedTexts["Vegetarian"] || "Vegetarian"} value="vegetarian" color={isDarkTheme ? "#A9A9A9" : "black"} />
+                    <Picker.Item label={translatedTexts["Vegan"] || "Vegan"} value="vegan" color={isDarkTheme ? "#A9A9A9" : "black"} />
                   </Picker>
                 </View>
               </View>
@@ -179,7 +185,7 @@ const FoodPreferences = () => {
             return (
               <View style={tw`w-full flex items-center mt-4 mb-8 ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}>
                 <TouchableOpacity style={tw`w-[200px] py-2 bg-green-500 rounded-full flex items-center justify-center`} onPress={handleSavePreferences}>
-                  <Text style={tw`text-white text-center text-base font-medium`}>Save Food</Text>
+                  <Text style={tw`text-white text-center text-base font-medium`}>{translatedTexts["Save Food"] || "Save Food"}</Text>
                 </TouchableOpacity>
               </View>
             );
