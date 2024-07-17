@@ -8,6 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import tw from "twrnc";
 import { Ionicons, Entypo } from "@expo/vector-icons";
 
+
 export default function Recipe({ recipe, refetch }) {
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
   const [loading, setLoading] = useState(false);
@@ -50,7 +51,7 @@ export default function Recipe({ recipe, refetch }) {
             
           </View>
           <View style={tw`flex-row px-4 py-2 justify-between items-center`}>
-            <View style={tw`flex-row justify-start items-center`}>
+            <View style={tw`flex-row justify-start items-center  pr-2 `}>
               <Ionicons name={"time-sharp"} size={20} color={isDarkTheme ? "white" : "black"} />
               <Text style={tw`text-[16px] font-semibold ml-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{recipe.duration}</Text>
             </View>

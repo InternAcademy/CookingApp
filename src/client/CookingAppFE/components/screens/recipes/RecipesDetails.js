@@ -8,6 +8,7 @@ import { useRoute } from "@react-navigation/native";
 import { useFocusEffect } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
+import * as Animatable from 'react-native-animatable';
 
 const RecipesDetails = () => {
   const route = useRoute();
@@ -60,7 +61,12 @@ const RecipesDetails = () => {
       {data && (
         <View style={tw`p-4`}>
           <View style={tw`relative`}>
-            <Image style={tw`w-full h-48 rounded-lg`} source={{ uri: data.imageUrl }} />
+            <Animatable.Image
+              animation="slideInDown"
+              duration={700}
+              style={tw`w-full h-48 rounded-lg`}
+              source={{ uri: data.imageUrl }}
+            />
             <View style={tw`absolute top-2 right-2 p-2 bg-white rounded-full shadow`}>
               {loading ? (
                 <ActivityIndicator size="small" color={isDarkTheme ? "white" : "black"} />
@@ -73,28 +79,34 @@ const RecipesDetails = () => {
               )}
             </View>
           </View>
-          <Text style={tw`text-2xl font-bold mt-4 ${isDarkTheme ? "text-white" : "text-black"}`}>{data.title}</Text>
-          <Text style={tw`text-base mt-2 ${isDarkTheme ? "text-gray-400" : "text-gray-600"}`}>{data.description}</Text>
-          <View style={tw`mt-4`}>
+          <Animatable.View animation="fadeInLeft" duration={1000} delay={200}>
+            <Text style={tw`text-2xl font-bold mt-4 ${isDarkTheme ? "text-white" : "text-black"}`}>{data.title}</Text>
+          </Animatable.View>
+          <Animatable.View animation="fadeInLeft" duration={1000} delay={400}>
+            <Text style={tw`text-base mt-2 ${isDarkTheme ? "text-gray-400" : "text-gray-600"}`}>{data.description}</Text>
+          </Animatable.View>
+          <Animatable.View animation="fadeInLeft" duration={1000} delay={600} style={tw`mt-4`}>
             <Text style={tw`text-lg font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>Preparation time</Text>
-            <Text style={tw`text-base ${isDarkTheme ? "text-gray-400" : "text-gray-600"}`}>Approximately {data.duration} minutes</Text>
-          </View>
-          <View style={tw`mt-4`}>
+            <Animatable.Text animation="fadeIn" duration={1000} delay={800} style={tw`text-base ${isDarkTheme ? "text-gray-400" : "text-gray-600"}`}>
+              Approximately {data.duration} minutes
+            </Animatable.Text>
+          </Animatable.View>
+          <Animatable.View animation="fadeInLeft" duration={1000} delay={1000} style={tw`mt-4`}>
             <Text style={tw`text-xl font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>Ingredients</Text>
             {data.ingredients.map((ingredient, index) => (
-              <Text key={index} style={tw`text-base ${isDarkTheme ? "text-gray-400" : "text-gray-600"}`}>
+              <Animatable.Text key={index} animation="fadeIn" duration={1000} delay={1200 + index * 200} style={tw`text-base ${isDarkTheme ? "text-gray-400" : "text-gray-600"}`}>
                 - {`${ingredient.quantity} ${ingredient.metric} ${ingredient.name}`}
-              </Text>
+              </Animatable.Text>
             ))}
-          </View>
-          <View style={tw`mt-4`}>
+          </Animatable.View>
+          <Animatable.View animation="fadeInLeft" duration={1000} delay={1400} style={tw`mt-4`}>
             <Text style={tw`text-xl font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>Instructions</Text>
             {data.preparationSteps.map((step, index) => (
-              <Text key={index} style={tw`text-base mt-2 ${isDarkTheme ? "text-gray-400" : "text-gray-600"}`}>
+              <Animatable.Text key={index} animation="fadeIn" duration={1000} delay={1600 + index * 200} style={tw`text-base mt-2 ${isDarkTheme ? "text-gray-400" : "text-gray-600"}`}>
                 {index + 1}. {step}
-              </Text>
+              </Animatable.Text>
             ))}
-          </View>
+          </Animatable.View>
         </View>
       )}
     </ScrollView>
