@@ -16,7 +16,7 @@
         {
             var userId = GetUser.ProfileId(httpContextAccessor);
 
-            Feedback feedback = new Feedback()
+            var feedback = new Feedback()
             {
                 Title = createFeedback.Title,
                 Content = createFeedback.Content,

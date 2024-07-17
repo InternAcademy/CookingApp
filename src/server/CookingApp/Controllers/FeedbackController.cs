@@ -4,17 +4,14 @@
     using CookingApp.Services.Feedback;
     using CookingApp.ViewModels.Api;
     using CookingApp.ViewModels.Feedback;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     [ApiController]
-    //[Authorize(Roles = "Admin")]
     [Route("feedback")]
     public class FeedbackController(IFeedbackService feedbackService) : ControllerBase
     {
-        //[Authorize(Roles = "Admin, User")]
         [HttpPost("create")]
-        public async Task<IActionResult> CreateFeedback([FromForm] CreateFeedback createFeedback)
+        public async Task<IActionResult> CreateFeedback([FromBody] CreateFeedback createFeedback)
         {
             Feedback createdFeedback
                 = await feedbackService.CreateFeedbackAsync(createFeedback);
@@ -25,7 +22,7 @@
                 Data = createdFeedback
             };
         }
-        [HttpGet("get-by-id")]
+        [HttpGet("get-by-id/{id}")]
         public async Task<IActionResult> GetById([FromHeader] string id)
         {
             var feedBack
@@ -49,7 +46,7 @@
                 Data = feedBacks
             };
         }
-        [HttpGet("get-all-by-user-id")]
+        [HttpGet("get-all-by-user-id/{userId}")]
         public async Task<IActionResult> GetAllByUserId([FromHeader] string userId)
         {            
             var feedBacks
