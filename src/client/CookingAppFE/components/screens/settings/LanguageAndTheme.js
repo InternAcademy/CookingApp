@@ -19,17 +19,31 @@ const LanguageAndTheme = () => {
     await AsyncStorage.setItem("theme", storedTheme === "dark" ? "light" : "dark");
   };
 
-  const handleLanguageChange = async language => {
-    setTargetLanguage(language);
-    await saveLanguagePreference(language);
-    Alert.alert("Language Changed", `Selected language: ${language}`);
+  const handleLanguageChange = async () => {
+    let newLanguage;
+    switch (targetLanguage) {
+      case "English":
+        newLanguage = "Spanish";
+        break;
+      case "Spanish":
+        newLanguage = "French";
+        break;
+      case "French":
+        newLanguage = "English";
+        break;
+      default:
+        newLanguage = "English";
+    }
+    setTargetLanguage(newLanguage);
+    await saveLanguagePreference(newLanguage);
+    Alert.alert("Language Changed", `Selected language: ${newLanguage}`);
   };
 
   return (
     <View style={tw`flex-1 ${isDarkTheme ? "bg-[#202020]" : "bg-white"} p-6`}>
       <View style={tw`mb-6`}>
         <View style={tw`mb-4 `}>
-          <TouchableOpacity onPress={() => handleLanguageChange(targetLanguage === "English" ? "Spanish" : "English")} style={tw`border rounded-full p-4 ${isDarkTheme ? "bg-[#303030] border-gray-300" : "bg-white border-gray-600"}`}>
+          <TouchableOpacity onPress={handleLanguageChange} style={tw`border rounded-full p-4 ${isDarkTheme ? "bg-[#303030] border-gray-300" : "bg-white border-gray-600"}`}>
             <Text style={tw`${isDarkTheme ? "text-white bg-[#303030]" : "text-black bg-white"} text-base`}>{`Language: ${targetLanguage}`}</Text>
           </TouchableOpacity>
         </View>

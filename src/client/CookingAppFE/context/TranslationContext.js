@@ -6,39 +6,30 @@ export const TranslationContext = createContext();
 
 export const TranslationProvider = ({ children }) => {
   const [translatedText, setTranslatedText] = useState("");
-  const [targetLanguage, setTargetLanguage] = useState("es");
+  const [targetLanguage, setTargetLanguage] = useState("English");
   const [translatedTexts, setTranslatedTexts] = useState({});
 
-  const translateText = async text => {
+  const translateText = async (text, language) => {
     const apiKey = "AIzaSyB3Ho3fTJCD-sFGL_-VZbghaxmTMDcI1Ro";
     const url = `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`;
 
     try {
       const response = await axios.post(url, {
         q: text,
-        target: targetLanguage
+        target: language === "English" ? "en" : language === "Spanish" ? "es" : "fr"
       });
-      setTranslatedText(response.data.data.translations[0].translatedText);
+      return response.data.data.translations[0].translatedText;
     } catch (error) {
       console.error(error);
+      return text; // Return original text if translation fails
     }
   };
 
   const translateStaticTexts = async (texts, language) => {
-    const apiKey = "AIzaSyB3Ho3fTJCD-sFGL_-VZbghaxmTMDcI1Ro";
     const translations = {};
 
     for (const text of texts) {
-      const url = `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`;
-      try {
-        const response = await axios.post(url, {
-          q: text,
-          target: language === "Spanish" ? "es" : "en"
-        });
-        translations[text] = response.data.data.translations[0].translatedText;
-      } catch (error) {
-        console.error(error);
-      }
+      translations[text] = await translateText(text, language);
     }
 
     setTranslatedTexts(translations);
@@ -68,5 +59,18 @@ export const TranslationProvider = ({ children }) => {
     loadLanguagePreference();
   }, []);
 
-  return <TranslationContext.Provider value={{ translateText, translatedText, targetLanguage, setTargetLanguage, translateStaticTexts, translatedTexts }}>{children}</TranslationContext.Provider>;
+  return (
+    <TranslationContext.Provider
+      value={{
+        translateText,
+        translatedText,
+        targetLanguage,
+        setTargetLanguage,
+        translateStaticTexts,
+        translatedTexts,
+        saveLanguagePreference
+      }}>
+      {children}
+    </TranslationContext.Provider>
+  );
 };
