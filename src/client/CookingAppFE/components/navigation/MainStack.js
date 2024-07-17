@@ -1,6 +1,5 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { NavigationContainer } from "@react-navigation/native";
 import LandingPage from "../screens/main/LandingPage";
 import Home from "../../components/bot/Home";
 import UserMenu from "../screens/main/UserMenu";
@@ -35,106 +34,55 @@ const linking = {
       RulesAndPolicies: "rules-and-policies",
       CameraScreen: "camera-screen",
       ImageScreen: "image-screen",
-      RecipesDetails: "recipes-details",
-    },
-  },
+      RecipesDetails: "recipes-details"
+    }
+  }
 };
 
 const MainStack = () => {
-  const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
+  const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
   const screenStyle = {
     headerStyle: {
-      backgroundColor: isDarkTheme ? "rgb(32, 32, 32)" : "white",
+      backgroundColor: isDarkTheme ? "rgb(32, 32, 32)" : "white"
     },
-    headerTintColor: isDarkTheme ? "white" : "rgb(32, 32, 32)",
+    headerTintColor: isDarkTheme ? "white" : "rgb(32, 32, 32)"
   };
   return (
-    <NavigationContainer linking={linking}>
-      <Stack.Navigator
-        detachInactiveScreens={true}
-        initialRouteName={"landing"}
-        screenOptions={{
-          headerStyle: {},
+    <Stack.Navigator
+      detachInactiveScreens={true}
+      initialRouteName={"LandingPage"}
+      screenOptions={{
+        headerStyle: {}
+      }}>
+      <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+      <Stack.Screen name="LandingPage" component={LandingPage} options={{ headerShown: false }} />
+      <Stack.Screen name="UserMenu" component={UserMenu} options={{ headerTitle: "User Menu", ...screenStyle }} />
+      <Stack.Screen name="About" component={About} options={{ ...screenStyle }} />
+      <Stack.Screen name="Contact" component={Contact} options={{ ...screenStyle }} />
+      <Stack.Screen
+        name="ArchivedRecipes"
+        component={ArchivedRecipes}
+        options={{
+          headerTitle: "Archived Recipes",
+          ...screenStyle
         }}
-      >
-        <Stack.Screen
-          name="Home"
-          component={Home}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="LandingPage"
-          component={LandingPage}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="UserMenu"
-          component={UserMenu}
-          options={{ headerTitle: "User Menu", ...screenStyle }}
-        />
-        <Stack.Screen
-          name="About"
-          component={About}
-          options={{ ...screenStyle }}
-        />
-        <Stack.Screen
-          name="Contact"
-          component={Contact}
-          options={{ ...screenStyle }}
-        />
-        <Stack.Screen
-          name="ArchivedRecipes"
-          component={ArchivedRecipes}
-          options={{
-            headerTitle: "Archived Recipes",
-            ...screenStyle,
-          }}
-        />
-        <Stack.Screen
-          name="Recipes"
-          component={Recipes}
-          options={{ headerTitle: "Recipes", ...screenStyle }}
-        />
-        <Stack.Screen
-          name="FoodPreferences"
-          component={FoodPreferences}
-          options={{
-            headerTitle: "Food Preferences",
-            ...screenStyle,
-          }}
-        />
-        <Stack.Screen
-          name="LanguageAndTheme"
-          component={LanguageAndTheme}
-          options={{ headerTitle: "Language And Theme", ...screenStyle }}
-        />
-        <Stack.Screen
-          name="RulesAndPolicies"
-          component={RulesAndPolicies}
-          options={{ headerTitle: "Rules And Policies", ...screenStyle }}
-        />
-        <Stack.Screen
-          name="Subscription"
-          component={Subscription}
-          options={{ headerTitle: "Subscriptios", ...screenStyle }}
-        />
-        <Stack.Screen
-          name="CameraScreen"
-          component={CameraScreen}
-          options={{ ...screenStyle }}
-        />
-        <Stack.Screen
-          name="ImageScreen"
-          component={ImageScreen}
-          options={{ ...screenStyle }}
-        />
-        <Stack.Screen
-          name="RecipesDetails"
-          component={RecipesDetails}
-          options={{ ...screenStyle }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+      />
+      <Stack.Screen name="Recipes" component={Recipes} options={{ headerTitle: "Recipes", ...screenStyle }} />
+      <Stack.Screen
+        name="FoodPreferences"
+        component={FoodPreferences}
+        options={{
+          headerTitle: "Food Preferences",
+          ...screenStyle
+        }}
+      />
+      <Stack.Screen name="LanguageAndTheme" component={LanguageAndTheme} options={{ headerTitle: "Language And Theme", ...screenStyle }} />
+      <Stack.Screen name="RulesAndPolicies" component={RulesAndPolicies} options={{ headerTitle: "Rules And Policies", ...screenStyle }} />
+      <Stack.Screen name="Subscription" component={Subscription} options={{ headerTitle: "Subscription", ...screenStyle }} />
+      <Stack.Screen name="CameraScreen" component={CameraScreen} options={{ ...screenStyle }} />
+      <Stack.Screen name="ImageScreen" component={ImageScreen} options={{ ...screenStyle }} />
+      <Stack.Screen name="RecipesDetails" component={RecipesDetails} options={{ ...screenStyle }} />
+    </Stack.Navigator>
   );
 };
 

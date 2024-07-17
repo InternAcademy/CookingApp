@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { View, Text, Image, FlatList, SafeAreaView, ScrollView, TouchableOpacity, ActivityIndicator } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import tw from "twrnc";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 
 import NavBar from "../navigation/NavBar";
 import ChatError from "./ChatError";
@@ -12,6 +13,7 @@ import ChatInput from "./ChatInput";
 import Thinking from "../bot/Thinking";
 import { uiActions } from "../../redux/uiSlice";
 import useSaveRecipe from "../../hooks/useSaveRecipe";
+import { TranslationContext } from "../../context/TranslationContext";
 
 const Home = () => {
   const navigation = useNavigation();
@@ -22,9 +24,10 @@ const Home = () => {
   const chat = useSelector(state => state.user.selectedChat);
   const profileImage = useSelector(state => state.ui.photoUri);
   const dispatch = useDispatch();
+  const { targetLanguage, translateStaticTexts, translatedTexts } = useContext(TranslationContext);
 
   useEffect(() => {
-    const checkTokeAndTheme = async () => {
+    const checkTokenAndTheme = async () => {
       const token = await AsyncStorage.getItem("token");
       //clear Token on mobile
       // await AsyncStorage.clear();
@@ -34,12 +37,15 @@ const Home = () => {
         navigation.navigate("LandingPage");
       }
       if (theme) {
-        console.log(theme);
         dispatch(uiActions.setTheme(theme === "dark" ? "dark" : null));
       }
     };
-    checkTokeAndTheme();
+    checkTokenAndTheme();
   }, []);
+
+  useEffect(() => {
+    translateStaticTexts(["Let's figure out a recipe", "Begin by typing a message"], targetLanguage);
+  }, [targetLanguage]);
 
   useEffect(() => {
     console.log(isDarkTheme);
@@ -52,9 +58,6 @@ const Home = () => {
 
   const renderPost = () => {
     if (chat) {
-      {
-        console.log(chat);
-      }
       return (
         <SafeAreaView style={tw`flex-1 ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}>
           <ScrollView contentContainerStyle={tw`p-6 mt-10`}>
@@ -89,8 +92,8 @@ const Home = () => {
     return (
       <View style={tw`flex w-full h-full justify-center items-center`}>
         <Image source={require("../../assets/Main/icon2.png")} style={tw`w-26 h-26 mb-2`} />
-        <Text style={tw`text-lg font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>Let's figure out a recipe</Text>
-        <Text style={tw`text-base ${isDarkTheme ? "text-gray-400" : "text-black"}`}>Begin by typing a message</Text>
+        <Text style={tw`text-lg font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>{translatedTexts["Let's figure out a recipe"] || "Let's figure out a recipe"}</Text>
+        <Text style={tw`text-base ${isDarkTheme ? "text-gray-400" : "text-black"}`}>{translatedTexts["Begin by typing a message"] || "Begin by typing a message"}</Text>
       </View>
     );
   };
