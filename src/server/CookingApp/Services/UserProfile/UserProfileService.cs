@@ -1,5 +1,6 @@
 ﻿using CookingApp.Infrastructure.Exceptions;
 using CookingApp.Infrastructure.Interfaces;
+using CookingApp.Models.ValueObjects;
 using CookingApp.ViewModels.Profile;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,6 +36,25 @@ namespace CookingApp.Services.UserProfile
             profile.Allergies = configureProfileRequest.Allergies;
             profile.AvoidedFoods = configureProfileRequest.AvoidedFoods;
             profile.DietaryPreference = configureProfileRequest.DietaryPreference;
+
+            await profileRepo.UpdateAsync(profile);
+        }
+
+        public async Task SaveInterfacePreferences(PreferencesRequest preferencesRequest)
+        {
+           var profile = await profileRepo
+                .GetFirstOrDefaultAsync(a => a.UserId == preferencesRequest.UserId);
+
+            if (profile is null)
+            {
+                throw new NotFoundException();
+            }
+
+            profile.InterfacePreference = new InterfacePreference()
+            {
+                Theme = preferencesRequest.Theme,
+                Language = preferencesRequest.Language
+            };
 
             await profileRepo.UpdateAsync(profile);
         }
