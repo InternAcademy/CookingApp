@@ -20,7 +20,7 @@ const LanguageAndTheme = () => {
   };
 
   const handleLanguageChange = async () => {
-    const languages = ["English", "Spanish", "French", "Russian"];
+    const languages = ["English", "Spanish", "French", "Russian", "Chinese (Simplified)", "Portuguese", "Japanese", "German", "Italian", "Arabic", "Hindi"];
     const currentIndex = languages.indexOf(targetLanguage);
     const newLanguage = languages[(currentIndex + 1) % languages.length];
 

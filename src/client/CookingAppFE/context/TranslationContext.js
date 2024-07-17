@@ -19,6 +19,20 @@ export const TranslationProvider = ({ children }) => {
         return "fr";
       case "Russian":
         return "ru";
+      case "Chinese (Simplified)":
+        return "zh-CN";
+      case "Portuguese":
+        return "pt";
+      case "Japanese":
+        return "ja";
+      case "German":
+        return "de";
+      case "Italian":
+        return "it";
+      case "Arabic":
+        return "ar";
+      case "Hindi":
+        return "hi";
       default:
         return "en";
     }
