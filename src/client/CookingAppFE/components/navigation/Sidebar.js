@@ -1,5 +1,4 @@
-// Sidebar.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { View, Text, Pressable, StyleSheet, ScrollView, Modal, Animated } from "react-native";
 import tw from "twrnc";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,6 +7,7 @@ import { ChatBubbleBottomCenterTextIcon } from "react-native-heroicons/solid";
 import useSelectChat from "../../hooks/useSelectChat";
 import { userActions } from "../../redux/userSlice";
 import useChatHistory from "../../hooks/useChatHistory";
+import { TranslationContext } from "../../context/TranslationContext";
 
 const Sidebar = ({ open, setOpen }) => {
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
@@ -17,6 +17,7 @@ const Sidebar = ({ open, setOpen }) => {
   const { refetchChatHistory } = useChatHistory();
   const dispatch = useDispatch();
   const [animation] = useState(new Animated.Value(-300));
+  const { targetLanguage, translateStaticTexts, translatedTexts } = useContext(TranslationContext);
 
   useEffect(() => {
     refetchChatHistory();
@@ -38,6 +39,10 @@ const Sidebar = ({ open, setOpen }) => {
     }
   }, [open, animation]);
 
+  useEffect(() => {
+    translateStaticTexts(["Today", "Yesterday", "Previous 7 days", "Previous 30 days", "Older than 30 days", "We need your permission to show the camera", "grant permission", "Retry", "OK", "Flip Camera", "Take Picture"], targetLanguage);
+  }, [targetLanguage]);
+
   const handleChatPress = async chat => {
     selectChat(chat);
     setOpen(false);
@@ -58,11 +63,11 @@ const Sidebar = ({ open, setOpen }) => {
     const diffTime = today - chatDate;
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-    if (diffDays === 0) return "Today";
-    if (diffDays === 1) return "Yesterday";
-    if (diffDays <= 7) return "Previous 7 days";
-    if (diffDays <= 30) return "Previous 30 days";
-    return "Older than 30 days";
+    if (diffDays === 0) return translatedTexts["Today"] || "Today";
+    if (diffDays === 1) return translatedTexts["Yesterday"] || "Yesterday";
+    if (diffDays <= 7) return translatedTexts["Previous 7 days"] || "Previous 7 days";
+    if (diffDays <= 30) return translatedTexts["Previous 30 days"] || "Previous 30 days";
+    return translatedTexts["Older than 30 days"] || "Older than 30 days";
   };
 
   const sortedChatHistory =
@@ -76,7 +81,7 @@ const Sidebar = ({ open, setOpen }) => {
       return acc;
     }, {});
 
-  const orderedSections = ["Today", "Yesterday", "Previous 7 days", "Previous 30 days", "Older than 30 days"];
+  const orderedSections = [translatedTexts["Today"] || "Today", translatedTexts["Yesterday"] || "Yesterday", translatedTexts["Previous 7 days"] || "Previous 7 days", translatedTexts["Previous 30 days"] || "Previous 30 days", translatedTexts["Older than 30 days"] || "Older than 30 days"];
 
   return (
     <Modal transparent visible={open}>
