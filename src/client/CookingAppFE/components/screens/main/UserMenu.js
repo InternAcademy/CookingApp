@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
 import { View, Text, TouchableOpacity, Image, Alert } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import tw from "twrnc";
@@ -6,12 +6,18 @@ import { useNavigation } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
 import * as ImagePicker from "expo-image-picker";
 import { uiActions } from "../../../redux/uiSlice"; // Заменете с реалния път до uiSlice
+import { TranslationContext } from "../../../context/TranslationContext";
 
 const UserMenu = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
   const profileImage = useSelector(state => state.ui.photoUri);
+  const { targetLanguage, translateStaticTexts, translatedTexts } = useContext(TranslationContext);
+
+  useEffect(() => {
+    translateStaticTexts(["Recipes", "Subscription", "Food Preferences", "Archived Recipes", "Language & Theme", "Rules And Policies", "About", "Contacts", "Sign Out"], targetLanguage);
+  }, [targetLanguage]);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -39,47 +45,47 @@ const UserMenu = () => {
 
       <TouchableOpacity style={tw`flex-row items-center mb-4`} onPress={() => navigation.navigate("Recipes")}>
         <Ionicons name="restaurant" size={24} color={isDarkTheme ? "white" : "black"} style={tw`mr-2`} />
-        <Text style={tw`text-lg font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>Recipes</Text>
+        <Text style={tw`text-lg font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>{translatedTexts["Recipes"] || "Recipes"}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={tw`flex-row items-center mb-4`} onPress={() => navigation.navigate("Subscription")}>
         <Ionicons name="card" size={24} color={isDarkTheme ? "white" : "black"} style={tw`mr-2`} />
-        <Text style={tw`text-lg font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>Subscription</Text>
+        <Text style={tw`text-lg font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>{translatedTexts["Subscription"] || "Subscription"}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={tw`flex-row items-center mb-4`} onPress={() => navigation.navigate("FoodPreferences")}>
         <Ionicons name="nutrition" size={24} color={isDarkTheme ? "white" : "black"} style={tw`mr-2`} />
-        <Text style={tw`text-lg font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>Food Preferences</Text>
+        <Text style={tw`text-lg font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>{translatedTexts["Food Preferences"] || "Food Preferences"}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={tw`flex-row items-center mb-4`} onPress={() => navigation.navigate("ArchivedRecipes")}>
         <Ionicons name="archive" size={24} color={isDarkTheme ? "white" : "black"} style={tw`mr-2`} />
-        <Text style={tw`text-lg font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>Archived Recipes</Text>
+        <Text style={tw`text-lg font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>{translatedTexts["Archived Recipes"] || "Archived Recipes"}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={tw`flex-row items-center mb-4`} onPress={() => navigation.navigate("LanguageAndTheme")}>
         <Ionicons name="language" size={24} color={isDarkTheme ? "white" : "black"} style={tw`mr-2`} />
-        <Text style={tw`text-lg font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>Language & Theme</Text>
+        <Text style={tw`text-lg font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>{translatedTexts["Language & Theme"] || "Language & Theme"}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={tw`flex-row items-center mb-4`} onPress={() => navigation.navigate("RulesAndPolicies")}>
         <Ionicons name="document-text" size={24} color={isDarkTheme ? "white" : "black"} style={tw`mr-2`} />
-        <Text style={tw`text-lg font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>Rules And Policies</Text>
+        <Text style={tw`text-lg font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>{translatedTexts["Rules And Policies"] || "Rules And Policies"}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={tw`flex-row items-center mb-4`} onPress={() => navigation.navigate("About")}>
         <Ionicons name="information-circle" size={24} color={isDarkTheme ? "white" : "black"} style={tw`mr-2`} />
-        <Text style={tw`text-lg font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>About</Text>
+        <Text style={tw`text-lg font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>{translatedTexts["About"] || "About"}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={tw`flex-row items-center mb-4`} onPress={() => navigation.navigate("Contact")}>
         <Ionicons name="mail" size={24} color={isDarkTheme ? "white" : "black"} style={tw`mr-2`} />
-        <Text style={tw`text-lg font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>Contacts</Text>
+        <Text style={tw`text-lg font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>{translatedTexts["Contacts"] || "Contacts"}</Text>
       </TouchableOpacity>
 
       <View style={tw`mx-12 mt-auto items-center py-2`}>
         <TouchableOpacity onPress={() => console.log("Sign Out")} style={tw`flex-row justify-center items-center`}>
-          <Text style={tw`text-lg font-bold ${isDarkTheme ? "text-gray-100" : "text-black"}`}>Sign Out</Text>
+          <Text style={tw`text-lg font-bold ${isDarkTheme ? "text-gray-100" : "text-black"}`}>{translatedTexts["Sign Out"] || "Sign Out"}</Text>
           <Ionicons name="log-out" size={24} color={isDarkTheme ? "white" : "black"} style={tw`ml-2`} />
         </TouchableOpacity>
       </View>
