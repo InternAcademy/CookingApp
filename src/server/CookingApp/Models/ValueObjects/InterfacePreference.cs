@@ -16,7 +16,7 @@
         {
             return new InterfacePreference()
             {
-                Language = "en",
+                Language = "English",
                 Theme = Theme.Light
             };
         }

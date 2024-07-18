@@ -14,7 +14,9 @@ async function getTokenAndUserId() {
 }
 const LanguageAndTheme = () => {
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
-  const [selectedLanguage, setSelectedLanguage] = React.useState("English");
+  const language = useSelector((state) => state.ui.lang);
+
+  const [selectedLanguage, setSelectedLanguage] = React.useState(language);
   const [selectedTheme, setSelectedTheme] = React.useState(
     isDarkTheme ? "Dark" : "Light"
   );
