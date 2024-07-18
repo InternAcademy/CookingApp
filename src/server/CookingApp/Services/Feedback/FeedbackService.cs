@@ -1,12 +1,9 @@
 ﻿namespace CookingApp.Services.Feedback
 {
-    using CookingApp.Common.Helpers.Profiles;
-    using CookingApp.Infrastructure.Exceptions;
     using CookingApp.Infrastructure.Interfaces;
-    using CookingApp.Models.Entities;
+    using CookingApp.Common.Helpers.Profiles;
     using CookingApp.ViewModels.Feedback;
-    using Microsoft.AspNetCore.Http;
-
+    using CookingApp.Models.Entities;
 
     public class FeedbackService(
         IRepository<Feedback> feedbackRepo,

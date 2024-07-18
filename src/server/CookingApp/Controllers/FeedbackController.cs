@@ -23,7 +23,7 @@
             };
         }
         [HttpGet("get-by-id/{id}")]
-        public async Task<IActionResult> GetById([FromHeader] string id)
+        public async Task<IActionResult> GetById(string id)
         {
             var feedBack
                 = await feedbackService.GetFeedbackByIdAsync(id);
@@ -47,7 +47,7 @@
             };
         }
         [HttpGet("get-all-by-user-id/{userId}")]
-        public async Task<IActionResult> GetAllByUserId([FromHeader] string userId)
+        public async Task<IActionResult> GetAllByUserId(string userId)
         {            
             var feedBacks
                 = await feedbackService.GetAllFeedbacksByUserIdAsync(userId);
