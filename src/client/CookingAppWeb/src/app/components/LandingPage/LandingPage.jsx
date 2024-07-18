@@ -1,14 +1,33 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const LandingPage = () => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
 
-  const login = () => {
-    // Вашата логин логика тук
+  const login = async () => {
+    // Your login logic here
     console.log("Login button pressed");
+    // Example login logic
+    const token = localStorage.getItem("token");
+    if (!token) {
+      router.push("/landingpage");
+    } else {
+      router.push("/home");
+    }
   };
+
+  useEffect(() => {
+    const checkToken = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        router.push("/landingpage");
+      } else {
+        router.push("/home");
+      }
+    };
+    checkToken();
+  }, []);
 
   return (
     <div className={`flex flex-col justify-center items-center bg-customOrange w-full h-full`}>
