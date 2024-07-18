@@ -24,6 +24,7 @@ using System.Diagnostics.CodeAnalysis;
 using CookingApp.Services.Recipe;
 using CookingApp.Services.Image;
 using OpenAI.Images;
+using CookingApp.Services.Feedback;
 
 namespace CookingApp.Infrastructure.Extensions
 {
@@ -159,7 +160,8 @@ namespace CookingApp.Infrastructure.Extensions
             builder.Services.AddScoped<PriceService>();
             builder.Services.AddScoped<ProductService>();
             builder.Services.AddScoped<SubscriptionService>();
-            builder.Services.AddScoped<BalanceTransactionService>();
+            builder.Services.AddScoped<BalanceTransactionService>();            
+
             string apiKey = builder.Configuration.GetValue<string>("StripeOptions:SecretKey") ?? string.Empty;
             string webhookSecret = builder.Configuration.GetValue<string>("StripeOptions:WebhookSecret") ?? string.Empty;
 
@@ -191,6 +193,7 @@ namespace CookingApp.Infrastructure.Extensions
             builder.Services.AddScoped<IStripeService, StripeService>();
             builder.Services.AddScoped<IUserProfileService, UserProfileService>();
             builder.Services.AddScoped<IRecipeService, RecipeService>();
+            builder.Services.AddScoped<IFeedbackService, FeedbackService>();
 
             return builder;
         }

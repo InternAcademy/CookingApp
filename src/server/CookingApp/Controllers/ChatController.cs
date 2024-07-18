@@ -1,7 +1,4 @@
-﻿using CookingApp.Models.Entities;
-using CookingApp.Services.Recipe;
-
-namespace CookingApp.Controllers
+﻿namespace CookingApp.Controllers
 {
     using CookingApp.Common.Helpers.Profiles;
     using CookingApp.Models;
