@@ -9,20 +9,28 @@ namespace CookingApp.Services.UserProfile
 {
     public class UserProfileService(IRepository<Models.UserProfile> profileRepo) : IUserProfileService
     {
-        public async Task CreateProfile(string userId)
+        public async Task<ProfileFetchResult> FetchProfile(string userId)
         {
-            var profileExists = await profileRepo.GetFirstOrDefaultAsync(a => a.UserId == userId);
+            var profile = await profileRepo.GetFirstOrDefaultAsync(a => a.UserId == userId);
 
-            if (profileExists is null)
+            if (profile is null)
             {
-                var profile = new Models.UserProfile
+                profile = new Models.UserProfile
                 {
                     Role = CreateRole.Free(),
+                    InterfacePreference = new InterfacePreference().CreateInterface(),
                     UserId = userId,
                 };
 
                 await profileRepo.InsertAsync(profile);
             }
+
+            return new ProfileFetchResult
+            {
+                InterfacePreference = profile.InterfacePreference,
+                Name = profile.Name,
+                Role = profile.Role
+            };
         }
         
         public async Task ConfigureProfile(ConfigureProfileRequest configureProfileRequest)

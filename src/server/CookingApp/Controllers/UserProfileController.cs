@@ -8,22 +8,26 @@ using Microsoft.AspNetCore.Mvc;
 namespace CookingApp.Controllers
 {
     [ApiController]
-    public class UserProfileController(IHttpContextAccessor httpContextAccessor, 
+    public class UserProfileController(IHttpContextAccessor httpContextAccessor,
         IUserProfileService userProfileService) : ControllerBase
     {
 
-        [HttpGet("create-profile")]
-        public async Task<IActionResult> CreateProfile()
+        [HttpGet("fetch-profile")]
+        public async Task<IActionResult> FetchProfile()
         {
             var userId = GetUser.ProfileId(httpContextAccessor);
 
-            await userProfileService.CreateProfile(userId);
+            await userProfileService.FetchProfile(userId);
 
-            return Ok(userId);
+            return new ApiResponse<ProfileFetchResult>()
+            {
+                Status = 200,
+                Data = await userProfileService.FetchProfile(userId)
+            };
         }
 
         [HttpGet("configure-profile")]
-        public async Task<ApiResponse<bool>> ConfigureProfile([FromBody] ConfigureProfileRequest request)
+        public async Task<IActionResult> ConfigureProfile([FromBody] ConfigureProfileRequest request)
         {
             await userProfileService.ConfigureProfile(request);
 
@@ -34,7 +38,7 @@ namespace CookingApp.Controllers
         }
 
         [HttpPost("save-preferences")]
-        public async Task<ApiResponse<bool>> SavePreferences([FromBody] PreferencesRequest request)
+        public async Task<IActionResult> SavePreferences([FromBody] PreferencesRequest request)
         {
             await userProfileService.SaveInterfacePreferences(request);
 
