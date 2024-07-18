@@ -8,8 +8,17 @@
     {
         [BsonElement("theme")]
         public Theme Theme { get; set; }
-       
+
         [BsonElement("language")]
-        public Language Language { get; set; }
+        public string Language { get; set; } = default!;
+
+        public InterfacePreference CreateInterface()
+        {
+            return new InterfacePreference()
+            {
+                Language = "en",
+                Theme = Theme.Light
+            };
+        }
     }
 }
