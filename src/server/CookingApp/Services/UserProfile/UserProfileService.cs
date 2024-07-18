@@ -1,4 +1,5 @@
-﻿using CookingApp.Infrastructure.Exceptions;
+﻿using CookingApp.Common.Helpers.Profiles;
+using CookingApp.Infrastructure.Exceptions;
 using CookingApp.Infrastructure.Interfaces;
 using CookingApp.Models.ValueObjects;
 using CookingApp.ViewModels.Profile;
@@ -16,13 +17,14 @@ namespace CookingApp.Services.UserProfile
             {
                 var profile = new Models.UserProfile
                 {
+                    Role = CreateRole.Free(),
                     UserId = userId,
                 };
 
                 await profileRepo.InsertAsync(profile);
             }
         }
-
+        
         public async Task ConfigureProfile(ConfigureProfileRequest configureProfileRequest)
         {
             var profile = await profileRepo
@@ -40,7 +42,7 @@ namespace CookingApp.Services.UserProfile
             await profileRepo.UpdateAsync(profile);
         }
 
-        public async Task SaveInterfacePreferences(PreferencesRequest preferencesRequest)
+        public async Task SaveInterfacePreferences(PreferencesRequest preferencesRequest)     
         {
            var profile = await profileRepo
                 .GetFirstOrDefaultAsync(a => a.UserId == preferencesRequest.UserId);
@@ -58,5 +60,6 @@ namespace CookingApp.Services.UserProfile
 
             await profileRepo.UpdateAsync(profile);
         }
+
     }
 }
