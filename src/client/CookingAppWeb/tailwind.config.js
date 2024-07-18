@@ -8,19 +8,21 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        customWhite: "#FFFFFF", // light theme - Basic white
-        customGray: "#202020", // dark theme - Dark gray background
-        darkGray: "#303030", // Dark gray color for background and dividers in dark theme
-        lightGray: "#F3F3F3", // Light gray color for background and dividers in light theme - Light gray
+        customOrange: "#EAB308", //the customOrange that was used in: native landing page
 
-        customYellow: "#FFEB3B", // for highlights and buttons - Basic yellow
-        customBlack: "#000000", // text and icons - Basic black
-        customOrange: "#FFA500", // Basic orange color for highlights and warnings
-        darkOrange: "#FF8C00", // Dark orange color for highlights and critical warnings
-        darkYellow: "#FFD700", // Dark yellow color for accents and secondary buttons
+        //dark and light theme
+        customGray: "#202020", // dark theme background
+        customWhite: "#FFFFFF", // light theme background & Basic white
+        customGray400: "#A3A3A3", // text-gray-400 - dark theme
+        customGray600: "#525252", // text-gray-600 - light theme
+
+        //basic colors
+        basicBlack: "#000000", // text and icons - Basic black
+        basicWhite: "#FFFFFF", // light theme background & Basic white
       },
     },
     screens: {
+      xs: "320px",
       sm: "429px",
       md: "769px",
       lg: "1280px",
