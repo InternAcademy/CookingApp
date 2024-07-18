@@ -17,8 +17,6 @@ namespace CookingApp.Controllers
         {
             var userId = GetUser.ProfileId(httpContextAccessor);
 
-            await userProfileService.FetchProfile(userId);
-
             return new ApiResponse<ProfileFetchResult>()
             {
                 Status = 200,

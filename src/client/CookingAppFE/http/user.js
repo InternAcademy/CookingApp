@@ -20,3 +20,13 @@ export async function setUi({ token, userId, language, theme }) {
 
   return responseBody.data;
 }
+export async function checkUserStatus({ token }) {
+  const response = await fetch(`${ip}/fetch-profile`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+  return response;
+}

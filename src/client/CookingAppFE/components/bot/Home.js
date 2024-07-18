@@ -14,45 +14,54 @@ import { useNavigation } from "@react-navigation/native";
 import tw from "twrnc";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch, useSelector } from "react-redux";
-
+import { checkUserStatus } from "../../http/user";
 import NavBar from "../navigation/NavBar";
 import ChatError from "./ChatError";
 import ChatInput from "./ChatInput";
 import Thinking from "../bot/Thinking";
 import { uiActions } from "../../redux/uiSlice";
 import useSaveRecipe from "../../hooks/useSaveRecipe";
-
+import { userActions } from "../../redux/userSlice";
 const Home = () => {
   const navigation = useNavigation();
   const { save, isPending } = useSaveRecipe();
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
+  const lang = useSelector((state) => state.ui.lang);
+
   const isThinking = useSelector((state) => state.ui.isThinking);
   const responseError = useSelector((state) => state.ui.responseError);
   const chat = useSelector((state) => state.user.selectedChat);
+  const userRole = useSelector((state) => state.user.role);
+  const isInitial = useSelector((state) => state.ui.isInitial);
   const profileImage = useSelector((state) => state.ui.photoUri);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const checkTokeAndTheme = async () => {
+    async function check() {
       const token = await AsyncStorage.getItem("token");
-      //clear Token on mobile
-      // await AsyncStorage.clear();
-      console.log(token);
-      const theme = await AsyncStorage.getItem("theme");
       if (!token) {
         navigation.navigate("LandingPage");
       }
-      if (theme) {
-        console.log(theme);
-        dispatch(uiActions.setTheme(theme === "dark" ? "dark" : null));
+      if (isInitial) {
+        const response = await checkUserStatus({ token });
+        if (response.status !== 401) {
+          const body = await response.json();
+          console.log(body);
+          dispatch(
+            uiActions.setTheme(
+              body.data.interfacePreference.theme === "Light" ? false : true
+            )
+          );
+          dispatch(
+            uiActions.setLanguage(body.data.interfacePreference.language)
+          );
+          dispatch(userActions.setRole(body.data.role));
+          dispatch(uiActions.setIsInitial(false));
+        }
       }
-    };
-    checkTokeAndTheme();
-  }, []);
-
-  useEffect(() => {
-    console.log(isDarkTheme);
-  }, [isDarkTheme]);
+    }
+    check();
+  }, [isInitial]);
 
   async function handleRecipeSave(request) {
     const token = await AsyncStorage.getItem("token");
