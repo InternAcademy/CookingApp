@@ -1,10 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
+  content: ["./src/pages/**/*.{js,ts,jsx,tsx,mdx}", "./src/components/**/*.{js,ts,jsx,tsx,mdx}", "./src/app/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
       colors: {
@@ -18,15 +14,15 @@ module.exports = {
 
         //basic colors
         basicBlack: "#000000", // text and icons - Basic black
-        basicWhite: "#FFFFFF", // light theme background & Basic white
-      },
+        basicWhite: "#FFFFFF" // light theme background & Basic white
+      }
     },
     screens: {
       phone: "393px",
       tablet: "768px",
       web: "1280px",
-      smallPhone: "320px",
-    },
+      smallPhone: "320px"
+    }
   },
-  plugins: [],
+  plugins: []
 };
