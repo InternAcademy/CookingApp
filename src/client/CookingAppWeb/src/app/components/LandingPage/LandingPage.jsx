@@ -2,26 +2,24 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import useAuth from "../../hooks/useAuth";
-import { useRouter } from "next/navigation"; // This is important for Next.js 13+
-
-// Уверете се, че използвате `next/navigation` вместо `next/router` за Next.js 13+
+import Cookies from "js-cookie";
 
 const LandingPage = () => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const [error, setError] = useState(null);
   const { login, token, logout } = useAuth();
-  const router = useRouter();
 
   useEffect(() => {
     const checkToken = async () => {
       const storedToken = Cookies.get("token");
       if (!storedToken) {
-        router.push("/landingpage");
+        console.log(storedToken);
       } else {
         router.push("/home");
       }
     };
     checkToken();
-  }, [router]);
+  }, []);
 
   return (
     <div className={`flex flex-col justify-center items-center bg-customOrange w-full h-full`}>
