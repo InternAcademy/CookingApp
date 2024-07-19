@@ -71,9 +71,10 @@
 
                 saveRequest.Content = request.Content;
             }
-
+            
             var response = await client.CompleteChatAsync(messages);
-            saveResponse.Content = MessageHelper.RemoveMarkdown(response.Value.Content[0].Text);
+            var textResponse = MessageHelper.RemoveMarkdown(response.Value.Content[0].Text);
+            saveResponse.Content = textResponse;
             saveResponse.Type = RecipeHelpers.IsRecipe(saveResponse.Content) ? MessageType.Recipe : MessageType.Text;
 
             await chatService.UpdateChat(chat.Id, saveRequest, saveResponse);
@@ -82,7 +83,7 @@
             return new MessageData
             {
                 ChatId = chat.Id,
-                Content = response.Value.Content[0].Text,
+                Content = textResponse,
                 Type = saveResponse.Type
             };
         }
