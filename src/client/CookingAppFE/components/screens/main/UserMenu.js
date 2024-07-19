@@ -3,6 +3,12 @@ import { View, Text, TouchableOpacity, Image, Alert } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import tw from "twrnc";
 import { useNavigation } from "@react-navigation/native";
+import useAuth from "../../hooks/useAuth";
+
+const clientId = process.env.EXPO_PUBLIC_CLIENT_ID;
+const instance = process.env.EXPO_PUBLIC_INSTANCE;
+const scopes = process.env.EXPO_PUBLIC_SCOPES.split(" ");
+
 import { useSelector, useDispatch } from "react-redux";
 import * as ImagePicker from "expo-image-picker";
 import { uiActions } from "../../../redux/uiSlice"; // Заменете с реалния път до uiSlice
@@ -12,6 +18,8 @@ const UserMenu = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
+  const auth = useAuth(clientId, instance, scopes);
+
   const profileImage = useSelector((state) => state.ui.photoUri);
 
   useEffect(() => {
@@ -201,7 +209,7 @@ const UserMenu = () => {
 
       <View style={tw`mx-12 mt-auto items-center py-2`}>
         <TouchableOpacity
-          onPress={() => console.log("Sign Out")}
+          onPress={() => auth.logout()}
           style={tw`flex-row justify-center items-center`}
         >
           <Text
