@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, Image, Alert } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import tw from "twrnc";
 import { useNavigation } from "@react-navigation/native";
-import useAuth from "../../hooks/useAuth";
+import useAuth from "../../../hooks/useAuth";
 
 const clientId = process.env.EXPO_PUBLIC_CLIENT_ID;
 const instance = process.env.EXPO_PUBLIC_INSTANCE;

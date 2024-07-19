@@ -10,8 +10,7 @@ import Subscription from "../../components/screens/settings/Subscription";
 import FoodPreferences from "../../components/screens/settings/FoodPreferences";
 import LanguageAndTheme from "../../components/screens/settings/LanguageAndTheme";
 import RulesAndPolicies from "../../components/screens/settings/RulesAndPolicies";
-import Logout from "../../components/screens/Logout.js"
-import { NavigationContainer } from "@react-navigation/native";
+import Logout from "../../components/screens/Logout.js";
 import CameraScreen from "../../components/bot/CameraScreen";
 import ImageScreen from "../../components/bot/ImageScreen";
 import { useSelector } from "react-redux";
