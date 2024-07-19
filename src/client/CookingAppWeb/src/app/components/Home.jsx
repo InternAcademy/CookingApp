@@ -13,7 +13,7 @@ import NavBar from "../components/NavBar";
 const Home = () => {
   //   const router = useRouter();
   //   const { save, isPending } = useSaveRecipe();
-  const isDarkTheme = false; //= useSelector(state => state.ui.isDarkTheme);
+  const isDarkTheme = false; // = useSelector(state => state.ui.isDarkTheme);
   //   const isThinking = useSelector(state => state.ui.isThinking);
   //   const responseError = useSelector(state => state.ui.responseError);
   //   const chat = useSelector(state => state.user.selectedChat);
@@ -30,7 +30,7 @@ const Home = () => {
       }
       if (theme) {
         console.log(theme);
-        dispatch(uiActions.setTheme(theme === "dark" ? "dark" : null));
+        // dispatch(uiActions.setTheme(theme === "dark" ? "dark" : null));
       }
     };
     checkTokenAndTheme();
@@ -42,18 +42,19 @@ const Home = () => {
 
   async function handleRecipeSave(request) {
     const token = localStorage.getItem("token");
-    save({ token, request });
+    // save({ token, request });
   }
 
   const renderPost = () => {
     if (
-        // chat
+      // chat
+      false // временно решение за да се подкара
     ) {
       console.log(chat);
       return (
         <div className={`flex-1 ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}>
           <div className="p-6 mt-10">
-            {chat.content.map((msg, index) => (
+            {/* {chat.content.map((msg, index) => (
               <div key={index} className="mb-2 flex flex-row justify-start wrap pt-1">
                 {msg.role === "user" ? profileImage ? <Image src={profileImage} alt="Profile" className="w-8 h-8 rounded-full mr-2 mb-7" /> : <div className={`mr-2 mb-7 items-start -mt-1 ${isDarkTheme ? "text-white" : "text-black"}`}>👤</div> : <Image src="/icon2.png" alt="Icon" className="w-8 h-8 rounded-full mr-2 mb-7 items-start -mt-1" />}
                 <div>
@@ -74,7 +75,7 @@ const Home = () => {
               </div>
             ))}
             {isThinking && !responseError && <Thinking />}
-            {responseError && <ChatError message={responseError} />}
+            {responseError && <ChatError message={responseError} />} */}
           </div>
         </div>
       );
@@ -82,7 +83,7 @@ const Home = () => {
 
     return (
       <div className="flex w-full h-full justify-center items-center">
-        <Image src="/icon2.png" alt="Icon" className="w-26 h-26 mb-2" />
+        <Image src="/Main/icon2.png" alt="Icon" width={104} height={104} className="w-26 h-26 mb-2" />
         <p className={`text-lg font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>Let's figure out a recipe</p>
         <p className={`text-base ${isDarkTheme ? "text-gray-400" : "text-black"}`}>Begin by typing a message</p>
       </div>
