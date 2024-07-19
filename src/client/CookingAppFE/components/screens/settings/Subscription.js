@@ -43,7 +43,6 @@ const Subscription = () => {
   });
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
   const role = useSelector((state) => state.user.role);
-
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
   useEffect(() => {
     async function checkToken() {

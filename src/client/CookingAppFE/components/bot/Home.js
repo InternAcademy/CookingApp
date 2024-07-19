@@ -57,6 +57,8 @@ const Home = () => {
           );
           dispatch(userActions.setRole(body.data.role));
           dispatch(uiActions.setIsInitial(false));
+        } else if (response.status === 401) {
+          navigation.navigate("LandingPage");
         }
       }
     }

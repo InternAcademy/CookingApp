@@ -11,7 +11,7 @@ namespace CookingApp.Common.CompletionConstants
             "\n\rYou need to take into account the user's dietary needs and their allergies so that you do not suggest a recipe that includes unhealthy or inappropriate contents.";
 
         public const string RecipeFormat =
-            "When generating a recipe, provide it in a consistent format following this structure: " +
+            "When generating a recipe, every recipe should start with this exact string -> b66315d3-507c. Provide the recipe content in a consistent format following this structure: " +
             "Title: (string), " +
             "Description: (string), " +
             "Ingredients: (Name (string), Quantity (string), Metric (string) - possible metrics: Grams, Kilograms, Milliliters, Liters, Teaspoons, Tablespoons, Cups, Pieces), " +
