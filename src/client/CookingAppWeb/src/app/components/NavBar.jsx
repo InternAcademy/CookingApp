@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { usePathname } from "next/navigation";
-import { FaCommentDots, FaBars } from "react-icons/fa"; // Импортиране на иконите от react-icons
+import { FaCommentDots, FaBars, FaUtensils, FaUser } from "react-icons/fa"; // Импортиране на иконите от react-icons
 // import Sidebar from "./Sidebar";
 
 const NavBar = () => {
@@ -30,14 +30,10 @@ const NavBar = () => {
         </div>
         <div className="flex items-center">
           <button onClick={() => router.push("/recipes")} className="mx-2">
-            <svg className="w-6 h-6" fill={isDarkTheme ? "white" : "black"}>
-              <use xlinkHref="#icon-restaurant"></use>
-            </svg>
+            <FaUtensils className="w-6 h-6" color={isDarkTheme ? "white" : "black"} />
           </button>
           <button onClick={() => router.push("/user-menu")} className="mx-2">
-            <svg className="w-6 h-6" fill={isDarkTheme ? "white" : "black"}>
-              <use xlinkHref="#icon-person"></use>
-            </svg>
+            <FaUser className="w-6 h-6" color={isDarkTheme ? "white" : "black"} />
           </button>
         </div>
       </div>
