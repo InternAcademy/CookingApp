@@ -1,18 +1,17 @@
-﻿using CookingApp.Common.Helpers.Recipes;
-
-namespace CookingApp.Services.Message
+﻿namespace CookingApp.Services.Message
 {
     using CookingApp.Common.CompletionConstants;
+    using CookingApp.Common.Helpers.Messages;
     using CookingApp.Infrastructure.Interfaces;
     using CookingApp.Models;
     using CookingApp.Models.Enums;
     using CookingApp.Services.ChatService;
     using CookingApp.Services.File;
     using CookingApp.Services.OpenAI;
+    using CookingApp.Common.Helpers.Recipes;
     using CookingApp.ViewModels.Message;
     using global::OpenAI.Chat;
     using System;
-    using System.Text.RegularExpressions;
 
     public partial class MessageService(ChatClient client,
         IChatService chatService,
@@ -74,7 +73,7 @@ namespace CookingApp.Services.Message
             }
 
             var response = await client.CompleteChatAsync(messages);
-            saveResponse.Content = response.Value.Content[0].Text;
+            saveResponse.Content = MessageHelper.RemoveMarkdown(response.Value.Content[0].Text);
             saveResponse.Type = RecipeHelpers.IsRecipe(saveResponse.Content) ? MessageType.Recipe : MessageType.Text;
 
             await chatService.UpdateChat(chat.Id, saveRequest, saveResponse);
