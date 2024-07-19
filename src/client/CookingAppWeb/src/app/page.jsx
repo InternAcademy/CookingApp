@@ -1,5 +1,5 @@
 // main.jsx
-import LandingPage from "./components/LandingPage/LandingPage";
+import LandingPage from "./components/LandingPage";
 
 export default function Main() {
   return (

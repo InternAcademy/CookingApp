@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import useAuth from "../../hooks/useAuth";
+import useAuth from "../hooks/useAuth";
 import Cookies from "js-cookie";
 
 const LandingPage = () => {
