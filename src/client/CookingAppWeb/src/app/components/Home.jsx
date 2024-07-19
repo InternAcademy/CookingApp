@@ -5,7 +5,7 @@ import React, { useEffect } from "react";
 import Image from "next/image";
 import NavBar from "../components/NavBar";
 // import ChatError from "../components/ChatError";
-// import ChatInput from "../components/ChatInput";
+import ChatInput from "../components/ChatInput";
 // import Thinking from "../components/Thinking";
 // import { uiActions } from "../../redux/uiSlice";
 // import useSaveRecipe from "../../hooks/useSaveRecipe";
@@ -94,7 +94,14 @@ const Home = () => {
     <div className={`flex pt-22 w-full h-full ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}>
       <NavBar />
       <div className="flex-grow">{renderPost()}</div>
-      <div className={`flex w-full flex-row justify-center mb-5 ${isDarkTheme ? "border-gray-700 bg-[#202020]" : "border-gray-300 bg-white"}`}>{/* <ChatInput isPending={isPending} /> */}</div>
+      <div className={`flex w-full flex-row justify-center mb-5 ${isDarkTheme ? "border-gray-700 bg-[#202020]" : "border-gray-300 bg-white"}`}>
+        {
+          <ChatInput
+
+          //   isPending={isPending}
+          />
+        }
+      </div>
     </div>
   );
 };
