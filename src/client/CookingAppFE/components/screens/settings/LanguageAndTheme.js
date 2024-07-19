@@ -1,73 +1,86 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
-import { Picker } from "@react-native-picker/picker";
+import { View, Text, TouchableOpacity, Alert } from "react-native";
 import tw from "twrnc";
 import { useSelector, useDispatch } from "react-redux";
 import { uiActions } from "../../../redux/uiSlice";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import useUiPreferences from "../../../hooks/useUiPreferences";
+import { jwtDecode } from "jwt-decode";
 
+async function getTokenAndUserId() {
+  const token = await AsyncStorage.getItem("token");
+  const cred = jwtDecode(token);
+  return { token: token, id: cred.sub };
+}
 const LanguageAndTheme = () => {
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
+  const language = useSelector((state) => state.ui.lang);
+
+  const [selectedLanguage, setSelectedLanguage] = React.useState(language);
   const [selectedTheme, setSelectedTheme] = React.useState(
     isDarkTheme ? "Dark" : "Light"
   );
-  const [selectedLanguage, setSelectedLanguage] = React.useState("English");
+  const { changeUi } = useUiPreferences();
   const dispatch = useDispatch();
-  function toggleTheme(value) {
-    // setSelectedTheme(value);
-    dispatch(uiActions.toggleTheme());
-  }
 
-  const handleLanguageChange = (itemValue) => {
-    setSelectedLanguage(itemValue);
+  const handleThemeChange = async (theme) => {
+    dispatch(uiActions.toggleTheme());
+    setSelectedTheme(theme);
+    const storedTheme = await AsyncStorage.getItem("theme");
+    await AsyncStorage.setItem(
+      "theme",
+      storedTheme === "dark" ? "light" : "dark"
+    );
+    const info = await getTokenAndUserId();
+    changeUi({
+      token: info.token,
+      userId: info.id,
+      theme: theme,
+      language: selectedLanguage,
+    });
+  };
+
+  const handleLanguageChange = async (language) => {
+    setSelectedLanguage(language);
+    const info = await getTokenAndUserId();
+    changeUi({
+      token: info.token,
+      userId: info.id,
+      theme: selectedTheme,
+      language: language,
+    });
   };
 
   return (
     <View style={tw`flex-1 ${isDarkTheme ? "bg-[#202020]" : "bg-white"} p-6`}>
-      <Text
-        style={tw`text-3xl font-bold mb-6 text-center ${isDarkTheme ? "text-white" : "text-black"}`}
-      >
-        Language And Theme
-      </Text>
-
       <View style={tw`mb-6`}>
-        <Text
-          style={tw`text-lg font-semibold mb-2 ${isDarkTheme ? "text-white" : "text-black"}`}
-        >
-          Preferences
-        </Text>
-        <View
-          style={tw`border ${isDarkTheme ? "border-white" : "border-gray-300"} rounded-lg mb-2 ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}
-        >
-          <Picker
-            selectedValue={selectedLanguage}
-            onValueChange={handleLanguageChange}
-            style={tw`${isDarkTheme ? "text-white bg-[#202020]" : "text-black"}`}
-            dropdownIconColor={isDarkTheme ? "white" : "black"}
+        <View style={tw`mb-4 `}>
+          <TouchableOpacity
+            onPress={() =>
+              handleLanguageChange(
+                selectedLanguage === "English" ? "Spanish" : "English"
+              )
+            }
+            style={tw`border rounded-full p-4 ${isDarkTheme ? "bg-[#303030] border-gray-300" : "bg-white border-gray-600"}`}
           >
-            <Picker.Item label="English" value="English" />
-          </Picker>
+            <Text
+              style={tw`${isDarkTheme ? "text-white bg-[#303030]" : "text-black bg-white"} text-base`}
+            >{`Language: ${selectedLanguage}`}</Text>
+          </TouchableOpacity>
         </View>
-        <View
-          style={tw`border ${isDarkTheme ? "border-white" : "border-gray-300"} rounded-lg mb-2 ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}
-        >
-          <Picker
-            selectedValue={selectedTheme}
-            onValueChange={toggleTheme}
-            style={tw`${isDarkTheme ? "text-white bg-[#202020]" : "text-black"}`}
-            dropdownIconColor={isDarkTheme ? "white" : "black"}
+
+        <View style={tw`mb-4 `}>
+          <TouchableOpacity
+            onPress={() =>
+              handleThemeChange(selectedTheme === "Light" ? "Dark" : "Light")
+            }
+            style={tw`border rounded-full p-4 ${isDarkTheme ? "bg-[#303030] border-gray-300" : "bg-white border-gray-600"}`}
           >
-            <Picker.Item label="Light" value="Light" />
-            <Picker.Item label="Dark" value="Dark" />
-          </Picker>
+            <Text
+              style={tw`${isDarkTheme ? "text-white bg-[#303030]" : "bg-white text-black"} text-base`}
+            >{`Theme: ${selectedTheme}`}</Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          style={tw`bg-blue-500 rounded-full py-2 mt-2`}
-          onPress={toggleTheme}
-        >
-          <Text style={tw`text-white text-center text-base font-medium`}>
-            {isDarkTheme ? "Switch to Light Theme" : "Switch to Dark Theme"}
-          </Text>
-        </TouchableOpacity>
       </View>
     </View>
   );

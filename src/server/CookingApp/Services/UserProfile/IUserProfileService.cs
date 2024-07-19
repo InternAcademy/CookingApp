@@ -1,11 +1,13 @@
-﻿using CookingApp.ViewModels.Chat;
+﻿using CookingApp.ViewModels.Profile;
 
 namespace CookingApp.Services.UserProfile
 {
     public interface IUserProfileService
     {
-        Task CreateProfile(string userId);
+        Task<ProfileFetchResult> FetchProfile(string userId);
 
         Task ConfigureProfile(ConfigureProfileRequest configureProfileRequest);
+
+        Task SaveInterfacePreferences (PreferencesRequest preferencesRequest);
     }
 }

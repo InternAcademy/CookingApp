@@ -12,25 +12,40 @@ const useSelectChat = () => {
   const { mutate } = useMutation({
     mutationFn: getChat,
     onSuccess: (response) => {
-      const { requests, responses } = response.data.chat;
+      const { requests, responses } = response.data;
       const minLength = Math.min(requests.length, responses.length);
       let combinedArray = [];
       for (let i = 0; i < minLength; i++) {
-        combinedArray.push({ content: requests[i], role: "user" });
-        combinedArray.push({ content: responses[i], role: "bot" });
+        combinedArray.push({
+          type: requests[i].type,
+          content: requests[i].content,
+          role: "user",
+        });
+        combinedArray.push({
+          type: responses[i].type,
+          content: responses[i].content,
+          role: "bot",
+        });
       }
 
       for (let i = minLength; i < requests.length; i++) {
-        combinedArray.push({ content: requests[i], role: "user" });
+        combinedArray.push({
+          type: requests[i].type,
+          content: requests[i].content,
+          role: "user",
+        });
       }
 
       for (let i = minLength; i < responses.length; i++) {
-        combinedArray.push({ content: responses[i], role: "bot" });
+        combinedArray.push({
+          type: responses[i].type,
+          content: responses[i].content,
+          role: "bot",
+        });
       }
       dispatch(
         userActions.selectChat({
           id: response.data.id,
-          title: response.data.title,
           content: combinedArray,
         })
       );
@@ -41,7 +56,7 @@ const useSelectChat = () => {
   const selectChat = async (chat) => {
     const token = await AsyncStorage.getItem("token");
     if (token) {
-      mutate({ token, chatId: chat.id });
+      mutate({ token, chatId: chat.chatId });
     } else {
       navigation.navigate("LandingPage");
     }

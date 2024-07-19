@@ -1,15 +1,9 @@
-﻿namespace CookingApp.Services.Message
+﻿namespace CookingApp.Services.OpenAI
 {
-    using CookingApp.Models;
-    using CookingApp.ViewModels.Chat;
-    using OpenAI.ObjectModels.SharedModels;
+    using CookingApp.ViewModels.Message;
 
     public interface IMessageService
     {
-        Task<ChatMessageResponce> SendMessage(string chatId, string message);
-
-        Task<List<ChatChoiceResponse>> CreateMessage(string userId, string message);
-
-        Task<List<ChatChoiceResponse>> GenerateTitle(Chat chat);
+        Task<MessageData> SendMessage(string userId, MessageData message);
     }
 }

@@ -44,8 +44,11 @@ const useAuth = (clientId, instance, scopes) => {
         },
         discovery
       );
+      await AsyncStorage.clear();
+      console.log("token" + (await AsyncStorage.getItem("token")));
       await AsyncStorage.setItem("token", res.accessToken);
       await AsyncStorage.setItem("id_token", res.idToken)
+      console.log("token" + (await AsyncStorage.getItem("token")));
       setToken(res.accessToken);
     }
   };

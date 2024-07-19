@@ -1,10 +1,13 @@
-// uiSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   input: "",
   isThinking: false,
+  responseError: null,
+  isInitial: true,
   isDarkTheme: false,
+  photoUri: null,
+  lang: "English",
 };
 
 const uiSlice = createSlice({
@@ -17,12 +20,26 @@ const uiSlice = createSlice({
     setIsThinking(state, action) {
       state.isThinking = action.payload;
     },
+    setResponseError(state, action) {
+      state.responseError = action.payload;
+    },
     toggleTheme(state) {
-      if (state.isDarkTheme) {
-        state.isDarkTheme = false;
-      } else {
-        state.isDarkTheme = true;
-      }
+      state.isDarkTheme = !state.isDarkTheme;
+    },
+    setTheme(state, action) {
+      state.isDarkTheme = action.payload;
+    },
+    setPhotoUri(state, action) {
+      state.photoUri = action.payload;
+    },
+    clearPhotoUri(state) {
+      state.photoUri = null;
+    },
+    setLanguage(state, action) {
+      state.lang = action.payload;
+    },
+    setIsInitial(state, action) {
+      state.isInitial = action.payload;
     },
   },
 });

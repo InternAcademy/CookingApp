@@ -6,7 +6,7 @@
     using CookingApp.ViewModels.Chat;
 
 
-    public class Chat : MongoEntity, IMapFrom<SaveChatRequest>
+    public class Chat : MongoEntity
     {
         [BsonElement("external-id")]
         public string ExternalId { get; set; } = default!;
@@ -18,10 +18,10 @@
         public string UserId { get; set; } = default!;
 
         [BsonElement("requests")]
-        public List<Request> Requests { get; set; } = default!;
+        public List<Message> Requests { get; set; } = default!;
 
         [BsonElement("responses")]
-        public List<Response> Responses { get; set; } = default!;
+        public List<Message> Responses { get; set; } = default!;
 
         [BsonElement("is-archived")] 
         public bool IsArchived { get; set; }

@@ -1,117 +1,110 @@
 ﻿namespace CookingApp.Services.Message
 {
     using CookingApp.Common.CompletionConstants;
-    using CookingApp.Infrastructure.Exceptions;
+    using CookingApp.Common.Helpers.Messages;
     using CookingApp.Infrastructure.Interfaces;
     using CookingApp.Models;
-    using CookingApp.ViewModels.Chat;
-    using OpenAI.Interfaces;
-    using OpenAI.ObjectModels.RequestModels;
-    using OpenAI.ObjectModels.SharedModels;
+    using CookingApp.Models.Enums;
+    using CookingApp.Services.ChatService;
+    using CookingApp.Services.File;
+    using CookingApp.Services.OpenAI;
+    using CookingApp.Common.Helpers.Recipes;
+    using CookingApp.ViewModels.Message;
+    using global::OpenAI.Chat;
     using System;
-    using System.Text;
 
-    public class MessageService(
+    public partial class MessageService(ChatClient client,
+        IChatService chatService,
         IRepository<Chat> chatRepo,
         IRepository<UserProfile> profileRepo,
-        IOpenAIService openAIService) : IMessageService
+        HttpClient httpClient) : IMessageService
     {
-        public async Task<List<ChatChoiceResponse>> GenerateTitle(Chat chat)
+        public async Task<MessageData> SendMessage(string userId, MessageData request)
         {
-            var titleContent = new StringBuilder();
+            var chat = new Chat();
+            if (request.ChatId == null)
+                chat = await chatService.CreateChat(userId);
+            else
+                chat = await chatRepo.GetByIdAsync(request.ChatId);
+            ArgumentNullException.ThrowIfNull(chat);
 
-            for (int i = 0; i < chat.Requests.Count - 1; i++)
+            var userProfile = await profileRepo.GetFirstOrDefaultAsync(a => a.UserId == chat.UserId);
+            ArgumentNullException.ThrowIfNull(userProfile);
+
+            var messages = new List<ChatMessage>
             {
-                titleContent.AppendLine("Request: " + chat.Requests[i]);
-                titleContent.AppendLine("Response: " + chat.Responses[i]);
+                new SystemChatMessage(Completions.BuildSystemMessage(userProfile))
+            };
+            if (chat.Requests.Count > 0)
+            {
+                for (int i = 0; i < chat.Requests.Count; i++)
+                {
+                    messages.Add(new UserChatMessage(chat.Requests[i].Content));
+                    messages.Add(new AssistantChatMessage(chat.Responses[i].Content));
+                }
             }
 
-            var titleRequest = new ChatCompletionCreateRequest
+            var saveRequest = new Message()
             {
-                Messages =
-                [
-                    ChatMessage.FromSystem(Completions.TitleGenerationPrompt),
-                    ChatMessage.FromUser(titleContent.ToString())
-                ],
-                MaxTokens = 10
+                DateTime = DateTime.Now,
+                Type = request.Type
             };
-            return await SendCompletionRequest(titleRequest);
-        }
-        public async Task<List<ChatChoiceResponse>> CreateMessage(string userId, string message)
-        {
-            var userProfile = await profileRepo.GetFirstOrDefaultAsync(a => a.UserId == userId);
-            var completionRequest = BuildCompletionRequest(null, userProfile, message);
-            return await SendCompletionRequest(completionRequest);
+            var saveResponse = new Message()
+            {
+                DateTime = DateTime.Now,
+                Type = MessageType.Text
+            };
+
+            if(request.Type == MessageType.Image && request.Content != null)
+            {
+                var imgPath = await UploadFile.ToImgur(File.ConvertDataUriToFormFile(request.Content), httpClient);
+
+                messages.Add(new UserChatMessage(
+                        ChatMessageContentPart.CreateTextMessageContentPart(Completions.ImageRequest),
+                        ChatMessageContentPart.CreateImageMessageContentPart(new Uri(imgPath))));
+
+                saveRequest.Content = imgPath;
+            }
+            else if(request.Content != null)
+            {
+                messages.Add(new UserChatMessage(request.Content));
+
+                saveRequest.Content = request.Content;
+            }
+
+            var response = await client.CompleteChatAsync(messages);
+            saveResponse.Content = MessageHelper.RemoveMarkdown(response.Value.Content[0].Text);
+            saveResponse.Type = RecipeHelpers.IsRecipe(saveResponse.Content) ? MessageType.Recipe : MessageType.Text;
+
+            await chatService.UpdateChat(chat.Id, saveRequest, saveResponse);
+            await AddTitle(chat.Id, response.Value.Content[0].Text);
+
+            return new MessageData
+            {
+                ChatId = chat.Id,
+                Content = response.Value.Content[0].Text,
+                Type = saveResponse.Type
+            };
         }
 
-        public async Task<ChatMessageResponce> SendMessage(string chatId, string message)
+        private async Task<string> AddTitle(string chatId, string message)
         {
             var chat = await chatRepo.GetByIdAsync(chatId);
-            var userProfile = await profileRepo.GetFirstOrDefaultAsync(a => a.UserId == chat.UserId);
+            ArgumentNullException.ThrowIfNull(chat);
 
-            var completionRequest = BuildCompletionRequest(chat, userProfile, message);
-
-            return new ChatMessageResponce
+            var messages = new List<ChatMessage>
             {
-                Chat = chat,
-                ChatChoiceResponses = await SendCompletionRequest(completionRequest)
-            };
-        }
-
-        private async Task<List<ChatChoiceResponse>> SendCompletionRequest(ChatCompletionCreateRequest completionRequest)
-        {
-            var completion = await openAIService.ChatCompletion.CreateCompletion(completionRequest);
-            if (completion.Successful)
-            {
-                return completion.Choices;
-            }
-
-            throw new ChatStuckException();
-        }
-
-        private ChatCompletionCreateRequest BuildCompletionRequest(Chat chat, UserProfile userProfile, string message)
-        {
-            var completionRequest = new ChatCompletionCreateRequest
-            {
-                Messages = [ChatMessage.FromSystem(Completions.BuildSystemMessage(userProfile))],
-                MaxTokens = 500,
-                N = 1
+                new SystemChatMessage(Completions.TitleGenerationPrompt),
+                new UserChatMessage(message)
             };
 
-            if (chat != null)
-            {
-                var requests = chat.Requests.Select(a => a.Message).ToList();
-                var responses = chat.Responses.Select(a => a.Message).ToList();
-                var interleavedMessages = InterleaveMessages(requests, responses);
+            var response = await client.CompleteChatAsync(messages);
 
-                foreach (var m in interleavedMessages)
-                {
-                    completionRequest.Messages.Add(m);
-                }
-            }
+            chat.Title = response.Value.Content[0].Text;
 
-            completionRequest.Messages.Add(ChatMessage.FromUser(message));
+            await chatRepo.UpdateAsync(chat);
 
-            return completionRequest;
-        }
-
-        private List<ChatMessage> InterleaveMessages(List<string> requests, List<string> responses)
-        {
-            var interleavedMessages = new List<ChatMessage>();
-            int maxLength = Math.Max(requests.Count, responses.Count);
-            for (int i = 0; i < maxLength; i++)
-            {
-                if (i < requests.Count)
-                {
-                    interleavedMessages.Add(ChatMessage.FromUser(requests[i]));
-                }
-                if (i < responses.Count)
-                {
-                    interleavedMessages.Add(ChatMessage.FromAssistant(responses[i]));
-                }
-            }
-
-            return interleavedMessages;
+            return chat.Title;
         }
     }
 }

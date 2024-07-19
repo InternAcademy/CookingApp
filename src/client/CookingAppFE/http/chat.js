@@ -1,65 +1,56 @@
-export async function continueChat({ token, chatId, message }) {
-  const response = await fetch(`http://192.168.0.105:8000/continue`, {
+const ip = process.env.EXPO_PUBLIC_PERSONAL_IP;
+
+export async function sendMessage({ token, chatId, type, content }) {
+  const response = await fetch(`${ip}/message`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
+
     body: JSON.stringify({
-      chatId: chatId,
-      message: message,
+      type,
+      content,
+      chatId,
     }),
   });
   if (!response.ok) {
-    throw new Error(response.errors);
+    throw new Error("Resource not found");
   }
-  const body = await response.json();
-  return body;
+
+  const responseBody = await response.json();
+
+  return responseBody.data;
 }
-export async function newChat({ token, message }) {
-  console.log(message);
-  const response = await fetch("http://192.168.0.105:8000/new-chat", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      message: message,
-    }),
-  });
-  if (!response.ok) {
-    throw new Error(response.errors);
-  }
-  const data = await response.json();
-  return data;
-}
+
 export async function getChat({ token, chatId }) {
-  const response = await fetch(`http://192.168.0.105:8000/c/${chatId}`, {
+  const response = await fetch(`${ip}/c/${chatId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
   });
+
   if (!response.ok) {
-    throw new Error(response.errors);
+    throw new Error(response.statusText);
   }
+
   const data = await response.json();
   return data;
 }
+
 export async function getUserChats({ token, userId }) {
-  const response = await fetch(
-    `http://192.168.0.105:8000/user-chats/${userId}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    }
-  );
+  const response = await fetch(`${ip}/user-chats/${userId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+
   if (!response.ok) {
-    throw new Error(response.errors);
+    throw new Error(response.statusText);
   }
+
   const data = await response.json();
   return data;
 }

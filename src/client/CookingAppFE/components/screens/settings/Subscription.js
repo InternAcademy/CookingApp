@@ -5,14 +5,20 @@ import {
   TouchableOpacity,
   ScrollView,
   Linking,
+  Alert,
 } from "react-native";
 import tw from "twrnc";
 import { jwtDecode } from "jwt-decode";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { fetchSubs, createSub } from "../../../http/subs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Spinner from "../../common/Spinner";
+import { useNavigation } from "@react-navigation/native";
+import { useEffect } from "react";
 const Subscription = () => {
+  const queryClient = useQueryClient();
+  const navigation = useNavigation();
   const { isPending, isError, data, error } = useQuery({
     queryKey: ["subs"],
     queryFn: async () => {
@@ -36,9 +42,18 @@ const Subscription = () => {
     },
   });
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
+  const role = useSelector((state) => state.user.role);
 
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
-
+  useEffect(() => {
+    async function checkToken() {
+      const token = await AsyncStorage.getItem("token");
+      if (!token) {
+        navigation.navigate("LandingPage");
+      }
+    }
+    checkToken();
+  }, []);
   async function handleSelection(id) {
     const token = await AsyncStorage.getItem("token");
     const cred = jwtDecode(token);
@@ -63,11 +78,22 @@ const Subscription = () => {
     setOpenFaqIndex(openFaqIndex === index ? null : index);
   };
 
+  if (role.type === "Premium") {
+    return (
+      <View style={tw`mb-4`}>
+        <Text
+          style={tw`text-lg mb-6 ${isDarkTheme ? "text-gray-400" : "text-gray-500"}`}
+        >
+          You have an active subscription!
+        </Text>
+      </View>
+    );
+  }
   return (
     <ScrollView
-      style={tw`flex-1 ${isDarkTheme ? "bg-[#202020]" : "bg-white"} mt-10`}
+      style={tw`flex-1 ${isDarkTheme ? "bg-[#202020]" : "bg-white"}  `}
     >
-      <View style={tw`flex-1 items-center p-6`}>
+      <View style={tw`flex-1 items-center p-6 mt-10`}>
         <Text
           style={tw`text-3xl font-bold mb-2 ${isDarkTheme ? "text-white" : "text-black"}`}
         >
@@ -82,11 +108,10 @@ const Subscription = () => {
         <View style={tw`flex-row w-full px-6 mb-10 justify-between`}>
           {isPending && (
             <View style={tw`mb-4`}>
-              <Text
-                style={tw`text-xs mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
-              >
-                fetching...
-              </Text>
+              <Spinner
+                size="large"
+                color={isDarkTheme ? "#ffffff" : "#000000"}
+              />
             </View>
           )}
           {isError && (
