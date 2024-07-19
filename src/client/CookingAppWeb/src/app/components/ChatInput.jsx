@@ -18,60 +18,63 @@ export default function ChatInput({ isPending }) {
 
   function handleTyping(event) {
     // dispatch(uiActions.setInput(event.target.value));
+    console.log(event.target.value);
   }
 
   async function openGallery() {
     if (!isPending) {
       let result = await window.navigator.mediaDevices.getUserMedia({ video: true });
       console.log(result);
-      const uri = result.assets[0].uri;
-      const token = await localStorage.getItem("token");
-      dispatch(
-        userActions.selectChat({
-          ...selectedChat,
-          content: [...(selectedChat?.content || []), { role: "user", type: "Image", content: uri }]
-        })
-      );
-      dispatch(uiActions.setResponseError(null));
-      mutate({
-        token: token,
-        chatId: selectedChat && selectedChat.id,
-        type: "Image",
-        content: `data:${result.assets[0].mimeType};base64,${result.assets[0].base64}`
-      });
-      if (!result.canceled) {
-        setImage(result.assets[0].uri);
-      }
+      // const uri = result.assets[0].uri;
+      // const token = await localStorage.getItem("token");
+      // dispatch(
+      //   userActions.selectChat({
+      //     ...selectedChat,
+      //     content: [...(selectedChat?.content || []), { role: "user", type: "Image", content: uri }]
+      //   })
+      // );
+      // dispatch(uiActions.setResponseError(null));
+      // mutate({
+      //   token: token,
+      //   chatId: selectedChat && selectedChat.id,
+      //   type: "Image",
+      //   content: `data:${result.assets[0].mimeType};base64,${result.assets[0].base64}`
+      // });
+      // if (!result.canceled) {
+      //   setImage(result.assets[0].uri);
+      // }
     }
   }
 
   async function sendMessage() {
-    if (input) {
-      const token = await localStorage.getItem("token");
+    // if (input) {
+    //   const token = await localStorage.getItem("token");
 
-      dispatch(
-        userActions.selectChat({
-          ...selectedChat,
-          content: [...(selectedChat?.content || []), { type: "Text", role: "user", content: input }]
-        })
-      );
-      mutate({
-        token: token,
-        chatId: selectedChat ? selectedChat.id : null,
-        type: "Text",
-        content: input
-      });
-    }
+    //   dispatch(
+    //     userActions.selectChat({
+    //       ...selectedChat,
+    //       content: [...(selectedChat?.content || []), { type: "Text", role: "user", content: input }]
+    //     })
+    //   );
+    //   mutate({
+    //     token: token,
+    //     chatId: selectedChat ? selectedChat.id : null,
+    //     type: "Text",
+    //     content: input
+    //   });
+    // }
+    console.log("Send message");
   }
 
   function handleRemovePhoto() {
-    dispatch(uiActions.clearPhotoUri());
+    // dispatch(uiActions.clearPhotoUri());
+    console.log("Remove photo");
   }
 
   return (
     <div className={`flex w-3/4 flex-col justify-center items-center border ${isDarkTheme ? "border-gray-700 bg-gray-900" : "border-gray-300 bg-amber-50"} rounded-full px-2 mx-1`}>
       <div className="flex w-full flex-row justify-center items-center">
-        <button onClick={() => window.navigator.mediaDevices.getUserMedia({ video: true })} className="p-1" disabled={isPending}>
+        <button onClick={openGallery} className="p-1" disabled={isPending}>
           <IoCameraOutline size={30} color={isPending ? "gray" : isDarkTheme ? "white" : "orange"} />
         </button>
         <button onClick={openGallery} className="p-1" disabled={isPending}>

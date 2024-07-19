@@ -1,14 +1,8 @@
 "use client";
 import React, { useEffect } from "react";
-// import { useRouter } from "next/router";
-// import { useSelector, useDispatch } from "react-redux";
 import Image from "next/image";
 import NavBar from "../components/NavBar";
-// import ChatError from "../components/ChatError";
 import ChatInput from "../components/ChatInput";
-// import Thinking from "../components/Thinking";
-// import { uiActions } from "../../redux/uiSlice";
-// import useSaveRecipe from "../../hooks/useSaveRecipe";
 
 const Home = () => {
   //   const router = useRouter();
@@ -82,7 +76,7 @@ const Home = () => {
     }
 
     return (
-      <div className="flex w-full h-full justify-center items-center">
+      <div className="flex w-full h-full justify-center items-center flex-col p-5">
         <Image src="/Main/icon2.png" alt="Icon" width={104} height={104} className="w-26 h-26 mb-2" />
         <p className={`text-lg font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>Let's figure out a recipe</p>
         <p className={`text-base ${isDarkTheme ? "text-gray-400" : "text-black"}`}>Begin by typing a message</p>
@@ -91,9 +85,9 @@ const Home = () => {
   };
 
   return (
-    <div className={`flex pt-22 w-full h-full ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}>
+    <div className={`flex flex-col items-center justify-center pt-22 w-full h-full ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}>
       <NavBar />
-      <div className="flex-grow">{renderPost()}</div>
+      <div className="flex-grow w-full">{renderPost()}</div>
       <div className={`flex w-full flex-row justify-center mb-5 ${isDarkTheme ? "border-gray-700 bg-[#202020]" : "border-gray-300 bg-white"}`}>
         {
           <ChatInput
