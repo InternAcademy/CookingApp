@@ -1,17 +1,16 @@
 "use client";
-
 import React, { useState } from "react";
-// import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { FaCommentDots, FaBars, FaUtensils, FaUser } from "react-icons/fa";
 import Sidebar from "./Sidebar";
 
 const NavBar = () => {
-  // const router = useRouter();
+  const router = useRouter();
   const isDarkTheme = false; // Задаване на isDarkTheme като false временно
   const [open, setOpen] = useState(false);
 
   const startNewChat = () => {
-    // router.push("/home");
+    router.push("/home");
   };
 
   return (
@@ -30,7 +29,7 @@ const NavBar = () => {
             <button onClick={() => router.push("/recipes")} className="mx-2">
               <FaUtensils className="w-6 h-6" color={isDarkTheme ? "white" : "black"} />
             </button>
-            <button onClick={() => router.push("/user-menu")} className="mx-2">
+            <button onClick={() => router.push("/pages/user-menu.jsx")} className="mx-2">
               <FaUser className="w-6 h-6" color={isDarkTheme ? "white" : "black"} />
             </button>
           </div>
