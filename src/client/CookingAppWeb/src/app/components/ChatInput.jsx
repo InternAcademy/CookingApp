@@ -75,7 +75,7 @@ export default function ChatInput({ isPending }) {
           <IoCameraOutline size={30} color={isPending ? "gray" : isDarkTheme ? "white" : "orange"} />
         </button>
         <button onClick={openGallery} className="p-1" disabled={isPending}>
-          <Image src="/assets/HomeMessageBar/paperClip.png" alt="Paper Clip" width={20} height={20} className={`${isDarkTheme ? "tint-white" : ""} ${isPending ? "tint-gray-400" : ""}`} />
+          <Image src="/HomeMessageBar/paperClip.png" alt="Paper Clip" width={20} height={20} className={`${isDarkTheme ? "tint-white" : ""} ${isPending ? "tint-gray-400" : ""}`} />
         </button>
         <input
           type="text"
@@ -86,7 +86,7 @@ export default function ChatInput({ isPending }) {
           onChange={handleTyping}
         />
         <button onClick={sendMessage} className="p-1" disabled={isPending}>
-          <Image src="/assets/HomeMessageBar/arrowUpCircle.png" alt="Send" width={24} height={24} className={`${isDarkTheme ? "tint-white" : ""} ${isPending ? "tint-gray-400" : ""}`} />
+          <Image src="/HomeMessageBar/arrowUpCircle.png" alt="Send" width={24} height={24} className={`${isDarkTheme ? "tint-white" : ""} ${isPending ? "tint-gray-400" : ""}`} />
         </button>
       </div>
     </div>
