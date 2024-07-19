@@ -1,4 +1,9 @@
-﻿namespace CookingApp.Controllers
+using CookingApp.Infrastructure.Extensions;
+using CookingApp.Infrastructure.Interfaces;
+using CookingApp.Models.Entities;
+using CookingApp.Services.Recipe;
+
+namespace CookingApp.Controllers
 {
     using Azure;
     using CookingApp.Common.Helpers.Profiles;
@@ -12,6 +17,7 @@
     using CookingApp.ViewModels.Message;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using System.ComponentModel.DataAnnotations;
 
     [ApiController]
     public class ChatController(IChatService chatService,
@@ -53,13 +59,18 @@
         }
 
         [HttpGet("user-chats/{userId}")]
-        public async Task<IActionResult> ChatsByUser(string userId)
+        public async Task<IActionResult> ChatsByUser(string userId, 
+            [Range(1, int.MaxValue, ErrorMessage = "Value must be greater than 0")]
+            int pageIndex = 1,
+            [Range(1, int.MaxValue, ErrorMessage = "Value must be greater than 0")]
+            int pageSize = 50)
         {
-            return new ApiResponse<IEnumerable<ChatDataResponse>>()
+            var result = await chatService.GetActiveUserChats(userId, pageIndex, pageSize);
+            return Ok(new ApiResponse<IPage<ChatDataResponse>>()
             {
                 Status = 200,
-                Data = await chatService.GetActiveUserChats(userId)
-            };
+                Data = result.ToPage()
+            });
         }
     }
 }
