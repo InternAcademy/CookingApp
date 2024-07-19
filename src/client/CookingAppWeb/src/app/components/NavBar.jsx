@@ -1,21 +1,19 @@
-// components/NavBar.jsx
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/router";
-import { useSelector, useDispatch } from "react-redux";
-import { userActions } from "../../redux/userSlice";
-import { ChatBubbleBottomCenterTextIcon, Bars3BottomLeftIcon } from "@heroicons/react/solid";
+import { usePathname } from "next/navigation";
+import { FaCommentDots, FaBars } from "react-icons/fa"; // Импортиране на иконите от react-icons
 // import Sidebar from "./Sidebar";
 
 const NavBar = () => {
-  const router = useRouter();
-  const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
-  const dispatch = useDispatch();
+  const pathname = usePathname();
+  const isDarkTheme = false; // Задаване на isDarkTheme като false временно
+  // const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
+  // const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
 
   const startNewChat = () => {
-    dispatch(userActions.clearChat());
+    // dispatch(userActions.clearChat());
     router.push("/home");
   };
 
@@ -24,10 +22,10 @@ const NavBar = () => {
       <div className={`flex justify-between items-center h-16 px-4 ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}>
         <div className="flex items-center">
           <button onClick={() => setOpen(true)} className="mx-2">
-            <Bars3BottomLeftIcon className="w-6 h-6" color={isDarkTheme ? "white" : "black"} />
+            <FaBars className="w-6 h-6" color={isDarkTheme ? "white" : "black"} />
           </button>
           <button onClick={startNewChat} className="mx-0 mt-1">
-            <ChatBubbleBottomCenterTextIcon className="w-6 h-6" color={isDarkTheme ? "white" : "black"} />
+            <FaCommentDots className="w-6 h-6" color={isDarkTheme ? "white" : "black"} />
           </button>
         </div>
         <div className="flex items-center">
