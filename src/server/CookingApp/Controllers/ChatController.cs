@@ -1,13 +1,16 @@
-﻿using CookingApp.Infrastructure.Extensions;
+using CookingApp.Infrastructure.Extensions;
 using CookingApp.Infrastructure.Interfaces;
 using CookingApp.Models.Entities;
 using CookingApp.Services.Recipe;
 
 namespace CookingApp.Controllers
 {
+    using Azure;
     using CookingApp.Common.Helpers.Profiles;
     using CookingApp.Models;
+    using CookingApp.Models.Enums;
     using CookingApp.Services.ChatService;
+    using CookingApp.Services.Limitation;
     using CookingApp.Services.OpenAI;
     using CookingApp.ViewModels.Api;
     using CookingApp.ViewModels.Chat;
@@ -19,18 +22,29 @@ namespace CookingApp.Controllers
     [ApiController]
     public class ChatController(IChatService chatService,
         IMessageService openAIService,
+        ILimitationService limitationService,
         IHttpContextAccessor httpContextAccessor) : ControllerBase
     {
         [HttpPost("message")]
         public async Task<IActionResult> SendMessage([FromBody] MessageData message)
         {
             var userId = GetUser.ProfileId(httpContextAccessor);
-            var response = await openAIService.SendMessage(userId, message);
-
-            return new ApiResponse<MessageData>()
+            var limitationResult = await limitationService.ProcessUserMessageLimitations(userId);
+            if(limitationResult == ProcessResult.MessageLimitationSuccessfull)
             {
-                Status = 200,
-                Data = response
+                var response = await openAIService.SendMessage(userId, message);
+
+                return new ApiResponse<MessageData>()
+                {
+                    Status = 200,
+                    Data = response
+                };
+            }
+
+            return new ApiResponse<ProcessResult>()
+            {
+                Status = 403,
+                Data = limitationResult
             };
         }
 

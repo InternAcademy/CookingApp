@@ -7,43 +7,67 @@ import {
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import tw from "twrnc";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch, useSelector } from "react-redux";
-import Navigation from "../navigation/Navigation";
-import Thinking from "../bot/Thinking";
-import ChatInput from "./ChatInput";
+import { checkUserStatus } from "../../http/user";
+import NavBar from "../navigation/NavBar";
 import ChatError from "./ChatError";
+import ChatInput from "./ChatInput";
+import Thinking from "../bot/Thinking";
 import { uiActions } from "../../redux/uiSlice";
-
+import useSaveRecipe from "../../hooks/useSaveRecipe";
+import { userActions } from "../../redux/userSlice";
 const Home = () => {
   const navigation = useNavigation();
+  const { save, isPending } = useSaveRecipe();
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
+  const lang = useSelector((state) => state.ui.lang);
+
   const isThinking = useSelector((state) => state.ui.isThinking);
   const responseError = useSelector((state) => state.ui.responseError);
   const chat = useSelector((state) => state.user.selectedChat);
+  const userRole = useSelector((state) => state.user.role);
+  const isInitial = useSelector((state) => state.ui.isInitial);
+  const profileImage = useSelector((state) => state.ui.photoUri);
   const dispatch = useDispatch();
+
   useEffect(() => {
-    const checkTokeAndTheme = async () => {
+    async function check() {
       const token = await AsyncStorage.getItem("token");
-      console.log(token);
-      const theme = await AsyncStorage.getItem("theme");
       if (!token) {
         navigation.navigate("LandingPage");
       }
-      if (theme) {
-        console.log(theme);
-        dispatch(uiActions.setTheme(theme === "dark" ? "dark" : null));
+      if (isInitial) {
+        const response = await checkUserStatus({ token });
+        if (response.status !== 401) {
+          const body = await response.json();
+          console.log(body);
+          dispatch(
+            uiActions.setTheme(
+              body.data.interfacePreference.theme === "Light" ? false : true
+            )
+          );
+          dispatch(
+            uiActions.setLanguage(body.data.interfacePreference.language)
+          );
+          dispatch(userActions.setRole(body.data.role));
+          dispatch(uiActions.setIsInitial(false));
+        }
       }
-    };
-    checkTokeAndTheme();
-  }, []);
-  useEffect(() => {
-    console.log(isDarkTheme);
-  }, [isDarkTheme]);
+    }
+    check();
+  }, [isInitial]);
+
+  async function handleRecipeSave(request) {
+    const token = await AsyncStorage.getItem("token");
+    save({ token, request });
+  }
+
   const renderPost = () => {
     if (chat) {
       {
@@ -57,16 +81,28 @@ const Home = () => {
             {chat.content.map((msg, index) => (
               <View
                 key={index}
-                style={tw`mb-2 flex-row justify-start   wrap  pt-1`}
+                style={tw`mb-2 flex-row justify-start wrap pt-1`}
               >
-                <Image
-                  source={
-                    msg.role === "user"
-                      ? require("../../assets/NavigationBar/user.png")
-                      : require("../../assets/Main/icon2.png")
-                  }
-                  style={tw`w-8 h-8 rounded-full mr-2 mb-7 items-start -mt-1`}
-                />
+                {msg.role === "user" ? (
+                  profileImage ? (
+                    <Image
+                      source={{ uri: profileImage }}
+                      style={tw`w-8 h-8 rounded-full mr-2 mb-7`}
+                    />
+                  ) : (
+                    <Ionicons
+                      name="person-circle"
+                      size={32}
+                      color={isDarkTheme ? "white" : "black"}
+                      style={tw`mr-2 mb-7 items-start -mt-1`}
+                    />
+                  )
+                ) : (
+                  <Image
+                    source={require("../../assets/Main/icon2.png")}
+                    style={tw`w-8 h-8 rounded-full mr-2 mb-7 items-start -mt-1`}
+                  />
+                )}
                 <View>
                   <Text
                     style={tw`text-base font-semibold mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
@@ -75,7 +111,7 @@ const Home = () => {
                   </Text>
                   {msg.role === "user" && msg.type === "Text" && (
                     <Text
-                      style={tw`text-base w-screen mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
+                      style={tw`text-base mr-4 w-screen mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
                     >
                       {msg.content}
                     </Text>
@@ -85,30 +121,39 @@ const Home = () => {
                     <Image
                       source={{ uri: msg.content }}
                       style={tw`w-32 h-32 rounded-full mr-2 mb-7`}
-                    ></Image>
+                    />
                   )}
                   {msg.role === "bot" && msg.type === "Recipe" && (
                     <>
                       <Text
-                        style={tw`max-w-full mr-12   text-base  mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
+                        style={tw`max-w-full mr-12 text-base mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
                       >
                         {msg.content}
                       </Text>
                       <TouchableOpacity
-                        onPress={() => console.log("Save Recipe!")}
+                        onPress={() => handleRecipeSave(msg.content)}
                         style={tw`mx-2 self-end`}
                       >
-                        <Ionicons
-                          name="menu"
-                          size={24}
-                          color={isDarkTheme ? "white" : "black"}
-                        />
+                        {!isPending && (
+                          <Ionicons
+                            name="restaurant"
+                            size={24}
+                            color={isDarkTheme ? "white" : "black"}
+                          />
+                        )}
+                        {isPending && (
+                          <ActivityIndicator
+                            size="small"
+                            color={isDarkTheme ? "white" : "black"}
+                            style={tw`mr-2`}
+                          />
+                        )}
                       </TouchableOpacity>
                     </>
                   )}
                   {msg.role === "bot" && msg.type === "Text" && (
                     <Text
-                      style={tw`max-w-full mr-12   text-base  mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
+                      style={tw`max-w-full mr-12 text-base mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
                     >
                       {msg.content}
                     </Text>
@@ -147,7 +192,7 @@ const Home = () => {
     <SafeAreaView
       style={tw`flex pt-22 w-full h-full ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}
     >
-      <Navigation />
+      <NavBar />
       <FlatList
         data={[{ key: "1" }]}
         renderItem={renderPost}
@@ -164,4 +209,3 @@ const Home = () => {
 };
 
 export default Home;
-//flex w-full h-full  justify-center items-center pr-15

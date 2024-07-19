@@ -13,6 +13,8 @@
         /// <exception cref="InvalidRecipeRequestException">Thrown when the generated recipe is null or invalid.</exception>
         Task<string> CreateRecipe(string request, string userId);
 
+        Task ArchiveRecipe(string recipeId);
+
         /// <summary>
         /// Retrieves a recipe by its ID.
         /// </summary>
@@ -22,5 +24,6 @@
         Task<Recipe> GetById(string recipeId);
 
         Task<IPagedList<Recipe>> GetMine(string userId, int pageIndex, int pageSize = 10, bool includeDeleted = false);
+        Task<IEnumerable<Recipe>> GetArchived(string userId);
     }
 }

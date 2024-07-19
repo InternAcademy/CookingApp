@@ -12,6 +12,9 @@ namespace CookingApp.Models.Entities
         [BsonElement("title")]
         public string Title { get; set; } = default!;
 
+        [BsonElement("isArchived")]
+        public bool IsArchived { get; set; }
+
         [BsonElement("description")]
         public string Description { get; set; } = default!;
 

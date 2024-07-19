@@ -4,13 +4,23 @@ import tw from "twrnc";
 import { useSelector, useDispatch } from "react-redux";
 import { uiActions } from "../../../redux/uiSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import useUiPreferences from "../../../hooks/useUiPreferences";
+import { jwtDecode } from "jwt-decode";
 
+async function getTokenAndUserId() {
+  const token = await AsyncStorage.getItem("token");
+  const cred = jwtDecode(token);
+  return { token: token, id: cred.sub };
+}
 const LanguageAndTheme = () => {
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
-  const [selectedLanguage, setSelectedLanguage] = React.useState("English");
+  const language = useSelector((state) => state.ui.lang);
+
+  const [selectedLanguage, setSelectedLanguage] = React.useState(language);
   const [selectedTheme, setSelectedTheme] = React.useState(
     isDarkTheme ? "Dark" : "Light"
   );
+  const { changeUi } = useUiPreferences();
   const dispatch = useDispatch();
 
   const handleThemeChange = async (theme) => {
@@ -21,30 +31,29 @@ const LanguageAndTheme = () => {
       "theme",
       storedTheme === "dark" ? "light" : "dark"
     );
+    const info = await getTokenAndUserId();
+    changeUi({
+      token: info.token,
+      userId: info.id,
+      theme: theme,
+      language: selectedLanguage,
+    });
   };
 
-  const handleLanguageChange = (language) => {
+  const handleLanguageChange = async (language) => {
     setSelectedLanguage(language);
-
-    Alert.alert("Language Changed", `Selected language: ${language}`);
+    const info = await getTokenAndUserId();
+    changeUi({
+      token: info.token,
+      userId: info.id,
+      theme: selectedTheme,
+      language: language,
+    });
   };
 
   return (
     <View style={tw`flex-1 ${isDarkTheme ? "bg-[#202020]" : "bg-white"} p-6`}>
-      <Text
-        style={tw`text-3xl font-bold mb-6 text-center ${isDarkTheme ? "text-white" : "text-black"}`}
-      >
-        Language and Theme
-      </Text>
-
       <View style={tw`mb-6`}>
-        <Text
-          style={tw`text-2xl text-center font-semibold mb-4 ${isDarkTheme ? "text-white" : "text-black"}`}
-        >
-          Application Preferences
-        </Text>
-
-        {/* Language Selector */}
         <View style={tw`mb-4 `}>
           <TouchableOpacity
             onPress={() =>
@@ -56,13 +65,10 @@ const LanguageAndTheme = () => {
           >
             <Text
               style={tw`${isDarkTheme ? "text-white bg-[#303030]" : "text-black bg-white"} text-base`}
-            >
-              {`Language: ${selectedLanguage}`}
-            </Text>
+            >{`Language: ${selectedLanguage}`}</Text>
           </TouchableOpacity>
         </View>
 
-        {/* Theme Selector */}
         <View style={tw`mb-4 `}>
           <TouchableOpacity
             onPress={() =>
@@ -72,23 +78,7 @@ const LanguageAndTheme = () => {
           >
             <Text
               style={tw`${isDarkTheme ? "text-white bg-[#303030]" : "bg-white text-black"} text-base`}
-            >
-              {`Theme: ${selectedTheme}`}
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        {/*Changing theme button */}
-        <View style={tw`w-full flex items-center justify-center`}>
-          <TouchableOpacity
-            style={tw`  flex items-center px-12  justify-center  ${isDarkTheme ? "bg-zinc-400 text-amber-200" : "text-black bg-[#303030]"} rounded-full py-2 mt-2`}
-            onPress={() =>
-              handleThemeChange(selectedTheme === "Dark" ? "Light" : "Dark")
-            }
-          >
-            <Text style={tw`text-white text-center text-base font-medium`}>
-              {isDarkTheme ? "Switch to Light Theme" : "Switch to Dark Theme"}
-            </Text>
+            >{`Theme: ${selectedTheme}`}</Text>
           </TouchableOpacity>
         </View>
       </View>
