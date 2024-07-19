@@ -1,16 +1,11 @@
 "use client";
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-// import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { FaUserCircle, FaUtensils, FaCreditCard, FaLeaf, FaArchive, FaLanguage, FaFileAlt, FaInfoCircle, FaEnvelope, FaSignOutAlt } from "react-icons/fa";
-// import { uiActions } from "../../../redux/uiSlice";
 
 const UserMenu = () => {
-  // const router = useRouter();
-  // const dispatch = useDispatch();
+  const router = useRouter(); // Инициализиране на useRouter
   const isDarkTheme = false; // = useSelector(state => state.ui.isDarkTheme);
-  // const profileImage = useSelector(state => state.ui.photoUri);
-  // const [selectedImage, setSelectedImage] = useState(profileImage);
 
   const pickImage = async () => {
     const result = await fetch("/api/upload", {
@@ -22,7 +17,6 @@ const UserMenu = () => {
 
     const data = await result.json();
     if (data.uri) {
-      // dispatch(uiActions.setPhotoUri(data.uri));
       setSelectedImage(data.uri);
     } else {
       alert("Грешка при избора на изображение");

@@ -29,7 +29,7 @@ const NavBar = () => {
             <button onClick={() => router.push("/recipes")} className="mx-2">
               <FaUtensils className="w-6 h-6" color={isDarkTheme ? "white" : "black"} />
             </button>
-            <button onClick={() => router.push("/pages/user-menu.jsx")} className="mx-2">
+            <button onClick={() => router.push("/user-menu")} className="mx-2">
               <FaUser className="w-6 h-6" color={isDarkTheme ? "white" : "black"} />
             </button>
           </div>
