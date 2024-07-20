@@ -1,5 +1,4 @@
-"use client";
-import React, { useState } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
 import { FaUserCircle, FaUtensils, FaCreditCard, FaLeaf, FaArchive, FaLanguage, FaFileAlt, FaInfoCircle, FaEnvelope, FaSignOutAlt } from "react-icons/fa";
 
@@ -24,11 +23,11 @@ const UserMenu = () => {
         <FaUserCircle className="w-8 h-8" color={isDarkTheme ? "white" : "black"} />
       </div>
 
-      <div className="flex flex-col items-start w-full space-y-6">
+      <div className="flex flex-col items-center w-full space-y-6">
         {menuItems.map((item, index) => (
-          <button key={index} className="flex items-center w-full mb-2" onClick={() => router.push(item.route)} title={item.label}>
-            <item.icon className="w-6 h-6" color={isDarkTheme ? "white" : "black"} />
-            <span className={`ml-4 text-sm ${isDarkTheme ? "text-white" : "text-black"}`}>{item.label}</span>
+          <button key={index} className="flex flex-col items-center w-full mb-2" onClick={() => router.push(item.route)} title={item.label}>
+            <item.icon className="w-6 h-6 mb-1" color={isDarkTheme ? "white" : "black"} />
+            <span className={`text-sm ${isDarkTheme ? "text-white" : "text-black"}`}>{item.label}</span>
           </button>
         ))}
       </div>
