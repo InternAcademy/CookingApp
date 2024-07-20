@@ -1,7 +1,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { FaUserCircle, FaUtensils, FaCreditCard, FaLeaf, FaArchive, FaLanguage, FaFileAlt, FaInfoCircle, FaEnvelope, FaSignOutAlt } from "react-icons/fa";
-
+import "tailwindcss/tailwind.css";
 const UserMenu = () => {
   const router = useRouter();
   const isDarkTheme = false; // = useSelector(state => state.ui.isDarkTheme);

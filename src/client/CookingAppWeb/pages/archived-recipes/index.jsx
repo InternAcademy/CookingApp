@@ -1,6 +1,6 @@
 // pages/ArchivedRecipes.jsx
 import React from "react";
-
+import "tailwindcss/tailwind.css";
 const ArchivedRecipes = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">

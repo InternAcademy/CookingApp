@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-
+import "tailwindcss/tailwind.css";
 const LanguageAndTheme = () => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState("English");

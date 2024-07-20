@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useSelector } from "react-redux";
-
+import "tailwindcss/tailwind.css";
 const Contacts = () => {
   const isDarkTheme = true; //= useSelector(state => state.ui.isDarkTheme);
 

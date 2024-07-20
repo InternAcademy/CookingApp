@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import Image from "next/image";
 import NavBar from "../components/NavBar";
 import ChatInput from "../components/ChatInput";
-
+import "tailwindcss/tailwind.css";
 const Home = () => {
   //   const router = useRouter();
   //   const { save, isPending } = useSaveRecipe();

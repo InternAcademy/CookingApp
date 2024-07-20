@@ -1,5 +1,5 @@
 "use client";
-
+import "tailwindcss/tailwind.css";
 import React, { useState, useEffect } from "react";
 // import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 // import { useSelector } from "react-redux";
@@ -58,15 +58,15 @@ const Subscription = () => {
     data: [
       {
         id: 1,
-        name: "Premium Plan",
-        price: 999,
-        period: "month",
+        name: "Meal Master Premium",
+        price: 159.99,
+        period: "per year",
         priceId: "price_1"
       },
       {
         id: 2,
-        name: "Standard Plan",
-        price: 499,
+        name: "Meal Master Premium",
+        price: 19.99,
         period: "month",
         priceId: "price_2"
       }

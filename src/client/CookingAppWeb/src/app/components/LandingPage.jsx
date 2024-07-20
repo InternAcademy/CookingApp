@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import useAuth from "../hooks/useAuth";
 import Cookies from "js-cookie";
-
+// import "tailwindcss/tailwind.css";
 const LandingPage = () => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const [error, setError] = useState(null);

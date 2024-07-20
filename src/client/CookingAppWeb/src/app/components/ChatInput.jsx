@@ -2,7 +2,7 @@
 import React from "react";
 import Image from "next/image";
 import { IoCameraOutline } from "react-icons/io5";
-
+import "tailwindcss/tailwind.css";
 // import { useSelector, useDispatch } from "react-redux";
 // import { uiActions } from "../../redux/uiSlice";
 // import { userActions } from "../../redux/userSlice";

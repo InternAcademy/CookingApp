@@ -1,7 +1,7 @@
 // pages/food-preferences/index.jsx
 "use client";
-
 import React, { useState } from "react";
+import "tailwindcss/tailwind.css";
 // import { useSelector } from "react-redux";
 
 const FoodPreferences = () => {
