@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import "tailwindcss/tailwind.css";
+
 const LanguageAndTheme = () => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState("English");
@@ -25,18 +26,16 @@ const LanguageAndTheme = () => {
   };
 
   return (
-    <div className={`flex flex-1 ${isDarkTheme ? "bg-[#202020]" : "bg-white"} p-6`}>
-      <h1 className={`${isDarkTheme ? "text-white" : "text-black"} text-2xl mb-6`}>Language And Theme</h1>
-      <div className="mb-6">
-        <div className="mb-4">
-          <button onClick={handleLanguageChange} className={`border rounded-full p-4 ${isDarkTheme ? "bg-[#303030] border-gray-300" : "bg-white border-gray-600"}`}>
-            <span className={`${isDarkTheme ? "text-white" : "text-black"} text-base`}>{`Language: ${selectedLanguage}`}</span>
+    <div className={`h-screen flex items-start justify-center ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}>
+      <div className="p-8 rounded-lg shadow-lg bg-gray-800">
+        <h1 className={`text-center ${isDarkTheme ? "text-white" : "text-black"} text-2xl mb-6`}>Language And Theme</h1>
+        <div className="space-y-4">
+          <button onClick={handleLanguageChange} className={`w-full py-3 rounded-full ${isDarkTheme ? "bg-[#202020] border-customGray400 text-white" : "bg-white border-customGray600 text-black"} border`}>
+            {`Language: ${selectedLanguage}`}
           </button>
-        </div>
 
-        <div className="mb-4">
-          <button onClick={handleThemeChange} className={`border rounded-full p-4 ${isDarkTheme ? "bg-[#303030] border-gray-300" : "bg-white border-gray-600"}`}>
-            <span className={`${isDarkTheme ? "text-white" : "text-black"} text-base`}>{`Theme: ${isDarkTheme ? "Dark" : "Light"}`}</span>
+          <button onClick={handleThemeChange} className={`w-full py-3 rounded-full ${isDarkTheme ? "bg-[#202020] border-customGray400 text-white" : "bg-white border-customGray600 text-black"} border`}>
+            {`Theme: ${isDarkTheme ? "Dark" : "Light"}`}
           </button>
         </div>
       </div>
