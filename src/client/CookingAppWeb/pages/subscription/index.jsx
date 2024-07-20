@@ -28,7 +28,7 @@ const Subscription = () => {
   //   }
   // });
 
-  const isDarkTheme = false; //= useSelector(state => state.ui.isDarkTheme);
+  const isDarkTheme = false; // = useSelector(state => state.ui.isDarkTheme);
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
 
   async function handleSelection(id) {
@@ -52,6 +52,26 @@ const Subscription = () => {
 
   const toggleFaq = index => {
     setOpenFaqIndex(openFaqIndex === index ? null : index);
+  };
+
+  // Примерен data обект за тестване // изтрий при свързване
+  const data = {
+    data: [
+      {
+        id: 1,
+        name: "Premium Plan",
+        price: 999,
+        period: "month",
+        priceId: "price_1"
+      },
+      {
+        id: 2,
+        name: "Standard Plan",
+        price: 499,
+        period: "month",
+        priceId: "price_2"
+      }
+    ]
   };
 
   return (
