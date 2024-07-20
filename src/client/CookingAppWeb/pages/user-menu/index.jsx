@@ -9,6 +9,9 @@ const UserMenu = () => {
 
   return (
     <div className={`flex flex-col ${isDarkTheme ? "bg-[#202020]" : "bg-white"} min-h-screen w-64 p-4`}>
+      <div className="flex justify-start w-full mb-4">
+        <h1 className={`text-2xl font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>User Menu</h1>
+      </div>
       <div className="flex justify-center w-full mb-8">
         <FaUserCircle className="w-12 h-12" color={isDarkTheme ? "white" : "black"} />
       </div>
