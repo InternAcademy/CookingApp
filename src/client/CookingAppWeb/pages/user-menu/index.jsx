@@ -41,7 +41,7 @@ const UserMenu = () => {
           <FaInfoCircle className="w-6 h-6 mb-1" color={isDarkTheme ? "white" : "black"} />
           <span className={`text-sm ${isDarkTheme ? "text-white" : "text-black"}`}>About</span>
         </div>
-        <div className="flex flex-col items-center w-full mb-2" onClick={() => router.push("/contact")} title="Contacts">
+        <div className="flex flex-col items-center w-full mb-2" onClick={() => router.push("/contacts")} title="Contacts">
           <FaEnvelope className="w-6 h-6 mb-1" color={isDarkTheme ? "white" : "black"} />
           <span className={`text-sm ${isDarkTheme ? "text-white" : "text-black"}`}>Contacts</span>
         </div>
