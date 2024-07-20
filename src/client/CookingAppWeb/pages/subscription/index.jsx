@@ -1,4 +1,3 @@
-// pages/Subscription.jsx
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -78,9 +77,10 @@ const Subscription = () => {
     <div className={`flex-1 ${isDarkTheme ? "bg-[#202020]" : "bg-white"} min-h-screen`}>
       <div className="flex-1 flex flex-col items-center p-6 mt-10">
         {/* <h1 className={`text-3xl font-bold mb-2 ${isDarkTheme ? "text-white" : "text-black"}`}>{isSubscribing ? "Subscribing..." : "Pricing page title"}</h1> */}
+        <h1 className={`text-3xl font-bold mb-2 ${isDarkTheme ? "text-white" : "text-black"}`}>Pricing page title</h1>
         <p className={`text-lg mb-6 ${isDarkTheme ? "text-gray-400" : "text-gray-500"}`}>And a subheading describing your pricing plans, too</p>
 
-        <div className="flex flex-wrap justify-between w-full px-6 mb-10">
+        <div className="flex flex-wrap justify-center w-full px-6 mb-10 space-x-4">
           {/* {isLoading && <div className="mb-4">{ <Spinner size="large" color={isDarkTheme ? "#ffffff" : "#000000"} /> }</div>}
           {isError && (
             <div className="mb-4">
@@ -90,7 +90,7 @@ const Subscription = () => {
           {data && (
             <>
               {/* Free sub */}
-              <div className={`flex-1 p-4 rounded-lg items-center ${isDarkTheme ? "bg-[#303030]" : "bg-[#FFF4E2]"}`}>
+              <div className={`w-64 p-6 m-4 rounded-lg text-center ${isDarkTheme ? "bg-[#303030]" : "bg-[#FFF4E2]"}`}>
                 <p className={`text-lg font-semibold mb-2 ${isDarkTheme ? "text-white" : "text-black"}`}>Meal Master</p>
                 <p className={`text-2xl font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>Free</p>
                 <p className={`text-sm font-normal mb-4 ${isDarkTheme ? "text-white" : "text-black"}`}>one time</p>
@@ -102,7 +102,7 @@ const Subscription = () => {
 
               {/* Subscriptions */}
               {data.data.map(sub => (
-                <div key={sub.id} className={`flex-1 p-4 rounded-lg items-center ${isDarkTheme ? "bg-[#303030]" : "bg-[#FFF4E2]"}`}>
+                <div key={sub.id} className={`w-64 p-6 m-4 rounded-lg text-center ${isDarkTheme ? "bg-[#303030]" : "bg-[#FFF4E2]"}`}>
                   <p className={`text-lg font-semibold mb-2 ${isDarkTheme ? "text-white" : "text-black"}`}>{sub.name}</p>
                   <p className={`text-2xl font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>{sub.price / 100}$</p>
                   <p className={`text-sm font-normal mb-4 ${isDarkTheme ? "text-white" : "text-black"}`}>{sub.period === "year" ? "per year" : "per month"}</p>
