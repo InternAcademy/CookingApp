@@ -1,23 +1,21 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { uiActions } from "@/app/store/ui-slice";
 
 const LanguageAndTheme = () => {
-  const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState("English");
-  const dispatch = useDispatch();
 
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
     if (storedTheme) {
-      dispatch(uiActions.setTheme(storedTheme === "dark"));
+      setIsDarkTheme(storedTheme === "dark");
     }
-  }, [dispatch]);
+  }, []);
 
   const handleThemeChange = () => {
-    dispatch(uiActions.toggleTheme());
-    localStorage.setItem("theme", !isDarkTheme ? "dark" : "light");
+    const newTheme = !isDarkTheme ? "dark" : "light";
+    setIsDarkTheme(!isDarkTheme);
+    localStorage.setItem("theme", newTheme);
   };
 
   const handleLanguageChange = () => {
@@ -28,6 +26,7 @@ const LanguageAndTheme = () => {
 
   return (
     <div className={`flex flex-1 ${isDarkTheme ? "bg-[#202020]" : "bg-white"} p-6`}>
+      <h1 className={`${isDarkTheme ? "text-white" : "text-black"} text-2xl mb-6`}>Language And Theme</h1>
       <div className="mb-6">
         <div className="mb-4">
           <button onClick={handleLanguageChange} className={`border rounded-full p-4 ${isDarkTheme ? "bg-[#303030] border-gray-300" : "bg-white border-gray-600"}`}>
