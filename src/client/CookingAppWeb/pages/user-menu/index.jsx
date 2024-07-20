@@ -6,17 +6,6 @@ const UserMenu = () => {
   const router = useRouter();
   const isDarkTheme = false; // = useSelector(state => state.ui.isDarkTheme);
 
-  const menuItems = [
-    { icon: FaUtensils, label: "Recipes", route: "/recipes" },
-    { icon: FaCreditCard, label: "Subscription", route: "/subscription" },
-    { icon: FaLeaf, label: "Food Preferences", route: "/food-preferences" },
-    { icon: FaArchive, label: "Archived Recipes", route: "/archived-recipes" },
-    { icon: FaLanguage, label: "Language & Theme", route: "/language-theme" },
-    { icon: FaFileAlt, label: "Rules And Policies", route: "/rules-policies" },
-    { icon: FaInfoCircle, label: "About", route: "/about" },
-    { icon: FaEnvelope, label: "Contacts", route: "/contact" }
-  ];
-
   return (
     <div className={`flex flex-col items-center ${isDarkTheme ? "bg-[#202020]" : "bg-white"} min-h-screen w-64 p-4`}>
       <div className="flex justify-end w-full mb-8">
@@ -24,12 +13,38 @@ const UserMenu = () => {
       </div>
 
       <div className="flex flex-col items-center w-full space-y-6">
-        {menuItems.map((item, index) => (
-          <button key={index} className="flex flex-col items-center w-full mb-2" onClick={() => router.push(item.route)} title={item.label}>
-            <item.icon className="w-6 h-6 mb-1" color={isDarkTheme ? "white" : "black"} />
-            <span className={`text-sm ${isDarkTheme ? "text-white" : "text-black"}`}>{item.label}</span>
-          </button>
-        ))}
+        <div className="flex flex-col items-center w-full mb-2" onClick={() => router.push("/recipes")} title="Recipes">
+          <FaUtensils className="w-6 h-6 mb-1" color={isDarkTheme ? "white" : "black"} />
+          <span className={`text-sm ${isDarkTheme ? "text-white" : "text-black"}`}>Recipes</span>
+        </div>
+        <div className="flex flex-col items-center w-full mb-2" onClick={() => router.push("/subscription")} title="Subscription">
+          <FaCreditCard className="w-6 h-6 mb-1" color={isDarkTheme ? "white" : "black"} />
+          <span className={`text-sm ${isDarkTheme ? "text-white" : "text-black"}`}>Subscription</span>
+        </div>
+        <div className="flex flex-col items-center w-full mb-2" onClick={() => router.push("/food-preferences")} title="Food Preferences">
+          <FaLeaf className="w-6 h-6 mb-1" color={isDarkTheme ? "white" : "black"} />
+          <span className={`text-sm ${isDarkTheme ? "text-white" : "text-black"}`}>Food Preferences</span>
+        </div>
+        <div className="flex flex-col items-center w-full mb-2" onClick={() => router.push("/archived-recipes")} title="Archived Recipes">
+          <FaArchive className="w-6 h-6 mb-1" color={isDarkTheme ? "white" : "black"} />
+          <span className={`text-sm ${isDarkTheme ? "text-white" : "text-black"}`}>Archived Recipes</span>
+        </div>
+        <div className="flex flex-col items-center w-full mb-2" onClick={() => router.push("/language-theme")} title="Language & Theme">
+          <FaLanguage className="w-6 h-6 mb-1" color={isDarkTheme ? "white" : "black"} />
+          <span className={`text-sm ${isDarkTheme ? "text-white" : "text-black"}`}>Language & Theme</span>
+        </div>
+        <div className="flex flex-col items-center w-full mb-2" onClick={() => router.push("/rules-policies")} title="Rules And Policies">
+          <FaFileAlt className="w-6 h-6 mb-1" color={isDarkTheme ? "white" : "black"} />
+          <span className={`text-sm ${isDarkTheme ? "text-white" : "text-black"}`}>Rules And Policies</span>
+        </div>
+        <div className="flex flex-col items-center w-full mb-2" onClick={() => router.push("/about")} title="About">
+          <FaInfoCircle className="w-6 h-6 mb-1" color={isDarkTheme ? "white" : "black"} />
+          <span className={`text-sm ${isDarkTheme ? "text-white" : "text-black"}`}>About</span>
+        </div>
+        <div className="flex flex-col items-center w-full mb-2" onClick={() => router.push("/contact")} title="Contacts">
+          <FaEnvelope className="w-6 h-6 mb-1" color={isDarkTheme ? "white" : "black"} />
+          <span className={`text-sm ${isDarkTheme ? "text-white" : "text-black"}`}>Contacts</span>
+        </div>
       </div>
 
       <div className="mt-auto mb-4">
