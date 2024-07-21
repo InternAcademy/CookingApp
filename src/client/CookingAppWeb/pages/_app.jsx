@@ -1,15 +1,19 @@
 // pages/_app.jsx
 import { NextUIProvider } from "@nextui-org/react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
-// import "../src/globals.css";
+import { Provider } from "react-redux";
+import store from "@/store";
+// import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <NextUIProvider>
-      <NextThemesProvider attribute="class" defaultTheme="dark">
-        <Component {...pageProps} />
-      </NextThemesProvider>
-    </NextUIProvider>
+    <Provider store={store}>
+      <NextUIProvider>
+        <NextThemesProvider attribute="class" defaultTheme="dark">
+          <Component {...pageProps} />
+        </NextThemesProvider>
+      </NextUIProvider>
+    </Provider>
   );
 }
 
