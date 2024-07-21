@@ -19,7 +19,7 @@ const Contacts = () => {
         <label className={`text-lg ${isDarkTheme ? "text-customWhite" : "text-gray-800"} mb-2`}>Message</label>
         <textarea className={`h-64 border ${isDarkTheme ? "border-customGray600 bg-gray-700 text-customWhite" : "border-customOrange bg-customOrange text-black"} rounded-lg px-3 pt-2 w-full`} placeholder="Enter your message here..." style={{ color: isDarkTheme ? "#888" : "#555" }} rows="10" />
       </div>
-      <button className={`h-12 flex justify-center items-center rounded-full ${isDarkTheme ? "bg-gray-600" : "bg-customOrange"} w-full`}>
+      <button className={`h-12 flex justify-center items-center rounded-full ${isDarkTheme ? "bg-gray-600 border-customWhite border" : "bg-customOrange"} w-full`}>
         <span className={`text-lg ${isDarkTheme ? "text-customWhite" : "text-gray-800"}`}>Send</span>
       </button>
     </div>
