@@ -1,19 +1,29 @@
 // pages/language-theme/index.jsx
 "use client";
-import { useState } from "react";
+import React from "react";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { uiActions } from "@/store/ui-slice";
 import { ThemeSwitcher } from "@/app/components/ThemeSwitcher";
-import { useTheme } from "next-themes";
 import "tailwindcss/tailwind.css";
 
 const LanguageAndTheme = () => {
-  const [selectedLanguage, setSelectedLanguage] = useState("English");
-  const { theme } = useTheme();
-  const isDarkTheme = theme === "dark";
+  const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
+  const [selectedLanguage, setSelectedLanguage] = React.useState("English");
+  const [selectedTheme, setSelectedTheme] = React.useState(isDarkTheme ? "Dark" : "Light");
+  const dispatch = useDispatch();
 
-  const handleLanguageChange = () => {
-    const newLanguage = selectedLanguage === "English" ? "Spanish" : "English";
-    setSelectedLanguage(newLanguage);
-    window.alert(`Language Changed: Selected language: ${newLanguage}`);
+  const handleThemeChange = async theme => {
+    dispatch(uiActions.toggleTheme());
+    setSelectedTheme(theme);
+    const storedTheme = await AsyncStorage.getItem("theme");
+    await AsyncStorage.setItem("theme", storedTheme === "dark" ? "light" : "dark");
+  };
+
+  const handleLanguageChange = language => {
+    setSelectedLanguage(language);
+
+    Alert.alert("Language Changed", `Selected language: ${language}`);
   };
 
   return (
