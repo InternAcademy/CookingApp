@@ -28,8 +28,16 @@ const LanguageAndTheme = () => {
     }
   }, [dispatch, isDarkTheme]);
 
+  useEffect(() => {
+    // Sync theme with client
+    if (selectedTheme === "Dark" && !isDarkTheme) {
+      dispatch(uiActions.toggleTheme());
+    } else if (selectedTheme === "Light" && isDarkTheme) {
+      dispatch(uiActions.toggleTheme());
+    }
+  }, [dispatch, selectedTheme, isDarkTheme]);
+
   const handleThemeChange = theme => {
-    dispatch(uiActions.toggleTheme());
     const newTheme = theme === "Dark" ? "Light" : "Dark";
     setSelectedTheme(newTheme);
     localStorage.setItem("theme", newTheme);
