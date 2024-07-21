@@ -4,45 +4,24 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { uiActions } from "@/store/ui-slice";
 import { ThemeSwitcher } from "@/app/components/ThemeSwitcher";
+import { useTheme } from "next-themes";
 import "tailwindcss/tailwind.css";
 
 const LanguageAndTheme = () => {
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
   const [selectedLanguage, setSelectedLanguage] = useState("English");
-  const [selectedTheme, setSelectedTheme] = useState(isDarkTheme ? "Dark" : "Light");
   const dispatch = useDispatch();
+  const { theme } = useTheme();
 
   useEffect(() => {
-    const storedTheme = localStorage.getItem("theme");
     const storedLanguage = localStorage.getItem("language");
-
-    if (storedTheme) {
-      setSelectedTheme(storedTheme);
-      if ((storedTheme === "Dark" && !isDarkTheme) || (storedTheme === "Light" && isDarkTheme)) {
-        dispatch(uiActions.toggleTheme());
-      }
-    }
-
     if (storedLanguage) {
       setSelectedLanguage(storedLanguage);
     }
-  }, [dispatch, isDarkTheme]);
 
-  useEffect(() => {
-    // Sync theme with client
-    if (selectedTheme === "Dark" && !isDarkTheme) {
-      dispatch(uiActions.toggleTheme());
-    } else if (selectedTheme === "Light" && isDarkTheme) {
-      dispatch(uiActions.toggleTheme());
-    }
-  }, [dispatch, selectedTheme, isDarkTheme]);
-
-  const handleThemeChange = theme => {
-    const newTheme = theme === "Dark" ? "Light" : "Dark";
-    setSelectedTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
-    console.log(`Theme changed to: ${newTheme}`);
-  };
+    // Sync Redux state with next-themes
+    dispatch(uiActions.setTheme(theme === "dark"));
+  }, [dispatch, theme]);
 
   const handleLanguageChange = language => {
     setSelectedLanguage(language);

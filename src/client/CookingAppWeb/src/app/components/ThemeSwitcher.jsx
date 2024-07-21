@@ -2,24 +2,21 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { uiActions } from "@/store/ui-slice";
 
 export function ThemeSwitcher() {
-  const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return null;
+    dispatch(uiActions.setTheme(theme === "dark"));
+  }, [theme, dispatch]);
 
   const toggleTheme = () => {
-    if (theme === "light") {
-      setTheme("dark");
-    } else {
-      setTheme("light");
-    }
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
   };
 
   const isDarkTheme = theme === "dark";

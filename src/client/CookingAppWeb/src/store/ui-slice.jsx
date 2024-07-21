@@ -1,4 +1,4 @@
-// store/uiSlice.js
+// store/ui-slice.js
 "use client";
 import { createSlice } from "@reduxjs/toolkit";
 
@@ -22,9 +22,6 @@ const uiSlice = createSlice({
     },
     setResponseError: (state, action) => {
       state.responseError = action.payload;
-    },
-    toggleTheme: state => {
-      state.isDarkTheme = !state.isDarkTheme;
     },
     setTheme: (state, action) => {
       state.isDarkTheme = action.payload;
