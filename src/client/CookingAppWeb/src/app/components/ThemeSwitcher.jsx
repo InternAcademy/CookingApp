@@ -14,11 +14,17 @@ export function ThemeSwitcher() {
 
   if (!mounted) return null;
 
+  const toggleTheme = () => {
+    if (theme === "light") {
+      setTheme("dark");
+    } else {
+      setTheme("light");
+    }
+  };
+
   return (
-    <div>
-      The current theme is: {theme}
-      <button onClick={() => setTheme("light")}>Light Mode</button>
-      <button onClick={() => setTheme("dark")}>Dark Mode</button>
-    </div>
+    <button onClick={toggleTheme} className="w-full py-3 rounded-full bg-white border-customGray600 text-black border">
+      {theme === "light" ? "Light Mode" : "Dark Mode"}
+    </button>
   );
 }
