@@ -1,10 +1,13 @@
-"use client"; // Маркираме компонента като Client Component
+// pages/Contacts.jsx
+"use client";
 
 import React from "react";
-import { useSelector } from "react-redux";
+import { useTheme } from "next-themes";
 import "tailwindcss/tailwind.css";
+
 const Contacts = () => {
-  const isDarkTheme = true; //= useSelector(state => state.ui.isDarkTheme);
+  const { theme } = useTheme();
+  const isDarkTheme = theme === "dark";
 
   return (
     <div className={`flex flex-col p-5 pt-20 min-h-screen ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}>
