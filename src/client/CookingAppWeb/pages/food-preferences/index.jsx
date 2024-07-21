@@ -1,3 +1,4 @@
+// components/FoodPreferences.jsx
 "use client";
 
 import React, { useState } from "react";
@@ -98,7 +99,7 @@ const FoodPreferences = () => {
           </datalist>
           {error && <p className="text-red-500 mb-2 text-center">{error}</p>}
           <button onClick={handleAddAlergen} className="w-full flex items-center justify-center">
-            <div className="w-48 py-2 bg-yellow-400 rounded-full flex items-center justify-center">
+            <div className={`w-84 py-3 bg-yellow-400 rounded-full flex items-center justify-center border ${isDarkTheme ? "border-gray-600" : "border-gray-300"}`}>
               <p className="text-black text-center text-base font-medium">Add Allergen</p>
             </div>
           </button>
@@ -120,7 +121,7 @@ const FoodPreferences = () => {
           <input type="text" value={foodPreferenceInput} onChange={e => setFoodPreferenceInput(e.target.value)} className={`border rounded-lg px-4 py-2 mb-2 w-full ${isDarkTheme ? "border-gray-600 bg-gray-900 text-white" : "border-gray-300 bg-white text-black"}`} placeholder="Add your disliked foods" />
           {foodError && <p className="text-red-500 mb-2 text-center">{foodError}</p>}
           <button onClick={handleAddFoodPreference} className="w-full flex items-center justify-center">
-            <div className="w-48 py-2 bg-yellow-400 rounded-full flex items-center justify-center">
+            <div className={`w-84 py-3 bg-yellow-400 rounded-full flex items-center justify-center border ${isDarkTheme ? "border-gray-600" : "border-gray-300"}`}>
               <p className="text-black text-center text-base font-medium">Add Food</p>
             </div>
           </button>
@@ -134,8 +135,8 @@ const FoodPreferences = () => {
         </div>
 
         <button onClick={handleSavePreferences} className="w-full flex items-center justify-center mt-4 mb-8">
-          <div className="w-48 py-2 bg-green-500 rounded-full flex items-center justify-center">
-            <p className="text-white text-center text-base font-medium">Save Food</p>
+          <div className={`w-84 py-3 bg-green-500 rounded-full flex items-center justify-center border ${isDarkTheme ? "border-gray-600" : "border-gray-300"}`}>
+            <p className="text-black text-center text-base font-medium">Save Food</p>
           </div>
         </button>
       </div>

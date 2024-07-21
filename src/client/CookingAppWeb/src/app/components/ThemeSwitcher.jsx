@@ -22,9 +22,11 @@ export function ThemeSwitcher() {
     }
   };
 
+  const isDarkTheme = theme === "dark";
+
   return (
-    <button onClick={toggleTheme} className="w-full py-3 rounded-full bg-white border-customGray600 text-black border">
-      {theme === "light" ? "Light Mode" : "Dark Mode"}
+    <button onClick={toggleTheme} className={`w-full py-3 rounded-full ${isDarkTheme ? "bg-customGray400 text-white" : "bg-white text-black"} border ${isDarkTheme ? "border-customGray400" : "border-customGray600"}`}>
+      {isDarkTheme ? "Dark Mode" : "Light Mode"}
     </button>
   );
 }
