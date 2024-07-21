@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, TouchableOpacity, SafeAreaView, StatusBar, StyleSheet } from "react-native";
+import { View, TouchableOpacity, SafeAreaView, StatusBar } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import tw from "twrnc";
 import { useSelector } from "react-redux";
@@ -8,6 +8,8 @@ import { userActions } from "../../redux/userSlice";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Sidebar from "./Sidebar";
 import { ChatBubbleBottomCenterTextIcon, Bars3BottomLeftIcon } from "react-native-heroicons/solid";
+import HeaderButton from "../bot/HeaderButton";
+
 
 const NavBar = () => {
   const navigation = useNavigation();
@@ -20,10 +22,10 @@ const NavBar = () => {
   };
 
   return (
-    <SafeAreaView style={[styles.safeArea, tw`${isDarkTheme ? "bg-[#202020]" : "bg-white"}`]}>
+    <SafeAreaView style={tw`absolute top-0 left-0 right-0 z-1 w-full ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}>
       <StatusBar barStyle={isDarkTheme ? "light-content" : "dark-content"} />
-      <View style={[styles.navBar, tw`${isDarkTheme ? "bg-[#202020]" : "bg-white"}`]}>
-        <View style={styles.leftContainer}>
+      <View style={tw`flex-row justify-between items-center h-15 w-full px-4 ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}>
+        <View style={tw`flex-row items-center`}>
           <TouchableOpacity onPress={() => setOpen(true)} style={tw`mx-2`}>
             <Bars3BottomLeftIcon size={24} color={isDarkTheme ? "white" : "black"} />
           </TouchableOpacity>
@@ -31,7 +33,10 @@ const NavBar = () => {
             <ChatBubbleBottomCenterTextIcon size={24} color={isDarkTheme ? "white" : "black"} />
           </TouchableOpacity>
         </View>
-        <View style={styles.rightContainer}>
+        <View style={tw`flex-1 flex-row justify-center items-center`}>
+          <HeaderButton />
+        </View>
+        <View style={tw`flex-row items-center mr-4`}>
           <TouchableOpacity onPress={() => navigation.navigate("Recipes")} style={tw`mx-2`}>
             <Ionicons name="restaurant" size={24} color={isDarkTheme ? "white" : "black"} />
           </TouchableOpacity>
@@ -44,33 +49,5 @@ const NavBar = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  safeArea: {
-    width: "100%",
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    zIndex: 1
-  },
-  navBar: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    height: 60,
-    width: "100%",
-    paddingHorizontal: 16
-  },
-  leftContainer: {
-    flexDirection: "row",
-    alignItems: "center"
-  },
-  rightContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginRight: 16
-  }
-});
 
 export default NavBar;
