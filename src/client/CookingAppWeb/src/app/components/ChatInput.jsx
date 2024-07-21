@@ -2,6 +2,7 @@
 import React from "react";
 import Image from "next/image";
 import { IoCameraOutline } from "react-icons/io5";
+import { useTheme } from "next-themes";
 import "tailwindcss/tailwind.css";
 // import { useSelector, useDispatch } from "react-redux";
 // import { uiActions } from "../../redux/uiSlice";
@@ -10,7 +11,8 @@ import "tailwindcss/tailwind.css";
 
 export default function ChatInput({ isPending }) {
   // const input = useSelector(state => state.ui.input);
-  const isDarkTheme = false; //= useSelector(state => state.ui.isDarkTheme);
+  const { theme } = useTheme();
+  const isDarkTheme = theme === "dark";
   // const selectedChat = useSelector(state => state.user.selectedChat);
   // const { mutate, isPending: isChatPending, isError, error } = useChatMutation();
 
@@ -84,7 +86,6 @@ export default function ChatInput({ isPending }) {
           type="text"
           className={`flex-1 h-10 px-1 ${isDarkTheme ? "text-white" : "text-black"}`}
           placeholder="Message MealMasterBot"
-          placeholderTextColor={isDarkTheme ? "gray" : "gray"}
           // value={input}
           onChange={handleTyping}
         />

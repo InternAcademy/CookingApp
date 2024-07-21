@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { FaCommentDots, FaTimes } from "react-icons/fa";
+import { useTheme } from "next-themes";
 import "tailwindcss/tailwind.css";
 // import { useSelector, useDispatch } from "react-redux";
 // import { userActions } from "../../redux/userSlice";
@@ -9,7 +10,8 @@ import "tailwindcss/tailwind.css";
 // import useChatHistory from "../../hooks/useChatHistory";
 
 const Sidebar = ({ open, setOpen }) => {
-  const isDarkTheme = false; //= useSelector(state => state.ui.isDarkTheme);
+  const { theme } = useTheme();
+  const isDarkTheme = theme === "dark";
   // const chat = useSelector(state => state.user.selectedChat);
   // const chatHistory = useSelector(state => state.user.chatHistory);
   // const selectChat = useSelectChat();
@@ -66,7 +68,7 @@ const Sidebar = ({ open, setOpen }) => {
   return (
     <div className={`fixed inset-0 z-10 ${open ? "block" : "hidden"}`}>
       <div className="absolute inset-0 bg-black opacity-50" onClick={() => setOpen(false)}></div>
-      <div className={`absolute top-0 bottom-0 left-0 w-72 p-4 bg-white dark:bg-gray-800 transform ${open ? "translate-x-0" : "-translate-x-full"} transition-transform duration-300 ease-in-out`}>
+      <div className={`absolute top-0 bottom-0 left-0 w-72 p-4 ${isDarkTheme ? "bg-gray-800" : "bg-white"} transform ${open ? "translate-x-0" : "-translate-x-full"} transition-transform duration-300 ease-in-out`}>
         <div className="flex items-center justify-between mb-4">
           <button onClick={startNewChat} className="ml-2">
             <FaCommentDots size={24} color={isDarkTheme ? "white" : "black"} />

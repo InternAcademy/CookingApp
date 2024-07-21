@@ -4,10 +4,12 @@ import Image from "next/image";
 import NavBar from "../components/NavBar";
 import ChatInput from "../components/ChatInput";
 import "tailwindcss/tailwind.css";
+import { useTheme } from "next-themes";
 const Home = () => {
   //   const router = useRouter();
   //   const { save, isPending } = useSaveRecipe();
-  const isDarkTheme = false; // = useSelector(state => state.ui.isDarkTheme);
+  const { theme } = useTheme();
+  const isDarkTheme = theme === "dark";
   //   const isThinking = useSelector(state => state.ui.isThinking);
   //   const responseError = useSelector(state => state.ui.responseError);
   //   const chat = useSelector(state => state.user.selectedChat);

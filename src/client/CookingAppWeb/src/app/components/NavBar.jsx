@@ -3,10 +3,13 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FaCommentDots, FaBars, FaUtensils, FaUser } from "react-icons/fa";
 import Sidebar from "./Sidebar";
+import { useTheme } from "next-themes";
 import "tailwindcss/tailwind.css";
+
 const NavBar = () => {
   const router = useRouter();
-  const isDarkTheme = false; // Задаване на isDarkTheme като false временно
+  const { theme } = useTheme();
+  const isDarkTheme = theme === "dark";
   const [open, setOpen] = useState(false);
 
   const startNewChat = () => {
