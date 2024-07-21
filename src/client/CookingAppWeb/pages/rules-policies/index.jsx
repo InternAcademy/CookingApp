@@ -1,12 +1,12 @@
-// pages/RulesAndPolicies.jsx
 "use client";
 
 import React from "react";
-import { useSelector } from "react-redux";
+import { useTheme } from "next-themes";
 import "tailwindcss/tailwind.css";
 
 const RulesAndPolicies = () => {
-  const isDarkTheme = false; //= useSelector(state => state.ui.isDarkTheme);
+  const { theme } = useTheme();
+  const isDarkTheme = theme === "dark";
 
   return (
     <div className={`flex-1 ${isDarkTheme ? "bg-[#202020]" : "bg-white"} min-h-screen`}>

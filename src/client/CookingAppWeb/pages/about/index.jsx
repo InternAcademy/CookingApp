@@ -1,11 +1,12 @@
 "use client";
 
 import React from "react";
-// import { useSelector } from "react-redux";
+import { useTheme } from "next-themes";
 import "tailwindcss/tailwind.css";
 
 const About = () => {
-  const isDarkTheme = false; // = useSelector(state => state.ui.isDarkTheme);
+  const { theme } = useTheme();
+  const isDarkTheme = theme === "dark";
 
   return (
     <div className={`flex flex-col p-6 min-h-screen ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}>

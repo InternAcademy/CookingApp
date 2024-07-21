@@ -1,6 +1,7 @@
 "use client";
 import "tailwindcss/tailwind.css";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useTheme } from "next-themes";
 // import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 // import { useSelector } from "react-redux";
 // import { fetchSubs, createSub } from "../../http/subs";
@@ -27,7 +28,8 @@ const Subscription = () => {
   //   }
   // });
 
-  const isDarkTheme = false; // = useSelector(state => state.ui.isDarkTheme);
+  const { theme } = useTheme();
+  const isDarkTheme = theme === "dark";
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
 
   async function handleSelection(id) {
@@ -104,7 +106,7 @@ const Subscription = () => {
               {data.data.map(sub => (
                 <div key={sub.id} className={`w-64 p-6 m-4 rounded-lg text-center ${isDarkTheme ? "bg-[#303030]" : "bg-[#FFF4E2]"}`}>
                   <p className={`text-lg font-semibold mb-2 ${isDarkTheme ? "text-white" : "text-black"}`}>{sub.name}</p>
-                  <p className={`text-2xl font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>{sub.price / 100}$</p>
+                  <p className={`text-2xl font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>{sub.price}$</p>
                   <p className={`text-sm font-normal mb-4 ${isDarkTheme ? "text-white" : "text-black"}`}>{sub.period === "year" ? "per year" : "per month"}</p>
                   <div className="mb-4">
                     <p className={`text-xs mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}>• Unlimited chats</p>

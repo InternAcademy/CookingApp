@@ -1,11 +1,12 @@
-// pages/food-preferences/index.jsx
 "use client";
+
 import React, { useState } from "react";
+import { useTheme } from "next-themes";
 import "tailwindcss/tailwind.css";
-// import { useSelector } from "react-redux";
 
 const FoodPreferences = () => {
-  const isDarkTheme = false; //= useSelector(state => state.ui.isDarkTheme);
+  const { theme } = useTheme();
+  const isDarkTheme = theme === "dark";
   const possibleAllergens = ["Peanuts", "Soy", "Egg", "Milk", "Fish", "Wheat", "Shellfish", "Tree nuts", "Sesame", "Mustard", "Celery", "Molluscs", "Sulphites", "Nuts", "Ketchup", "Onion", "Garlic"];
   const [alergens, setAlergens] = useState([]);
   const [foodPreferences, setFoodPreferences] = useState([]);

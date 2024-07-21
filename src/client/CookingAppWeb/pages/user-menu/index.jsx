@@ -1,11 +1,15 @@
+"use client";
+
 import React from "react";
 import { useRouter } from "next/navigation";
 import { FaUserCircle, FaUtensils, FaCreditCard, FaLeaf, FaArchive, FaLanguage, FaFileAlt, FaInfoCircle, FaEnvelope, FaSignOutAlt } from "react-icons/fa";
+import { useTheme } from "next-themes";
 import "tailwindcss/tailwind.css";
 
 const UserMenu = () => {
   const router = useRouter();
-  const isDarkTheme = false; // = useSelector(state => state.ui.isDarkTheme);
+  const { theme } = useTheme();
+  const isDarkTheme = theme === "dark";
 
   return (
     <div className={`flex flex-col ${isDarkTheme ? "bg-[#202020]" : "bg-white"} min-h-screen w-64 p-4`}>
