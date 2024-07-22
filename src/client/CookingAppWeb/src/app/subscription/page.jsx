@@ -2,31 +2,31 @@
 import "tailwindcss/tailwind.css";
 import React, { useState } from "react";
 import { useTheme } from "next-themes";
-// import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-// import { useSelector } from "react-redux";
-// import { fetchSubs, createSub } from "../../http/subs";
-// import jwtDecode from "jwt-decode";
-// import Spinner from "../components/Spinner";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useSelector } from "react-redux";
+import { fetchSubs, createSub } from "@/http/subs";
+import jwtDecode from "jwt-decode";
+import Spinner from "@/components/common/Spinner";
 
 const Subscription = () => {
-  // const queryClient = useQueryClient();
-  // const { isLoading, isError, data, error } = useQuery("subs", async () => {
-  //   const token = localStorage.getItem("token");
-  //   return fetchSubs(token);
-  // });
+  const queryClient = useQueryClient();
 
-  // const {
-  //   mutate,
-  //   isLoading: isSubscribing,
-  //   isError: isSubError,
-  //   error: subError
-  // } = useMutation(createSub, {
-  //   onSuccess: data => {
-  //     console.log(data);
-  //     window.open(data.data.invoiceUrl, "_blank").focus();
-  //     queryClient.invalidateQueries("subs");
-  //   }
-  // });
+  const { isLoading, isError, data, error } = useQuery({
+    queryKey: ["subs"],
+    queryFn: async () => {
+      const token = localStorage.getItem("token");
+      return fetchSubs(token);
+    }
+  });
+
+  const mutation = useMutation({
+    mutationFn: createSub,
+    onSuccess: data => {
+      console.log(data);
+      window.open(data.data.invoiceUrl, "_blank").focus();
+      queryClient.invalidateQueries(["subs"]);
+    }
+  });
 
   const { theme } = useTheme();
   const isDarkTheme = theme === "dark";
@@ -34,9 +34,9 @@ const Subscription = () => {
 
   async function handleSelection(id) {
     const token = localStorage.getItem("token");
-    // const cred = jwtDecode(token);
-    // console.log(cred.preferred_username);
-    // mutate({ token: token, email: cred.preferred_username, priceId: id });
+    const cred = jwtDecode(token);
+    console.log(cred.preferred_username);
+    mutation.mutate({ token: token, email: cred.preferred_username, priceId: id });
   }
 
   const faqs = [
@@ -55,40 +55,20 @@ const Subscription = () => {
     setOpenFaqIndex(openFaqIndex === index ? null : index);
   };
 
-  // Примерен data обект за тестване // изтрий при свързване
-  const data = {
-    data: [
-      {
-        id: 1,
-        name: "Meal Master Premium",
-        price: 159.99,
-        period: "per year",
-        priceId: "price_1"
-      },
-      {
-        id: 2,
-        name: "Meal Master Premium",
-        price: 19.99,
-        period: "month",
-        priceId: "price_2"
-      }
-    ]
-  };
-
   return (
     <div className={`flex-1 ${isDarkTheme ? "bg-[#202020]" : "bg-white"} min-h-screen`}>
       <div className="flex-1 flex flex-col items-center p-6 mt-10">
-        {/* <h1 className={`text-3xl font-bold mb-2 ${isDarkTheme ? "text-white" : "text-black"}`}>{isSubscribing ? "Subscribing..." : "Pricing page title"}</h1> */}
-        <h1 className={`text-3xl font-bold mb-2 ${isDarkTheme ? "text-white" : "text-black"}`}>Pricing page title</h1>
+        <h1 className={`text-3xl font-bold mb-2 ${isDarkTheme ? "text-white" : "text-black"}`}>{mutation.isLoading ? "Subscribing..." : "Pricing page title"}</h1>
+        {/* <h1 className={`text-3xl font-bold mb-2 ${isDarkTheme ? "text-white" : "text-black"}`}>Pricing page title</h1> */}
         <p className={`text-lg mb-6 ${isDarkTheme ? "text-gray-400" : "text-gray-500"}`}>And a subheading describing your pricing plans, too</p>
 
         <div className="flex flex-wrap justify-center w-full px-6 mb-10 space-x-4">
-          {/* {isLoading && <div className="mb-4">{ <Spinner size="large" color={isDarkTheme ? "#ffffff" : "#000000"} /> }</div>}
+          {isLoading && <div className="mb-4">{<Spinner size="large" color={isDarkTheme ? "#ffffff" : "#000000"} />}</div>}
           {isError && (
             <div className="mb-4">
               <p className={`text-xs mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{error.message}</p>
             </div>
-          )} */}
+          )}
           {data && (
             <>
               {/* Free sub */}

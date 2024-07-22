@@ -1,57 +1,52 @@
 // pages/recipes.jsx
+"use client";
 import React, { useEffect, useState, useCallback } from "react";
 import "tailwindcss/tailwind.css";
-// import { useSelector } from "react-redux";
-// import { useQuery } from "@tanstack/react-query";
-// import { getRecipes } from "../../http/recipe";
+import { useSelector } from "react-redux";
+import { useQuery } from "@tanstack/react-query";
+import { getRecipes } from "../../http/recipe";
 import { useRouter } from "next/router";
-// import jwtDecode from "jwt-decode";
-// import Recipe from "../../components/Recipe";
+import jwtDecode from "jwt-decode";
+import recipe
 import { MaterialIcons } from "react-icons/md";
+import { useTheme } from "next-themes";
 
 const Recipes = () => {
-  const isDarkTheme = false; //= useSelector(state => state.ui.isDarkTheme);
+  const { theme } = useTheme();
+  const isDarkTheme = theme === "dark";
   const router = useRouter();
   const [input, setInput] = useState("");
   const [filteredRecipes, setFilteredRecipes] = useState([]);
 
-  // const { data, isPending, isError, error, refetch } = useQuery({
-  //   queryKey: ["getRecipes"],
-  //   queryFn: async () => {
-  //     const token = localStorage.getItem("token");
-  //     // const decodedToken = jwtDecode(token);
-  //     const userRecipes = await getRecipes({
-  //       token: token,
-  //       userId: decodedToken.sub
-  //     });
-  //     return userRecipes;
-  //   }
-  // });
-
-  // const memoizedRefetch = useCallback(
-  //   () => {
-  //     refetch();
-  //   }
-  //   [refetch]
-  // );
-
-  useEffect(
-    () => {
-      if (data) {
-        setFilteredRecipes(data);
-      }
+  const { data, isPending, isError, error, refetch } = useQuery({
+    queryKey: ["getRecipes"],
+    queryFn: async () => {
+      const token = localStorage.getItem("token");
+      const decodedToken = jwtDecode(token);
+      const userRecipes = await getRecipes({
+        token: token,
+        userId: decodedToken.sub
+      });
+      return userRecipes;
     }
-    // [data]
-  );
+  });
 
-  //   useEffect(() => {
-  //     if (data) {
-  //       const filtered = data.filter(recipe => recipe.title.toLowerCase().includes(input.toLowerCase()));
-  //       setFilteredRecipes(filtered);
-  //     }
-  //   },
-  //   [input, data]
-  // );
+  const memoizedRefetch = useCallback(() => {
+    refetch();
+  }, [refetch]);
+
+  useEffect(() => {
+    if (data) {
+      setFilteredRecipes(data);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (data) {
+      const filtered = data.filter(recipe => recipe.title.toLowerCase().includes(input.toLowerCase()));
+      setFilteredRecipes(filtered);
+    }
+  }, [input, data]);
 
   function handleSelection(id) {
     router.push(`/recipes/${id}`);
