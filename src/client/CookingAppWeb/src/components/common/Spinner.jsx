@@ -1,7 +1,6 @@
 // components/Spinner.jsx
 import React from "react";
 import { FaSpinner } from "react-icons/fa";
-import "tailwindcss/tailwind.css";
 
 const Spinner = ({ size = "6", color = "#0000ff" }) => {
   const spinnerSize = size === "large" ? "text-6xl" : "text-4xl";

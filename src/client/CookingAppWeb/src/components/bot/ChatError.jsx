@@ -2,7 +2,6 @@
 import React from "react";
 import { FaLaptop } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import "tailwindcss/tailwind.css";
 
 const ChatError = ({ message }) => {
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);

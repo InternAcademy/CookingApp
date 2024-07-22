@@ -3,7 +3,6 @@
 
 import React from "react";
 import { useTheme } from "next-themes";
-import "tailwindcss/tailwind.css";
 
 const About = () => {
   const { theme } = useTheme();

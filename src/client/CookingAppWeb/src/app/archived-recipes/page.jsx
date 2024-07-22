@@ -8,7 +8,6 @@ import jwtDecode from "jwt-decode";
 import { FaSearch } from "react-icons/fa";
 import Recipe from "@/components/Recipe";
 import { getArchivedRecipes } from "@/http/recipe";
-import "tailwindcss/tailwind.css";
 
 const ArchivedRecipes = () => {
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);

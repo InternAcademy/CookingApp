@@ -3,7 +3,6 @@
 
 import React, { useState } from "react";
 import { useTheme } from "next-themes";
-import "tailwindcss/tailwind.css";
 
 const FoodPreferences = () => {
   const { theme } = useTheme();

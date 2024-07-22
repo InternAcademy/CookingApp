@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { uiActions } from "@/store/ui-slice";
 import { ThemeSwitcher } from "@/components/ThemeSwitcher";
 import { useTheme } from "next-themes";
-import "tailwindcss/tailwind.css";
 
 const LanguageAndTheme = () => {
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);

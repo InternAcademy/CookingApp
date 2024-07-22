@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { FaUserCircle, FaUtensils, FaCreditCard, FaLeaf, FaArchive, FaLanguage, FaFileAlt, FaInfoCircle, FaEnvelope, FaSignOutAlt } from "react-icons/fa";
 import { useTheme } from "next-themes";
-import "tailwindcss/tailwind.css";
+
 import { uiActions } from "@/store/ui-slice";
 
 const UserMenu = () => {

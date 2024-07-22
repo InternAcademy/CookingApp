@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { FaCommentDots, FaBars, FaUtensils, FaUser } from "react-icons/fa";
 import Sidebar from "./Sidebar";
 import { useTheme } from "next-themes";
-import "tailwindcss/tailwind.css";
 
 const NavBar = () => {
   const router = useRouter();

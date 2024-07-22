@@ -4,7 +4,7 @@
 import React, { useState, useEffect } from "react";
 import { FaCommentDots, FaTimes } from "react-icons/fa";
 import { useTheme } from "next-themes";
-import "tailwindcss/tailwind.css";
+
 import { useSelector, useDispatch } from "react-redux";
 import { userActions } from "@/store/userSlice";
 import useSelectChat from "../../hooks/useSelectChat";

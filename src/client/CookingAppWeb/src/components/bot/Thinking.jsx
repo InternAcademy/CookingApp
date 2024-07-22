@@ -2,7 +2,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { FaSpinner, FaLaptop } from "react-icons/fa";
-import "tailwindcss/tailwind.css";
 
 const Thinking = () => {
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);

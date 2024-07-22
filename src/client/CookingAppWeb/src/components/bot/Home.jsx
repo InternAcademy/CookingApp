@@ -2,7 +2,7 @@
 "use client";
 import React, { useEffect } from "react";
 import Image from "next/image";
-import "tailwindcss/tailwind.css";
+
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";

@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { archive } from "@/http/recipe";
-import "tailwindcss/tailwind.css";
+
 import { FaArchive, FaRegBookmark, FaClock, FaUtensils, FaSpinner } from "react-icons/fa";
 
 export default function Recipe({ recipe, refetch }) {

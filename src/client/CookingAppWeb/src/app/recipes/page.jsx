@@ -1,7 +1,7 @@
 // pages/Recipes.jsx
 "use client";
 import React, { useEffect, useState, useCallback } from "react";
-import "tailwindcss/tailwind.css";
+
 import { useQuery } from "@tanstack/react-query";
 import { getRecipes } from "../../http/recipe";
 import { useRouter } from "next/navigation";

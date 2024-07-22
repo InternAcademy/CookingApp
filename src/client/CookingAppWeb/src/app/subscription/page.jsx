@@ -1,6 +1,6 @@
 // pages/Subscription.jsx
 "use client";
-import "tailwindcss/tailwind.css";
+
 import React, { useState } from "react";
 import { useTheme } from "next-themes";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
