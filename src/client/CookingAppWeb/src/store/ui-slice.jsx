@@ -1,4 +1,3 @@
-// store/ui-slice.js
 "use client";
 import { createSlice } from "@reduxjs/toolkit";
 
@@ -7,7 +6,7 @@ const initialState = {
   isThinking: false,
   responseError: null,
   isDarkTheme: false,
-  photoUri: null
+  photoUri: typeof window !== "undefined" ? localStorage.getItem("photoUri") : null
 };
 
 const uiSlice = createSlice({
@@ -28,9 +27,15 @@ const uiSlice = createSlice({
     },
     setPhotoUri: (state, action) => {
       state.photoUri = action.payload;
+      if (typeof window !== "undefined") {
+        localStorage.setItem("photoUri", action.payload);
+      }
     },
     clearPhotoUri: state => {
       state.photoUri = null;
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("photoUri");
+      }
     }
   }
 });

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { FaUserCircle, FaUtensils, FaCreditCard, FaLeaf, FaArchive, FaLanguage, FaFileAlt, FaInfoCircle, FaEnvelope, FaSignOutAlt } from "react-icons/fa";
@@ -14,6 +14,13 @@ const UserMenu = () => {
   const isDarkTheme = theme === "dark";
   const dispatch = useDispatch();
   const photoUri = useSelector(state => state.ui.photoUri);
+
+  useEffect(() => {
+    const savedPhotoUri = localStorage.getItem("photoUri");
+    if (savedPhotoUri) {
+      dispatch(uiActions.setPhotoUri(savedPhotoUri));
+    }
+  }, [dispatch]);
 
   const handleImageUpload = event => {
     const file = event.target.files[0];
