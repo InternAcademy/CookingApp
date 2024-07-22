@@ -1,7 +1,7 @@
 // app/page.jsx
 import { Providers } from "./providers";
 import StoreProvider from "./StoreProvider";
-import Home from "./components/Home";
+import Home from "./components/bot/Home";
 import NavBar from "./components/navigation/NavBar";
 
 export default function App() {

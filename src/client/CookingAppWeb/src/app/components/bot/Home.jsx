@@ -2,12 +2,12 @@
 "use client";
 import React, { useEffect } from "react";
 import Image from "next/image";
-import ChatInput from "../components/ChatInput";
+import ChatInput from "./ChatInput";
 import "tailwindcss/tailwind.css";
 import { useTheme } from "next-themes";
 import { useDispatch, useSelector } from "react-redux";
 
-import NavBar from "./navigation/NavBar";
+import NavBar from "../navigation/NavBar";
 import { useRouter } from "next/navigation";
 
 import { saveRecipe } from "@/http/recipe";
