@@ -84,9 +84,6 @@ export default function ChatInput({ isPending }) {
     <div className={`flex w-3/4 flex-col justify-center items-center border ${isDarkTheme ? "border-gray-700 bg-gray-900" : "border-gray-300 bg-amber-50"} rounded-full px-2 mx-1`}>
       <div className="flex w-full flex-row justify-center items-center">
         <button onClick={openFileDialog} className="p-1" disabled={isPending}>
-          <IoCameraOutline size={30} color={isPending ? "gray" : isDarkTheme ? "white" : "orange"} />
-        </button>
-        <button onClick={openFileDialog} className="p-1" disabled={isPending}>
           <PaperclipIcon className={`w-5 h-5 ${isDarkTheme ? "text-white" : "text-orange-500"} ${isPending ? "text-gray-400" : ""}`} />
         </button>
         <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="image/*" style={{ display: "none" }} />
