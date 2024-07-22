@@ -2,20 +2,27 @@
 "use client";
 import React, { useEffect } from "react";
 import Image from "next/image";
-import NavBar from "../components/NavBar";
 import ChatInput from "../components/ChatInput";
 import "tailwindcss/tailwind.css";
 import { useTheme } from "next-themes";
+import { useDispatch, useSelector } from "react-redux";
+
+import NavBar from "./navigation/NavBar";
+import { useRouter } from "next/navigation";
+
+import { saveRecipe } from "@/http/recipe";
+import Thinking from "./Thinking";
+import { uiActions } from "@/store/ui-slice";
 const Home = () => {
-  //   const router = useRouter();
-  //   const { save, isPending } = useSaveRecipe();
+  const router = useRouter();
+  // const { save, isPending } = useSaveRecipe();
   const { theme } = useTheme();
   const isDarkTheme = theme === "dark";
-  //   const isThinking = useSelector(state => state.ui.isThinking);
-  //   const responseError = useSelector(state => state.ui.responseError);
-  //   const chat = useSelector(state => state.user.selectedChat);
-  //   const profileImage = useSelector(state => state.ui.photoUri);
-  //   const dispatch = useDispatch();
+  const isThinking = useSelector(state => state.ui.isThinking);
+  const responseError = useSelector(state => state.ui.responseError);
+  const chat = useSelector(state => state.user.selectedChat);
+  const profileImage = useSelector(state => state.ui.photoUri);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const checkTokenAndTheme = async () => {
