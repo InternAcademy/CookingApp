@@ -2,24 +2,39 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
 import { FaUserCircle, FaUtensils, FaCreditCard, FaLeaf, FaArchive, FaLanguage, FaFileAlt, FaInfoCircle, FaEnvelope, FaSignOutAlt } from "react-icons/fa";
 import { useTheme } from "next-themes";
 import "tailwindcss/tailwind.css";
+import { uiActions } from "@/store/ui-slice";
 
 const UserMenu = () => {
   const router = useRouter();
   const { theme } = useTheme();
   const isDarkTheme = theme === "dark";
+  const dispatch = useDispatch();
+  const photoUri = useSelector(state => state.ui.photoUri);
+
+  const handleImageUpload = event => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        dispatch(uiActions.setPhotoUri(reader.result));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   return (
     <div className={`flex flex-col ${isDarkTheme ? "bg-[#202020]" : "bg-white"} min-h-screen w-64 p-4`}>
       <div className="flex justify-start w-full mb-4">
         <h1 className={`text-2xl font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>User Menu</h1>
       </div>
-      <div className="flex justify-center w-full mb-8">
-        <FaUserCircle className="w-12 h-12" color={isDarkTheme ? "white" : "black"} />
+      <div className="flex justify-center w-full mb-8 relative">
+        {photoUri ? <img src={photoUri} alt="Profile" className="w-12 h-12 rounded-full cursor-pointer" onClick={() => document.getElementById("fileInput").click()} /> : <FaUserCircle className="w-12 h-12 cursor-pointer" color={isDarkTheme ? "white" : "black"} onClick={() => document.getElementById("fileInput").click()} />}
+        <input type="file" id="fileInput" accept="image/*" style={{ display: "none" }} onChange={handleImageUpload} />
       </div>
-
       <div className="flex flex-col items-start w-full space-y-6">
         <div className="flex items-center w-full mb-2 cursor-pointer" onClick={() => router.push("/recipes")} title="Recipes">
           <FaUtensils className="w-6 h-6 mr-4" color={isDarkTheme ? "white" : "black"} />
