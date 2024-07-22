@@ -1,14 +1,13 @@
-// pages/recipes.jsx
+// pages/Recipes.jsx
 "use client";
 import React, { useEffect, useState, useCallback } from "react";
 import "tailwindcss/tailwind.css";
-import { useSelector } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
 import { getRecipes } from "../../http/recipe";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import jwtDecode from "jwt-decode";
-import recipe
-import { MaterialIcons } from "react-icons/md";
+import Recipe from "@/components/Recipe";
+import { MdSearch } from "react-icons/md";
 import { useTheme } from "next-themes";
 
 const Recipes = () => {
@@ -68,9 +67,9 @@ const Recipes = () => {
       <div className="flex flex-row justify-between items-center px-4 py-2 w-full">
         <div className={`flex flex-row items-center flex-1 border ${isDarkTheme ? "border-gray-700" : "border-gray-300"} rounded-md`}>
           <button className="ml-2" onClick={memoizedRefetch}>
-            <MaterialIcons name="search" size={24} color={isDarkTheme ? "white" : "black"} />
+            <MdSearch size={24} color={isDarkTheme ? "white" : "black"} />
           </button>
-          <input className={`flex-1 p-2 ${isDarkTheme ? "text-white bg-[#202020]" : "text-black bg-white"}`} placeholder="Search for recipes" placeholderTextColor={isDarkTheme ? "gray" : "darkgray"} value={input} onChange={e => setInput(e.target.value)} />
+          <input className={`flex-1 p-2 ${isDarkTheme ? "text-white bg-[#202020]" : "text-black bg-white"}`} placeholder="Search for recipes" value={input} onChange={e => setInput(e.target.value)} />
           {input !== "" && (
             <button onClick={clearSearch} className="pr-3 pl-2">
               <CustomCloseIcon color={isDarkTheme ? "white" : "black"} />

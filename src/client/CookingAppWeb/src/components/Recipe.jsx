@@ -1,10 +1,12 @@
+// components/Recipe.jsx
+"use client";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { archive } from "@/http/recipe";
 import "tailwindcss/tailwind.css";
-import { FaArchive, FaArchiveAlt, FaClock, FaBowlRice } from "react-icons/fa";
+import { FaArchive, FaRegBookmark, FaClock, FaUtensils, FaSpinner } from "react-icons/fa";
 
 export default function Recipe({ recipe, refetch }) {
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
@@ -30,9 +32,10 @@ export default function Recipe({ recipe, refetch }) {
     router.push(`/recipes/${recipe.id}`);
   }
 
-  async function archiveThisRecipe() {
+  async function archiveThisRecipe(e) {
+    e.stopPropagation();
     console.log(recipe);
-    const token = localStorage.getItem("token"); // Замяна на AsyncStorage с localStorage
+    const token = localStorage.getItem("token");
     setLoading(true);
 
     mutate({ token, recipeId: recipe.id });
@@ -45,7 +48,7 @@ export default function Recipe({ recipe, refetch }) {
         <div className="p-4 flex flex-col">
           <div className="flex flex-row justify-between items-center">
             <h2 className={`text-xl font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>{recipe.title}</h2>
-            {loading ? <FaSpinner className={`animate-spin ${isDarkTheme ? "text-white" : "text-black"} mr-2`} /> : <div onClick={archiveThisRecipe}>{recipe.isArchived ? <FaArchive className={isDarkTheme ? "text-white" : "text-black"} size={24} /> : <FaArchiveAlt className={isDarkTheme ? "text-white" : "text-black"} size={24} />}</div>}
+            {loading ? <FaSpinner className={`animate-spin ${isDarkTheme ? "text-white" : "text-black"} mr-2`} /> : <div onClick={archiveThisRecipe}>{recipe.isArchived ? <FaArchive className={isDarkTheme ? "text-white" : "text-black"} size={24} /> : <FaRegBookmark className={isDarkTheme ? "text-white" : "text-black"} size={24} />}</div>}
           </div>
 
           <div className="flex flex-row justify-start items-center">
@@ -53,7 +56,7 @@ export default function Recipe({ recipe, refetch }) {
             <span className={`text-[16px] font-semibold ml-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{recipe.duration}</span>
           </div>
           <div className="flex flex-row justify-start items-center">
-            <FaBowlRice size={20} className={isDarkTheme ? "text-white" : "text-black"} />
+            <FaUtensils size={20} className={isDarkTheme ? "text-white" : "text-black"} />
             <span className={`text-[16px] font-semibold ml-1 pt-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{recipe.numberOfPortions}</span>
           </div>
         </div>
