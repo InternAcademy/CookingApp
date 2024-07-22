@@ -3,10 +3,10 @@
 
 import React from "react";
 import { useTheme } from "next-themes";
-
+import { useSelector } from "react-redux";
 const RulesAndPolicies = () => {
   const { theme } = useTheme();
-  const isDarkTheme = theme === "dark";
+  const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
 
   return (
     <div className={`flex-1 ${isDarkTheme ? "bg-[#202020]" : "bg-white"} min-h-screen`}>

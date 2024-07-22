@@ -5,11 +5,12 @@ import { useRouter } from "next/navigation";
 import { FaCommentDots, FaBars, FaUtensils, FaUser } from "react-icons/fa";
 import Sidebar from "./Sidebar";
 import { useTheme } from "next-themes";
+import { useSelector, useDispatch } from "react-redux";
 
 const NavBar = () => {
   const router = useRouter();
   const { theme } = useTheme();
-  const isDarkTheme = theme === "dark";
+  const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
   const [open, setOpen] = useState(false);
 
   const startNewChat = () => {

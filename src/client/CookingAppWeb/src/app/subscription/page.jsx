@@ -30,7 +30,7 @@ const Subscription = () => {
   });
 
   const { theme } = useTheme();
-  const isDarkTheme = theme === "dark";
+  const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
 
   async function handleSelection(id) {

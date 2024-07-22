@@ -12,7 +12,7 @@ import { uiActions } from "@/store/ui-slice";
 const UserMenu = () => {
   const router = useRouter();
   const { theme } = useTheme();
-  const isDarkTheme = theme === "dark";
+  const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
   const dispatch = useDispatch();
   const photoUri = useSelector(state => state.ui.photoUri);
 

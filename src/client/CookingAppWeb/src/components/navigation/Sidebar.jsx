@@ -12,7 +12,7 @@ import useChatHistory from "../../hooks/useChatHistory";
 
 const Sidebar = ({ open, setOpen }) => {
   const { theme } = useTheme();
-  const isDarkTheme = theme === "dark";
+  const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
   const chat = useSelector(state => state.user.selectedChat);
   const chatHistory = useSelector(state => state.user.chatHistory);
   const selectChat = useSelectChat();

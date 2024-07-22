@@ -3,10 +3,11 @@
 
 import React from "react";
 import { useTheme } from "next-themes";
+import { useSelector } from "react-redux";
 
 const Contacts = () => {
   const { theme } = useTheme();
-  const isDarkTheme = theme === "dark";
+  const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
 
   return (
     <div className={`flex flex-col p-5 pt-20 min-h-screen ${isDarkTheme ? "bg-customGray" : "bg-customWhite"}`}>

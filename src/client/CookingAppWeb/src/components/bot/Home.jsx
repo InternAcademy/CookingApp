@@ -17,7 +17,7 @@ const Home = () => {
   const router = useRouter();
   const { save, isLoading } = useSaveRecipe();
   const { theme } = useTheme();
-  const isDarkTheme = theme === "dark";
+  const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
   const isThinking = useSelector(state => state.ui.isThinking);
   const responseError = useSelector(state => state.ui.responseError);
   const chat = useSelector(state => state.user.selectedChat);
