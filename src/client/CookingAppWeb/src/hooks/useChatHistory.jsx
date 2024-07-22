@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import jwtDecode from "jwt-decode";
 import { useQuery } from "@tanstack/react-query";
 import { getUserChats } from "../http/chat";
-import { userActions } from "../redux/userSlice";
+import { userActions } from "@/store/userSlice";
 
 const useChatHistory = () => {
   const dispatch = useDispatch();

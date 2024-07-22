@@ -1,8 +1,8 @@
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
 import { getChat } from "../http/chat";
-import { userActions } from "../redux/userSlice";
+import { userActions } from "@/store/userSlice";
 
 const useSelectChat = () => {
   const dispatch = useDispatch();
