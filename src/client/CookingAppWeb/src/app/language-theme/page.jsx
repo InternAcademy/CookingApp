@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { uiActions } from "@/store/ui-slice";
-import { ThemeSwitcher } from "@/app/components/ThemeSwitcher";
+import { ThemeSwitcher } from "@/components/ThemeSwitcher";
 import { useTheme } from "next-themes";
 import "tailwindcss/tailwind.css";
 

@@ -1,6 +1,6 @@
 // app/page.jsx
-import Home from "./components/bot/Home";
-import NavBar from "./components/navigation/NavBar";
+import Home from "@/components/bot/Home";
+import NavBar from "@/components/navigation/NavBar";
 
 export default function App() {
   return (

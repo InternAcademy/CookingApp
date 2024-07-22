@@ -11,7 +11,7 @@ import ChatInput from "./ChatInput";
 import ChatError from "./ChatError";
 import NavBar from "../navigation/NavBar";
 import Thinking from "./Thinking";
-import useSaveRecipe from "@/app/hooks/useSaveRecipe";
+import useSaveRecipe from "@/hooks/useSaveRecipe";
 
 const Home = () => {
   const router = useRouter();

@@ -7,7 +7,7 @@ const initialState = {
   isThinking: false,
   responseError: null,
   isDarkTheme: false,
-  photoUri: null // Премахнахме логиката за LocalStorage от тук
+  photoUri: null
 };
 
 const uiSlice = createSlice({

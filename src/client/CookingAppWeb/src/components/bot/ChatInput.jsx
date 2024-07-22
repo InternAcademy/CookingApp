@@ -7,7 +7,7 @@ import "tailwindcss/tailwind.css";
 import { useSelector, useDispatch } from "react-redux";
 import { uiActions } from "@/store/ui-slice";
 import { userActions } from "@/store/userSlice";
-import useChatMutation from "@/app/hooks/useChatMutation";
+import useChatMutation from "@/hooks/useChatMutation";
 
 export default function ChatInput({ isPending }) {
   const input = useSelector(state => state.ui.input);
