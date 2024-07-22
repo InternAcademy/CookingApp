@@ -1,8 +1,7 @@
-// components/ChatInput.jsx
 "use client";
 import React from "react";
-import Image from "next/image";
 import { IoCameraOutline } from "react-icons/io5";
+import { PaperclipIcon, ArrowUpIcon, ArrowUpCircle, LucideArrowUpCircle } from "lucide-react";
 import "tailwindcss/tailwind.css";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -80,11 +79,11 @@ export default function ChatInput({ isPending }) {
           <IoCameraOutline size={30} color={isPending ? "gray" : isDarkTheme ? "white" : "orange"} />
         </button>
         <button onClick={openGallery} className="p-1" disabled={isPending}>
-          <Image src="/HomeMessageBar/paperClip.png" alt="Paper Clip" width={20} height={20} className={`${isDarkTheme ? "tint-white" : ""} ${isPending ? "tint-gray-400" : ""}`} />
+          <PaperclipIcon className={`w-5 h-5 ${isDarkTheme ? "text-white" : "text-orange-500"} ${isPending ? "text-gray-400" : ""}`} />
         </button>
         <input type="text" className={`flex-1 h-10 px-1 ${isDarkTheme ? "text-white" : "text-black"}`} placeholder="Message MealMasterBot" value={input} onChange={handleTyping} />
         <button onClick={sendMessage} className="p-1" disabled={isPending}>
-          <Image src="/HomeMessageBar/arrowUpCircle.png" alt="Send" width={24} height={24} className={`${isDarkTheme ? "tint-white" : ""} ${isPending ? "tint-gray-400" : ""}`} />
+          <LucideArrowUpCircle className={`w-6 h-6 ${isDarkTheme ? "text-white" : "text-orange-500"} ${isPending ? "text-gray-400" : ""}`} />
         </button>
       </div>
     </div>
