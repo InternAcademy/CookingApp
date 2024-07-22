@@ -1,6 +1,6 @@
 "use client";
 export async function fetchSubs(token) {
-  const response = await fetch(`localhost:8000/api/stripe/products`, {
+  const response = await fetch(`localhost:8001/api/stripe/products`, {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json"
@@ -14,7 +14,7 @@ export async function fetchSubs(token) {
   return data;
 }
 export async function createSub({ token, email, priceId }) {
-  const response = await fetch(`localhost:8000/api/stripe/subscription`, {
+  const response = await fetch(`localhost:8001/api/stripe/subscription`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
