@@ -1,3 +1,4 @@
+// components/Spinner.jsx
 import React from "react";
 import { FaSpinner } from "react-icons/fa";
 import "tailwindcss/tailwind.css";

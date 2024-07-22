@@ -1,3 +1,4 @@
+// components/ChatError.jsx
 import React from "react";
 import { FaLaptop } from "react-icons/fa";
 import { useSelector } from "react-redux";

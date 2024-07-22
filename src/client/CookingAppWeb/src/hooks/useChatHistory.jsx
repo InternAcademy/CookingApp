@@ -1,3 +1,4 @@
+// hooks/useChatHistory.jsx
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import jwtDecode from "jwt-decode";
@@ -18,7 +19,7 @@ const useChatHistory = () => {
   } = useQuery({
     queryKey: ["getHistory"],
     queryFn: async () => {
-      const token = localStorage.getItem("token"); // Замяна на AsyncStorage с localStorage
+      const token = localStorage.getItem("token");
       if (!token) throw new Error("Token not found");
       const decodedToken = jwtDecode(token);
       const userChats = await getUserChats({

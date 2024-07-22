@@ -1,3 +1,4 @@
+// http/subs.jsx
 "use client";
 export async function fetchSubs(token) {
   const response = await fetch(`localhost:8001/api/stripe/products`, {

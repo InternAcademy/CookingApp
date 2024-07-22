@@ -1,3 +1,4 @@
+// pages/RecipesDetails.jsx
 "use client";
 
 import React from "react";
