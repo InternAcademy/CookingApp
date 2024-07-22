@@ -1,3 +1,4 @@
+// store/ui-slice.js
 "use client";
 import { createSlice } from "@reduxjs/toolkit";
 
