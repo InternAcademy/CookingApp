@@ -4,19 +4,18 @@ import React, { useEffect } from "react";
 import Image from "next/image";
 import "tailwindcss/tailwind.css";
 import { useTheme } from "next-themes";
-
 import { useRouter } from "next/navigation";
-
 import { useDispatch, useSelector } from "react-redux";
 import { uiActions } from "@/store/ui-slice";
 import ChatInput from "./ChatInput";
 import ChatError from "./ChatError";
 import NavBar from "../navigation/NavBar";
 import Thinking from "./Thinking";
+import useSaveRecipe from "@/app/hooks/useSaveRecipe";
 
 const Home = () => {
   const router = useRouter();
-  const { save, isPending } = useSaveRecipe();
+  const { save, isLoading } = useSaveRecipe();
   const { theme } = useTheme();
   const isDarkTheme = theme === "dark";
   const isThinking = useSelector(state => state.ui.isThinking);
@@ -30,9 +29,9 @@ const Home = () => {
       const token = localStorage.getItem("token");
       console.log(token);
       const theme = localStorage.getItem("theme");
-      if (!token) {
-        router.push("/landing-page");
-      }
+      // if (!token) {
+      //   router.push("/landing-page");
+      // }
       if (theme) {
         console.log(theme);
         dispatch(uiActions.setTheme(theme === "dark" ? "dark" : null));
@@ -67,8 +66,8 @@ const Home = () => {
                     <>
                       <p className={`max-w-full mr-12 text-base mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{msg.content}</p>
                       <button onClick={() => handleRecipeSave(msg.content)} className="mx-2 self-end">
-                        {!isPending && <div className={`text-${isDarkTheme ? "white" : "black"}`}>🍴</div>}
-                        {isPending && <div className={`mr-2 ${isDarkTheme ? "text-white" : "text-black"}`}>Loading...</div>}
+                        {!isLoading && <div className={`text-${isDarkTheme ? "white" : "black"}`}>🍴</div>}
+                        {isLoading && <div className={`mr-2 ${isDarkTheme ? "text-white" : "text-black"}`}>Loading...</div>}
                       </button>
                     </>
                   )}
@@ -96,7 +95,7 @@ const Home = () => {
     <div className={`flex flex-col items-center justify-center pt-22 w-full h-full ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}>
       <NavBar />
       <div className="flex-grow w-full">{renderPost()}</div>
-      <div className={`flex w-full flex-row justify-center mb-5 ${isDarkTheme ? "border-gray-700 bg-[#202020]" : "border-gray-300 bg-white"}`}>{<ChatInput isPending={isPending} />}</div>
+      <div className={`flex w-full flex-row justify-center mb-5 ${isDarkTheme ? "border-gray-700 bg-[#202020]" : "border-gray-300 bg-white"}`}>{<ChatInput isLoading={isLoading} />}</div>
     </div>
   );
 };

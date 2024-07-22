@@ -1,7 +1,8 @@
+// app/hooks/useSaveRecipe.jsx
 import { useMutation } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
-import { uiActions } from "../redux/uiSlice";
-import { createRecipe } from "../http/recipe";
+import { uiActions } from "@/store/ui-slice";
+import { createRecipe } from "@/http/recipe";
 
 const useSaveRecipe = () => {
   const dispatch = useDispatch();
