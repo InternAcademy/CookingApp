@@ -6,7 +6,7 @@ const initialState = {
   isThinking: false,
   responseError: null,
   isDarkTheme: false,
-  photoUri: typeof window !== "undefined" ? localStorage.getItem("photoUri") : null
+  photoUri: null // Премахнахме логиката за LocalStorage от тук
 };
 
 const uiSlice = createSlice({
@@ -27,15 +27,9 @@ const uiSlice = createSlice({
     },
     setPhotoUri: (state, action) => {
       state.photoUri = action.payload;
-      if (typeof window !== "undefined") {
-        localStorage.setItem("photoUri", action.payload);
-      }
     },
     clearPhotoUri: state => {
       state.photoUri = null;
-      if (typeof window !== "undefined") {
-        localStorage.removeItem("photoUri");
-      }
     }
   }
 });

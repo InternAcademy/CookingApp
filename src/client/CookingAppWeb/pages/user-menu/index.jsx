@@ -27,9 +27,20 @@ const UserMenu = () => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        dispatch(uiActions.setPhotoUri(reader.result));
+        const result = reader.result;
+        dispatch(uiActions.setPhotoUri(result));
+        if (typeof window !== "undefined") {
+          localStorage.setItem("photoUri", result);
+        }
       };
       reader.readAsDataURL(file);
+    }
+  };
+
+  const clearPhoto = () => {
+    dispatch(uiActions.clearPhotoUri());
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("photoUri");
     }
   };
 
@@ -41,6 +52,11 @@ const UserMenu = () => {
       <div className="flex justify-center w-full mb-8 relative">
         {photoUri ? <img src={photoUri} alt="Profile" className="w-24 h-24 rounded-full object-cover cursor-pointer" onClick={() => document.getElementById("fileInput").click()} style={{ width: "6rem", height: "6rem" }} /> : <FaUserCircle className="w-24 h-24 cursor-pointer" color={isDarkTheme ? "white" : "black"} onClick={() => document.getElementById("fileInput").click()} style={{ width: "6rem", height: "6rem" }} />}
         <input type="file" id="fileInput" accept="image/*" style={{ display: "none" }} onChange={handleImageUpload} />
+        {photoUri && (
+          <button onClick={clearPhoto} className="absolute top-0 right-0 text-red-500">
+            Clear
+          </button>
+        )}
       </div>
       <div className="flex flex-col items-start w-full space-y-6">
         <div className="flex items-center w-full mb-2 cursor-pointer" onClick={() => router.push("/recipes")} title="Recipes">
