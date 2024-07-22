@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef } from "react";
 import { IoCameraOutline } from "react-icons/io5";
-import { PaperclipIcon, ArrowUpIcon, ArrowUpCircle, LucideArrowUpCircle } from "lucide-react";
+import { PaperclipIcon, ArrowUpCircle } from "lucide-react";
 import "tailwindcss/tailwind.css";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -43,7 +43,7 @@ export default function ChatInput({ isPending }) {
           type: "Image",
           content: base64String
         });
-        if (!fileInputRef.current) {
+        if (fileInputRef.current) {
           fileInputRef.current.value = ""; // Clear the file input for the next upload
         }
       };
@@ -89,10 +89,10 @@ export default function ChatInput({ isPending }) {
         <button onClick={openFileDialog} className="p-1" disabled={isPending}>
           <PaperclipIcon className={`w-5 h-5 ${isDarkTheme ? "text-white" : "text-orange-500"} ${isPending ? "text-gray-400" : ""}`} />
         </button>
-        <input type="file" ref={fileInputRef} onChange={handleFileChange} style={{ display: "none" }} />
+        <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="image/*" style={{ display: "none" }} />
         <input type="text" className={`flex-1 h-10 px-1 ${isDarkTheme ? "text-white" : "text-black"}`} placeholder="Message MealMasterBot" value={input} onChange={handleTyping} />
         <button onClick={sendMessage} className="p-1" disabled={isPending}>
-          <LucideArrowUpCircle className={`w-6 h-6 ${isDarkTheme ? "text-white" : "text-orange-500"} ${isPending ? "text-gray-400" : ""}`} />
+          <ArrowUpCircle className={`w-6 h-6 ${isDarkTheme ? "text-white" : "text-orange-500"} ${isPending ? "text-gray-400" : ""}`} />
         </button>
       </div>
     </div>
