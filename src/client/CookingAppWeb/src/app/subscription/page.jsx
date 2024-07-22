@@ -2,13 +2,12 @@
 "use client";
 
 import React, { useState } from "react";
-import { useTheme } from "next-themes";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { fetchSubs, createSub } from "@/http/subs";
 import jwtDecode from "jwt-decode";
 import Spinner from "@/components/common/Spinner";
-
+import "tailwindcss/tailwind.css";
 const Subscription = () => {
   const queryClient = useQueryClient();
 
@@ -29,7 +28,6 @@ const Subscription = () => {
     }
   });
 
-  const { theme } = useTheme();
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
 

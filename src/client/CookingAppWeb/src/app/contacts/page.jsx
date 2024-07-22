@@ -2,11 +2,10 @@
 "use client";
 
 import React from "react";
-import { useTheme } from "next-themes";
+import "tailwindcss/tailwind.css";
 import { useSelector } from "react-redux";
 
 const Contacts = () => {
-  const { theme } = useTheme();
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
 
   return (

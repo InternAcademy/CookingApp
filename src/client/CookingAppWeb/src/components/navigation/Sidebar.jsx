@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect } from "react";
 import { FaCommentDots, FaTimes } from "react-icons/fa";
-import { useTheme } from "next-themes";
+import "tailwindcss/tailwind.css";
 
 import { useSelector, useDispatch } from "react-redux";
 import { userActions } from "@/store/userSlice";
@@ -11,7 +11,6 @@ import useSelectChat from "../../hooks/useSelectChat";
 import useChatHistory from "../../hooks/useChatHistory";
 
 const Sidebar = ({ open, setOpen }) => {
-  const { theme } = useTheme();
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
   const chat = useSelector(state => state.user.selectedChat);
   const chatHistory = useSelector(state => state.user.chatHistory);

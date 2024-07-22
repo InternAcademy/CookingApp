@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { IoCameraOutline } from "react-icons/io5";
-import { useTheme } from "next-themes";
+import "tailwindcss/tailwind.css";
 
 import { useSelector, useDispatch } from "react-redux";
 import { uiActions } from "@/store/ui-slice";
@@ -12,7 +12,6 @@ import useChatMutation from "@/hooks/useChatMutation";
 
 export default function ChatInput({ isPending }) {
   const input = useSelector(state => state.ui.input);
-  const { theme } = useTheme();
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
   const selectedChat = useSelector(state => state.user.selectedChat);
   const { mutate, isPending: isChatPending, isError, error } = useChatMutation();

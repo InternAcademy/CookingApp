@@ -3,20 +3,19 @@
 import React, { useEffect } from "react";
 import Image from "next/image";
 
-import { useTheme } from "next-themes";
+import "tailwindcss/tailwind.css";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { uiActions } from "@/store/ui-slice";
 import ChatInput from "./ChatInput";
 import ChatError from "./ChatError";
 import NavBar from "../navigation/NavBar";
 import Thinking from "./Thinking";
 import useSaveRecipe from "@/hooks/useSaveRecipe";
+import "tailwindcss/tailwind.css";
 
 const Home = () => {
   const router = useRouter();
   const { save, isLoading } = useSaveRecipe();
-  const { theme } = useTheme();
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
   const isThinking = useSelector(state => state.ui.isThinking);
   const responseError = useSelector(state => state.ui.responseError);
@@ -28,14 +27,9 @@ const Home = () => {
     const checkTokenAndTheme = async () => {
       const token = localStorage.getItem("token");
       console.log(token);
-      const theme = localStorage.getItem("theme");
       // if (!token) {
       //   router.push("/landing-page");
       // }
-      if (theme) {
-        console.log(theme);
-        dispatch(uiActions.setTheme(theme === "dark" ? "dark" : null));
-      }
     };
     checkTokenAndTheme();
   }, []);

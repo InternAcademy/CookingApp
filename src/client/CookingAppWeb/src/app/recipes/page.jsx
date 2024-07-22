@@ -8,11 +8,10 @@ import { useRouter } from "next/navigation";
 import jwtDecode from "jwt-decode";
 import Recipe from "@/components/Recipe";
 import { MdSearch } from "react-icons/md";
-import { useTheme } from "next-themes";
+import "tailwindcss/tailwind.css";
 import { useSelector } from "react-redux";
 
 const Recipes = () => {
-  const { theme } = useTheme();
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
   const router = useRouter();
   const [input, setInput] = useState("");
