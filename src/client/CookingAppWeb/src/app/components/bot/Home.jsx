@@ -2,20 +2,21 @@
 "use client";
 import React, { useEffect } from "react";
 import Image from "next/image";
-import ChatInput from "./ChatInput";
 import "tailwindcss/tailwind.css";
 import { useTheme } from "next-themes";
-import { useDispatch, useSelector } from "react-redux";
 
-import NavBar from "../navigation/NavBar";
 import { useRouter } from "next/navigation";
 
-import { saveRecipe } from "@/http/recipe";
-import Thinking from "./Thinking";
+import { useDispatch, useSelector } from "react-redux";
 import { uiActions } from "@/store/ui-slice";
+import ChatInput from "./ChatInput";
+import ChatError from "./ChatError";
+import NavBar from "../navigation/NavBar";
+import Thinking from "./Thinking";
+
 const Home = () => {
   const router = useRouter();
-  // const { save, isPending } = useSaveRecipe();
+  const { save, isPending } = useSaveRecipe();
   const { theme } = useTheme();
   const isDarkTheme = theme === "dark";
   const isThinking = useSelector(state => state.ui.isThinking);
@@ -30,11 +31,11 @@ const Home = () => {
       console.log(token);
       const theme = localStorage.getItem("theme");
       if (!token) {
-        // router.push("/landingpage");
+        router.push("/landing-page");
       }
       if (theme) {
         console.log(theme);
-        // dispatch(uiActions.setTheme(theme === "dark" ? "dark" : null));
+        dispatch(uiActions.setTheme(theme === "dark" ? "dark" : null));
       }
     };
     checkTokenAndTheme();
@@ -46,19 +47,16 @@ const Home = () => {
 
   async function handleRecipeSave(request) {
     const token = localStorage.getItem("token");
-    // save({ token, request });
+    save({ token, request });
   }
 
   const renderPost = () => {
-    if (
-      // chat
-      false // временно решение за да се подкара
-    ) {
+    if (chat) {
       console.log(chat);
       return (
         <div className={`flex-1 ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}>
           <div className="p-6 mt-10">
-            {/* {chat.content.map((msg, index) => (
+            {chat.content.map((msg, index) => (
               <div key={index} className="mb-2 flex flex-row justify-start wrap pt-1">
                 {msg.role === "user" ? profileImage ? <Image src={profileImage} alt="Profile" className="w-8 h-8 rounded-full mr-2 mb-7" /> : <div className={`mr-2 mb-7 items-start -mt-1 ${isDarkTheme ? "text-white" : "text-black"}`}>👤</div> : <Image src="/icon2.png" alt="Icon" className="w-8 h-8 rounded-full mr-2 mb-7 items-start -mt-1" />}
                 <div>
@@ -79,7 +77,7 @@ const Home = () => {
               </div>
             ))}
             {isThinking && !responseError && <Thinking />}
-            {responseError && <ChatError message={responseError} />} */}
+            {responseError && <ChatError message={responseError} />}
           </div>
         </div>
       );
@@ -98,14 +96,7 @@ const Home = () => {
     <div className={`flex flex-col items-center justify-center pt-22 w-full h-full ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}>
       <NavBar />
       <div className="flex-grow w-full">{renderPost()}</div>
-      <div className={`flex w-full flex-row justify-center mb-5 ${isDarkTheme ? "border-gray-700 bg-[#202020]" : "border-gray-300 bg-white"}`}>
-        {
-          <ChatInput
-
-          //   isPending={isPending}
-          />
-        }
-      </div>
+      <div className={`flex w-full flex-row justify-center mb-5 ${isDarkTheme ? "border-gray-700 bg-[#202020]" : "border-gray-300 bg-white"}`}>{<ChatInput isPending={isPending} />}</div>
     </div>
   );
 };
