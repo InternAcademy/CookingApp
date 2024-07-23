@@ -213,7 +213,7 @@ const UserMenu = () => {
           style={tw`flex-row justify-center items-center`}
         >
           <Text
-            style={tw`text-lg font-bold ${isDarkTheme ? "text-gray-100" : "text-black"}`}
+            style={tw`text-lg font-bold ${isDarkTheme ? "text-gray-100/30" : "text-black/30"}`}
           >
             Sign Out
           </Text>
@@ -221,7 +221,7 @@ const UserMenu = () => {
             name="log-out"
             size={24}
             color={isDarkTheme ? "white" : "black"}
-            style={tw`ml-2`}
+            style={tw`ml-2 opacity-30`}
           />
         </TouchableOpacity>
       </View>
