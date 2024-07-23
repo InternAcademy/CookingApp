@@ -1,3 +1,4 @@
+'use client'
 // pages/recipes.jsx
 import React, { useEffect, useState, useCallback } from "react";
 import "tailwindcss/tailwind.css";
