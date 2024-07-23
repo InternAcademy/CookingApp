@@ -86,7 +86,7 @@ export default function ChatInput({ isPending }) {
 
   return (
     <>
-      <View style={tw`flex w-6/8 flex-col justify-center items-center border ${isDarkTheme ? "border-gray-700 bg-gray-900" : "border-gray-300 bg-amber-50"} rounded-full px-2 mx-1`}>
+      <View style={tw`flex w-6/8 flex-col justify-center items-center border ${isDarkTheme ? "border-white/50 border-2 bg-slate-900/20" : "border-gray-300 bg-amber-50"} rounded-full px-2 mx-1`}>
         <View style={tw`flex w-full flex-row justify-center items-center`}>
           <TouchableOpacity onPress={openCamera} style={tw`p-1`} disabled={isPending}>
             <Ionicons name="camera" size={30} color={isPending ? "gray" : isDarkTheme ? "white" : "orange"} />
@@ -95,7 +95,7 @@ export default function ChatInput({ isPending }) {
           <TouchableOpacity onPress={openGallery} style={tw`p-1`} disabled={isPending}>
             <Image source={require("../../assets/HomeMessageBar/paperClip.png")} style={tw`w-5 h-5 ${isDarkTheme ? "tint-white" : ""} ${isPending ? "tint-gray-400" : ""}`} />
           </TouchableOpacity>
-          <TextInput style={tw`flex-1 h-10 px-1 ${isDarkTheme ? "text-white" : "text-black"}`} placeholder="Message MealMasterBot" placeholderTextColor={isDarkTheme ? "gray" : "gray"} value={input} onChangeText={handleTyping} />
+          <TextInput style={tw`flex-1 h-10 px-2 ${isDarkTheme ? "text-white" : "text-black"}`} placeholder="Message MealMasterBot" placeholderTextColor={isDarkTheme ? "gray" : "gray"} value={input} onChangeText={handleTyping} />
           <TouchableOpacity onPress={sendMessage} style={tw`p-1`} disabled={isPending}>
             <Image source={require("../../assets/HomeMessageBar/arrowUpCircle.png")} style={tw`w-6 h-6 ${isDarkTheme ? "tint-white" : ""} ${isPending ? "tint-gray-400" : ""}`} />
           </TouchableOpacity>
