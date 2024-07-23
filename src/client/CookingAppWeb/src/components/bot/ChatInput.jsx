@@ -1,6 +1,5 @@
 "use client";
 import React, { useRef } from "react";
-import { IoCameraOutline } from "react-icons/io5";
 import { PaperclipIcon, ArrowUpCircle } from "lucide-react";
 import "tailwindcss/tailwind.css";
 

@@ -37,12 +37,12 @@ const UserMenu = () => {
   };
 
   return (
-    <div className={`flex flex-col ${isDarkTheme ? "bg-[#202020]" : "bg-white"} min-h-screen w-64 p-4`}>
+    <div className={`flex flex-col ${isDarkTheme ? "bg-[#202020]" : "bg-white"} min-h-screen w-66 p-4`}>
       <div className="flex justify-start w-full mb-4">
         <h1 className={`text-2xl font-bold ${isDarkTheme ? "text-white" : "text-black"}`}>User Menu</h1>
       </div>
       <div className="flex justify-center w-full mb-8 relative">
-        {photoUri ? <img src={photoUri} alt="Profile" className="w-24 h-24 rounded-full object-cover cursor-pointer" onClick={() => document.getElementById("fileInput").click()} style={{ width: "6rem", height: "6rem" }} /> : <FaUserCircle className="w-24 h-24 cursor-pointer" color={isDarkTheme ? "white" : "black"} onClick={() => document.getElementById("fileInput").click()} style={{ width: "6rem", height: "6rem" }} />}
+        {photoUri ? <img src={photoUri} alt="Profile" className="w-24 h-24 rounded-full object-cover cursor-pointer" onClick={() => document.getElementById("fileInput").click()} style={{ width: "8rem", height: "8rem" }} /> : <FaUserCircle className="w-24 h-24 cursor-pointer" color={isDarkTheme ? "white" : "black"} onClick={() => document.getElementById("fileInput").click()} style={{ width: "6rem", height: "6rem" }} />}
         <input type="file" id="fileInput" accept="image/*" style={{ display: "none" }} onChange={handleImageUpload} />
       </div>
       <div className="flex flex-col items-start w-full space-y-6">
