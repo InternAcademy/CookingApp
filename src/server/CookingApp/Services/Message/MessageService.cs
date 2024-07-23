@@ -18,7 +18,7 @@
         IChatService chatService,
         IRepository<Chat> chatRepo,
         IRepository<UserProfile> profileRepo,
-        HttpClient httpClient) : IMessageService
+        IFileService fileService) : IMessageService
     {
         public async Task<MessageData> SendMessage(string userId, MessageData request)
         {
@@ -72,7 +72,7 @@
 
             if(request.Type == MessageType.Image && request.Content != null)
             {
-                var imgPath = await UploadFile.ToImgur(File.ConvertDataUriToFormFile(request.Content), httpClient);
+                var imgPath = await fileService.UploadFileAndGetUrl(File.ConvertDataUriToFormFile(request.Content));
 
                 messages.Add(new UserChatMessage(
                         ChatMessageContentPart.CreateTextMessageContentPart(Completions.ImageRequest),

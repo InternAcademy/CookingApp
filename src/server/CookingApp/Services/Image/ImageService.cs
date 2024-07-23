@@ -16,7 +16,7 @@
 
             var image = await client.GenerateImageAsync(prompt, options);
             var file = File.ConvertBinaryDataToFormFile(image.Value.ImageBytes, Guid.NewGuid().ToString(), "image/png");
-            var imagePath = await UploadFile.ToImgur(file, httpClient);
+            var imagePath = await ImgurFileService.ToImgur(file, httpClient);
 
             return imagePath;
         }
