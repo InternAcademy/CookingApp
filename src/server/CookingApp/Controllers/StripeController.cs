@@ -104,5 +104,6 @@ namespace CookingApp.Controllers
                 Data = incomeStats
             };
         }
+        
     }
 }

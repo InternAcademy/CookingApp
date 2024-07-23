@@ -1,12 +1,14 @@
 ﻿namespace CookingApp.Services.Stripe
 {
     using AutoMapper;
-    using CookingApp.Common;
+    using CookingApp.Common.Helpers.Profiles;
+    using CookingApp.Infrastructure.Exceptions;
+    using CookingApp.Infrastructure.Interfaces;
+    using CookingApp.Models;
     using CookingApp.ViewModels.Stripe.Customer;
     using CookingApp.ViewModels.Stripe.Statistics;
     using CookingApp.ViewModels.Stripe.Subscription;
     using global::Stripe;
-    using System.Diagnostics.Eventing.Reader;
     using static CookingApp.Common.ExceptionMessages;
     using Product = ViewModels.Stripe.Product;
 
@@ -15,6 +17,9 @@
         ProductService productService,
         SubscriptionService subscriptionService,
         BalanceTransactionService balanceTransactionService,
+        InvoiceService invoiceService,
+        IRepository<UserProfile> userRepo,
+        IHttpContextAccessor httpContextAccessor,
         IMapper mapper) : IStripeService
     {
         /// <summary>
@@ -49,22 +54,73 @@
         /// Once the initial Invoice is payed the status then is set to active.
         /// If the Invoice is not payed in 23 hours the status then is set to "incomplete_expired"
         /// </summary>
-        public async Task<SubscriptionCreationResponse> CreateSubscriptionAsync(SubscriptionCreation model)
+         public async Task<SubscriptionCreationResponse> CreateSubscriptionAsync(SubscriptionCreation model)
         {
             if (model == null ||
                 string.IsNullOrEmpty(model.Email) ||
                 string.IsNullOrEmpty(model.PriceId))
             {
-                throw new ArgumentException(NullOrEmptyInputValues);
+                throw new ArgumentException(Stripe.NullOrEmptyInputValues);
             }
+
+            var userId = GetUser.ProfileId(httpContextAccessor);
+
+            var profile = await userRepo.GetFirstOrDefaultAsync(x=>x.UserId == userId);
+            
+
+            if(profile is null)
+            {
+                throw new NotFoundException();
+            }
+            
+            if(profile.StripeId is not null)
+            {
+                var customer = await customerService.GetAsync(profile.StripeId);
+                var subscriptionListOptions = new SubscriptionListOptions
+                {
+                    Customer = customer.Id,
+                };
+
+                var subscriptions = await subscriptionService.ListAsync(subscriptionListOptions);
+                if(subscriptions.Any())
+                {
+                    if(subscriptions.Any(sub=>sub.Status=="active"))
+                    {
+                        throw new ArgumentException(Stripe.TheUserIsAlreadySubscribed);
+                    }
+                    var incompleteSubscription = subscriptions.FirstOrDefault(sub=>sub.Status=="incomplete");
+                    if(incompleteSubscription is not null)              
+                    {   
+                        var invoiceListOptions = new InvoiceListOptions
+                        {
+                            Status = "open",
+                            Subscription=incompleteSubscription.Id
+                        };
+                        var invoices=await invoiceService.ListAsync(invoiceListOptions);
+                        var invoice=invoices.First();
+                        return new SubscriptionCreationResponse(
+                            incompleteSubscription.Id,
+                            invoice.Id,
+                            invoice.HostedInvoiceUrl
+                        );
+                    }
+                }
+            }
+            
+                        
             var options = new CustomerCreateOptions
             {
                 Email = model.Email
             };
-            var customer = await customerService.CreateAsync(options);
+            var newCustomer = await customerService.CreateAsync(options);
+
+            profile.StripeId=newCustomer.Id;
+            await userRepo.UpdateAsync(profile);
+        
+          
             var subscriptionOptions = new SubscriptionCreateOptions
             {
-                Customer = customer.Id,
+                Customer = newCustomer.Id,
                 Items =
                 [
                     new SubscriptionItemOptions
@@ -80,11 +136,11 @@
 
             return new SubscriptionCreationResponse(
                subscription.Id,
-               subscription.LatestInvoice.PaymentIntent.ClientSecret,
                subscription.LatestInvoiceId,
                subscription.LatestInvoice.HostedInvoiceUrl
             );
         }
+
 
         /// <summary>
         /// Cancels a subscription immediatly. The customer will not be charged again for the subscription
@@ -92,9 +148,15 @@
         public async Task<SubscriptionCancellationResponse> CancelSubscriptionAsync(SubscriptionCancellation model)
         {
             ArgumentException.ThrowIfNullOrEmpty(model.SubscriptionId);
-            var subscription = await subscriptionService.CancelAsync(model.SubscriptionId);
+            var sub = await subscriptionService.GetAsync(model.SubscriptionId);
+            var options = new SubscriptionUpdateOptions
+            {
+                CancelAtPeriodEnd=true
+            };
+            subscriptionService.Update(model.SubscriptionId, options);
 
-            return new SubscriptionCancellationResponse(subscription.CanceledAt);
+
+            return new SubscriptionCancellationResponse(sub.CurrentPeriodEnd);
         }
 
         public async Task<List<CustomerData>> GetAllSubs()

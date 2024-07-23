@@ -4,8 +4,10 @@ const initialState = {
   input: "",
   isThinking: false,
   responseError: null,
+  isInitial: true,
   isDarkTheme: false,
   photoUri: null,
+  lang: "English",
 };
 
 const uiSlice = createSlice({
@@ -32,6 +34,12 @@ const uiSlice = createSlice({
     },
     clearPhotoUri(state) {
       state.photoUri = null;
+    },
+    setLanguage(state, action) {
+      state.lang = action.payload;
+    },
+    setIsInitial(state, action) {
+      state.isInitial = action.payload;
     },
   },
 });

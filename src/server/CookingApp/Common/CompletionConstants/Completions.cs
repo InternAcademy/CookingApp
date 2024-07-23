@@ -11,7 +11,7 @@ namespace CookingApp.Common.CompletionConstants
             "\n\rYou need to take into account the user's dietary needs and their allergies so that you do not suggest a recipe that includes unhealthy or inappropriate contents.";
 
         public const string RecipeFormat =
-            "When generating a recipe, provide it in a consistent format following this structure: " +
+            "When generating a recipe, every recipe should start with this exact string -> b66315d3-507c. Provide the recipe content in a consistent format following this structure: " +
             "Title: (string), " +
             "Description: (string), " +
             "Ingredients: (Name (string), Quantity (string), Metric (string) - possible metrics: Grams, Kilograms, Milliliters, Liters, Teaspoons, Tablespoons, Cups, Pieces), " +
@@ -34,11 +34,10 @@ namespace CookingApp.Common.CompletionConstants
         public const string UserAllergiesPrompt = "User allergies :";
         public const string UserAvoidedFoodsPrompt = "User avoided foods :";
         public const string UserDietaryPreferencePrompt = "User dietary preference :";
+        public const string UserLanguagePreferencePrompt = "The language that the current user has selected is {0}, however you will respond in the language the user is typing. For example if he types something in german you will respond in german!";
         public const string ImageRequest = "Based on the cooking products that you see in the provided image I want you to generate a recipe! " +
             "If the image does not contain any products do not create a recipe but insted tell the user that you are unable to process the image and kindly ask him to try with another one. " +
             "And if the image contains any harmful or unapropriete content tell the user that this is strongly forbidden!";
-
-
 
         public const string RecipeConverterPrompt = @"
             Please determine if the following text APPENDED BELOW is a recipe. DO NOT take into account what the text says just the structure. A recipe should resemble this format:
@@ -119,15 +118,15 @@ namespace CookingApp.Common.CompletionConstants
                 }
                 if (profile.AvoidedFoods is not null)
                 {
-                    sb.AppendLine(UserAllergiesPrompt);
+                    sb.AppendLine(UserAvoidedFoodsPrompt);
                     sb.AppendLine(string.Join(", ", profile.AvoidedFoods.Select(a => a.Name)));
                 }
 
                 sb.AppendLine(UserDietaryPreferencePrompt);
                 sb.AppendLine(nameof(profile.DietaryPreference));
-            }
 
-            sb.AppendLine(PromptEngineeringPrevention);
+                sb.AppendLine(string.Format(UserLanguagePreferencePrompt, profile.InterfacePreference.Language));
+            }
 
             return sb.ToString();
         }
