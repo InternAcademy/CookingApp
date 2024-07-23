@@ -64,6 +64,7 @@ const Recipes = () => {
 
   return (
     <div className={`flex flex-col items-center ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}>
+      <h1 className={`text-3xl font-bold my-4 ${isDarkTheme ? "text-white" : "text-black"}`}>Recipes</h1>
       <div className="flex flex-row justify-between items-center px-4 py-2 w-full">
         <div className={`flex flex-row items-center flex-1 border ${isDarkTheme ? "border-gray-700" : "border-gray-300"} rounded-md`}>
           <button className="ml-2" onClick={memoizedRefetch}>
