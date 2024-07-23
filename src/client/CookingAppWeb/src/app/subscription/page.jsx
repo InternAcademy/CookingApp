@@ -56,7 +56,8 @@ const Subscription = () => {
 
   return (
     <div className={`flex-1 ${isDarkTheme ? "bg-[#202020]" : "bg-white"} min-h-screen`}>
-      <div className="flex-1 flex flex-col items-center p-6 mt-10">
+      <div className="flex-1 flex flex-col items-center p-6 mt-13">
+        {/* <h1 className={`text-3xl font-bold mb-2 ${isDarkTheme ? "text-white" : "text-black"}`}>Subscription</h1> */}
         <h1 className={`text-3xl font-bold mb-2 ${isDarkTheme ? "text-white" : "text-black"}`}>{mutation.isLoading ? "Subscribing..." : "Choose your plan"}</h1>
         <p className={`text-lg mb-6 ${isDarkTheme ? "text-gray-400" : "text-gray-500"}`}> Change plans or cancel any time your Cooking App Subscription.</p>
 
