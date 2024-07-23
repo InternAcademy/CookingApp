@@ -10,6 +10,8 @@ import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
 import Svg, { Line } from "react-native-svg";
 import Recipe from "./Recipe";
+import * as Animatable from 'react-native-animatable';
+
 
 const Recipes = () => {
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
@@ -77,8 +79,17 @@ const Recipes = () => {
           )}
         </View>
       </View>
-      {filteredRecipes.map(recipe => (
-        <Recipe key={recipe.id} recipe={recipe} refetch={memoizedRefetch} />
+      {filteredRecipes.map((recipe, index) => (
+        <Animatable.View
+          key={recipe.id}
+          animation="fadeInLeft"
+          
+          duration={700}
+          delay={index * 400}  // добавям закънснение на вскеи един елемент
+          useNativeDriver
+        >
+          <Recipe recipe={recipe} refetch={memoizedRefetch} />
+        </Animatable.View>
       ))}
     </ScrollView>
   );

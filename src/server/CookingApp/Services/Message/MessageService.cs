@@ -1,18 +1,18 @@
-﻿using CookingApp.Common.Helpers.Recipes;
-
-namespace CookingApp.Services.Message
+﻿namespace CookingApp.Services.Message
 {
     using CookingApp.Common.CompletionConstants;
+    using CookingApp.Common.Helpers.Messages;
     using CookingApp.Infrastructure.Interfaces;
     using CookingApp.Models;
     using CookingApp.Models.Enums;
     using CookingApp.Services.ChatService;
     using CookingApp.Services.File;
     using CookingApp.Services.OpenAI;
+    using CookingApp.Common.Helpers.Recipes;
     using CookingApp.ViewModels.Message;
     using global::OpenAI.Chat;
     using System;
-    using System.Text.RegularExpressions;
+    using CookingApp.Common.EntityConstants;
 
     public partial class MessageService(ChatClient client,
         IChatService chatService,
@@ -36,12 +36,26 @@ namespace CookingApp.Services.Message
             {
                 new SystemChatMessage(Completions.BuildSystemMessage(userProfile))
             };
-            if (chat.Requests.Count > 0)
+            if (chat.Requests.Count > 0 && chat.Responses.Count > 0)
             {
-                for (int i = 0; i < chat.Requests.Count; i++)
+                int requestStart = Math.Max(0, chat.Requests.Count - Messages.MemoryRange);
+                int responseStart = Math.Max(0, chat.Responses.Count - Messages.MemoryRange);
+
+                int end = Math.Min(chat.Requests.Count, chat.Responses.Count);
+
+                int start = Math.Max(requestStart, responseStart);
+
+                for (int i = start; i < end; i++)
                 {
-                    messages.Add(new UserChatMessage(chat.Requests[i].Content));
-                    messages.Add(new AssistantChatMessage(chat.Responses[i].Content));
+                    if (i < chat.Requests.Count)
+                    {
+                        messages.Add(new UserChatMessage(chat.Requests[i].Content));
+                    }
+
+                    if (i < chat.Responses.Count)
+                    {
+                        messages.Add(new AssistantChatMessage(chat.Responses[i].Content));
+                    }
                 }
             }
 
@@ -72,18 +86,28 @@ namespace CookingApp.Services.Message
 
                 saveRequest.Content = request.Content;
             }
-
+            
             var response = await client.CompleteChatAsync(messages);
-            saveResponse.Content = response.Value.Content[0].Text;
-            saveResponse.Type = RecipeHelpers.IsRecipe(saveResponse.Content) ? MessageType.Recipe : MessageType.Text;
+            var responceText = response.Value.Content[0].Text;
+
+            if (RecipeHelpers.IsRecipe(responceText))
+            {
+                saveResponse.Type = MessageType.Recipe;
+                saveResponse.Content = MessageHelper.RemoveMarkdown(RecipeHelpers.UpdateRecipe(responceText));
+            }
+            else
+            {
+                saveResponse.Type = MessageType.Text;
+                saveResponse.Content = responceText;
+            }
 
             await chatService.UpdateChat(chat.Id, saveRequest, saveResponse);
-            await AddTitle(chat.Id, response.Value.Content[0].Text);
+            await AddTitle(chat.Id, responceText);
 
             return new MessageData
             {
                 ChatId = chat.Id,
-                Content = response.Value.Content[0].Text,
+                Content = saveResponse.Content,
                 Type = saveResponse.Type
             };
         }

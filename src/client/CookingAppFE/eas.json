@@ -4,7 +4,6 @@
       "developmentClient": true,
       "distribution": "internal",
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://api.production.com/",
         "EXPO_PUBLIC_CLIENT_ID": "349eabe8-ab3c-4642-822b-2b49a62d54b4",
         "EXPO_PUBLIC_INSTANCE": "https://mealmasterchatbot.ciamlogin.com/mealmasterchatbot.onmicrosoft.com/v2.0/",
         "EXPO_PUBLIC_SCOPES": "openid profile email api://73a1d95e-764d-4942-803c-59af9102f655/MealMaster.Default",

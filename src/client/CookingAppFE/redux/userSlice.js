@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   selectedChat: null,
-  isPremium: false,
+  role: null,
   chatHistory: null,
 };
 
@@ -17,6 +17,9 @@ const userSlice = createSlice({
     },
     setChatHistory(state, action) {
       state.chatHistory = action.payload;
+    },
+    setRole(state, action) {
+      state.role = action.payload;
     },
   },
 });
