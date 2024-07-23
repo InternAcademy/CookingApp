@@ -1,7 +1,6 @@
 // pages/Recipes.jsx
 "use client";
 import React, { useEffect, useState, useCallback } from "react";
-
 import { useQuery } from "@tanstack/react-query";
 import { getRecipes } from "../../http/recipe";
 import { useRouter } from "next/navigation";
@@ -63,7 +62,7 @@ const Recipes = () => {
   );
 
   return (
-    <div className={`flex flex-col items-center ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}>
+    <div className={`flex flex-col items-center min-h-screen ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}>
       <h1 className={`text-3xl font-bold my-4 ${isDarkTheme ? "text-white" : "text-black"}`}>Recipes</h1>
       <div className="flex flex-row justify-between items-center px-4 py-2 w-full">
         <div className={`flex flex-row items-center flex-1 border ${isDarkTheme ? "border-gray-700" : "border-gray-300"} rounded-md`}>
@@ -78,9 +77,11 @@ const Recipes = () => {
           )}
         </div>
       </div>
-      {filteredRecipes.map(recipe => (
-        <Recipe key={recipe.id} recipe={recipe} refetch={memoizedRefetch} />
-      ))}
+      <div className="w-full flex flex-col items-center">
+        {filteredRecipes.map(recipe => (
+          <Recipe key={recipe.id} recipe={recipe} refetch={memoizedRefetch} />
+        ))}
+      </div>
     </div>
   );
 };
