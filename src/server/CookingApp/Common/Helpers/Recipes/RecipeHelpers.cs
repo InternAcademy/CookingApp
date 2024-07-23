@@ -16,6 +16,7 @@ namespace CookingApp.Common.Helpers.Recipes
             "Duration:",
             "Number Of Portions:"
         ];
+        private static readonly string GUIDConstant = "b66315d3-507c";
 
         public static bool IsRecipe(string text)
         {
@@ -24,7 +25,17 @@ namespace CookingApp.Common.Helpers.Recipes
                 return false;
             }
 
-            return RequiredSections.All(section => text.Contains(section, StringComparison.OrdinalIgnoreCase));
+            return text.Contains(GUIDConstant, StringComparison.OrdinalIgnoreCase);
+        }
+
+        public static string UpdateRecipe(string text)
+        {
+            if (text.Contains(GUIDConstant, StringComparison.OrdinalIgnoreCase))
+            {
+                return text.Replace(GUIDConstant, string.Empty);
+            }
+
+            return text;
         }
     }
 }
