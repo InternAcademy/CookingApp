@@ -60,7 +60,7 @@ const ArchivedRecipes = () => {
 
   return (
     <div className={`flex flex-col min-h-screen ${isDarkTheme ? "bg-[#202020]" : "bg-white"} p-4`}>
-      <h1 className={`text-3xl font-bold my-4 ${isDarkTheme ? "text-white" : "text-black"}`}>Archived Recipes</h1>
+      <h1 className={`text-3xl font-bold my-4 text-center ${isDarkTheme ? "text-white" : "text-black"}`}>Archived Recipes</h1>
       <div className="flex justify-between items-center px-4 py-2 w-full">
         <div className={`flex items-center flex-1 border ${isDarkTheme ? "border-gray-700" : "border-gray-300"} rounded-md`}>
           <button className="ml-2" onClick={refetch}>
