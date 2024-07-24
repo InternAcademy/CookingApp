@@ -89,7 +89,13 @@ const FoodPreferences = () => {
   }
 
   return (
-    <div className={`${isDarkTheme ? "bg-customGray" : "bg-customWhite"} min-h-screen p-6`}>
+    <div className={`${isDarkTheme ? "bg-rgba(18, 18, 18, 1)" : "bg-customWhite"} 
+    min-h-screen w-1/2 mx-auto p-6
+    smallPhone:w-full
+    phone:w-full
+    table:w-1/2
+    web:w-1/2`
+    }>
       <div className="flex flex-col items-center">
         <h1 className={`text-xl font-semibold mb-4 ${isDarkTheme ? "text-white" : "text-black"}`}>Food Preferences</h1>
 
@@ -217,12 +223,12 @@ const FoodPreferences = () => {
             </div>
           </button>
           <div className="mt-4">
-            <select 
-            value={selectedPreference} 
-            onChange={e => setSelectedPreference(e.target.value)} 
-            className={`border rounded-lg px-4 py-2 w-full ${isDarkTheme 
-            ? "border-gray-600 bg-gray-900 text-white" 
-            : "border-gray-300 bg-white text-black"}
+            <select
+              value={selectedPreference}
+              onChange={e => setSelectedPreference(e.target.value)}
+              className={`border rounded-lg px-4 py-2 w-full ${isDarkTheme
+                ? "border-gray-600 bg-gray-900 text-white"
+                : "border-gray-300 bg-white text-black"}
             text-sm smallPhone:px-4 smallPhone:py-2.5 
             phone:px-4 phone:py-2.5 phone:text-sm 
             tablet:px-5 tablet:py-3 tablet:text-base 

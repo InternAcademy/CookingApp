@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       colors: {
         customOrange: "#EAB308", //the customOrange that was used in: native landing page
+        customOrange2:"#C28E06",
 
         //dark and light theme
         customGray: "#202020", // dark theme background
