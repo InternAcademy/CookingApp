@@ -78,11 +78,7 @@ const Recipes = () => {
           )}
         </div>
       </div>
-      <div className="w-full flex flex-col items-center">
-        {filteredRecipes.map(recipe => (
-          <Recipe key={recipe.id} recipe={recipe} refetch={memoizedRefetch} />
-        ))}
-      </div>
+      <div className="w-full flex flex-col items-center">{isPending ? <p className={`text-2xl ${isDarkTheme ? "text-white" : "text-black"}`}>Loading...</p> : filteredRecipes.map(recipe => <Recipe key={recipe.id} recipe={recipe} refetch={memoizedRefetch} />)}</div>
     </div>
   );
 };
