@@ -54,7 +54,7 @@ const Home = () => {
                 <div>
                   <p className={`text-base font-semibold mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{msg.role === "user" ? "You" : "MealMasterBot"}:</p>
                   {msg.role === "user" && msg.type === "Text" && <p className={`text-base mr-4 w-screen mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{msg.content}</p>}
-                  {msg.role === "user" && msg.type === "Image" && <Image src={msg.content} alt="User content" className="w-32 h-32 rounded-md mr-2 mb-7" />}
+                  {msg.role === "user" && msg.type === "Image" && <img src={msg.content} alt="User content" className="w-32 h-32 rounded-md mr-2 mb-7" />}
                   {msg.role === "bot" && msg.type === "Recipe" && (
                     <>
                       <p className={`max-w-full mr-12 text-base mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{msg.content}</p>
