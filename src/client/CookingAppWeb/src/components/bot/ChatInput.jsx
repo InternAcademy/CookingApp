@@ -1,7 +1,4 @@
-"use client";
-import "tailwindcss/tailwind.css";
-import React, { useRef } from "react";
-
+import React, { useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { userActions } from "@/store/userSlice";
 import { uiActions } from "@/store/ui-slice";
@@ -14,46 +11,26 @@ export default function ChatInput({ isPending }) {
   const selectedChat = useSelector(state => state.user.selectedChat);
   const { mutate, isPending: isChatPending, isError, error } = useChatMutation();
   const fileInputRef = useRef(null);
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const dispatch = useDispatch();
 
   function handleTyping(event) {
     dispatch(uiActions.setInput(event.target.value));
-    console.log(event.target.value);
   }
 
   async function handleFileChange(event) {
     const file = event.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64String = reader.result;
-        const token = localStorage.getItem("token");
-        dispatch(
-          userActions.selectChat({
-            ...selectedChat,
-            content: [...(selectedChat?.content || []), { role: "user", type: "Image", content: base64String }]
-          })
-        );
-        dispatch(uiActions.setResponseError(null));
-        mutate({
-          token: token,
-          chatId: selectedChat && selectedChat.id,
-          type: "Image",
-          content: base64String
-        });
-        if (fileInputRef.current) {
-          fileInputRef.current.value = ""; // Clear the file input for the next upload
-        }
-      };
-      reader.readAsDataURL(file);
+      setSelectedFile(file);
+      // You can add preview functionality here if needed
     }
   }
 
   async function sendMessage() {
-    if (input) {
-      const token = await localStorage.getItem("token");
+    const token = await localStorage.getItem("token");
 
+    if (input) {
       dispatch(
         userActions.selectChat({
           ...selectedChat,
@@ -66,13 +43,30 @@ export default function ChatInput({ isPending }) {
         type: "Text",
         content: input
       });
+    } else if (selectedFile) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result;
+        dispatch(
+          userActions.selectChat({
+            ...selectedChat,
+            content: [...(selectedChat?.content || []), { role: "user", type: "Image", content: "Image uploaded" }]
+          })
+        );
+        mutate({
+          token: token,
+          chatId: selectedChat && selectedChat.id,
+          type: "Image",
+          content: base64String
+        });
+        setSelectedFile(null);
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        }
+      };
+      reader.readAsDataURL(selectedFile);
     }
-    console.log("Send message");
-  }
-
-  function handleRemovePhoto() {
-    dispatch(uiActions.clearPhotoUri());
-    console.log("Remove photo");
+    dispatch(uiActions.setInput(""));
   }
 
   function openFileDialog() {
@@ -86,9 +80,9 @@ export default function ChatInput({ isPending }) {
           <PaperclipIcon className={`w-5 h-5 ${isDarkTheme ? "text-white" : "text-orange-500"} ${isPending ? "text-gray-400" : ""}`} />
         </button>
         <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="image/*" style={{ display: "none" }} />
-        <input type="text" className={`flex-1 h-10 px-1 ${isDarkTheme ? "text-white" : "text-black"}`} placeholder="Message MealMasterBot" value={input} onChange={handleTyping} />
-        <button onClick={sendMessage} className="p-1" disabled={isPending}>
-          <ArrowUpCircle className={`w-6 h-6 ${isDarkTheme ? "text-white" : "text-orange-500"} ${isPending ? "text-gray-400" : ""}`} />
+        <input type="text" className={`flex-1 h-10 px-1 ${isDarkTheme ? "text-white bg-gray-900" : "text-black bg-amber-50"}`} placeholder={selectedFile ? "Image selected. Click send to upload." : "Message MealMasterBot"} value={input} onChange={handleTyping} />
+        <button onClick={sendMessage} className="p-1" disabled={isPending || (!input && !selectedFile)}>
+          <ArrowUpCircle className={`w-6 h-6 ${isDarkTheme ? "text-white" : "text-orange-500"} ${isPending || (!input && !selectedFile) ? "text-gray-400" : ""}`} />
         </button>
       </div>
     </div>
