@@ -1,9 +1,10 @@
 // hooks/useSelectChat.jsx
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
-import { getChat } from "../http/chat";
+
+import { useDispatch } from "react-redux";
 import { userActions } from "@/store/userSlice";
+import { getChat } from "../http/chat";
 
 const useSelectChat = () => {
   const dispatch = useDispatch();

@@ -1,11 +1,11 @@
 "use client";
-import React, { useRef } from "react";
-import { PaperclipIcon, ArrowUpCircle } from "lucide-react";
 import "tailwindcss/tailwind.css";
+import React, { useRef } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
-import { uiActions } from "@/store/ui-slice";
 import { userActions } from "@/store/userSlice";
+import { uiActions } from "@/store/ui-slice";
+import { PaperclipIcon, ArrowUpCircle } from "lucide-react";
 import useChatMutation from "@/hooks/useChatMutation";
 
 export default function ChatInput({ isPending }) {
