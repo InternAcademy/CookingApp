@@ -14,7 +14,7 @@ const useAuth = (clientId, instance, scopes) => {
   const discovery = useAutoDiscovery(instance);
   const redirectUri = makeRedirectUri({
     scheme: undefined,
-    path: "logout",
+    path: "sign-in-oidc",
   });
   const navigation = useNavigation();
 
