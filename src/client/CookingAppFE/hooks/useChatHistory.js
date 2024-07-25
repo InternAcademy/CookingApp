@@ -21,6 +21,7 @@ const useChatHistory = () => {
     queryFn: async () => {
       const token = await AsyncStorage.getItem("token");
       const decodedToken = jwtDecode(token);
+      console.log(decodedToken.sub);
       const userChats = await getUserChats({
         token: token,
         userId: decodedToken.sub,

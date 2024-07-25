@@ -52,5 +52,6 @@ export async function getUserChats({ token, userId }) {
   }
 
   const data = await response.json();
+  console.log("User chats ", data);
   return data;
 }

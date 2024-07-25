@@ -19,13 +19,16 @@ const LandingPage = ({ route }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { login, token, request } = useAuth(clientId, instance, scopes);
+
   useEffect(() => {
     const checkToken = async () => {
       const token = await AsyncStorage.getItem("token");
+      console.log(token);
       const response = await checkUserStatus({ token });
+      console.log(response);
       if (response.status !== 401) {
         const body = await response.json();
-        console.log(body);
+        console.log("ready");
         dispatch(uiActions.setTheme(body.data.interfacePreference.theme));
         dispatch(uiActions.setLanguage(body.data.interfacePreference.language));
         dispatch(userActions.setRole(body.data.role));

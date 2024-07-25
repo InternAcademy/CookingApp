@@ -8,6 +8,11 @@ const initialState = {
   isDarkTheme: false,
   photoUri: null,
   lang: "English",
+  filteredRecipes: {
+    page: 0,
+    recipes: [],
+    totalPages: 0,
+  },
 };
 
 const uiSlice = createSlice({
@@ -38,8 +43,19 @@ const uiSlice = createSlice({
     setLanguage(state, action) {
       state.lang = action.payload;
     },
-    setIsInitial(state, action) {
-      state.isInitial = action.payload;
+    loadMore(state, action) {
+      state.filteredRecipes = {
+        page: state.filteredRecipes.page + 1, // Increment page if not provided
+        recipes: [...state.filteredRecipes.recipes, ...action.payload.recipes], // Append new results
+        totalPages: action.payload.totalPages, // Update total results
+      };
+    },
+    getFirstPage(state, action) {
+      state.filteredRecipes = {
+        page: 1,
+        recipes: action.payload.recipes,
+        totalPages: action.payload.totalPages,
+      };
     },
   },
 });
