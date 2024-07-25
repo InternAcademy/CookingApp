@@ -4,7 +4,7 @@
     using global::OpenAI.Images;
     using File = CookingApp.Services.File.File;
 
-    public class ImageService(ImageClient client, HttpClient httpClient) : IImageService
+    public class ImageService(ImageClient client, IFileService fileService) : IImageService
     {
         public async Task<string> GenerateImage(string prompt)
         {
@@ -16,7 +16,7 @@
 
             var image = await client.GenerateImageAsync(prompt, options);
             var file = File.ConvertBinaryDataToFormFile(image.Value.ImageBytes, Guid.NewGuid().ToString(), "image/png");
-            var imagePath = await ImgurFileService.ToImgur(file, httpClient);
+            var imagePath = await fileService.UploadFileAndGetUrl(file);
 
             return imagePath;
         }
