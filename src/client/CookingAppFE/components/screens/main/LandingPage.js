@@ -23,17 +23,19 @@ const LandingPage = ({ route }) => {
   useEffect(() => {
     const checkToken = async () => {
       const token = await AsyncStorage.getItem("token");
-      console.log(token);
       const response = await checkUserStatus({ token });
-      console.log(response);
       if (response.status !== 401) {
         const body = await response.json();
-        console.log("ready");
-        dispatch(uiActions.setTheme(body.data.interfacePreference.theme));
+        dispatch(
+          uiActions.setTheme(
+            body.data.interfacePreference.theme === "Light" ? false : true
+          )
+        );
         dispatch(uiActions.setLanguage(body.data.interfacePreference.language));
         dispatch(userActions.setRole(body.data.role));
 
         dispatch(uiActions.setIsInitial(false));
+
         navigation.navigate("Home");
       }
     };
