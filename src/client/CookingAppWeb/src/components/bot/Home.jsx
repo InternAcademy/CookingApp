@@ -1,17 +1,16 @@
 // app/components/Home.jsx
 "use client";
+import "tailwindcss/tailwind.css";
 import React, { useEffect } from "react";
 import Image from "next/image";
-
-import "tailwindcss/tailwind.css";
 import { useRouter } from "next/navigation";
+
 import { useDispatch, useSelector } from "react-redux";
 import ChatInput from "./ChatInput";
 import ChatError from "./ChatError";
 import NavBar from "../navigation/NavBar";
 import Thinking from "./Thinking";
 import useSaveRecipe from "@/hooks/useSaveRecipe";
-import "tailwindcss/tailwind.css";
 
 const Home = () => {
   const router = useRouter();
@@ -55,7 +54,7 @@ const Home = () => {
                 <div>
                   <p className={`text-base font-semibold mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{msg.role === "user" ? "You" : "MealMasterBot"}:</p>
                   {msg.role === "user" && msg.type === "Text" && <p className={`text-base mr-4 w-screen mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{msg.content}</p>}
-                  {msg.role === "user" && msg.type === "Image" && <Image src={msg.content} alt="User content" className="w-32 h-32 rounded-md mr-2 mb-7" />}
+                  {msg.role === "user" && msg.type === "Image" && <img src={msg.content} alt="User content" className="w-32 h-32 rounded-md mr-2 mb-7" />}
                   {msg.role === "bot" && msg.type === "Recipe" && (
                     <>
                       <p className={`max-w-full mr-12 text-base mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{msg.content}</p>

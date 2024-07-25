@@ -1,5 +1,6 @@
 // components/Spinner.jsx
 import React from "react";
+
 import { FaSpinner } from "react-icons/fa";
 
 const Spinner = ({ size = "6", color = "#0000ff" }) => {

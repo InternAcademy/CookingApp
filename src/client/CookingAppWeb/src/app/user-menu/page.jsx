@@ -1,12 +1,13 @@
 // pages/User-Menu.jsx
 "use client";
 
+import "tailwindcss/tailwind.css";
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
+
 import { useDispatch, useSelector } from "react-redux";
-import { FaUserCircle, FaUtensils, FaCreditCard, FaLeaf, FaArchive, FaLanguage, FaFileAlt, FaInfoCircle, FaEnvelope, FaSignOutAlt } from "react-icons/fa";
-import "tailwindcss/tailwind.css";
 import { uiActions } from "@/store/ui-slice";
+import { FaUserCircle, FaUtensils, FaCreditCard, FaLeaf, FaArchive, FaLanguage, FaFileAlt, FaInfoCircle, FaEnvelope, FaSignOutAlt } from "react-icons/fa";
 
 const UserMenu = () => {
   const router = useRouter();

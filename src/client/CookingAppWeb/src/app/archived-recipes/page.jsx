@@ -1,14 +1,15 @@
 // pages/ArchivedRecipes.jsx
 "use client";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import jwtDecode from "jwt-decode";
-import { FaSearch } from "react-icons/fa";
-import Recipe from "@/components/Recipe";
-import { getArchivedRecipes } from "@/http/recipe";
 import "tailwindcss/tailwind.css";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+
+import jwtDecode from "jwt-decode";
+import { useSelector } from "react-redux";
+import { FaSearch } from "react-icons/fa";
+import { getArchivedRecipes } from "@/http/recipe";
+import Recipe from "@/components/Recipe";
 
 const ArchivedRecipes = () => {
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
