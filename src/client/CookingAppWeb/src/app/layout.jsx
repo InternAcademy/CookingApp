@@ -4,6 +4,7 @@ import "./globals.css";
 import { Providers } from "./providers";
 import StoreProvider from "./StoreProvider";
 import ThemeProvider from "./ThemeProvider";
+import MyMsalProvider from "../msal/MyMsalProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +19,18 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <Providers>
           <StoreProvider>
-            <ThemeProvider>{children}</ThemeProvider>
+            <ThemeProvider>
+              <MyMsalProvider>
+                <main>
+                  <div className="w-full text-center">
+                    <h1 className="text-3xl font-bold text-gray-700 mb-2">
+                      You are logged in
+                    </h1>
+                  </div>
+                  {children} {/* Render children inside main */}
+                </main>
+              </MyMsalProvider>
+            </ThemeProvider>
           </StoreProvider>
         </Providers>
       </body>
