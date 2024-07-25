@@ -53,11 +53,6 @@ const Recipes = () => {
     }
     getData();
   }, []);
-  useEffect(() => {
-    if (filteredRecipes && filteredRecipes.recipes) {
-      console.log(filteredRecipes.recipes.length);
-    }
-  }, [filteredRecipes]);
   const clearSearch = () => {
     setInput("");
   };
