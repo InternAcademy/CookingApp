@@ -26,7 +26,7 @@ const Contacts = () => {
           type="text"
           className={`h-12 border placeholder-slate-500 ${isDarkTheme
             ? "border-customGray600 bg-gray-700 text-customWhite placeholder:text-#fff"
-            : "border-customOrange bg-customOrange2 text-black placeholder:text-#555"} 
+            : "border-customLightGray bg-customLightGray text-black placeholder:text-#555"} 
         rounded-full px-3 w-full 
         smallPhone:px-3 smallPhone:h-12 smallPhone:text-sm 
         phone:px-6 phone:h-14 phone:text-sm 
@@ -39,7 +39,7 @@ const Contacts = () => {
         <textarea
           className={`h-64 border placeholder-slate-500 ${isDarkTheme
             ? "border-customGray600 bg-gray-700 text-customWhite placeholder:text-#fff"
-            : "border-customOrange bg-customOrange2 text-black placeholder:text-#222"} 
+            : "border-customLightGray bg-customLightGray text-black placeholder:text-#222"} 
         rounded-lg px-3 pt-2 w-full 
         smallPhone:px-5 smallPhone:pt-4 smallPhone:text-sm 
         phone:px-6 phone:pt-5 phone:text-sm 
@@ -50,7 +50,7 @@ const Contacts = () => {
       <button
         className={`h-12 flex justify-center items-center rounded-full transition duration-300 ease-in-out ${isDarkTheme
           ? "bg-gray-600 border-customWhite border hover:border-gray-700 hover:text-gray-400"
-          : "bg-customOrange border hover:border-gray-800 hover:text-gray-800 hover:shadow-lg hover:bg-customOrange2"} w-full 
+          : "bg-customOrange border hover:border-gray-800 hover:text-gray-800 hover:shadow-lg"} w-full 
         smallPhone:h-14 smallPhone:text-sm 
         phone:h-16 phone:text-sm 
         tablet:h-18 tablet:text-base 
