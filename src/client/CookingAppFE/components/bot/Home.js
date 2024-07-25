@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { View, Text, Image, FlatList, SafeAreaView, ScrollView, TouchableOpacity, ActivityIndicator } from "react-native";
+import React, { useState, useRef, useEffect } from "react";
+import { View, Text, Image, FlatList, SafeAreaView, ScrollView, TouchableOpacity, ActivityIndicator, Animated, Modal } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import tw from "twrnc";
@@ -13,22 +13,24 @@ import Thinking from "../bot/Thinking";
 import { uiActions } from "../../redux/uiSlice";
 import useSaveRecipe from "../../hooks/useSaveRecipe";
 import { userActions } from "../../redux/userSlice";
+
 const Home = () => {
   const navigation = useNavigation();
   const { save, isPending } = useSaveRecipe();
+  const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
+  const lang = useSelector((state) => state.ui.lang);
+  const isThinking = useSelector((state) => state.ui.isThinking);
+  const responseError = useSelector((state) => state.ui.responseError);
+  const chat = useSelector((state) => state.user.selectedChat);
+  const userRole = useSelector((state) => state.user.role);
+  const isInitial = useSelector((state) => state.ui.isInitial);
+  const profileImage = useSelector((state) => state.ui.photoUri);
 
-const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
-const lang = useSelector((state) => state.ui.lang);
-
-const isThinking = useSelector((state) => state.ui.isThinking);
-const responseError = useSelector((state) => state.ui.responseError);
-const chat = useSelector((state) => state.user.selectedChat);
-const userRole = useSelector((state) => state.user.role);
-const isInitial = useSelector((state) => state.ui.isInitial);
-const profileImage = useSelector((state) => state.ui.photoUri);
-
-  
   const dispatch = useDispatch();
+
+  const [isLoading, setIsLoading] = useState(false);
+  const rotation = useRef(new Animated.Value(0)).current;
+  const logoPosition = useRef(new Animated.Value(-1000)).current; // Start from left off-screen
 
   useEffect(() => {
     async function check() {
@@ -59,33 +61,76 @@ const profileImage = useSelector((state) => state.ui.photoUri);
     check();
   }, [isInitial]);
 
-  async function handleRecipeSave(request) {
+  const rotate = rotation.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '360deg']
+  });
+
+  const moveLogo = () => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(logoPosition, {
+          
+          toValue: 500, // Move to the right
+          duration: 2000,
+          useNativeDriver: true,
+        }),
+        Animated.timing(logoPosition, {
+          toValue: -1000, // Move back to the left
+          duration: 0,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+  };
+
+  const handleRecipeSave = async (request) => {
+    setIsLoading(true);
+    Animated.loop(
+      Animated.timing(rotation, {
+        toValue: 1,
+        duration: 1000,
+        useNativeDriver: true,
+      })
+    ).start();
+    moveLogo();
+    
     const token = await AsyncStorage.getItem("token");
     save({ token, request });
-  }
+
+    setTimeout(() => {
+      setIsLoading(false);
+      rotation.setValue(0); // Reset rotation
+      logoPosition.setValue(-100); // Reset logo position
+    }, 2000);
+  };
 
   const renderPost = () => {
     if (chat) {
-      {
-        console.log(chat);
-      }
       return (
         <SafeAreaView style={tw`flex-1 ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}>
           <ScrollView contentContainerStyle={tw`p-6 mt-10`}>
             {chat.content.map((msg, index) => (
-              <View key={index} style={tw`mb-2 flex-row justify-start wrap pt-1`}>
+              <View key={index} style={tw`mb-2 flex-row justify-start pt-1`}>
                 {msg.role === "user" ? profileImage ? <Image source={{ uri: profileImage }} style={tw`w-8 h-8 rounded-full mr-2 mb-7`} /> : <Ionicons name="person-circle" size={32} color={isDarkTheme ? "white" : "black"} style={tw`mr-2 mb-7 items-start -mt-1`} /> : <Image source={require("../../assets/Main/icon2.png")} style={tw`w-8 h-8 rounded-full mr-2 mb-7 items-start -mt-1`} />}
                 <View>
                   <Text style={tw`text-base font-semibold mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{msg.role === "user" ? "You" : "MealMasterBot"}:</Text>
                   {msg.role === "user" && msg.type === "Text" && <Text style={tw`text-base mr-4 w-full mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{msg.content}</Text>}
-
                   {msg.role === "user" && msg.type === "Image" && <Image source={{ uri: msg.content }} style={tw`w-32 h-32 rounded-md mr-2 mb-7`} />}
                   {msg.role === "bot" && msg.type === "Recipe" && (
                     <>
                       <Text style={tw`max-w-full mr-12 text-base mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{msg.content}</Text>
-                      <TouchableOpacity onPress={() => handleRecipeSave(msg.content)} style={tw`mx-2 self-end`}>
-                        {!isPending && <Ionicons name="restaurant" size={24} color={isDarkTheme ? "white" : "black"} />}
-                        {isPending && <ActivityIndicator size="small" color={isDarkTheme ? "white" : "black"} style={tw`mr-2`} />}
+                      <TouchableOpacity onPress={() => handleRecipeSave(msg.content)} style={tw`mx-2 items-center mr-12 mt-4 mb-2`}>
+                        {isLoading ? (
+                          <View style={tw`flex-row items-center`}>
+                            <Animated.View style={[tw`w-12 h-12  justify-center items-center`, { transform: [{ rotate: rotate }] }]}>
+                              <Ionicons name="restaurant" size={24} color={isDarkTheme ? "white" : "black"} />
+                            </Animated.View>
+                            <Text style={tw`ml-2 ${isDarkTheme ? "text-white" : "text-black"}`}>Generating recipe...</Text>
+                          </View>
+                        ) : (
+                          <Ionicons name="restaurant" size={24} color={isDarkTheme ? "white" : "black"} />
+                        )}
                       </TouchableOpacity>
                     </>
                   )}
@@ -116,6 +161,31 @@ const profileImage = useSelector((state) => state.ui.photoUri);
       <View style={tw`flex w-full flex-row justify-center mb-5 ${isDarkTheme ? "border-gray-700 bg-[#202020]" : "border-gray-300 bg-white"}`}>
         <ChatInput isPending={isPending} />
       </View>
+
+      {/* Modal for loading animation */}
+      <Modal
+        transparent={true}
+        visible={isLoading}
+        animationType="none"
+        onRequestClose={() => setIsLoading(false)}
+      >
+        <View style={tw`absolute inset-0 bg-[#00000099] justify-center items-center`}>
+          <View style={tw`bg-[#000000e0] min-h-full min-w-full flex items-center justify-center p-8 rounded-lg items-center`}>
+            <Animated.View style={[tw`w-16 h-16`, { transform: [{ translateX: logoPosition }] }]}>
+              <Image source={require("../../assets/Main/icon2_dark.png")} style={tw`w-16 h-16`} />
+            </Animated.View>
+            <View style={tw`flex flex-row justify-between`}>
+
+            
+            <Animated.View style={[tw`w-8 h-8 flex justify-center items-center mt-4 mr-2`, { transform: [{ rotate: rotate }] }]}>
+              <Ionicons name="restaurant" size={24} color="white" />
+              
+            </Animated.View>
+            <Text style={tw`text-white mt-4 text-lg font-bold`}>Generating recipe...</Text>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
