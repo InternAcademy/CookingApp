@@ -33,6 +33,8 @@ namespace CookingApp.Common.Helpers.Messages
 
             input = Regex.Replace(input, @"\\([`*_{}\[\]()#+\-.!])", "$1");
 
+            input = Regex.Replace(input, @"(\r?\n){2,}", "\n\n");
+
             return input;
         }
     }
