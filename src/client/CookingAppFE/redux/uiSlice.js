@@ -22,6 +22,9 @@ const uiSlice = createSlice({
     setInput(state, action) {
       state.input = action.payload;
     },
+    setIsInitial(state, action) {
+      state.isInitial = action.payload;
+    },
     setIsThinking(state, action) {
       state.isThinking = action.payload;
     },
