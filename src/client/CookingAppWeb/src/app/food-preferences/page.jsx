@@ -87,7 +87,13 @@ const FoodPreferences = () => {
   };
 
   return (
-    <div className={`${isDarkTheme ? "bg-customGray" : "bg-customWhite"} min-h-screen p-6`}>
+    <div
+      className={`${isDarkTheme ? "bg-rgba(18, 18, 18, 1)" : "bg-customWhite"} 
+    min-h-screen w-1/2 mx-auto p-6
+    smallPhone:w-full
+    phone:w-full
+    table:w-1/2
+    web:w-1/2`}>
       <div className="flex flex-col items-center">
         <h1 className={`text-xl font-semibold mb-4 ${isDarkTheme ? "text-white" : "text-black"}`}>Food Preferences</h1>
 
