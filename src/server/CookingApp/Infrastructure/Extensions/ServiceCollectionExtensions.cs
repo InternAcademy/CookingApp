@@ -166,6 +166,16 @@ namespace CookingApp.Infrastructure.Extensions
             return builder;
         }
 
+        public static IHostApplicationBuilder AddAzureBlob(this WebApplicationBuilder builder)
+        {
+            string connectionString = builder.Configuration.GetValue<string>("AzureBlob:ConnectionString") ?? string.Empty;
+            string containerName = builder.Configuration.GetValue<string>("AzureBlob:ContainerName") ?? string.Empty;
+
+            builder.Services.AddSingleton<IFileService>(_ =>
+                new AzureFileService(connectionString, containerName));
+
+            return builder;
+        }
         public static IHostApplicationBuilder AddServices(this WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<IStripeService, StripeService>();

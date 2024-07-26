@@ -42,6 +42,7 @@ builder.AddMongoDatabase(p =>
 });
 builder.AddStripeIntegration();
 builder.AddOpenAIIntegration();
+builder.AddAzureBlob();
 builder.AddServices();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
