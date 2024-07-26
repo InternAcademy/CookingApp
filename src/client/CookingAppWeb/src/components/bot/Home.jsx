@@ -26,12 +26,12 @@ const Home = () => {
     const checkTokenAndTheme = async () => {
       const token = localStorage.getItem("token");
       console.log(token);
-      // if (!token) {
-      //   router.push("/landing-page");
-      // }
+      if (!token) {
+        router.push("/");
+      }
     };
     checkTokenAndTheme();
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     console.log(isDarkTheme);

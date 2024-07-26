@@ -14,7 +14,7 @@ const NavBar = () => {
   const [open, setOpen] = useState(false);
 
   const startNewChat = () => {
-    router.push("/home");
+    router.push("/");
   };
 
   return (

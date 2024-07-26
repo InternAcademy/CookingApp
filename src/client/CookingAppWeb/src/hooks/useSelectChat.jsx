@@ -50,7 +50,7 @@ const useSelectChat = () => {
           content: combinedArray
         })
       );
-      router.push("/home");
+      router.push("/");
     }
   });
 
@@ -59,7 +59,7 @@ const useSelectChat = () => {
     if (token) {
       mutate({ token, chatId: chat.chatId });
     } else {
-      router.push("/landing-page");
+      router.push("/");
     }
   };
 
