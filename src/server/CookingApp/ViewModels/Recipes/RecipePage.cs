@@ -8,6 +8,6 @@ namespace CookingApp.ViewModels.Recipes
     {
         public int Page { get; set; } = default!;
         public IEnumerable<Recipe> Recipes { get; set; } = default!;
-        public int TotalPages { get; set; } = default!;
+        public long TotalPages { get; set; } = default!;
     }
 }

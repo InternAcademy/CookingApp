@@ -9,6 +9,6 @@ namespace CookingApp.ViewModels.Recipes
     {
         public int Page { get; set; } = default!;
         public IEnumerable<ChatDataResponse> Chats { get; set; } = default!;
-        public int TotalPages { get; set; } = default!;
+        public long TotalPages { get; set; } = default!;
     }
 }

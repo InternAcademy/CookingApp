@@ -127,9 +127,11 @@ const Recipes = () => {
             <Recipe recipe={recipe} />
           </Animatable.View>
         ))}
-      <TouchableOpacity onPress={loadMore} style={tw`pr-3 pl-2`}>
-        <Text>Load more...</Text>
-      </TouchableOpacity>
+      {filteredRecipes.page !== filteredRecipes.totalPages && (
+        <TouchableOpacity onPress={loadMore} style={tw`pr-3 pl-2`}>
+          <Text>Load more...</Text>
+        </TouchableOpacity>
+      )}
     </ScrollView>
   );
 };

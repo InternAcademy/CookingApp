@@ -80,7 +80,7 @@ namespace CookingApp.Controllers
                 {
                     Page = pageIndex,
                     Chats = result.ToPage(),
-                    TotalPages = 10 ///Please edit
+                    TotalPages = result.TotalPages
                 }
             });
         }

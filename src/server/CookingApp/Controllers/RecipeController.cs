@@ -75,7 +75,7 @@ namespace CookingApp.Controllers
                 {
                     Page = pageIndex,
                     Recipes = result.ToPage(),
-                    TotalPages = 10
+                    TotalPages = result.TotalPages
                 }
             };
         }
