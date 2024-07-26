@@ -28,7 +28,7 @@
                     if (user.Role.Limitations.ChatGeneration > 0)
                     {
                         user.Role.Limitations.ChatGeneration--;
-
+                        await repo.UpdateAsync(user);
                         return ProcessResult.MessageLimitationSuccessfull;
                     }
                     else
@@ -58,7 +58,7 @@
                 if (user.Role.Limitations.RecipeGeneration > 0)
                 {
                     user.Role.Limitations.RecipeGeneration--;
-
+                    await repo.UpdateAsync(user);
                     return ProcessResult.RecipeLimitationSuccessfull;
                 }
                 else

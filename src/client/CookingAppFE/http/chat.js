@@ -39,8 +39,9 @@ export async function getChat({ token, chatId }) {
   return data;
 }
 
-export async function getUserChats({ token, userId }) {
-  const response = await fetch(`${ip}/user-chats/${userId}`, {
+export async function getUserChats({ token, userId, pageIndex }) {
+  const response = await fetch(`${ip}/user-chats/${userId}/${pageIndex}/2`, {
+    method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
@@ -50,8 +51,6 @@ export async function getUserChats({ token, userId }) {
   if (!response.ok) {
     throw new Error(response.statusText);
   }
-
   const data = await response.json();
-  console.log("User chats ", data);
   return data;
 }

@@ -15,6 +15,7 @@ namespace CookingApp.Controllers
     using CookingApp.ViewModels.Api;
     using CookingApp.ViewModels.Chat;
     using CookingApp.ViewModels.Message;
+    using CookingApp.ViewModels.Recipes;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.ComponentModel.DataAnnotations;
@@ -58,7 +59,7 @@ namespace CookingApp.Controllers
             };
         }
 
-        [HttpGet("user-chats/{userId}")]
+        [HttpPost("user-chats/{userId}/{pageIndex}/{pageSize}")]
         public async Task<IActionResult> ChatsByUser(string userId, 
             [Range(1, int.MaxValue, ErrorMessage = "Value must be greater than 0")]
             int pageIndex = 1,
@@ -66,10 +67,15 @@ namespace CookingApp.Controllers
             int pageSize = 50)
         {
             var result = await chatService.GetActiveUserChats(userId, pageIndex, pageSize);
-            return Ok(new ApiResponse<IPage<ChatDataResponse>>()
+            return Ok(new ApiResponse<ChatPage>()
             {
                 Status = 200,
-                Data = result.ToPage()
+                Data = new ChatPage()
+                {
+                    Page = pageIndex,
+                    Chats = result.ToPage(),
+                    TotalPages = 10 ///Please edit
+                }
             });
         }
     }
