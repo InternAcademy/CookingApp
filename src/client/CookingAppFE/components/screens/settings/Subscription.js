@@ -16,6 +16,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Spinner from "../../common/Spinner";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect } from "react";
+import * as Animatable from 'react-native-animatable';
+
 const Subscription = () => {
   const queryClient = useQueryClient();
   const navigation = useNavigation();
@@ -79,12 +81,18 @@ const Subscription = () => {
 
   if (role.type === "Premium") {
     return (
-      <View style={tw`mb-4`}>
-        <Text
-          style={tw`text-lg mb-6 ${isDarkTheme ? "text-gray-400" : "text-gray-500"}`}
+      <View style={tw`mb-4 flex items-center justify-center h-full`}>
+        <Animatable.Text
+        
+        animation="zoomIn"
+        
+        duration={500}
+        delay={ 200}  // добавям закънснение на вскеи един елемент
+        useNativeDriver
+          style={tw`text-[22px] mb-6 ${isDarkTheme ? "text-gray-400" : "text-gray-500"}`}
         >
           You have an active subscription!
-        </Text>
+        </Animatable.Text>
       </View>
     );
   }
