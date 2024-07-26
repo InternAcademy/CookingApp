@@ -1,21 +1,22 @@
 // http/subs.jsx
 "use client";
 export async function fetchSubs(token) {
-  const response = await fetch(`localhost:8001/api/stripe/products`, {
+  const response = await fetch(`http://127.0.0.1:8000/api/stripe/products`, {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json"
     }
   });
   if (!response.ok) {
-    throw new Error(response.errors);
+    throw new Error(`Error: ${response.statusText}`);
   }
   const data = await response.json();
   console.log(data);
   return data;
 }
+
 export async function createSub({ token, email, priceId }) {
-  const response = await fetch(`localhost:8001/api/stripe/subscription`, {
+  const response = await fetch(`http://127.0.0.1:8000/api/stripe/subscription`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -28,7 +29,7 @@ export async function createSub({ token, email, priceId }) {
   });
   console.log(response);
   if (!response.ok) {
-    throw new Error(response.errors);
+    throw new Error(`Error: ${response.statusText}`);
   }
   const data = await response.json();
   console.log(data);

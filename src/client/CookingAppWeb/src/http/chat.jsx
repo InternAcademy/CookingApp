@@ -3,7 +3,7 @@
 
 export async function sendMessage({ token, chatId, type, content }) {
   console.log("Sending message...");
-  const response = await fetch(`http://localhost:8001/api/message`, {
+  const response = await fetch(`http://127.0.0.1:8000/api/message`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -27,7 +27,7 @@ export async function sendMessage({ token, chatId, type, content }) {
 
 export async function getChat({ token, chatId }) {
   console.log(`Fetching chat with ID: ${chatId}`);
-  const response = await fetch(`http://localhost:8001/api/c/${chatId}`, {
+  const response = await fetch(`http://127.0.0.1:8000/api/c/${chatId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json"
@@ -45,7 +45,7 @@ export async function getChat({ token, chatId }) {
 
 export async function getUserChats({ token, userId }) {
   console.log(`Fetching chats for user with ID: ${userId}`);
-  const response = await fetch(`http://localhost:8001/api/user-chats/${userId}`, {
+  const response = await fetch(`http://127.0.0.1:8000/api/user-chats/${userId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json"
