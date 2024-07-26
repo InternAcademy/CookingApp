@@ -22,12 +22,7 @@ export default function RootLayout({ children }) {
             <ThemeProvider>
               <MyMsalProvider>
                 <main>
-                  <div className="w-full text-center">
-                    <h1 className="text-3xl font-bold text-gray-700 mb-2">
-                      You are logged in
-                    </h1>
-                  </div>
-                  {children} {/* Render children inside main */}
+                  {children}
                 </main>
               </MyMsalProvider>
             </ThemeProvider>
