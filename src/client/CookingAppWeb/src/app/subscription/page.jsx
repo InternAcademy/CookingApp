@@ -4,7 +4,7 @@ import "tailwindcss/tailwind.css";
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import { useSelector } from "react-redux";
 import { fetchSubs, createSub } from "@/http/subs";
 import Spinner from "@/components/common/Spinner";

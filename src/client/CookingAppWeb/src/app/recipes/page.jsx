@@ -5,7 +5,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import { useSelector } from "react-redux";
 import { MdSearch } from "react-icons/md";
 import { getRecipes } from "../../http/recipe";
