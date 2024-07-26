@@ -52,7 +52,13 @@ namespace CookingApp.Services.Recipe
             recipe.IsArchived=!recipe.IsArchived;
             await repo.UpdateAsync(recipe);
         }
-        
+
+        public async Task DeleteRecipe(string recipeId)
+        {
+            var recipe = await GetById(recipeId);
+
+            await repo.DeleteAsync(recipe);
+        }
 
         ///<inheritdoc/>
         public async Task<Recipe> GetById(string recipeId)

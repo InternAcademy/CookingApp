@@ -3,15 +3,17 @@ import { View, Text, Image, ScrollView, TouchableOpacity, ActivityIndicator } fr
 import tw from "twrnc";
 import { useSelector } from "react-redux";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getRecipeById, archive } from "../../../http/recipe";
+import { getRecipeById, deleteRecipe } from "../../../http/recipe";
 import { useRoute } from "@react-navigation/native";
 import { useFocusEffect } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
 import * as Animatable from 'react-native-animatable';
+import { useNavigation } from "@react-navigation/native";
 
 const RecipesDetails = () => {
   const route = useRoute();
+  const navigation = useNavigation();
   const { id } = route.params;
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
   const [loading, setLoading] = useState(false);
@@ -29,16 +31,10 @@ const RecipesDetails = () => {
     }
   });
 
-  useFocusEffect(
-    React.useCallback(() => {
-      refetch();
-    }, [refetch])
-  );
-
   const { mutate } = useMutation({
-    mutationFn: archive,
+    mutationFn: deleteRecipe,
     onSuccess: () => {
-      refetch();
+      navigation.navigate("Recipes");
       queryClient.invalidateQueries(["getRecipes"]);
       setLoading(false);
     },
@@ -48,7 +44,7 @@ const RecipesDetails = () => {
     }
   });
 
-  async function archiveThisRecipe() {
+  async function deleteThisRecipe() {
     console.log(data);
     const token = await AsyncStorage.getItem("token");
     setLoading(true);
@@ -71,9 +67,9 @@ const RecipesDetails = () => {
               {loading ? (
                 <ActivityIndicator size="small" color={isDarkTheme ? "white" : "black"} />
               ) : (
-                <TouchableOpacity onPress={archiveThisRecipe}>
+                <TouchableOpacity onPress={deleteThisRecipe}>
                   <View style={tw`bg-white p-1 rounded-full`}>
-                    <Ionicons name={data.isArchived ? "archive" : "archive-outline"} size={24} color={"black"} />
+                    <Ionicons name={data.isArchived ? "trash" : "trash-outline"} size={24} color={"black"} />
                   </View>
                 </TouchableOpacity>
               )}

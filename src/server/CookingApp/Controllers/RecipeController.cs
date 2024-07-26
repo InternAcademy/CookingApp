@@ -88,5 +88,17 @@ namespace CookingApp.Controllers
                 Data = await recipeService.GetArchived(userId)
             };
         }
+
+        [HttpDelete("delete-recipe/{recipeId}")]
+        public async Task<IActionResult> Delete(string recipeId)
+        {
+            await recipeService.DeleteRecipe(recipeId);
+
+            return new ApiResponse<IActionResult>()
+            {
+                Status = 200,
+                Data = Ok()
+            };
+        }
     }
 }

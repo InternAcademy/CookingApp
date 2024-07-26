@@ -1,19 +1,13 @@
-using CookingApp.Infrastructure.Extensions;
-using CookingApp.Infrastructure.Interfaces;
-using CookingApp.Models.Entities;
-using CookingApp.Services.Recipe;
-
 namespace CookingApp.Controllers
 {
-    using Azure;
     using CookingApp.Common.Helpers.Profiles;
     using CookingApp.Models;
+    using CookingApp.Infrastructure.Extensions;
     using CookingApp.Models.Enums;
     using CookingApp.Services.ChatService;
     using CookingApp.Services.Limitation;
     using CookingApp.Services.OpenAI;
     using CookingApp.ViewModels.Api;
-    using CookingApp.ViewModels.Chat;
     using CookingApp.ViewModels.Message;
     using CookingApp.ViewModels.Recipes;
     using Microsoft.AspNetCore.Http;
@@ -56,6 +50,18 @@ namespace CookingApp.Controllers
             {
                 Status = 200,
                 Data = await chatService.GetById(chatId)
+            };
+        }
+
+        [HttpDelete("delete-chat/{chatId}")]
+        public async Task<IActionResult> Delete(string chatId)
+        {
+            await chatService.DeleteChat(chatId);
+
+            return new ApiResponse<IActionResult>()
+            {
+                Status = 200,
+                Data = Ok()
             };
         }
 
