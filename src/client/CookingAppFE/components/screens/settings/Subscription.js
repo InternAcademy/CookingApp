@@ -124,44 +124,6 @@ const Subscription = () => {
           )}
           {data && (
             <>
-              {/* Free sub */}
-              <View
-                style={[
-                  tw`flex-1 p-4 rounded-lg items-center`,
-                  { backgroundColor: isDarkTheme ? "#303030" : "#FFF4E2" },
-                ]}
-              >
-                <Text
-                  style={tw`text-lg font-semibold mb-2 ${isDarkTheme ? "text-white" : "text-black"}`}
-                >
-                  Meal Master
-                </Text>
-                <Text
-                  style={tw`text-2xl font-bold ${isDarkTheme ? "text-white" : "text-black"}`}
-                >
-                  Free
-                </Text>
-                <Text
-                  style={tw`text-sm font-normal mb-4 ${isDarkTheme ? "text-white" : "text-black"}`}
-                >
-                  one time
-                </Text>
-                <View style={tw`mb-4`}>
-                  <Text
-                    style={tw`text-xs mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
-                  >
-                    • Limited chats
-                  </Text>
-                </View>
-                <TouchableOpacity
-                  style={tw`px-4 py-2 bg-yellow-500 rounded-full`}
-                >
-                  <Text style={tw`text-base font-medium text-white text-xs`}>
-                    Current
-                  </Text>
-                </TouchableOpacity>
-              </View>
-
               {/* Subscriptions */}
               {data.data.map((sub) => (
                 <View
@@ -190,12 +152,17 @@ const Subscription = () => {
                     <Text
                       style={tw`text-xs mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
                     >
-                      • Unlimited chats
+                      • Unlimited message
                     </Text>
                     <Text
                       style={tw`text-xs mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
                     >
-                      • Unlimited chats
+                      • Unlimited image requests
+                    </Text>
+                    <Text
+                      style={tw`text-xs mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
+                    >
+                      • Every day meal generation
                     </Text>
                   </View>
                   <TouchableOpacity
