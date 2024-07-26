@@ -3,6 +3,11 @@ const initialState = {
   selectedChat: null,
   role: null,
   chatHistory: null,
+  dietaryPreferences: {
+    allergies: [],
+    avoidedFoods: [],
+    dietaryPreference: null,
+  },
 };
 
 const userSlice = createSlice({
@@ -20,6 +25,9 @@ const userSlice = createSlice({
     },
     setRole(state, action) {
       state.role = action.payload;
+    },
+    setDietaryPreferences(state, action) {
+      state.dietaryPreferences = action.payload;
     },
   },
 });
