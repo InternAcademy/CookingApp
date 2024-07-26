@@ -19,6 +19,9 @@ namespace CookingApp.Services.UserProfile
                 {
                     Role = CreateRole.Free(),
                     InterfacePreference = new InterfacePreference().CreateInterface(),
+                    DietaryPreference = Models.Enums.DietaryPreference.None,
+                    Allergies = new List<string>(),
+                    AvoidedFoods = new List<string>(),
                     UserId = userId,
                 };
 
