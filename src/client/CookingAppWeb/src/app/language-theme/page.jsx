@@ -1,11 +1,12 @@
 // pages/language-theme/index.jsx
 "use client";
+import "tailwindcss/tailwind.css";
 import React, { useState, useEffect } from "react";
+
 import { useSelector, useDispatch } from "react-redux";
 import { uiActions } from "@/store/ui-slice";
-import { ThemeSwitcher } from "@/components/ThemeSwitcher";
 import { useTheme } from "next-themes";
-import "tailwindcss/tailwind.css";
+import { ThemeSwitcher } from "@/components/ThemeSwitcher";
 
 const LanguageAndTheme = () => {
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
@@ -19,7 +20,6 @@ const LanguageAndTheme = () => {
       setSelectedLanguage(storedLanguage);
     }
 
-    // Sync Redux state with next-themes
     dispatch(uiActions.setTheme(theme === "dark"));
   }, [dispatch, theme]);
 

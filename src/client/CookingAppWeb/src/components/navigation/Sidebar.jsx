@@ -1,9 +1,9 @@
 // components/Sidebar.jsx
 "use client";
 
+import "tailwindcss/tailwind.css";
 import React, { useState, useEffect } from "react";
 import { FaCommentDots, FaTimes } from "react-icons/fa";
-import "tailwindcss/tailwind.css";
 
 import { useSelector, useDispatch } from "react-redux";
 import { userActions } from "@/store/userSlice";

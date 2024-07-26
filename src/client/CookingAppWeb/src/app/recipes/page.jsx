@@ -1,14 +1,15 @@
 // pages/Recipes.jsx
 "use client";
-import React, { useEffect, useState, useCallback } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { getRecipes } from "../../http/recipe";
-import { useRouter } from "next/navigation";
-import jwtDecode from "jwt-decode";
-import Recipe from "@/components/Recipe";
-import { MdSearch } from "react-icons/md";
 import "tailwindcss/tailwind.css";
+import React, { useEffect, useState, useCallback } from "react";
+import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+
+import jwtDecode from "jwt-decode";
 import { useSelector } from "react-redux";
+import { MdSearch } from "react-icons/md";
+import { getRecipes } from "../../http/recipe";
+import Recipe from "@/components/Recipe";
 
 const Recipes = () => {
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
@@ -77,11 +78,7 @@ const Recipes = () => {
           )}
         </div>
       </div>
-      <div className="w-full flex flex-col items-center">
-        {filteredRecipes.map(recipe => (
-          <Recipe key={recipe.id} recipe={recipe} refetch={memoizedRefetch} />
-        ))}
-      </div>
+      <div className="w-full flex flex-col items-center">{isPending ? <p className={`text-2xl ${isDarkTheme ? "text-white" : "text-black"}`}>Loading...</p> : filteredRecipes.map(recipe => <Recipe key={recipe.id} recipe={recipe} refetch={memoizedRefetch} />)}</div>
     </div>
   );
 };

@@ -1,7 +1,8 @@
 // components/ChatError.jsx
 import React from "react";
-import { FaLaptop } from "react-icons/fa";
+
 import { useSelector } from "react-redux";
+import { FaLaptop } from "react-icons/fa";
 
 const ChatError = ({ message }) => {
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);

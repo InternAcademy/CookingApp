@@ -1,12 +1,14 @@
 // pages/User-Menu.jsx
 "use client";
 
+import "tailwindcss/tailwind.css";
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import SignOutButton from '@/components//auth/SignOutButton'
+
 import { useDispatch, useSelector } from "react-redux";
-import { FaUserCircle, FaUtensils, FaCreditCard, FaLeaf, FaArchive, FaLanguage, FaFileAlt, FaInfoCircle, FaEnvelope, FaSignOutAlt } from "react-icons/fa";
-import "tailwindcss/tailwind.css";
 import { uiActions } from "@/store/ui-slice";
+import { FaUserCircle, FaUtensils, FaCreditCard, FaLeaf, FaArchive, FaLanguage, FaFileAlt, FaInfoCircle, FaEnvelope, FaSignOutAlt } from "react-icons/fa";
 
 const UserMenu = () => {
   const router = useRouter();
@@ -81,10 +83,7 @@ const UserMenu = () => {
       </div>
 
       <div className="mt-auto mb-4">
-        <button onClick={() => console.log("Sign Out")} className="flex items-center" title="Sign Out">
-          <FaSignOutAlt className="w-6 h-6 mr-4" color={isDarkTheme ? "white" : "black"} />
-          <span className={`text-lg ${isDarkTheme ? "text-gray-100" : "text-black"}`}>Sign Out</span>
-        </button>
+      <SignOutButton />
       </div>
     </div>
   );
