@@ -28,10 +28,10 @@
         public InterfacePreference InterfacePreference { get; set; } = default!;
 
         [BsonElement("allergies")]
-        public List<Allergy> Allergies { get; set; } = default!;
+        public List<string> Allergies { get; set; } = default!;
 
         [BsonElement("avoided-foods")]
-        public List<Food> AvoidedFoods { get; set; } = default!;
+        public List<string> AvoidedFoods { get; set; } = default!;
 
         [BsonElement("chats")]
         public List<Chat> Chats { get; set; } = default!;
