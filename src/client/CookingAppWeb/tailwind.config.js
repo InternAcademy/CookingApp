@@ -11,6 +11,7 @@ module.exports = {
         customWhite: "#FFFFFF", // light theme background
         customGray400: "#A3A3A3", // text-gray-400 - dark theme text
         customGray600: "#525252", // text-gray-600 - light theme text
+        customLightGray: "#E5E7EB", // customLightGray - light theme input/textarea background
 
         //basic colors
         basicBlack: "#000000", // text and icons - Basic black

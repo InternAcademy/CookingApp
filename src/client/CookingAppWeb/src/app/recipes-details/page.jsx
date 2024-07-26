@@ -1,9 +1,11 @@
 // pages/RecipesDetails.jsx
 "use client";
 
-import React from "react";
 import "tailwindcss/tailwind.css";
+import React from "react";
+
 import { useSelector } from "react-redux";
+
 const RecipesDetails = () => {
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
 

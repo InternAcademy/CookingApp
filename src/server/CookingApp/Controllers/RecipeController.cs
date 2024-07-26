@@ -7,6 +7,7 @@ using CookingApp.ViewModels.Api;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using CookingApp.Infrastructure.Extensions;
+using CookingApp.ViewModels.Recipes;
 
 namespace CookingApp.Controllers
 {
@@ -59,7 +60,7 @@ namespace CookingApp.Controllers
             };
         }
 
-        [HttpGet("recipes/{userId}")]
+        [HttpPost("recipes/{userId}/{pageIndex}/{pageSize}")]
         public async Task<IActionResult> Recipes(string userId,
             [Range(1, int.MaxValue, ErrorMessage = "Value must be greater than 0")]
             int pageIndex = 1,
@@ -67,10 +68,15 @@ namespace CookingApp.Controllers
             int pageSize = 10)
         {
             var result = await recipeService.GetMine(userId, pageIndex, pageSize);
-            return new ApiResponse<IEnumerable<Recipe>>()
+            return new ApiResponse<RecipePage>()
             {
                 Status = 200,
-                Data = result.ToPage()
+                Data = new RecipePage()
+                {
+                    Page = pageIndex,
+                    Recipes = result.ToPage(),
+                    TotalPages = 10
+                }
             };
         }
         [HttpGet("archived-recipes/{userId}")]

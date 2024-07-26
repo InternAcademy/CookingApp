@@ -114,12 +114,12 @@ namespace CookingApp.Common.CompletionConstants
                 if(profile.Allergies is not null)
                 {
                     sb.AppendLine(UserAllergiesPrompt);
-                    sb.AppendLine(string.Join(", ", profile.Allergies.Select(a => a.Name)));
+                    sb.AppendLine(string.Join(", ", profile.Allergies));
                 }
                 if (profile.AvoidedFoods is not null)
                 {
                     sb.AppendLine(UserAvoidedFoodsPrompt);
-                    sb.AppendLine(string.Join(", ", profile.AvoidedFoods.Select(a => a.Name)));
+                    sb.AppendLine(string.Join(", ", profile.AvoidedFoods));
                 }
 
                 sb.AppendLine(UserDietaryPreferencePrompt);

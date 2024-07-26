@@ -1,13 +1,14 @@
 // pages/Subscription.jsx
 "use client";
-
+import "tailwindcss/tailwind.css";
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+
+import jwtDecode from "jwt-decode";
 import { useSelector } from "react-redux";
 import { fetchSubs, createSub } from "@/http/subs";
-import jwtDecode from "jwt-decode";
 import Spinner from "@/components/common/Spinner";
-import "tailwindcss/tailwind.css";
+
 const Subscription = () => {
   const queryClient = useQueryClient();
 

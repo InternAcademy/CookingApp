@@ -6,7 +6,7 @@ namespace CookingApp.Services.UserProfile
     {
         Task<ProfileFetchResult> FetchProfile(string userId);
 
-        Task ConfigureProfile(ConfigureProfileRequest configureProfileRequest);
+        Task ConfigurePreferences(ConfigurePreferencesRequest configureProfileRequest);
 
         Task SaveInterfacePreferences (PreferencesRequest preferencesRequest);
     }

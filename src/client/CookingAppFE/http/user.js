@@ -30,3 +30,27 @@ export async function checkUserStatus({ token }) {
   });
   return response;
 }
+export async function preferences({
+  token,
+  userId,
+  dietaryPreference,
+  allergies,
+  avoidedfoods,
+}) {
+  const response = await fetch(`${ip}/preferences`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      userId: userId,
+      dietaryPreference: dietaryPreference,
+      allergies: allergies,
+      avoidedfoods: avoidedfoods,
+    }),
+  });
+  const responseBody = await response.json();
+  console.log(responseBody);
+  return responseBody;
+}

@@ -29,11 +29,14 @@ namespace CookingApp.Services.UserProfile
             {
                 InterfacePreference = profile.InterfacePreference,
                 Name = profile.Name,
-                Role = profile.Role
+                Role = profile.Role,
+                DietaryPreference = profile.DietaryPreference,
+                Allergies = profile.Allergies,
+                AvoidedFoods = profile.AvoidedFoods,
             };
         }
         
-        public async Task ConfigureProfile(ConfigureProfileRequest configureProfileRequest)
+        public async Task ConfigurePreferences(ConfigurePreferencesRequest configureProfileRequest)
         {
             var profile = await profileRepo
                 .GetFirstOrDefaultAsync(a => a.UserId == configureProfileRequest.UserId);

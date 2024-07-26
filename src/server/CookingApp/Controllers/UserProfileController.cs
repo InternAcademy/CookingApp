@@ -24,17 +24,17 @@ namespace CookingApp.Controllers
             };
         }
 
-        [HttpGet("configure-profile")]
-        public async Task<IActionResult> ConfigureProfile([FromBody] ConfigureProfileRequest request)
+        [HttpPost("preferences")]
+        public async Task<IActionResult> ConfigurePreferences([FromBody] ConfigurePreferencesRequest request)
         {
-            await userProfileService.ConfigureProfile(request);
+            await userProfileService.ConfigurePreferences(request);
 
             return new ApiResponse<bool>()
             {
                 Status = 200
             };
         }
-
+        
         [HttpPost("save-preferences")]
         public async Task<IActionResult> SavePreferences([FromBody] PreferencesRequest request)
         {
