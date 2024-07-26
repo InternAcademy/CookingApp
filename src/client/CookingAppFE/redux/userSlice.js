@@ -2,7 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   selectedChat: null,
   role: null,
-  chatHistory: null,
+  chatHistory: {
+    page: 1,
+    chats: [],
+  },
   dietaryPreferences: {
     allergies: [],
     avoidedFoods: [],
@@ -21,7 +24,16 @@ const userSlice = createSlice({
       state.selectedChat = null;
     },
     setChatHistory(state, action) {
-      state.chatHistory = action.payload;
+      state.chatHistory = {
+        page: action.payload.page,
+        chats: [...state.chatHistory.chats, ...action.payload.chats],
+      };
+    },
+    firstPageChatHistory(state, action) {
+      state.chatHistory = {
+        page: action.payload.page,
+        chats: action.payload.chats,
+      };
     },
     setRole(state, action) {
       state.role = action.payload;
