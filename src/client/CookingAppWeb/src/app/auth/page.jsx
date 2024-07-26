@@ -4,7 +4,7 @@ import React from "react";
 import "tailwindcss/tailwind.css";
 import { useSelector } from "react-redux";
 
-const Contacts = () => {
+const AuthPage = () => {
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
 
   return (
@@ -14,4 +14,4 @@ const Contacts = () => {
   );
 };
 
-export default Contacts;
+export default AuthPage;
