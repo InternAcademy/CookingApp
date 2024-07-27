@@ -16,7 +16,6 @@ import RulesAndPolicies from "../../components/screens/settings/RulesAndPolicies
 import Logout from "../../components/screens/Logout.js";
 import CameraScreen from "../../components/bot/CameraScreen";
 import ImageScreen from "../../components/bot/ImageScreen";
-import { useSelector } from "react-redux";
 import Recipes from "../../components/screens/recipes/Recipes";
 import RecipesDetails from "../screens/recipes/RecipesDetails";
 
