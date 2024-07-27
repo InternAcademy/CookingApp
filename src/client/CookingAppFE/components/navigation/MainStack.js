@@ -14,7 +14,6 @@ import Logout from "../../components/screens/Logout.js";
 import CameraScreen from "../../components/bot/CameraScreen";
 import ImageScreen from "../../components/bot/ImageScreen";
 import { useSelector } from "react-redux";
-import ArchivedRecipes from "../../components/screens/recipes/ArchivedRecipes";
 import Recipes from "../../components/screens/recipes/Recipes";
 import RecipesDetails from "../screens/recipes/RecipesDetails";
 import { useDispatch } from "react-redux";
@@ -28,7 +27,6 @@ const linking = {
       UserMenu: "user-menu",
       About: "about",
       Contact: "contact",
-      ArchivedRecipes: "archived-recipes",
       Recipes: "recipes",
       Subscription: "subscription",
       FoodPreferences: "food-preferences",
@@ -86,14 +84,6 @@ const MainStack = () => {
           name="Contact"
           component={Contact}
           options={{ ...screenStyle }}
-        />
-        <Stack.Screen
-          name="ArchivedRecipes"
-          component={ArchivedRecipes}
-          options={{
-            headerTitle: "Archived Recipes",
-            ...screenStyle,
-          }}
         />
         <Stack.Screen
           name="Recipes"

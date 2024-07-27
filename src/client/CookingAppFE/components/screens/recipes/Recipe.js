@@ -59,9 +59,7 @@ export default function Recipe({ recipe, refetch }) {
               <Entypo name="bowl" size={20} color={isDarkTheme ? "white" : "black"} />
               <Text style={tw`text-[16px] font-semibold ml-1 pt-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{recipe.numberOfPortions}</Text>
             </View>
-            {loading ? <ActivityIndicator size="small" color={isDarkTheme ? "white" : "black"} style={tw`mr-2`} /> : <TouchableOpacity onPress={archiveThisRecipe}>{recipe.isArchived ? <Ionicons name={"archive"} size={24} color={isDarkTheme ? "white" : "black"} /> : <Ionicons name={"archive-outline"} size={24} color={isDarkTheme ? "white" : "black"} />}</TouchableOpacity>}
           </View>
-         
         </View>
       </View>
     </TouchableOpacity>

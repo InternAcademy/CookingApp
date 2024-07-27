@@ -23,9 +23,10 @@ const Sidebar = ({ open, setOpen }) => {
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
   const chat = useSelector((state) => state.user.selectedChat);
   const chatHistory = useSelector((state) => state.user.chatHistory.chats);
+  const totalPages = useSelector((state) => state.user.chatHistory.totalPages);
+
   const chatPage = useSelector((state) => state.user.chatHistory.page);
 
-  console.log(chatHistory);
   const selectChat = useSelectChat();
   const { getFirstPage, getNextPage } = useChatHistory();
   const dispatch = useDispatch();
@@ -111,7 +112,7 @@ const Sidebar = ({ open, setOpen }) => {
   const sortChatsByTime = (chats) => {
     return chats.sort((a, b) => new Date(b.time) - new Date(a.time));
   };
-
+  console.log(`total pages:${totalPages}, currentPage: ${chatPage}`);
   return (
     <Modal transparent visible={open}>
       <Pressable style={styles.overlay} onPress={() => setOpen(false)} />
@@ -173,9 +174,11 @@ const Sidebar = ({ open, setOpen }) => {
                 </View>
               )
           )}
-          <TouchableOpacity onPress={loadMore} style={tw`pr-3 pl-2`}>
-            <Text>Load more...</Text>
-          </TouchableOpacity>
+          {chatPage !== totalPages && (
+            <TouchableOpacity onPress={loadMore} style={tw`pr-3 pl-2`}>
+              <Text>Load more...</Text>
+            </TouchableOpacity>
+          )}
         </ScrollView>
       </Animated.View>
     </Modal>

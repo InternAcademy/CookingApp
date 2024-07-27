@@ -75,7 +75,7 @@ namespace CookingApp.Controllers
                 {
                     Page = pageIndex,
                     Recipes = result.ToPage(),
-                    TotalPages = 10
+                    TotalPages = result.TotalPages
                 }
             };
         }
@@ -86,6 +86,18 @@ namespace CookingApp.Controllers
             {
                 Status = 200,
                 Data = await recipeService.GetArchived(userId)
+            };
+        }
+
+        [HttpDelete("delete-recipe/{recipeId}")]
+        public async Task<IActionResult> Delete(string recipeId)
+        {
+            await recipeService.DeleteRecipe(recipeId);
+
+            return new ApiResponse<IActionResult>()
+            {
+                Status = 200,
+                Data = Ok()
             };
         }
     }

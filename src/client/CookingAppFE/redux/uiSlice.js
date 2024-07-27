@@ -48,9 +48,9 @@ const uiSlice = createSlice({
     },
     loadMore(state, action) {
       state.filteredRecipes = {
-        page: state.filteredRecipes.page + 1, // Increment page if not provided
-        recipes: [...state.filteredRecipes.recipes, ...action.payload.recipes], // Append new results
-        totalPages: action.payload.totalPages, // Update total results
+        page: state.filteredRecipes.page + 1, 
+        recipes: [...state.filteredRecipes.recipes, ...action.payload.recipes], 
+        totalPages: action.payload.totalPages, 
       };
     },
     getFirstPage(state, action) {

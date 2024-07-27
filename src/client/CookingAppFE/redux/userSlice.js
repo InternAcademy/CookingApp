@@ -5,6 +5,7 @@ const initialState = {
   chatHistory: {
     page: 1,
     chats: [],
+    totalPages: null,
   },
   dietaryPreferences: {
     allergies: [],
@@ -27,12 +28,14 @@ const userSlice = createSlice({
       state.chatHistory = {
         page: action.payload.page,
         chats: [...state.chatHistory.chats, ...action.payload.chats],
+        totalPages: action.payload.totalPages,
       };
     },
     firstPageChatHistory(state, action) {
       state.chatHistory = {
         page: action.payload.page,
         chats: action.payload.chats,
+        totalPages: action.payload.totalPages,
       };
     },
     setRole(state, action) {

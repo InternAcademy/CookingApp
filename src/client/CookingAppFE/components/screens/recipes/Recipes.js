@@ -22,11 +22,15 @@ import Svg, { Line } from "react-native-svg";
 import Recipe from "./Recipe";
 import * as Animatable from "react-native-animatable";
 import { uiActions } from "../../../redux/uiSlice";
+import useFirstPageRecipes from "../../../hooks/useFirstPageRecipes";
+import { userActions } from "../../../redux/userSlice";
 
 const Recipes = () => {
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
   const filteredRecipes = useSelector((state) => state.ui.filteredRecipes);
+
   const [input, setInput] = useState("");
+  const { getFirstPageRecipes } = useFirstPageRecipes();
   const dispatch = useDispatch();
   const { mutate: loadMoreRecipes, isPending: gettingMovies } = useMutation({
     mutationFn: getRecipes,
@@ -35,28 +39,19 @@ const Recipes = () => {
       dispatch(uiActions.loadMore(data));
     },
   });
-  const { mutate: getFirstPage, isPending } = useMutation({
-    mutationFn: getRecipes,
-    onMutate: () => {},
-    onError: (errr) => {
-      console.log(errr);
-    },
-    onSuccess: (data) => {
-      dispatch(uiActions.getFirstPage(data));
-    },
-  });
+
   useEffect(() => {
     async function getData() {
       const token = await AsyncStorage.getItem("token");
       const decodedToken = jwtDecode(token);
-      getFirstPage({ token: token, userId: decodedToken.sub, page: 1 });
+      getFirstPageRecipes({ token: token, userId: decodedToken.sub, page: 1 });
     }
     getData();
   }, []);
+
   const clearSearch = () => {
     setInput("");
   };
-
   const CustomCloseIcon = ({ color }) => (
     <Svg height="14" width="14" viewBox="0 0 14 14">
       <Line
@@ -89,13 +84,14 @@ const Recipes = () => {
       page: filteredRecipes.page + 1,
     });
   }
+
   return (
     <ScrollView
       style={tw`flex flex-col ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}
       contentContainerStyle={tw`items-center`}
     >
       <View style={tw`flex-row justify-between items-center px-4 py-2 w-86 `}>
-        <View
+        {/* <View
           style={tw`flex-row items-center flex-1 border ${isDarkTheme ? "border-gray-700" : "border-gray-300"} rounded-md`}
         >
           <TouchableOpacity style={tw`ml-2`}>
@@ -117,7 +113,7 @@ const Recipes = () => {
               <CustomCloseIcon color={isDarkTheme ? "white" : "black"} />
             </TouchableOpacity>
           )}
-        </View>
+        </View> */}
       </View>
       {filteredRecipes.recipes &&
         filteredRecipes.recipes.map((recipe, index) => (
@@ -131,9 +127,11 @@ const Recipes = () => {
             <Recipe recipe={recipe} />
           </Animatable.View>
         ))}
-      <TouchableOpacity onPress={loadMore} style={tw`pr-3 pl-2`}>
-        <Text>Load more...</Text>
-      </TouchableOpacity>
+      {filteredRecipes.page !== filteredRecipes.totalPages && (
+        <TouchableOpacity onPress={loadMore} style={tw`pr-3 pl-2`}>
+          <Text>Load more...</Text>
+        </TouchableOpacity>
+      )}
     </ScrollView>
   );
 };
