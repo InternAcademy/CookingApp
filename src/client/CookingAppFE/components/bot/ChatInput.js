@@ -34,7 +34,6 @@ export default function ChatInput({ isPending }) {
       navigation.navigate("CameraScreen");
     }
   }
-
   async function openGallery() {
     if (!isPending) {
       let result = await ImagePicker.launchImageLibraryAsync({
