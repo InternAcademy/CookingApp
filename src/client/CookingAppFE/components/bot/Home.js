@@ -89,7 +89,7 @@ const Home = () => {
         <SafeAreaView
           style={tw`flex-1 ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}
         >
-          <ScrollView contentContainerStyle={tw`p-6 mt-10`}>
+          <ScrollView contentContainerStyle={tw`px-3.5 `}>
             {chat.content.map((msg, index) => (
               <View key={index} style={tw`mb-2 flex-row justify-start pt-1`}>
                 {msg.role === "user" ? (
