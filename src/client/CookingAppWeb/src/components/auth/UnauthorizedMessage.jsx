@@ -88,10 +88,10 @@ export default function UnauthorizedMessage() {
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row mt-6 sm:mt-0 sm:ml-8 space-y-4 sm:space-y-0 sm:space-x-8">
+        <div className="flex sm:flex-row">
           <div>
             <h4 className="font-semibold">Menu</h4>
-            <ul className="mt-2 space-y-1">
+            <ul className="mt-2 space-y-2">
               <li>
                 <a href="#" className="hover:underline">
                   Home
@@ -116,7 +116,7 @@ export default function UnauthorizedMessage() {
           </div>
           <div>
             <h4 className="font-semibold">Help</h4>
-            <ul className="mt-2 space-y-1">
+            <ul className="mt-2 space-y-2">
               <li>
                 <a href="#" className="hover:underline">
                   Privacy and Policy
@@ -131,7 +131,7 @@ export default function UnauthorizedMessage() {
           </div>
           <div>
             <h4 className="font-semibold">Social</h4>
-            <ul className="mt-2 space-y-1">
+            <ul className="mt-2 space-y-2">
               <li>
                 <a href="#" className="hover:underline">
                   Facebook
