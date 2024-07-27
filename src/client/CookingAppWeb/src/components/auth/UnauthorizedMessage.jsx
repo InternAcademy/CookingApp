@@ -78,7 +78,13 @@ export default function UnauthorizedMessage() {
           <Image src="/Main/icon2_dark.png" alt="Logo" width={50} height={50} />
           <div className="ml-4">
             <h2 className="text-lg font-bold">Cookpedia</h2>
-            <p>Discover 1000+ recipes in your hand with the best recipe. Help you to find the easiest way to cook.</p>
+            <p className="text-lg text-customWhite mb-12">
+              Discover endless recipes at your fingertips.
+              <br />
+              Find the best recipe easily.
+              <br />
+              Cooking made simple and fun.
+            </p>
           </div>
         </div>
 
