@@ -40,7 +40,7 @@ export async function getChat({ token, chatId }) {
 }
 
 export async function getUserChats({ token, userId, pageIndex }) {
-  const response = await fetch(`${ip}/user-chats/${userId}/${pageIndex}/2`, {
+  const response = await fetch(`${ip}/user-chats/${userId}/${pageIndex}/20`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,

@@ -20,7 +20,7 @@ export async function createRecipe({ token, request }) {
 }
 
 export async function getRecipes({ token, userId, page }) {
-  const response = await fetch(`${ip}/recipes/${userId}/${page}/2`, {
+  const response = await fetch(`${ip}/recipes/${userId}/${page}/5`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
