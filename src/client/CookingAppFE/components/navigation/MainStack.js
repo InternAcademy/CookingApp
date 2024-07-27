@@ -1,5 +1,8 @@
 import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  TransitionPresets,
+} from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import LandingPage from "../screens/main/LandingPage";
 import Home from "../../components/bot/Home";
@@ -58,6 +61,7 @@ const MainStack = () => {
         initialRouteName={"landing"}
         screenOptions={{
           headerStyle: {},
+          ...TransitionPresets.SlideFromRightIOS,
         }}
       >
         <Stack.Screen
