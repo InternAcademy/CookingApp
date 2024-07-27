@@ -77,7 +77,7 @@ export default function UnauthorizedMessage() {
         <div className="flex flex-col sm:flex-row sm:items-center">
           <Image src="/Main/icon2_dark.png" alt="Logo" width={50} height={50} />
           <div className="ml-4">
-            <h2 className="text-lg font-bold">Cookpedia</h2>
+            <h2 className="text-lg font-bold">MealMasterBot</h2>
             <p className="text-lg text-customWhite mb-12">
               Discover endless recipes at your fingertips.
               <br />
