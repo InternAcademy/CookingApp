@@ -16,7 +16,7 @@ const HeaderButton = () => {
     if (role === "Free") {
       const interval = setInterval(() => {
         setButtonText((prev) =>
-          prev === "Вземи PLUS" ? `${chatsLeft} messages left` : "Вземи PLUS"
+          prev === "Get Premium" ? `${chatsLeft} messages left` : "Get Premium"
         );
       }, 3000); // Промяна на текста на всеки 3 секунди, идеята ми е да видим как ще изглежда.
       return () => clearInterval(interval);
