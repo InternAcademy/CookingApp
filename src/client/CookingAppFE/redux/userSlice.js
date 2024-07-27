@@ -1,7 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   selectedChat: null,
-  role: null,
+  role: {
+    type: null,
+    limitations: {
+      chatFromDate: null,
+      chatGeneration: null,
+      recipeGeneration: null,
+    },
+  },
   chatHistory: {
     page: 1,
     chats: [],
@@ -43,6 +50,16 @@ const userSlice = createSlice({
     },
     setDietaryPreferences(state, action) {
       state.dietaryPreferences = action.payload;
+    },
+    reduceChatGeneration(state) {
+      state.role = {
+        type: state.role.type,
+        limitations: {
+          chatFromDate: state.role.limitations.chatFromDate,
+          chatGeneration: state.role.limitations.chatGeneration - 1,
+          recipeGeneration: state.role.limitations.recipeGeneration,
+        },
+      };
     },
   },
 });

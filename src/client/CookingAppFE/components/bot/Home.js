@@ -74,25 +74,24 @@ const Home = () => {
   }, [isInitial]);
 
   async function handleRecipeSave(request) {
-    const token = await AsyncStorage.getItem("token");
-    save({ token, request });
+    console.log(userRole.type);
+    if (userRole.type === "Free") {
+      navigation.navigate("Subscription");
+    } else {
+      const token = await AsyncStorage.getItem("token");
+      save({ token, request });
+    }
   }
 
   const renderPost = () => {
     if (chat) {
-      {
-        console.log(chat);
-      }
       return (
         <SafeAreaView
           style={tw`flex-1 ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}
         >
           <ScrollView contentContainerStyle={tw`p-6 mt-10`}>
             {chat.content.map((msg, index) => (
-              <View
-                key={index}
-                style={tw`mb-2 flex-row justify-start wrap pt-1`}
-              >
+              <View key={index} style={tw`mb-2 flex-row justify-start pt-1`}>
                 {msg.role === "user" ? (
                   profileImage ? (
                     <Image
@@ -142,7 +141,7 @@ const Home = () => {
                       </Text>
                       <TouchableOpacity
                         onPress={() => handleRecipeSave(msg.content)}
-                        style={tw`mx-2 self-end`}
+                        style={tw`mx-2 self-end pr-10`}
                       >
                         {!isPending && (
                           <Ionicons
