@@ -1,10 +1,11 @@
 // components/ThemeSwitcher.jsx
 "use client";
 
-import { useTheme } from "next-themes";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+
+import { useDispatch, useSelector } from "react-redux";
 import { uiActions } from "@/store/ui-slice";
+import { useTheme } from "next-themes";
 
 export function ThemeSwitcher() {
   const { theme, setTheme } = useTheme();
@@ -19,7 +20,7 @@ export function ThemeSwitcher() {
     setTheme(newTheme);
   };
 
-  const isDarkTheme = theme === "dark";
+  const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
 
   return (
     <button onClick={toggleTheme} className={`w-full py-3 rounded-full ${isDarkTheme ? "bg-customGray400 text-white" : "bg-white text-black"} border ${isDarkTheme ? "border-customGray400" : "border-customGray600"}`}>

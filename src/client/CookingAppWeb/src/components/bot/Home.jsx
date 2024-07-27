@@ -1,12 +1,11 @@
 // app/components/Home.jsx
 "use client";
+import "tailwindcss/tailwind.css";
 import React, { useEffect } from "react";
 import Image from "next/image";
-import "tailwindcss/tailwind.css";
-import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
+
 import { useDispatch, useSelector } from "react-redux";
-import { uiActions } from "@/store/ui-slice";
 import ChatInput from "./ChatInput";
 import ChatError from "./ChatError";
 import NavBar from "../navigation/NavBar";
@@ -16,8 +15,7 @@ import useSaveRecipe from "@/hooks/useSaveRecipe";
 const Home = () => {
   const router = useRouter();
   const { save, isLoading } = useSaveRecipe();
-  const { theme } = useTheme();
-  const isDarkTheme = theme === "dark";
+  const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
   const isThinking = useSelector(state => state.ui.isThinking);
   const responseError = useSelector(state => state.ui.responseError);
   const chat = useSelector(state => state.user.selectedChat);
@@ -28,17 +26,12 @@ const Home = () => {
     const checkTokenAndTheme = async () => {
       const token = localStorage.getItem("token");
       console.log(token);
-      const theme = localStorage.getItem("theme");
-      // if (!token) {
-      //   router.push("/landing-page");
-      // }
-      if (theme) {
-        console.log(theme);
-        dispatch(uiActions.setTheme(theme === "dark" ? "dark" : null));
+      if (!token) {
+        router.push("/");
       }
     };
     checkTokenAndTheme();
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     console.log(isDarkTheme);
@@ -61,7 +54,7 @@ const Home = () => {
                 <div>
                   <p className={`text-base font-semibold mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{msg.role === "user" ? "You" : "MealMasterBot"}:</p>
                   {msg.role === "user" && msg.type === "Text" && <p className={`text-base mr-4 w-screen mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{msg.content}</p>}
-                  {msg.role === "user" && msg.type === "Image" && <Image src={msg.content} alt="User content" className="w-32 h-32 rounded-md mr-2 mb-7" />}
+                  {msg.role === "user" && msg.type === "Image" && <img src={msg.content} alt="User content" className="w-32 h-32 rounded-md mr-2 mb-7" />}
                   {msg.role === "bot" && msg.type === "Recipe" && (
                     <>
                       <p className={`max-w-full mr-12 text-base mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}>{msg.content}</p>

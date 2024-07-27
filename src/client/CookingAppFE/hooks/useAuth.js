@@ -6,12 +6,17 @@ import {
   useAutoDiscovery,
 } from "expo-auth-session";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as WebBrowser from "expo-web-browser";
+import { useNavigation } from "@react-navigation/native";
+
 const useAuth = (clientId, instance, scopes) => {
   const discovery = useAutoDiscovery(instance);
   const redirectUri = makeRedirectUri({
     scheme: undefined,
-    path: "logout",
+    path: "sign-in-oidc",
   });
+  const navigation = useNavigation();
+
   const [token, setToken] = useState(null);
   const [request, , promptAsync] = useAuthRequest(
     {
@@ -37,14 +42,27 @@ const useAuth = (clientId, instance, scopes) => {
         discovery
       );
       await AsyncStorage.clear();
-      console.log("token" + (await AsyncStorage.getItem("token")));
       await AsyncStorage.setItem("token", res.accessToken);
-      console.log("token" + (await AsyncStorage.getItem("token")));
+      await AsyncStorage.setItem("id_token", res.idToken);
       setToken(res.accessToken);
     }
   };
 
-  return { login, token, request };
+  const logout = async () => {
+    const tokenHint = await AsyncStorage.getItem("id_token");
+    AsyncStorage.clear();
+
+    const logoutUri = makeRedirectUri({
+      scheme: undefined,
+      path: "logout",
+    });
+    const logoutUrl = `${discovery.endSessionEndpoint}?post_logout_redirect_uri=${encodeURIComponent(logoutUri)}&id_token_hint=${tokenHint}`;
+
+    WebBrowser.openAuthSessionAsync(logoutUrl, logoutUri);
+    navigation.navigate("LandingPage");
+  };
+
+  return { login, token, request, logout };
 };
 
 export default useAuth;

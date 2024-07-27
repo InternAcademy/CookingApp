@@ -4,12 +4,12 @@
     using CookingApp.Models.Enums;
     using MongoDB.Bson.Serialization.Attributes;
 
-    public class Food : ValueObject
+    public class Role : ValueObject
     {
-        [BsonElement("name")]
-        public string Name { get; set; } = default!;
-
         [BsonElement("type")]
-        public FoodType Type { get; set; }
+        public RoleType Type { get; set; } = default!;
+
+        [BsonElement("limitations")]
+        public Limitations Limitations { get; set; } = default!;
     }
 }

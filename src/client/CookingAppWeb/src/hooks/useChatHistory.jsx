@@ -1,9 +1,11 @@
+// hooks/useChatHistory.jsx
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import jwtDecode from "jwt-decode";
 import { useQuery } from "@tanstack/react-query";
+
+import jwtDecode from "jwt-decode";
+import { useSelector, useDispatch } from "react-redux";
+import { userActions } from "@/store/userSlice";
 import { getUserChats } from "../http/chat";
-import { userActions } from "../redux/userSlice";
 
 const useChatHistory = () => {
   const dispatch = useDispatch();
@@ -18,7 +20,7 @@ const useChatHistory = () => {
   } = useQuery({
     queryKey: ["getHistory"],
     queryFn: async () => {
-      const token = localStorage.getItem("token"); // Замяна на AsyncStorage с localStorage
+      const token = localStorage.getItem("token");
       if (!token) throw new Error("Token not found");
       const decodedToken = jwtDecode(token);
       const userChats = await getUserChats({

@@ -1,37 +1,34 @@
+// components/Sidebar.jsx
 "use client";
 
+import "tailwindcss/tailwind.css";
 import React, { useState, useEffect } from "react";
 import { FaCommentDots, FaTimes } from "react-icons/fa";
-import { useTheme } from "next-themes";
-import "tailwindcss/tailwind.css";
-// import { useSelector, useDispatch } from "react-redux";
-// import { userActions } from "../../redux/userSlice";
-// import useSelectChat from "../../hooks/useSelectChat";
-// import useChatHistory from "../../hooks/useChatHistory";
+
+import { useSelector, useDispatch } from "react-redux";
+import { userActions } from "@/store/userSlice";
+import useSelectChat from "../../hooks/useSelectChat";
+import useChatHistory from "../../hooks/useChatHistory";
 
 const Sidebar = ({ open, setOpen }) => {
-  const { theme } = useTheme();
-  const isDarkTheme = theme === "dark";
-  // const chat = useSelector(state => state.user.selectedChat);
-  // const chatHistory = useSelector(state => state.user.chatHistory);
-  // const selectChat = useSelectChat();
-  // const { refetchChatHistory } = useChatHistory();
-  // const dispatch = useDispatch();
+  const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
+  const chat = useSelector(state => state.user.selectedChat);
+  const chatHistory = useSelector(state => state.user.chatHistory);
+  const selectChat = useSelectChat();
+  const { refetchChatHistory } = useChatHistory();
+  const dispatch = useDispatch();
 
-  useEffect(
-    () => {
-      // refetchChatHistory();
-    }
-    // [chat]
-  );
+  useEffect(() => {
+    refetchChatHistory();
+  }, [chat]);
 
   const handleChatPress = async chat => {
-    // selectChat(chat);
+    selectChat(chat);
     setOpen(false);
   };
 
   const startNewChat = () => {
-    // dispatch(userActions.clearChat());
+    dispatch(userActions.clearChat());
     setOpen(false);
   };
 
@@ -52,16 +49,16 @@ const Sidebar = ({ open, setOpen }) => {
     return "Older than 30 days";
   };
 
-  // const sortedChatHistory =
-  //   chatHistory &&
-  //   chatHistory.reduce((acc, chat) => {
-  //     const sectionTitle = getSectionTitle(chat.time);
-  //     if (!acc[sectionTitle]) {
-  //       acc[sectionTitle] = [];
-  //     }
-  //     acc[sectionTitle].push(chat);
-  //     return acc;
-  //   }, {});
+  const sortedChatHistory =
+    chatHistory &&
+    chatHistory.reduce((acc, chat) => {
+      const sectionTitle = getSectionTitle(chat.time);
+      if (!acc[sectionTitle]) {
+        acc[sectionTitle] = [];
+      }
+      acc[sectionTitle].push(chat);
+      return acc;
+    }, {});
 
   const orderedSections = ["Today", "Yesterday", "Previous 7 days", "Previous 30 days", "Older than 30 days"];
 
@@ -78,7 +75,7 @@ const Sidebar = ({ open, setOpen }) => {
           </button>
         </div>
 
-        {/* <div className="overflow-y-auto">
+        <div className="overflow-y-auto">
           {chatHistory &&
             orderedSections.map(
               sectionTitle =>
@@ -93,7 +90,7 @@ const Sidebar = ({ open, setOpen }) => {
                   </div>
                 )
             )}
-        </div> */}
+        </div>
       </div>
     </div>
   );

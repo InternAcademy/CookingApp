@@ -1,6 +1,8 @@
 ﻿namespace CookingApp.Services.Recipe
 {
+    using CookingApp.Infrastructure.Interfaces;
     using Models.Entities;
+
     public interface IRecipeService
     {
         /// <summary>
@@ -12,6 +14,7 @@
         Task<string> CreateRecipe(string request, string userId);
 
         Task ArchiveRecipe(string recipeId);
+        Task DeleteRecipe(string recipeId);
 
         /// <summary>
         /// Retrieves a recipe by its ID.
@@ -21,8 +24,7 @@
         /// <exception cref="NotFoundException">Thrown when no recipe is found with the given ID.</exception>
         Task<Recipe> GetById(string recipeId);
 
-        /// <param name="userId">The ID of the user</param>
-        Task<IEnumerable<Recipe>> GetAll(string userId);
+        Task<IPagedList<Recipe>> GetMine(string userId, int pageIndex, int pageSize = 10, bool includeDeleted = false);
         Task<IEnumerable<Recipe>> GetArchived(string userId);
     }
 }

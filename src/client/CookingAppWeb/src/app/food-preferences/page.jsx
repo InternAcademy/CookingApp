@@ -1,9 +1,9 @@
 // components/FoodPreferences.jsx
 "use client";
-
-import React, { useState } from "react";
-import { useTheme } from "next-themes";
 import "tailwindcss/tailwind.css";
+import React, { useState } from "react";
+
+import { useTheme } from "next-themes";
 import { IoClose } from "react-icons/io5";
 
 const FoodPreferences = () => {
@@ -64,32 +64,31 @@ const FoodPreferences = () => {
     console.log("Saving preferences:", preferences);
 
     try {
-      // Simulating an API call
       await new Promise(resolve => setTimeout(resolve, 1000));
 
-      // Simulating a successful save
       alert("Success! Your food preferences have been saved successfully!");
     } catch (error) {
       alert("Error! There was an error saving your preferences. Please try again.");
     }
   };
 
-  const handleAddAlergenPressEnter = (event) => {
-    if (event.key === 'Enter') {
+  const handleAddAlergenPressEnter = event => {
+    if (event.key === "Enter") {
       event.preventDefault();
       handleAddAlergen();
     }
-  }
+  };
 
-  const handleAddDislikeFoodsPressEnter = (event) => {
-    if (event.key === 'Enter') {
+  const handleAddDislikeFoodsPressEnter = event => {
+    if (event.key === "Enter") {
       event.preventDefault();
-      handleAddFoodPreference()
+      handleAddFoodPreference();
     }
-  }
+  };
 
   return (
-    <div className={`${isDarkTheme ? "bg-rgba(18, 18, 18, 1)" : "bg-customWhite"} 
+    <div
+      className={`${isDarkTheme ? "bg-rgba(18, 18, 18, 1)" : "bg-customWhite"} 
     min-h-screen w-1/2 mx-auto p-6
     smallPhone:w-full
     phone:w-full

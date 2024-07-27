@@ -1,20 +1,44 @@
+// components/NavBar.jsx
 "use client";
-import React, { useState } from "react";
+import "tailwindcss/tailwind.css";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+
+import { useSelector } from "react-redux";
 import { FaCommentDots, FaBars, FaUtensils, FaUser } from "react-icons/fa";
 import Sidebar from "./Sidebar";
-import { useTheme } from "next-themes";
-import "tailwindcss/tailwind.css";
-
+import UserMenu from "../UserMenu";
 const NavBar = () => {
   const router = useRouter();
-  const { theme } = useTheme();
-  const isDarkTheme = theme === "dark";
+  const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
   const [open, setOpen] = useState(false);
+  const [dropDownOpen, setDropDownOpen] = useState(false);
 
   const startNewChat = () => {
-    router.push("/home");
+    router.push("/");
   };
+
+  const toggleDropDown = (event) => {
+    // event.stopPropagation();
+    setDropDownOpen(!dropDownOpen);
+  }
+
+  const handleClickOutside = () => {
+    setDropDownOpen(false);
+  };
+
+  useEffect(() => {
+
+    if (dropDownOpen) {
+      document.addEventListener("click", handleClickOutside);
+    } else {
+      document.removeEventListener("click", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [dropDownOpen]);
 
   return (
     <>
@@ -32,9 +56,10 @@ const NavBar = () => {
             <button onClick={() => router.push("/recipes")} className="mx-2">
               <FaUtensils className="w-6 h-6" color={isDarkTheme ? "white" : "black"} />
             </button>
-            <button onClick={() => router.push("/user-menu")} className="mx-2">
+            <button onClick={() => toggleDropDown()} className="mx-2">
               <FaUser className="w-6 h-6" color={isDarkTheme ? "white" : "black"} />
             </button>
+            <UserMenu isOpen={dropDownOpen} toggleDropDown={toggleDropDown}  />
           </div>
         </div>
       </div>

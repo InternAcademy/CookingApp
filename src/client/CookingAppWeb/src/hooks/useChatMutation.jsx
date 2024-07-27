@@ -1,8 +1,10 @@
+// hooks/useChatMutation.jsx
 import { useMutation } from "@tanstack/react-query";
+
 import { useDispatch, useSelector } from "react-redux";
-import { sendMessage } from "@/http/chat";
-import { uiActions } from "@/store/ui-slice";
 import { userActions } from "@/store/userSlice";
+import { uiActions } from "@/store/ui-slice";
+import { sendMessage } from "@/http/chat";
 
 const useChatMutation = () => {
   const dispatch = useDispatch();

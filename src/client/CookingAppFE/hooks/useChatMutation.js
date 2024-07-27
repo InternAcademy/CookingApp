@@ -7,6 +7,7 @@ import { userActions } from "../redux/userSlice";
 const useChatMutation = () => {
   const dispatch = useDispatch();
   const selectedChat = useSelector((state) => state.user.selectedChat);
+  const responseError = useSelector((state) => state.ui.responseError);
 
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: sendMessage,
@@ -15,7 +16,9 @@ const useChatMutation = () => {
       dispatch(uiActions.setInput(""));
     },
     onSuccess: (response) => {
-      console.log(response);
+      if (responseError) {
+        dispatch(uiActions.setResponseError(null));
+      }
       const newChatMessage = {
         type: response.type,
         role: "bot",

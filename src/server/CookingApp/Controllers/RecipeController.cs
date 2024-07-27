@@ -1,23 +1,41 @@
 ﻿using CookingApp.Common.Helpers.Profiles;
 using CookingApp.Models.Entities;
+using CookingApp.Models.Enums;
+using CookingApp.Services.Limitation;
 using CookingApp.Services.Recipe;
 using CookingApp.ViewModels.Api;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
+using CookingApp.Infrastructure.Extensions;
+using CookingApp.ViewModels.Recipes;
 
 namespace CookingApp.Controllers
 {
     [ApiController]
-    public class RecipeController(IRecipeService recipeService, IHttpContextAccessor httpContext) : ControllerBase
+    public class RecipeController(IRecipeService recipeService,
+        IHttpContextAccessor httpContext,
+        ILimitationService limitationService) : ControllerBase
     {
         [HttpPost("create-recipe")]
         public async Task<IActionResult> CreateRecipe([FromBody] string request)
         {
-            var recipeId = await recipeService.CreateRecipe(request, GetUser.ProfileId(httpContext));
-
-            return new ApiResponse<string>()
+            var userId = GetUser.ProfileId(httpContext);
+            var limitationResult = await limitationService.ProcessUserRecipeLimitations(userId);
+            if (limitationResult == ProcessResult.RecipeLimitationSuccessfull)
             {
-                Status = 200,
-                Data = recipeId
+                var recipeId = await recipeService.CreateRecipe(request, userId);
+
+                return new ApiResponse<string>()
+                {
+                    Status = 200,
+                    Data = recipeId
+                };
+            }
+
+            return new ApiResponse<ProcessResult>()
+            {
+                Status = 403,
+                Data = limitationResult
             };
         }
 
@@ -42,13 +60,23 @@ namespace CookingApp.Controllers
             };
         }
 
-        [HttpGet("recipes/{userId}")]
-        public async Task<IActionResult> Recipes(string userId)
+        [HttpPost("recipes/{userId}/{pageIndex}/{pageSize}")]
+        public async Task<IActionResult> Recipes(string userId,
+            [Range(1, int.MaxValue, ErrorMessage = "Value must be greater than 0")]
+            int pageIndex = 1,
+            [Range(1, int.MaxValue, ErrorMessage = "Value must be greater than 0")]
+            int pageSize = 10)
         {
-            return new ApiResponse<IEnumerable<Recipe>>()
+            var result = await recipeService.GetMine(userId, pageIndex, pageSize);
+            return new ApiResponse<RecipePage>()
             {
                 Status = 200,
-                Data = await recipeService.GetAll(userId)
+                Data = new RecipePage()
+                {
+                    Page = pageIndex,
+                    Recipes = result.ToPage(),
+                    TotalPages = result.TotalPages
+                }
             };
         }
         [HttpGet("archived-recipes/{userId}")]
@@ -58,6 +86,18 @@ namespace CookingApp.Controllers
             {
                 Status = 200,
                 Data = await recipeService.GetArchived(userId)
+            };
+        }
+
+        [HttpDelete("delete-recipe/{recipeId}")]
+        public async Task<IActionResult> Delete(string recipeId)
+        {
+            await recipeService.DeleteRecipe(recipeId);
+
+            return new ApiResponse<IActionResult>()
+            {
+                Status = 200,
+                Data = Ok()
             };
         }
     }

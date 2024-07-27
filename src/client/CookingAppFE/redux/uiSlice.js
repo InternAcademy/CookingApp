@@ -4,8 +4,15 @@ const initialState = {
   input: "",
   isThinking: false,
   responseError: null,
+  isInitial: true,
   isDarkTheme: false,
   photoUri: null,
+  lang: "English",
+  filteredRecipes: {
+    page: 0,
+    recipes: [],
+    totalPages: 0,
+  },
 };
 
 const uiSlice = createSlice({
@@ -14,6 +21,9 @@ const uiSlice = createSlice({
   reducers: {
     setInput(state, action) {
       state.input = action.payload;
+    },
+    setIsInitial(state, action) {
+      state.isInitial = action.payload;
     },
     setIsThinking(state, action) {
       state.isThinking = action.payload;
@@ -32,6 +42,23 @@ const uiSlice = createSlice({
     },
     clearPhotoUri(state) {
       state.photoUri = null;
+    },
+    setLanguage(state, action) {
+      state.lang = action.payload;
+    },
+    loadMore(state, action) {
+      state.filteredRecipes = {
+        page: state.filteredRecipes.page + 1, 
+        recipes: [...state.filteredRecipes.recipes, ...action.payload.recipes], 
+        totalPages: action.payload.totalPages, 
+      };
+    },
+    getFirstPage(state, action) {
+      state.filteredRecipes = {
+        page: 1,
+        recipes: action.payload.recipes,
+        totalPages: action.payload.totalPages,
+      };
     },
   },
 });
