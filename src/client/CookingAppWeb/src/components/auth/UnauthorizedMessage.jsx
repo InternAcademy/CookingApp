@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useRef } from "react";
 
 export default function UnauthorizedMessage() {
-  // Референция към download секцията
   const downloadRef = useRef(null);
 
   const scrollToDownload = () => {
@@ -43,16 +42,22 @@ export default function UnauthorizedMessage() {
       {/* Home Section */}
       <div className="flex flex-col justify-center items-center bg-customOrange w-full min-h-screen">{/* Content for Home Section */}</div>
       {/* Download Section */}
-      <div ref={downloadRef} className="w-full p-6 bg-customOrange">
-        <h2 className="text-3xl font-bold text-customWhite mb-4 text-center">Download App</h2>
-        <p className="text-lg text-customWhite mb-6 text-center">Download the app from App Store or Google Play for a better experience.</p>
-        <div className="flex justify-center space-x-4">
-          <a href="https://www.apple.com/app-store/" target="_blank" rel="noopener noreferrer">
-            <Image src="/Main/apple_store.png" alt="App Store" width={150} height={50} />
-          </a>
-          <a href="https://play.google.com/store" target="_blank" rel="noopener noreferrer">
-            <Image src="/Main/google_play.png" alt="Google Play" width={150} height={50} />
-          </a>
+      <div ref={downloadRef} className="w-full flex justify-end items-center p-6 bg-customOrange min-h-screen">
+        <div className="text-right max-w-md">
+          <h2 className="text-3xl font-bold text-customWhite mb-4">Download App</h2>
+          <p className="text-lg text-customWhite mb-6 leading-relaxed">
+            Download the app from App Store or
+            <br />
+            Google Play for a better experience.
+          </p>
+          <div className="flex justify-end space-x-4">
+            <a href="https://play.google.com/store" target="_blank" rel="noopener noreferrer">
+              <Image src="/Main/google_play.png" alt="Google Play" width={150} height={50} />
+            </a>
+            <a href="https://www.apple.com/app-store/" target="_blank" rel="noopener noreferrer">
+              <Image src="/Main/apple_store.png" alt="App Store" width={150} height={50} />
+            </a>
+          </div>
         </div>
       </div>
     </div>
