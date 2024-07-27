@@ -59,7 +59,7 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
           <div className="flex items-center w-full  cursor-pointer p-2 hover:bg-gray-100 hover:rounded" onClick={() => { router.push("/subscription"); toggleDropDown(); }} title="Subscription">
             <FaCreditCard className="w-6 h-6 mr-4" color={isDarkTheme ? "white" : "black"} />
             <span className={`text-lg ${isDarkTheme ? "text-white" : "text-black"}`}>Subscription</span>
-          </div> <div className="flex items-center w-full  cursor-pointer p-2 hover:bg-gray-100 hover:rounded" onClick={() => { router.push("/subscription"); toggleDropDown(); }} title="Subscription">
+          </div> <div className="flex items-center w-full  cursor-pointer p-2 hover:bg-gray-100 hover:rounded" onClick={() => { router.push("/settings"); toggleDropDown(); }} title="Settings">
             <FaCog className="w-6 h-6 mr-4" color={isDarkTheme ? "white" : "black"} />
             <span className={`text-lg ${isDarkTheme ? "text-white" : "text-black"}`}>Settings</span>
           </div>
