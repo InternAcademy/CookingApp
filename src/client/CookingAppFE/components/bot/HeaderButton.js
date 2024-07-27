@@ -11,6 +11,7 @@ const HeaderButton = () => {
   );
   const role = useSelector((state) => state.user.role.type);
   const navigation = useNavigation();
+  const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
   useEffect(() => {
     console.log("req left: ", chatsLeft);
     if (role === "Free") {
