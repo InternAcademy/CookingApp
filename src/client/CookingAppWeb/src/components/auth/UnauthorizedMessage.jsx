@@ -1,4 +1,3 @@
-// UnauthorizedMessage.jsx
 import { SignInButton } from "./SignInButton";
 import Image from "next/image";
 import { useRef } from "react";
@@ -31,7 +30,7 @@ export default function UnauthorizedMessage() {
             <a href="#" className="text-customWhite hover:text-customGray400" onClick={scrollToDownload}>
               Download
             </a>
-            <a href="#" className="text-customWhite hover:text-customGray400">
+            <a href="#about" className="text-customWhite hover:text-customGray400">
               About Us
             </a>
           </nav>
@@ -70,6 +69,84 @@ export default function UnauthorizedMessage() {
             <a href="https://play.google.com/store" target="_blank" rel="noopener noreferrer">
               <Image src="/Main/google_play.png" alt="Google Play" width={150} height={50} />
             </a>
+          </div>
+        </div>
+      </div>
+      {/* About Us Section */}
+      <div id="about" className="w-full bg-customGray p-8 text-customWhite flex flex sm:flex-row justify-between items-start sm:items-center">
+        <div className="flex flex-col sm:flex-row sm:items-center">
+          <Image src="/Main/icon2_dark.png" alt="Logo" width={50} height={50} />
+          <div className="ml-4">
+            <h2 className="text-lg font-bold">Cookpedia</h2>
+            <p>Discover 1000+ recipes in your hand with the best recipe. Help you to find the easiest way to cook.</p>
+          </div>
+        </div>
+
+        <div className="flex flex-col sm:flex-row mt-6 sm:mt-0 sm:ml-8 space-y-4 sm:space-y-0 sm:space-x-8">
+          <div>
+            <h4 className="font-semibold">Menu</h4>
+            <ul className="mt-2 space-y-1">
+              <li>
+                <a href="#" className="hover:underline">
+                  Home
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Recipes
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Articles
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  About Us
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold">Help</h4>
+            <ul className="mt-2 space-y-1">
+              <li>
+                <a href="#" className="hover:underline">
+                  Privacy and Policy
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Term of Use
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold">Social</h4>
+            <ul className="mt-2 space-y-1">
+              <li>
+                <a href="#" className="hover:underline">
+                  Facebook
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Instagram
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Twitter
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Youtube
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
