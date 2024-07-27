@@ -5,6 +5,7 @@ import { useRef } from "react";
 
 export default function UnauthorizedMessage() {
   const downloadRef = useRef(null);
+  const recipesRef = useRef(null);
 
   const scrollToDownload = () => {
     if (downloadRef.current) {
@@ -23,7 +24,7 @@ export default function UnauthorizedMessage() {
           <a href="#" className="text-customWhite hover:text-customGray400">
             Home
           </a>
-          <a href="#" className="text-customWhite hover:text-customGray400">
+          <a href="#recipes" className="text-customWhite hover:text-customGray400">
             Recipes
           </a>
           <a href="#" className="text-customWhite hover:text-customGray400" onClick={scrollToDownload}>
@@ -41,6 +42,13 @@ export default function UnauthorizedMessage() {
       </div>
       {/* Home Section */}
       <div className="flex flex-col justify-center items-center bg-customOrange w-full min-h-screen">{/* Content for Home Section */}</div>
+      {/* Recipes Section */}
+      <div id="recipes" className="relative w-full min-h-screen">
+        <Image src="/Main/Recipes.jpg" alt="Recipes Background" layout="fill" objectFit="cover" quality={100} className="absolute top-0 left-0 w-full h-full" />
+        <div className="relative z-10 flex justify-center items-center h-full">
+          <h2 className="text-5xl font-bold text-customWhite">Discover Recipes</h2>
+        </div>
+      </div>
       {/* Download Section */}
       <div ref={downloadRef} className="w-full flex justify-center items-center p-6 bg-customOrange min-h-screen">
         <div className="flex flex-col items-center">
