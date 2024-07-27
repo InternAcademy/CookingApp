@@ -1,7 +1,7 @@
 import { SignInButton } from "./SignInButton";
 import Image from "next/image";
 import { useRef } from "react";
-
+import { handleLogin } from "@/msal/msal";
 export default function UnauthorizedMessage() {
   const downloadRef = useRef(null);
 
@@ -21,8 +21,8 @@ export default function UnauthorizedMessage() {
             <span className="text-customWhite text-xl ml-2">MealMasterBot</span>
           </div>
           <nav className="flex space-x-6">
-            <a href="#" className="text-customWhite hover:text-customGray400">
-              Home
+            <a href="#" className="text-customWhite hover:text-customGray400" onClick={() => handleLogin("redirect")}>
+              Sign In
             </a>
             <a href="#recipes" className="text-customWhite hover:text-customGray400">
               Recipes
@@ -93,23 +93,23 @@ export default function UnauthorizedMessage() {
             <h4 className="font-semibold">Menu</h4>
             <ul className="mt-2 space-y-2">
               <li>
+                <a className="hover:underline" onClick={() => handleLogin("redirect")}>
+                  Sign In/Up
+                </a>
+              </li>
+              <li>
                 <a href="#" className="hover:underline">
                   Home
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:underline">
+                <a href="#recipes" className="hover:underline">
                   Recipes
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:underline">
-                  Articles
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:underline">
-                  About Us
+                <a href="#downloads" className="hover:underline" onClick={scrollToDownload}>
+                  Downloads
                 </a>
               </li>
             </ul>
