@@ -34,6 +34,21 @@ export async function getRecipes({ token, userId, page }) {
   return responseBody.data;
 }
 
+export async function deleteRecipe({ token, recipeId }) {
+  const response = await fetch(`${ip}/delete-recipe/${recipeId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+  if (!response.ok) {
+    throw new Error("Resource not found");
+  }
+  const responseBody = await response.json();
+  return responseBody.data;
+}
+
 export async function getRecipeById({ token, recipeId }) {
   console.log(recipeId);
   const response = await fetch(`${ip}/r/${recipeId}`, {
