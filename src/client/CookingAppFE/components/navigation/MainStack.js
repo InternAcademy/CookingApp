@@ -61,6 +61,7 @@ const MainStack = () => {
         initialRouteName={"landing"}
         screenOptions={{
           headerStyle: {},
+          ...TransitionPresets.SlideFromRightIOS,
         }}
       >
         <Stack.Screen
