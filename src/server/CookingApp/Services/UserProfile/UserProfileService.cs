@@ -49,6 +49,8 @@ namespace CookingApp.Services.UserProfile
                 throw new NotFoundException();
             }
 
+
+
             profile.Allergies = configureProfileRequest.Allergies;
             profile.AvoidedFoods = configureProfileRequest.AvoidedFoods;
             profile.DietaryPreference = configureProfileRequest.DietaryPreference;
@@ -74,6 +76,5 @@ namespace CookingApp.Services.UserProfile
 
             await profileRepo.UpdateAsync(profile);
         }
-
     }
 }
