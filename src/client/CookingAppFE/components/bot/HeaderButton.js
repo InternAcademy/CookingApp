@@ -1,26 +1,39 @@
-
-import React, { useState, useEffect } from 'react';
-import { TouchableOpacity, Text } from 'react-native';
-import tw from 'twrnc';
-import * as Animatable from 'react-native-animatable';
-
+import React, { useState, useEffect } from "react";
+import { TouchableOpacity, Text } from "react-native";
+import tw from "twrnc";
+import * as Animatable from "react-native-animatable";
+import { useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 const HeaderButton = () => {
-  const [buttonText, setButtonText] = useState('Вземи PLUS');
-
+  const [buttonText, setButtonText] = useState("Вземи PLUS");
+  const chatsLeft = useSelector(
+    (state) => state.user.role.limitations.chatGeneration
+  );
+  const role = useSelector((state) => state.user.role.type);
+  const navigation = useNavigation();
   useEffect(() => {
-    const interval = setInterval(() => {
-      setButtonText(prev => prev === 'Вземи PLUS' ? 'Нов текст' : 'Вземи PLUS');
-    }, 3000); // Промяна на текста на всеки 3 секунди, идеята ми е да видим как ще изглежда.
-    return () => clearInterval(interval);
-  }, []);
+    console.log("req left: ", chatsLeft);
+    if (role === "Free") {
+      const interval = setInterval(() => {
+        setButtonText((prev) =>
+          prev === "Вземи PLUS" ? `${chatsLeft} messages left` : "Вземи PLUS"
+        );
+      }, 3000); // Промяна на текста на всеки 3 секунди, идеята ми е да видим как ще изглежда.
+      return () => clearInterval(interval);
+    } else {
+      setButtonText("Premium");
+    }
+  }, [chatsLeft]);
 
   const handlePress = () => {
-    
-    console.log(`Push me hardERRRR!`);
+    navigation.navigate("Subscription");
   };
 
   return (
-    <TouchableOpacity onPress={handlePress} style={tw`bg-blue-500 py-2 px-4 rounded-full`}>
+    <TouchableOpacity
+      onPress={handlePress}
+      style={tw`bg-blue-500 py-2 px-4 rounded-full`}
+    >
       <Animatable.Text
         animation="slideInRight"
         duration={400}
