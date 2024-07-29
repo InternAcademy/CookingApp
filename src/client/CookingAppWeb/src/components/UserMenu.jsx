@@ -14,29 +14,29 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
   const router = useRouter();
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
   const dispatch = useDispatch();
-  const photoUri = useSelector(state => state.ui.photoUri);
+  // const photoUri = useSelector(state => state.ui.photoUri);
 
-  useEffect(() => {
-    const savedPhotoUri = localStorage.getItem("photoUri");
-    if (savedPhotoUri) {
-      dispatch(uiActions.setPhotoUri(savedPhotoUri));
-    }
-  }, [dispatch]);
+  // useEffect(() => {
+  //   const savedPhotoUri = localStorage.getItem("photoUri");
+  //   if (savedPhotoUri) {
+  //     dispatch(uiActions.setPhotoUri(savedPhotoUri));
+  //   }
+  // }, [dispatch]);
 
-  const handleImageUpload = event => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const result = reader.result;
-        dispatch(uiActions.setPhotoUri(result));
-        if (typeof window !== "undefined") {
-          localStorage.setItem("photoUri", result);
-        }
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  // const handleImageUpload = event => {
+  //   const file = event.target.files[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       const result = reader.result;
+  //       dispatch(uiActions.setPhotoUri(result));
+  //       if (typeof window !== "undefined") {
+  //         localStorage.setItem("photoUri", result);
+  //       }
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
 
   if (!isOpen) return null;
 

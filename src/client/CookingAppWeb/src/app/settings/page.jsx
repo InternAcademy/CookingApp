@@ -2,7 +2,7 @@
 "use client";
 
 import "tailwindcss/tailwind.css";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { uiActions } from "@/store/ui-slice";
@@ -13,6 +13,8 @@ const Settings = () => {
     const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
     const dispatch = useDispatch();
     const photoUri = useSelector(state => state.ui.photoUri);
+    const [selectedMenu, setSelectedMenu] = useState('food-preferences');
+    const [ContentComponent, setContentComponent] = useState(null);
 
     useEffect(() => {
         const savedPhotoUri = localStorage.getItem("photoUri");
@@ -20,6 +22,34 @@ const Settings = () => {
             dispatch(uiActions.setPhotoUri(savedPhotoUri));
         }
     }, [dispatch]);
+
+    useEffect(() => {
+        const loadContent = async () => {
+            const components = {
+                'food-preferences': () => import('@/app/food-preferences/page'),
+                'archived-recipes': () => import('@/app/archived-recipes/page'),
+                'language-theme': () => import('@/app/language-theme/page'),
+                'rules-policies': () => import('@/app/rules-policies/page'),
+                'about': () => import('@/app/about/page'),
+                'contacts': () => import('@/app/contacts/page')
+            };
+
+            if (components[selectedMenu]) {
+                const { default: Component } = await components[selectedMenu]();
+                setContentComponent(() => Component);
+            }
+        }
+        loadContent();
+    }, [selectedMenu]);
+
+    const menuItems = [
+        { id: "food-preferences", icon: FaLeaf, label: "Food Preferences" },
+        { id: "archived-recipes", icon: FaArchive, label: "Archived Recipes" },
+        { id: "language-theme", icon: FaLanguage, label: "Language & Theme" },
+        { id: "rules-policies", icon: FaFileAlt, label: "Rules And Policies" },
+        { id: "about", icon: FaInfoCircle, label: "About" },
+        { id: "contacts", icon: FaEnvelope, label: "Contacts" }
+    ];
 
     const handleImageUpload = event => {
         const file = event.target.files[0];
@@ -37,42 +67,49 @@ const Settings = () => {
     };
 
     return (
-        <div className={`h-screen w-full 
-    ${isDarkTheme
-                ? "bg-[#202020]"
-                : "bg-white"} 
-        border border-gray-300 rounded-md shadow-lg z-20`}>
-            <div className="flex flex-col p-4">
-                <div className="flex justify-center w-full mb-8 relative">
-                    {photoUri ? <img src={photoUri} alt="Profile" className="w-24 h-24 rounded-full object-cover cursor-pointer" onClick={() => document.getElementById("fileInput").click()} style={{ width: "8rem", height: "8rem" }} /> : <FaUserCircle className="w-24 h-24 cursor-pointer" color={isDarkTheme ? "white" : "black"} onClick={() => document.getElementById("fileInput").click()} style={{ width: "6rem", height: "6rem" }} />}
-                    <input type="file" id="fileInput" accept="image/*" style={{ display: "none" }} onChange={handleImageUpload} />
+        <div className={`h-auto w-full 
+            ${isDarkTheme ? "bg-[#202020]" : "bg-white"} 
+            border border-gray-300 rounded-md shadow-lg z-20 flex`}>
+            <div className="flex flex-col p-4 w-1/4">
+                <div className="flex w-full mb-8 relative">
+                    {photoUri ? (
+                        <img
+                            src={photoUri}
+                            alt="Profile"
+                            className="w-24 h-24 rounded-full object-cover cursor-pointer"
+                            onClick={() => document.getElementById("fileInput").click()}
+                        />
+                    ) : (
+                        <FaUserCircle
+                            className="w-24 h-24 cursor-pointer"
+                            color={isDarkTheme ? "white" : "black"}
+                            onClick={() => document.getElementById("fileInput").click()}
+                        />
+                    )}
+                    <input
+                        type="file"
+                        id="fileInput"
+                        accept="image/*"
+                        style={{ display: "none" }}
+                        onChange={handleImageUpload}
+                    />
                 </div>
-                <div className="flex  flex-col items-start w-full space-y-2">
-                    <div className="flex items-center w-full mb-2 cursor-pointer" onClick={() => { router.push("/food-preferences"); }} title="Food Preferences">
-                        <FaLeaf className="w-6 h-6 mr-4" color={isDarkTheme ? "white" : "black"} />
-                        <span className={`text-lg ${isDarkTheme ? "text-white" : "text-black"}`}>Food Preferences</span>
-                    </div>
-                    <div className="flex items-center w-full mb-2 cursor-pointer" onClick={() => { router.push("/archived-recipes"); }} title="Archived Recipes">
-                        <FaArchive className="w-6 h-6 mr-4" color={isDarkTheme ? "white" : "black"} />
-                        <span className={`text-lg ${isDarkTheme ? "text-white" : "text-black"}`}>Archived Recipes</span>
-                    </div>
-                    <div className="flex items-center w-full mb-2 cursor-pointer" onClick={() => { router.push("/language-theme"); }} title="Language & Theme">
-                        <FaLanguage className="w-6 h-6 mr-4" color={isDarkTheme ? "white" : "black"} />
-                        <span className={`text-lg ${isDarkTheme ? "text-white" : "text-black"}`}>Language & Theme</span>
-                    </div>
-                    <div className="flex items-center w-full mb-2 cursor-pointer" onClick={() => { router.push("/rules-policies"); }} title="Rules And Policies">
-                        <FaFileAlt className="w-6 h-6 mr-4" color={isDarkTheme ? "white" : "black"} />
-                        <span className={`text-lg ${isDarkTheme ? "text-white" : "text-black"}`}>Rules And Policies</span>
-                    </div>
-                    <div className="flex items-center w-full mb-2 cursor-pointer" onClick={() => { router.push("/about"); }} title="About">
-                        <FaInfoCircle className="w-6 h-6 mr-4" color={isDarkTheme ? "white" : "black"} />
-                        <span className={`text-lg ${isDarkTheme ? "text-white" : "text-black"}`}>About</span>
-                    </div>
-                    <div className="flex items-center w-full mb-2 cursor-pointer" onClick={() => { router.push("/contacts"); }} title="Contacts">
-                        <FaEnvelope className="w-6 h-6 mr-4" color={isDarkTheme ? "white" : "black"} />
-                        <span className={`text-lg ${isDarkTheme ? "text-white" : "text-black"}`}>Contacts</span>
-                    </div>
+                <div className="flex gap-2 flex-col items-start w-full space-y-2">
+                    {menuItems.map(item => (
+                        <div
+                            key={item.id}
+                            className={`flex items-center w-full cursor-pointer p-2 rounded ${selectedMenu === item.id ? isDarkTheme ? "bg-[#424242]" : " bg-[#b2b2b2]" : ""}`}
+                            onClick={() => setSelectedMenu(item.id)}
+                            title={item.label}
+                        >
+                            <item.icon className="w-6 h-6 mr-4" color={selectedMenu === item.id ? "white" : isDarkTheme ? "white" : "black"} />
+                            <span className={`text-lg ${selectedMenu === item.id ? "text-white" : isDarkTheme ? "text-white" : "text-black"}`}>{item.label}</span>
+                        </div>
+                    ))}
                 </div>
+            </div>
+            <div className="flex-1 p-4">
+                {ContentComponent && <ContentComponent />}
             </div>
         </div>
     );
