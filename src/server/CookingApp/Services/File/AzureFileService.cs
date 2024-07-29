@@ -6,7 +6,7 @@
     {
         public async Task<string> UploadFileAndGetUrl(IFormFile fileData)
         {
-            string uniqueFileName = Guid.NewGuid() + "_" + fileData.FileName;
+            string uniqueFileName = Guid.NewGuid().ToString();
             var container = new BlobContainerClient(connectionString, containerName);
             var blob = container.GetBlobClient(uniqueFileName);
 
