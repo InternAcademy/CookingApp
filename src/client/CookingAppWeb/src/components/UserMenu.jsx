@@ -41,55 +41,92 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
   if (!isOpen) return null;
 
   return (
-    <div onClick={event => event.stopPropagation()} className={`absolute right-10 top-12 w-64 bg-gray-200 
+    <div
+      onClick={event => event.stopPropagation()}
+      className={`absolute right-10 top-12 w-64  
     ${isDarkTheme
-        ? "bg-[#202020]"
-        : "bg-white"} 
+          ? "bg-[#2F2F2F]"
+          : "bg-white"} 
         border border-gray-300 rounded-md shadow-lg z-20`}>
       <div className="flex flex-col p-4">
-        {/* <div className="flex justify-center w-full mb-8 relative">
-          {photoUri ? <img src={photoUri} alt="Profile" className="w-24 h-24 rounded-full object-cover cursor-pointer" onClick={() => document.getElementById("fileInput").click()} style={{ width: "8rem", height: "8rem" }} /> : <FaUserCircle className="w-24 h-24 cursor-pointer" color={isDarkTheme ? "white" : "black"} onClick={() => document.getElementById("fileInput").click()} style={{ width: "6rem", height: "6rem" }} />}
-          <input type="file" id="fileInput" accept="image/*" style={{ display: "none" }} onChange={handleImageUpload} />
-        </div> */}
         <div className="flex  flex-col items-start w-full space-y-2">
-          <div className="flex items-center w-full cursor-pointer p-2 hover:bg-gray-100 hover:rounded" onClick={() => { router.push("/recipes"); toggleDropDown(); }} title="Recipes">
-            <FaUtensils className="w-6 h-6 mr-4" color={isDarkTheme ? "white" : "black"} />
-            <span className={`text-lg ${isDarkTheme ? "text-white" : "text-black"}`}>Recipes</span>
+          <div
+            className={`flex items-center w-full cursor-pointer p-2 
+              ${isDarkTheme
+                ? 'hover:bg-[#424242]'
+                : 'hover:bg-gray-100'} hover:rounded`}
+            onClick={() => { router.push("/recipes"); toggleDropDown(); }}
+            title="Recipes">
+            <FaUtensils
+              className="w-6 h-6 mr-4
+            smallPhone:w-4
+            phone:w-4
+            tablet:w-6
+            web:w-6"
+              color={isDarkTheme ? "white" : "black"} />
+            <span
+              className={` 
+            ${isDarkTheme
+                  ? "text-white"
+                  : "text-black"}
+            smallPhone:text-base
+            phone:text-base
+            tablet:text-lg
+            web:text-lg`}>Recipes</span>
           </div>
-          <div className="flex items-center w-full  cursor-pointer p-2 hover:bg-gray-100 hover:rounded" onClick={() => { router.push("/subscription"); toggleDropDown(); }} title="Subscription">
-            <FaCreditCard className="w-6 h-6 mr-4" color={isDarkTheme ? "white" : "black"} />
-            <span className={`text-lg ${isDarkTheme ? "text-white" : "text-black"}`}>Subscription</span>
-          </div> <div className="flex items-center w-full  cursor-pointer p-2 hover:bg-gray-100 hover:rounded" onClick={() => { router.push("/settings"); toggleDropDown(); }} title="Settings">
-            <FaCog className="w-6 h-6 mr-4" color={isDarkTheme ? "white" : "black"} />
-            <span className={`text-lg ${isDarkTheme ? "text-white" : "text-black"}`}>Settings</span>
+          <div
+            className={`flex items-center w-full  cursor-pointer p-2  
+              ${isDarkTheme
+                ? 'hover:bg-[#424242]'
+                : 'hover:bg-gray-100'} hover:rounded`}
+            onClick={() => { router.push("/subscription"); toggleDropDown(); }}
+            title="Subscription">
+            <FaCreditCard
+              className="w-6 h-6 mr-4
+            smallPhone:w-4
+            phone:w-4
+            tablet:w-6
+            web:w-6"
+              color={isDarkTheme ? "white" : "black"} />
+            <span
+              className={`
+                ${isDarkTheme ? "text-white" : "text-black"}
+            smallPhone:text-base
+            phone:text-base
+            tablet:text-lg
+            web:text-lg`}>Subscription</span>
           </div>
-          {/* <div className="flex items-center w-full mb-2 cursor-pointer" onClick={() => { router.push("/food-preferences"); toggleDropDown(); }} title="Food Preferences">
-            <FaLeaf className="w-6 h-6 mr-4" color={isDarkTheme ? "white" : "black"} />
-            <span className={`text-lg ${isDarkTheme ? "text-white" : "text-black"}`}>Food Preferences</span>
-          </div> */}
-          {/* <div className="flex items-center w-full mb-2 cursor-pointer" onClick={() => { router.push("/archived-recipes"); toggleDropDown(); }} title="Archived Recipes">
-            <FaArchive className="w-6 h-6 mr-4" color={isDarkTheme ? "white" : "black"} />
-            <span className={`text-lg ${isDarkTheme ? "text-white" : "text-black"}`}>Archived Recipes</span>
-          </div> */}
-          {/* <div className="flex items-center w-full mb-2 cursor-pointer" onClick={() => { router.push("/language-theme"); toggleDropDown(); }} title="Language & Theme">
-            <FaLanguage className="w-6 h-6 mr-4" color={isDarkTheme ? "white" : "black"} />
-            <span className={`text-lg ${isDarkTheme ? "text-white" : "text-black"}`}>Language & Theme</span>
-          </div> */}
-          {/* <div className="flex items-center w-full mb-2 cursor-pointer" onClick={() => { router.push("/rules-policies"); toggleDropDown(); }} title="Rules And Policies">
-            <FaFileAlt className="w-6 h-6 mr-4" color={isDarkTheme ? "white" : "black"} />
-            <span className={`text-lg ${isDarkTheme ? "text-white" : "text-black"}`}>Rules And Policies</span>
-          </div> */}
-          {/* <div className="flex items-center w-full mb-2 cursor-pointer" onClick={() => { router.push("/about"); toggleDropDown(); }} title="About">
-            <FaInfoCircle className="w-6 h-6 mr-4" color={isDarkTheme ? "white" : "black"} />
-            <span className={`text-lg ${isDarkTheme ? "text-white" : "text-black"}`}>About</span>
-          </div> */}
-          {/* <div className="flex items-center w-full mb-2 cursor-pointer" onClick={() => { router.push("/contacts"); toggleDropDown(); }} title="Contacts">
-            <FaEnvelope className="w-6 h-6 mr-4" color={isDarkTheme ? "white" : "black"} />
-            <span className={`text-lg ${isDarkTheme ? "text-white" : "text-black"}`}>Contacts</span>
-          </div> */}
+          <div
+            className={`flex items-center w-full  cursor-pointer p-2 
+              ${isDarkTheme
+                ? 'hover:bg-[#424242]'
+                : 'hover:bg-gray-100'} hover:rounded`}
+            onClick={() => { router.push("/settings"); toggleDropDown(); }}
+            title="Settings">
+            <FaCog
+              className="w-6 h-6 mr-4
+            smallPhone:w-4
+            phone:w-4
+            tablet:w-6
+            web:w-6"
+              color={isDarkTheme ? "white" : "black"} />
+            <span
+              className={`
+            ${isDarkTheme ? "text-white" : "text-black"}
+            smallPhone:text-base
+            phone:text-base
+            tablet:text-lg
+            web:text-lg`}>Settings</span>
+          </div>
         </div>
-        <hr className="w-full border-gray-200 mt-2 mb-2" />
-        <div className="p-2 hover:bg-gray-100 hover:rounded">
+        <hr className={`w-full mt-2 mb-2
+        ${isDarkTheme
+            ? 'border-[#3C3C3C]'
+            : 'border-gray-200'}`} />
+        <div className={`p-2 
+        ${isDarkTheme
+            ? 'hover:bg-[#424242]'
+            : 'hover:bg-gray-100'} hover:rounded`}>
           <SignOutButton />
         </div>
       </div>

@@ -9,8 +9,19 @@ const SignOutButton = () => {
 
   return (
     <button className="flex items-center" title="Sign Out" onClick={() => handleLogout("redirect")}>
-      <FaSignOutAlt className="w-6 h-6 mr-4" color={isDarkTheme ? "white" : "black"} />
-      <span className={isDarkTheme ? "text-gray-100" : "text-black"}>Sign Out</span>
+      <FaSignOutAlt
+        className="w-6 h-6 mr-4
+      smallPhone:w-4
+      phone:w-4
+      tablet:w-6
+      web:w-6"
+        color={isDarkTheme ? "white" : "black"} />
+      <span
+        className={`${isDarkTheme ? "text-gray-100" : "text-black"}
+        smallPhone:text-base
+        phone:text-base
+        tablet:text-lg
+        web:text-lg`}>Sign Out</span>
     </button>
   );
 };
