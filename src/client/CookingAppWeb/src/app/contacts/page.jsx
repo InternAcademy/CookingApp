@@ -10,15 +10,15 @@ const Contacts = () => {
   const isDarkTheme = theme === "dark";
 
   return (
-    <div className={`flex h-screen flex-col mx-auto mt-10 p-5 min-h-screen ${isDarkTheme 
+    <div className={`flex h-screen flex-col mx-auto p-4 min-h-screen ${isDarkTheme 
     ? "bg-rgba(18, 18, 18, 1)" 
     : "bg-customWhite"}
     smallPhone:w-full
     phone:w-full
-    table:w-1/2
-    web:w-1/2`
+    table:w-2/3
+    web:w-2/3`
     }>
-      <h1 className={`text-2xl font-semibold mx-auto mb-8 ${isDarkTheme ? "text-customWhite" : "text-gray-800"}`}>Contacts</h1>
+      <h1 className={`text-xl font-semibold mx-auto mb-4 ${isDarkTheme ? "text-customWhite" : "text-gray-800"}`}>Contacts</h1>
 
       <div className="flex flex-col mb-5 w-full">
         <label className={`text-lg ${isDarkTheme ? "text-customWhite" : "text-gray-800"} mb-2`}>Subject</label>
