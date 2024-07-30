@@ -1,4 +1,3 @@
-'use client'
 import { handleLogout } from "../../msal/msal";
 
 const SignOutButton = () => {
