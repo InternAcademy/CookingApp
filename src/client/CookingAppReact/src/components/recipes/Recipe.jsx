@@ -16,7 +16,7 @@ export default function Recipe(){
                     <PiCookingPotBold className="text-[1.5rem]"/>    
                     <p>4</p>
                 </div>
-                <div className="flex w-12 px-2 py-2 flex-row justify-center rounded-2xl gap-2 items-center hover:bg-orange-300 hover:text-white">            
+                <div className="flex w-12 px-2 py-2 flex-row justify-center rounded-2xl gap-2 items-center hover:bg-gray-100">            
                     <IoArchiveOutline className="text-[1.5rem]"/>                    
                 </div>
             </section>

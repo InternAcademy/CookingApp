@@ -4,12 +4,12 @@ import logo from "/public/icon2.png";
 import ChatInput from "../../components/chatInput/ChatInput";
 export default function Chat() {
   return (
-    <section className="flex w-screen flex-col overflow-hidden h-screen shrink">
-      <Navbar />
-      <section className="flex flex-col content-between overflow-hidden flex-grow pt-5 shad  box-border">
+      <section className="flex w-screen flex-col overflow-hidden shrink rounded-2xl bg-white border m-1 h-[calc(100vh-1vh)]">
+          <Navbar />
+      <section className="flex flex-col content-between overflow-hidden flex-grow pt-5">
         {/* <img src={logo} alt="" /> */}
         <section className="w-full overflow-y-auto mb-20 grow flex justify-center">
-          <ul className=" flex flex-col w-2/4 gap-14 pb-10  justify-start  items-center">
+          <ul className=" flex flex-col w-5/5 md:w-4/5 xl:w-3/5 gap-14 pb-10  justify-start  items-center">
             <li className="w-4/5 flex  justify-end ">
               <p className="bg-gray-100 rounded-2xl px-5 text-lg font-normal">
                 Hi there

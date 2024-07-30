@@ -1,7 +1,7 @@
-import { BiSolidEdit } from "react-icons/bi";
-import { GoSidebarExpand } from "react-icons/go";
-import { MdFoodBank } from "react-icons/md";
-import { RxAvatar } from "react-icons/rx";
+import { Bars3BottomLeftIcon } from "@heroicons/react/24/outline";
+import { ChatBubbleOvalLeftEllipsisIcon } from "@heroicons/react/24/outline";
+import { UserIcon } from "@heroicons/react/24/outline";
+import { SparklesIcon } from "@heroicons/react/24/outline";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { uiActions } from "../../store/uiSlice";
@@ -18,25 +18,28 @@ export default function Navbar() {
   
   return (
     <nav className="">
-      <ul className="flex flex-row w-full py-3 justify-between sticky">
+      <ul className={`flex flex-row w-full py-3 justify-between sticky ${sidebarOpen ? "" : "2xl:pr-20 2xl:pl-20"}`}>
         <li
           className={`flex flex-row pl-6 items-center gap-2 ${
-            sidebarOpen ? "invisible" : "visible"
+            sidebarOpen ? "hidden" : "visible"
           }`}
         >
-          <GoSidebarExpand
-            className="text-[2.5rem] text-orange-300 rounded-xl hover:bg-gray-100 hover:cursor-pointer p-2"
+          <Bars3BottomLeftIcon
+            className="size-10 rounded-xl hover:bg-gray-100 hover:cursor-pointer p-2"
             onClick={handleSidebar}
           />
-          <BiSolidEdit className="text-[2.5rem] text-orange-300  rounded-xl hover:bg-gray-100 hover:cursor-pointer p-2" />
-          <h2 className="font-semibold text-xl text-orange-200">Meal Master</h2>
+          <ChatBubbleOvalLeftEllipsisIcon className="size-10   rounded-xl hover:bg-gray-100 hover:cursor-pointer p-2" />
+          <h2 className="font-semibold text-xl">Meal Master</h2>
         </li>
+        <div className={`flex flex-row pl-6 items-center gap-2 ${sidebarOpen ? "block" : "hidden"}` }>
+        <h2 className="font-semibold text-xl">Meal Master</h2>
+        </div>
         <li className={`right-0 sticky flex flex-row pr-10 items-center gap-5 ${recipesOpen ? "invisible" : "visible"}`}>
-          <MdFoodBank 
-          className="text-[3rem] text-orange-300  rounded-xl hover:bg-gray-100 hover:cursor-pointer p-2" 
+          <SparklesIcon 
+          className="size-10 text-orange-300  rounded-xl hover:bg-gray-100 hover:cursor-pointer p-2" 
           onClick={handleRecipes} 
           />
-          <RxAvatar className="text-4xl text-orange-300" />
+          <UserIcon className="size-6" />
         </li>
       </ul>
     </nav>

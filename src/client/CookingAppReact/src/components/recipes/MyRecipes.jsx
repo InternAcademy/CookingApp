@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
-import { MdFoodBank } from "react-icons/md";
-import { RxAvatar } from "react-icons/rx";
+import { UserIcon } from "@heroicons/react/24/outline";
+import { SparklesIcon } from "@heroicons/react/24/outline";
 import { uiActions } from "../../store/uiSlice";
 import Recipe from "../recipes/Recipe"
 
@@ -14,16 +14,17 @@ export default function MyRecipes(){
 
     return (
         <section className={`bg-gray-100 flex flex-col grow ${
-        isOpen ? "visible w-[42rem]" : "invisible w-0"
+        isOpen ? "visible w-screen md:w-[42rem] absolute md:relative" : "invisible w-0"
       }  h-screen duration-300`}>
 
         <header className={`flex flex-row justify-between items-center px-3 py-3 ${isOpen ? "" : "hidden"}`}>
-            <MdFoodBank 
-            className="text-[3rem] text-orange-300  rounded-xl hover:text-white hover:bg-orange-300 hover:cursor-pointer p-2" 
+            <SparklesIcon 
+            className="size-10 text-orange-300  rounded-xl hover:border hover:cursor-pointer p-2" 
             onClick={handleRecipes}
             />
-            <h1 className="text-lg text-orange-300">My Recipes</h1>
-            <RxAvatar className="text-4xl text-orange-300" />
+            <h1 className="text-lg">My Recipes</h1>
+            <UserIcon className="size-6 hidden md:block " />
+            <div className="block md:hidden"></div>
         </header>
 
         <section className={`flex justify-center items-center px-4 py-4 h-28 ${isOpen ? "" : "hidden"}`}>
