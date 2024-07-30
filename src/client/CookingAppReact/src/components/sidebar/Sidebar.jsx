@@ -11,18 +11,22 @@ export default function Sidebar() {
   }
   return (
     <section
-      className={`bg-orange-100 h-screen w-64 fixed top-0 left-0 ${
-        !isOpen && "left-[-50rem]"
-      } duration-300`}
+      className={`bg-gray-100 flex flex-col grow   ${
+        isOpen ? "visible w-64" : "invisible w-0"
+      }  h-screen  duration-300`}
     >
       <header className="flex justify-between px-4 py-4">
         <GoSidebarExpand
-          className="text-[2.5rem] text-orange-300 rounded-xl hover:bg-gray-100 hover:cursor-pointer p-2"
+          className="text-[2.5rem] text-orange-300 rounded-xl hover:bg-gray-300 hover:cursor-pointer p-2"
           onClick={handleClick}
         />
-        <BiSolidEdit className="text-[2.5rem] text-orange-300  rounded-xl hover:bg-gray-100 hover:cursor-pointer p-2" />
+        <BiSolidEdit className="text-[2.5rem] text-orange-300  rounded-xl hover:bg-orange-300 hover:cursor-pointer p-2" />
       </header>
-      <ul className="overflow-y-scroll h-screen">
+      <ul
+        className={`overflow-y-auto overflow-x-hidden ${
+          isOpen ? "visible" : "invisible "
+        }   h-full`}
+      >
         <li className="text-2xl">Text</li>
         <li className="text-2xl">Text</li>
         <li className="text-2xl">Text</li>
@@ -60,27 +64,7 @@ export default function Sidebar() {
         <li className="text-2xl">Text</li>
         <li className="text-2xl">Text</li>
         <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
+        <li className="text-2xl">Text123123123123123</li>
       </ul>
     </section>
   );

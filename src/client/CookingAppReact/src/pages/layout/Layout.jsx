@@ -1,10 +1,9 @@
 import { Outlet } from "react-router-dom";
-import Navbar from "../../components/navbar/Navbar";
-
+import Sidebar from "../../components/sidebar/Sidebar";
 export default function Layout() {
   return (
-    <main className="h-full overflow-y-hidden">
-      <Navbar />
+    <main className="flex w-full overflow-x-hidden">
+      <Sidebar />
       <Outlet />
     </main>
   );
