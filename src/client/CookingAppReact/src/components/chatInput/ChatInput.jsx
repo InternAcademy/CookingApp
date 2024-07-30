@@ -1,11 +1,11 @@
-import { GoPaperclip } from "react-icons/go";
-import { IoMdSend } from "react-icons/io";
+import { PaperClipIcon } from "@heroicons/react/24/outline";
+import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
 export default function ChatInput() {
   return (
-    <section className="w-full flex justify-center mb-5 ">
-      <ul className="flex  w-2/5  items-center bg-gray-200 rounded-2xl gap-2  py-2 px-4">
+    <section className="flex items-center justify-center mb-5 w-full">
+      <ul className="flex w-4/5 md:w-3/5 lg:w-2/5 items-center bg-gray-200 rounded-2xl gap-2  py-2 px-4">
         <li>
-          <GoPaperclip className="text-3xl" />
+          <PaperClipIcon className="size-6"/>
         </li>
         <li className="w-full">
           <input
@@ -15,7 +15,7 @@ export default function ChatInput() {
           />
         </li>
         <li>
-          <IoMdSend className="text-3xl" />
+          <PaperAirplaneIcon className="size-6" />
         </li>
       </ul>
     </section>

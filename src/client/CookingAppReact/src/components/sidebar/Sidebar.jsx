@@ -3,6 +3,7 @@ import { BiSolidEdit } from "react-icons/bi";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { uiActions } from "../../store/uiSlice";
+import ChatItem from "./ChatItem";
 export default function Sidebar() {
   const isOpen = useSelector((state) => state.ui.sidebarOpen);
   const dispatch = useDispatch();
@@ -22,49 +23,93 @@ export default function Sidebar() {
         />
         <BiSolidEdit className="text-[2.5rem] text-orange-300  rounded-xl hover:text-white hover:bg-orange-300 hover:cursor-pointer p-2" />
       </header>
+
       <ul
-        className={`overflow-y-auto overflow-x-hidden ${
+        className={`overflow-y-auto overflow-x-hidden px-3 ${
           isOpen ? "visible" : "invisible "
-        }   h-full`}
+        }  duration-100 h-full`}
       >
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text</li>
-        <li className="text-2xl">Text123123123123123</li>
+        <h3 className="text-orange-300 text-md font-light tracking-normal">
+          Today
+        </h3>
+        <li>
+          <ChatItem title={"Fruit Desert"} />
+        </li>
+        <li>
+          <ChatItem title={"Fruit Desert"} />
+        </li>
+        <li>
+          <ChatItem title={"Fruit Desert"} />
+        </li>
+        <li>
+          <ChatItem title={"Fruit Desert"} />
+        </li>
+        <h3 className="text-orange-300 text-md font-light">Yesterday</h3>
+        <li>
+          <ChatItem title={"Fruit Desert"} />
+        </li>
+        <li>
+          <ChatItem title={"Fruit Desert"} />
+        </li>
+        <h3 className="text-orange-300 text-md font-light">This week</h3>
+        <li>
+          <ChatItem title={"Fruit Desert"} />
+        </li>
+        <li>
+          <ChatItem title={"Fruit Desert"} />
+        </li>
+        <h3 className="text-orange-300 text-md font-light">Last month</h3>
+        <li>
+          <ChatItem title={"Fruit Desert"} />
+        </li>
+        <li>
+          <ChatItem title={"Fruit Desert"} />
+        </li>
+        <li>
+          <ChatItem title={"Fruit Desert"} />
+        </li>
+        <li>
+          <ChatItem title={"Fruit Desert"} />
+        </li>
+        <li>
+          <ChatItem title={"Fruit Desert"} />
+        </li>
+        <li>
+          <ChatItem title={"Fruit Desert"} />
+        </li>
+        <li>
+          <ChatItem title={"Fruit Desert"} />
+        </li>
+        <li>
+          <ChatItem title={"Fruit Desert"} />
+        </li>
+        <li>
+          <ChatItem title={"Fruit Desert"} />
+        </li>
+        <li>
+          <ChatItem title={"Fruit Desert"} />
+        </li>
+        <li>
+          <ChatItem title={"Fruit Desert"} />
+        </li>
+        <li>
+          <ChatItem title={"Fruit Desert"} />
+        </li>
+        <li>
+          <ChatItem title={"Fruit Desert"} />
+        </li>
+        <li>
+          <ChatItem title={"Fruit Desert"} />
+        </li>
+        <li>
+          <ChatItem title={"Fruit Desert"} />
+        </li>
+        <li>
+          <ChatItem title={"Fruit Desert"} />
+        </li>
+        <li>
+          <ChatItem title={"Fruit Desert"} />
+        </li>
       </ul>
     </section>
   );
