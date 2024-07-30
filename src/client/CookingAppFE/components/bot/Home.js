@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,7 +7,8 @@ import {
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
-  ActivityIndicator,
+  Animated,
+  Modal,
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
@@ -22,21 +23,23 @@ import Thinking from "../bot/Thinking";
 import { uiActions } from "../../redux/uiSlice";
 import useSaveRecipe from "../../hooks/useSaveRecipe";
 import { userActions } from "../../redux/userSlice";
+
 const Home = () => {
   const navigation = useNavigation();
   const { save, isPending } = useSaveRecipe();
-
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
-  const lang = useSelector((state) => state.ui.lang);
-
   const isThinking = useSelector((state) => state.ui.isThinking);
   const responseError = useSelector((state) => state.ui.responseError);
   const chat = useSelector((state) => state.user.selectedChat);
-  const userRole = useSelector((state) => state.user.role);
   const isInitial = useSelector((state) => state.ui.isInitial);
   const profileImage = useSelector((state) => state.ui.photoUri);
 
   const dispatch = useDispatch();
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [remainingTime, setRemainingTime] = useState(10); // 10 секунди
+  const rotation = useRef(new Animated.Value(0)).current;
+  const logoPosition = useRef(new Animated.Value(-100)).current;
 
   useEffect(() => {
     async function check() {
@@ -73,15 +76,63 @@ const Home = () => {
     check();
   }, [isInitial]);
 
-  async function handleRecipeSave(request) {
-    console.log(userRole.type);
-    if (userRole.type === "Free") {
-      navigation.navigate("Subscription");
-    } else {
-      const token = await AsyncStorage.getItem("token");
-      save({ token, request });
+  useEffect(() => {
+    if (isLoading) {
+      const timer = setInterval(() => {
+        setRemainingTime((prev) => {
+          if (prev <= 1) {
+            clearInterval(timer);
+            setIsLoading(false); // Спрете анимацията след края на времето
+            rotation.setValue(0); // Ресетиране на въртенето
+            logoPosition.setValue(-100); // Ресетиране на позицията на логото
+            return 10; // Възстановяване на началната стойност
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      // Започнете анимацията
+      Animated.loop(
+        Animated.timing(rotation, {
+          toValue: 1,
+          duration: 1000, // Общо време за въртене
+          useNativeDriver: true,
+        })
+      ).start();
+
+      // Започнете движението на логото
+      moveLogo();
     }
-  }
+  }, [isLoading]);
+
+  const rotate = rotation.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["0deg", "360deg"],
+  });
+
+  const moveLogo = () => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(logoPosition, {
+          toValue: 300,
+          duration: 2000,
+          useNativeDriver: true,
+        }),
+        Animated.timing(logoPosition, {
+          toValue: -100,
+          duration: 0,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+  };
+
+  const handleRecipeSave = async (request) => {
+    setIsLoading(true);
+
+    const token = await AsyncStorage.getItem("token");
+    save({ token, request });
+  };
 
   const renderPost = () => {
     if (chat) {
@@ -89,7 +140,7 @@ const Home = () => {
         <SafeAreaView
           style={tw`flex-1 ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}
         >
-          <ScrollView contentContainerStyle={tw`px-3.5 `}>
+          <ScrollView contentContainerStyle={tw`p-6 mt-10`}>
             {chat.content.map((msg, index) => (
               <View key={index} style={tw`mb-2 flex-row justify-start pt-1`}>
                 {msg.role === "user" ? (
@@ -141,21 +192,35 @@ const Home = () => {
                       </Text>
                       <TouchableOpacity
                         onPress={() => handleRecipeSave(msg.content)}
-                        style={tw`mx-2 self-end pr-10`}
+                        style={tw`mx-2 items-center mr-12 mt-4 mb-2`}
                       >
-                        {!isPending && (
+                        {isLoading ? (
+                          <View style={tw`w-2/3 bg-amber-100/40 rounded-full items-center justify-center flex flex-row`}>
+                            <Animated.View
+                              style={[
+                                tw` `,
+                                { transform: [{ rotate: rotate }] },
+                              ]}
+                            >
+                              <Ionicons
+                                name="restaurant"
+                                size={24}
+                                color={isDarkTheme ? "white" : "black"}
+                              />
+                            </Animated.View>
+                            <Text style={tw`ml-2 font-medium py-3 ${isDarkTheme ? "text-white" : "text-black"}`}>
+                              Generating recipe...
+                            </Text>
+                          </View>
+                        ) : (
+                        <View style={tw`w-2/3 bg-amber-100 rounded-full items-center justify-center flex flex-row`}>
                           <Ionicons
                             name="restaurant"
                             size={24}
                             color={isDarkTheme ? "white" : "black"}
                           />
-                        )}
-                        {isPending && (
-                          <ActivityIndicator
-                            size="small"
-                            color={isDarkTheme ? "white" : "black"}
-                            style={tw`mr-2`}
-                          />
+                          <Text style={tw` font-medium py-3 ml-2 ${isDarkTheme ? "text-white" : "text-black"}`}> Generate Recipe</Text>
+                          </View>
                         )}
                       </TouchableOpacity>
                     </>
@@ -213,6 +278,41 @@ const Home = () => {
       >
         <ChatInput isPending={isPending} />
       </View>
+
+      {/* Modal for loading animation */}
+      <Modal
+        transparent={true}
+        visible={isLoading}
+        animationType="none"
+        onRequestClose={() => setIsLoading(false)}
+      >
+        <View style={tw`absolute inset-0 bg-[#00000099] justify-center items-center `}>
+          <View style={tw`h-full w-full flex items-center justify-center bg-[#000000e0] p-8 rounded-lg items-center`}>
+            <Animated.View
+              style={[
+                tw`w-16 h-16`,
+                { transform: [{ translateX: logoPosition }] },
+              ]}
+            >
+              {/* Optional logo or content here */}
+            </Animated.View>
+            <Animated.View
+              style={[
+                tw`w-16 h-16 justify-center items-center`,
+                { transform: [{ rotate: rotate }] },
+              ]}
+            >
+              <Ionicons name="restaurant" size={50} color="white" />
+            </Animated.View>
+            <Text style={tw`text-white mt-4 text-lg font-bold`}>
+              Generating recipe...
+            </Text>
+            <Text style={tw`text-white mt-4 text-lg font-bold`}>
+              {`Time Left: ${remainingTime}s`}
+            </Text>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
