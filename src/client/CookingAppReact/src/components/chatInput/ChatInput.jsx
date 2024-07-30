@@ -3,7 +3,7 @@ import { IoMdSend } from "react-icons/io";
 export default function ChatInput() {
   return (
     <section className=" w-screen flex justify-center mb-5 ">
-      <ul className="flex  w-2/5  items-center bg-gray-200 rounded-2xl gap-2  py-2 px-4">
+      <ul className="flex  w-2/5   items-center bg-gray-200 rounded-2xl gap-2  py-2 px-4">
         <li>
           <GoPaperclip className="text-3xl" />
         </li>
