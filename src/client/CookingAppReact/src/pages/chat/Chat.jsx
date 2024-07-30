@@ -4,7 +4,7 @@ import logo from "/public/icon2.png";
 import ChatInput from "../../components/chatInput/ChatInput";
 export default function Chat() {
   return (
-    <section className="flex flex-col overflow-hidden h-screen shrink">
+    <section className="flex w-screen flex-col overflow-hidden h-screen shrink">
       <Navbar />
       <section className="flex flex-col content-between overflow-hidden flex-grow  box-border">
         {/* <img src={logo} alt="" /> */}

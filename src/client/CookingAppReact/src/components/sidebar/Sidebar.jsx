@@ -17,10 +17,10 @@ export default function Sidebar() {
     >
       <header className="flex justify-between px-4 py-4">
         <GoSidebarExpand
-          className="text-[2.5rem] text-orange-300 rounded-xl hover:bg-gray-300 hover:cursor-pointer p-2"
+          className="text-[2.5rem] text-orange-300 rounded-xl hover:text-white hover:bg-orange-300 hover:cursor-pointer p-2"
           onClick={handleClick}
         />
-        <BiSolidEdit className="text-[2.5rem] text-orange-300  rounded-xl hover:bg-orange-300 hover:cursor-pointer p-2" />
+        <BiSolidEdit className="text-[2.5rem] text-orange-300  rounded-xl hover:text-white hover:bg-orange-300 hover:cursor-pointer p-2" />
       </header>
       <ul
         className={`overflow-y-auto overflow-x-hidden ${
