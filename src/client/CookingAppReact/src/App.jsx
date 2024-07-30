@@ -1,4 +1,16 @@
 import "./index.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import MainLayout from "./pages/layout/Layout";
+import UnauthorizedMessage from "./components/auth/UnauthorizedMessage";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <MainLayout />,
+    children: [{ index: true, element: <Chat /> }],
+  },
+]);
+
 function App() {
   return (
     <>
