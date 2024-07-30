@@ -1,12 +1,9 @@
-// SignInButton.jsx
-"use client";
-
 import { handleLogin } from "../../msal/msal";
 
-export const SignInButton = ({ className = "", text = "Login" }) => {
+export const SignInButton = () => {
   return (
-    <button className={`bg-basicWhite py-4 px-10 mt-4 mb-4 rounded-full ${className}`} onClick={() => handleLogin("redirect")}>
-      <span className="text-lg font-bold text-customOrange">{text}</span>
+    <button className="flex justify-center items-center text-center bg-orange-200 w-36 h-10 rounded-xl" onClick={() => handleLogin("redirect")}>
+      Get Started
     </button>
   );
 };
