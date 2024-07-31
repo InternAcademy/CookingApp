@@ -13,6 +13,7 @@ import { uiActions } from "../../store/uiSlice";
 import ChatItem from "./ChatItem";
 import { useEffect } from "react";
 import useChatHistory from "../../hooks/useChatHistory";
+import { useNavigate } from "react-router-dom";
 import { orderedSections } from "../../utils/sidebar";
 import { getSectionTitle } from "../../utils/sidebar";
 import useSelectChat from "../../hooks/useSelectChat";
@@ -23,6 +24,7 @@ export default function Sidebar() {
   const chatHistory = useSelector((state) => state.user.chatHistory.chats);
   const selectChat = useSelectChat();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { getFirstPage, getNextPage, gettingFirstPage } = useChatHistory();
   useEffect(() => {
     if (isOpen) {
@@ -34,12 +36,12 @@ export default function Sidebar() {
       getFirstPageAsync();
     }
   }, [isOpen]);
-  console.log(chatHistory);
   function handleChatSelection(chatId) {
-    selectChat(chatId);
+    navigate(`c/${chatId}`);
   }
   function handleNewChat() {
-    dispatch(userActions.clearChat());
+    dispatch(userActions.emptyChat());
+    navigate("/");
   }
   const sortedChatHistory = chatHistory
     ? chatHistory.reduce((acc, chat) => {

@@ -26,7 +26,47 @@ const userSlice = createSlice({
   initialState: initialState,
   reducers: {
     selectChat(state, action) {
+      const { requests, responses, id } = action.payload.data;
+      const minLength = Math.min(requests.length, responses.length);
+      let combinedArray = [];
+      for (let i = 0; i < minLength; i++) {
+        combinedArray.push({
+          type: requests[i].type,
+          content: requests[i].content,
+          role: "user",
+        });
+        combinedArray.push({
+          type: responses[i].type,
+          content: responses[i].content,
+          role: "bot",
+        });
+      }
+
+      for (let i = minLength; i < requests.length; i++) {
+        combinedArray.push({
+          type: requests[i].type,
+          content: requests[i].content,
+          role: "user",
+        });
+      }
+
+      for (let i = minLength; i < responses.length; i++) {
+        combinedArray.push({
+          type: responses[i].type,
+          content: responses[i].content,
+          role: "bot",
+        });
+      }
+      state.selectedChat = {
+        id: id,
+        content: combinedArray,
+      };
+    },
+    continueChat(state, action) {
       state.selectedChat = action.payload;
+    },
+    emptyChat(state) {
+      state.selectedChat = null;
     },
     clearChat(state) {
       state.selectedChat = null;

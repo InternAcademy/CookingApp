@@ -26,14 +26,14 @@ const useChat = () => {
       };
       if (selectedChat) {
         dispatch(
-          userActions.selectChat({
+          userActions.continueChat({
             id: response.chatId,
             content: [...selectedChat.content, newChatMessage],
           })
         );
       } else {
         dispatch(
-          userActions.selectChat({
+          userActions.continueChat({
             id: response.chatId,
             content: [newChatMessage],
           })

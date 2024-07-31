@@ -15,7 +15,7 @@ export default function ChatInput() {
   async function handleSubmission() {
     if (input) {
       dispatch(
-        userActions.selectChat({
+        userActions.continueChat({
           ...selectedChat,
           content: [
             ...(selectedChat?.content || []),
