@@ -1,7 +1,5 @@
 ﻿namespace CookingApp.Services.CostCalculation
 {
-    using ConsoleTables;
-    using Microsoft.AspNetCore.Mvc;
 
     public interface ICostCalculationService
     {
