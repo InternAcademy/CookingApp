@@ -34,7 +34,6 @@ export default function Sidebar() {
       getFirstPageAsync();
     }
   }, [isOpen]);
-  console.log(chatHistory);
   function handleChatSelection(chatId) {
     selectChat(chatId);
   }
