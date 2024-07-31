@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { UserIcon } from "@heroicons/react/24/outline";
-import { SparklesIcon } from "@heroicons/react/24/outline";
+import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 import { uiActions } from "../../store/uiSlice";
 import Recipe from "../recipes/Recipe"
 
@@ -18,13 +18,13 @@ export default function MyRecipes(){
       }  h-screen duration-300`}>
 
         <header className={`flex flex-row justify-between items-center px-3 py-3 ${isOpen ? "" : "hidden"}`}>
-            <SparklesIcon 
-            className="size-10 text-orange-300  rounded-xl hover:border hover:cursor-pointer p-2" 
+            <ChevronLeftIcon 
+            className="size-10  rounded-xl border border-gray-100  hover:border hover:border-gray-200 hover:cursor-pointer p-2" 
             onClick={handleRecipes}
             />
             <h1 className="text-lg">My Recipes</h1>
-            <UserIcon className="size-6 hidden md:block " />
-            <div className="block md:hidden"></div>
+            <UserIcon className="size-10  rounded-xl border border-gray-100  hover:border hover:border-gray-200 hover:cursor-pointer p-2" />
+            <div className="block w-10 md:hidden"></div>
         </header>
 
         <section className={`flex justify-center items-center px-4 py-4 h-28 ${isOpen ? "" : "hidden"}`}>
