@@ -10,7 +10,7 @@ const useChatHistory = () => {
   const {
     data: firstPageChats,
     mutate: getFirstPage,
-    isPending: gettingMovies,
+    isPending: gettingFirstPage,
   } = useMutation({
     mutationFn: getUserChats,
     onMutate: () => {
@@ -23,7 +23,7 @@ const useChatHistory = () => {
   const {
     data: loadedChats,
     mutate: getNextPage,
-    isPending,
+    isPending: gettingNextPage,
   } = useMutation({
     mutationFn: getUserChats,
     onMutate: () => {},
@@ -45,6 +45,8 @@ const useChatHistory = () => {
   return {
     getFirstPage,
     getNextPage,
+    gettingFirstPage,
+    gettingNextPage,
   };
 };
 
