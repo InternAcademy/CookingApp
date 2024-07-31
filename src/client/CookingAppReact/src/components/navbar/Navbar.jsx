@@ -22,11 +22,7 @@ export default function Navbar() {
   }
   return (
     <nav className="">
-      <ul
-        className={`flex flex-row w-full py-3 justify-between sticky ${
-          sidebarOpen ? "" : "2xl:pr-20 2xl:pl-20"
-        }`}
-      >
+      <ul className={`flex flex-row w-full py-3 justify-between sticky`}>
         <li
           className={`flex flex-row pl-6 items-center gap-2 ${
             sidebarOpen ? "hidden" : "visible"
@@ -58,7 +54,7 @@ export default function Navbar() {
             className="size-10 text-orange-300  rounded-xl hover:bg-gray-100 hover:cursor-pointer p-2"
             onClick={handleRecipes}
           />
-          <UserIcon className="size-6" />
+          <UserIcon className="size-10 rounded-xl hover:bg-gray-100 hover:cursor-pointer p-2" />
         </li>
       </ul>
     </nav>

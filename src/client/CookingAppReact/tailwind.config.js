@@ -15,6 +15,9 @@ module.exports = {
       screens: {
         "2xl": "1400px",
       },
+      boxShadow: {
+        'gray-inset': 'inset -45px 0px 51px 0px rgba(243,244,246,1)',
+      },
     },
     extend: {
       keyframes: {

@@ -10,12 +10,12 @@ export default function Chat() {
   const chat = useSelector((state) => state.user.selectedChat);
   const isThinking = useSelector((state) => state.ui.isThinking);
   const responseError = useSelector((state) => state.ui.responseError);
+  const isOpenRecipes = useSelector(state => state.ui.recipesOpen);
+  const isOpenSideBar = useSelector(state => state.ui.sidebarOpen);
 
   console.log(isThinking);
   useFetchUserStatus();
   return (
-    <section className="flex w-screen flex-col overflow-hidden shrink rounded-2xl bg-white border m-1 h-[calc(100vh-1vh)]">
-      <Navbar />
       <section className="flex flex-col content-between overflow-hidden items-center flex-grow pt-5">
         {!chat && (
           <div className="grow pt-20">
@@ -24,8 +24,11 @@ export default function Chat() {
         )}
 
         {chat && (
-          <section className="w-full overflow-y-auto mb-20 grow flex justify-center">
-            <ul className=" flex flex-col w-5/5 md:w-4/5 xl:w-3/5 gap-14 pb-10  justify-start  items-center">
+          <section className="w-full overflow-y-auto grow flex justify-center">
+          <ul 
+          className={`flex flex-col gap-14 pb-10  justify-start  items-center
+            ${isOpenRecipes || isOpenSideBar ? "w-5/5 md:w-5/5 xl:w-4/5" : "w-5/5 md:w-4/5 xl:w-3/5"} `}
+          >
               {chat.content.map((message) =>
                 message.role === "user" ? (
                   <UserMessage message={message} />
@@ -37,9 +40,7 @@ export default function Chat() {
             </ul>
           </section>
         )}
-
         <ChatInput />
       </section>
-    </section>
   );
 }
