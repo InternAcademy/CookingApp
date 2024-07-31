@@ -4,9 +4,15 @@ import { useState } from "react";
 export default function ChatInput() {
   const [input, setInput] = useState("");
 
+  function handleSubmission() {}
+  function handleKeyDown(event) {
+    if (event.key === "Enter") {
+      console.log("Enter key pressed:", input);
+      setInput("");
+    }
+  }
   function handleChange(event) {
     setInput(event.target.value);
-    console.log(event.target.value);
   }
   return (
     <section className="flex items-center justify-center mb-5 w-full">
@@ -19,6 +25,7 @@ export default function ChatInput() {
             type="text"
             value={input}
             placeholder="What you wanna cook today?"
+            onKeyDown={handleKeyDown}
             onChange={handleChange}
             className="w-full outline-none bg-gray-200 text-black placeholder-black"
           />
@@ -28,9 +35,10 @@ export default function ChatInput() {
             className={`size-10 rounded-xl p-2 duration-200 ${
               input.length > 0 ? "bg-orange-300" : ""
             }`}
+            onClick={handleSubmission}
           />
         </li>
       </ul>
     </section>
-  ); //size-10 rounded-xl p-2
+  );
 }

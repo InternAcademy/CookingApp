@@ -1,5 +1,9 @@
 // msal.js
-import { AuthenticationResult, EventType, PublicClientApplication } from "@azure/msal-browser";
+import {
+  AuthenticationResult,
+  EventType,
+  PublicClientApplication,
+} from "@azure/msal-browser";
 import { getCurrentToken } from "../msal/tokenFetcher";
 import { msalConfig, loginRequest } from "../msal/authConfig";
 
@@ -18,12 +22,16 @@ export function initializeMsal() {
       const account = payload.account;
       msalInstance.setActiveAccount(account);
     }
+    if (event.eventType === EventType.ACQUIRE_TOKEN_START && event.payload) {
+      const payload = event.payload as AuthenticationResult;
+      const account = payload.account;
+      msalInstance.setActiveAccount(account);
+    }
   });
 }
 
 export async function getToken() {
   const authToken = await getCurrentToken(msalInstance);
-  console.log("AUTH TOKEN:", authToken);
   return authToken;
 }
 

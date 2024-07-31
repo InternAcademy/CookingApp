@@ -1,11 +1,12 @@
-import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import logo from "/public/icon2.png";
 import ChatInput from "../../components/chatInput/ChatInput";
+import useFetchUserStatus from "../../hooks/useFetchUserStatus";
 export default function Chat() {
+  useFetchUserStatus();
   return (
-      <section className="flex w-screen flex-col overflow-hidden shrink rounded-2xl bg-white border m-1 h-[calc(100vh-1vh)]">
-          <Navbar />
+    <section className="flex w-screen flex-col overflow-hidden shrink rounded-2xl bg-white border m-1 h-[calc(100vh-1vh)]">
+      <Navbar />
       <section className="flex flex-col content-between overflow-hidden flex-grow pt-5">
         {/* <img src={logo} alt="" /> */}
         <section className="w-full overflow-y-auto mb-20 grow flex justify-center">
