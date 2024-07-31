@@ -44,7 +44,7 @@ export default function ChatInput() {
   }
   return (
     <section className="flex items-center justify-center mb-5 w-full">
-      <ul className="flex w-4/5 md:w-3/5 lg:w-2/5 items-center bg-gray-200 rounded-2xl gap-2  py-2 px-4">
+      <ul className="flex w-4/5 md:w-3/5 lg:w-2/5 items-center bg-gray-200 rounded-full gap-2  py-2 px-4">
         <li>
           <PaperClipIcon className="size-6" />
         </li>

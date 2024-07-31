@@ -40,7 +40,6 @@ export default function Sidebar() {
   }
   function handleNewChat() {
     dispatch(userActions.clearChat());
-    dispatch(uiActions.closeSidebar());
   }
   const sortedChatHistory = chatHistory
     ? chatHistory.reduce((acc, chat) => {

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  sidebarOpen: false,
+  sidebarOpen: true,
   recipesOpen: false,
   isInitial: true,
   input: "",
