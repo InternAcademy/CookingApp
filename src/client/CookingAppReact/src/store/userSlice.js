@@ -62,6 +62,12 @@ const userSlice = createSlice({
         content: combinedArray,
       };
     },
+    continueChat(state, action) {
+      state.selectedChat = action.payload;
+    },
+    emptyChat(state) {
+      state.selectedChat = null;
+    },
     clearChat(state) {
       state.selectedChat = null;
     },

@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { uiActions } from "../../store/uiSlice";
+import { userActions } from "@/store/userSlice";
 export default function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ export default function Navbar() {
     dispatch(uiActions.toggleRecipes());
   }
   function handleNewChat() {
+    dispatch(userActions.emptyChat());
     navigate("/");
   }
   return (

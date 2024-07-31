@@ -40,6 +40,7 @@ export default function Sidebar() {
     navigate(`c/${chatId}`);
   }
   function handleNewChat() {
+    dispatch(userActions.emptyChat());
     navigate("/");
   }
   const sortedChatHistory = chatHistory
