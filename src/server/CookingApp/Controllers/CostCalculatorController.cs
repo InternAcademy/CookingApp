@@ -31,9 +31,5 @@
         [HttpGet("fixed-prices")]
         public async Task<IActionResult> CalculateFixedPrices(string span)
             => Ok(costService.FixedPrices(span).ToString("F2"));
-
-        [HttpGet("total-fees")]
-        public async Task<IActionResult> GetTotalFees()
-            => Ok(costService.GetTotalFees());
     }
 }
