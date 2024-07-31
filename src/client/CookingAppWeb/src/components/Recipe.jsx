@@ -1,9 +1,10 @@
 // components/Recipe.jsx
 "use client";
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import { useSelector } from "react-redux";
 import { archive } from "@/http/recipe";
 
 import { FaArchive, FaRegBookmark, FaClock, FaUtensils, FaSpinner } from "react-icons/fa";

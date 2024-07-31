@@ -1,8 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   selectedChat: null,
-  role: null,
-  chatHistory: null,
+  role: {
+    type: null,
+    limitations: {
+      chatFromDate: null,
+      chatGeneration: null,
+      recipeGeneration: null,
+    },
+  },
+  chatHistory: {
+    page: 1,
+    chats: [],
+    totalPages: null,
+  },
+  dietaryPreferences: {
+    allergies: [],
+    avoidedFoods: [],
+    dietaryPreference: null,
+  },
 };
 
 const userSlice = createSlice({
@@ -16,10 +32,34 @@ const userSlice = createSlice({
       state.selectedChat = null;
     },
     setChatHistory(state, action) {
-      state.chatHistory = action.payload;
+      state.chatHistory = {
+        page: action.payload.page,
+        chats: [...state.chatHistory.chats, ...action.payload.chats],
+        totalPages: action.payload.totalPages,
+      };
+    },
+    firstPageChatHistory(state, action) {
+      state.chatHistory = {
+        page: action.payload.page,
+        chats: action.payload.chats,
+        totalPages: action.payload.totalPages,
+      };
     },
     setRole(state, action) {
       state.role = action.payload;
+    },
+    setDietaryPreferences(state, action) {
+      state.dietaryPreferences = action.payload;
+    },
+    reduceChatGeneration(state) {
+      state.role = {
+        type: state.role.type,
+        limitations: {
+          chatFromDate: state.role.limitations.chatFromDate,
+          chatGeneration: state.role.limitations.chatGeneration - 1,
+          recipeGeneration: state.role.limitations.recipeGeneration,
+        },
+      };
     },
   },
 });

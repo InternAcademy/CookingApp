@@ -1,9 +1,11 @@
 // pages/Rules-Policies.jsx
 "use client";
 
-import React from "react";
 import "tailwindcss/tailwind.css";
+import React from "react";
+
 import { useSelector } from "react-redux";
+
 const RulesAndPolicies = () => {
   const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
 

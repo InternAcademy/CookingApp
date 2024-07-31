@@ -1,4 +1,6 @@
+using CookingApp.Common.EntityConstants;
 using CookingApp.Models.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace CookingApp.ViewModels.Profile
 {
@@ -7,7 +9,8 @@ namespace CookingApp.ViewModels.Profile
     {
         public string UserId { get; set; } = default!;
         public Theme Theme { get; set; }
-        public string Language { get; set; } = default!;
 
+        [MaxLength(ValidationConstants.Preferences.LanguageLength)]
+        public string Language { get; set; } = default!;
     }
 }

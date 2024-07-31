@@ -19,6 +19,9 @@ namespace CookingApp.Services.UserProfile
                 {
                     Role = CreateRole.Free(),
                     InterfacePreference = new InterfacePreference().CreateInterface(),
+                    DietaryPreference = Models.Enums.DietaryPreference.None,
+                    Allergies = new List<string>(),
+                    AvoidedFoods = new List<string>(),
                     UserId = userId,
                 };
 
@@ -29,11 +32,14 @@ namespace CookingApp.Services.UserProfile
             {
                 InterfacePreference = profile.InterfacePreference,
                 Name = profile.Name,
-                Role = profile.Role
+                Role = profile.Role,
+                DietaryPreference = profile.DietaryPreference,
+                Allergies = profile.Allergies,
+                AvoidedFoods = profile.AvoidedFoods,
             };
         }
         
-        public async Task ConfigureProfile(ConfigureProfileRequest configureProfileRequest)
+        public async Task ConfigurePreferences(ConfigurePreferencesRequest configureProfileRequest)
         {
             var profile = await profileRepo
                 .GetFirstOrDefaultAsync(a => a.UserId == configureProfileRequest.UserId);
@@ -42,6 +48,8 @@ namespace CookingApp.Services.UserProfile
             {
                 throw new NotFoundException();
             }
+
+
 
             profile.Allergies = configureProfileRequest.Allergies;
             profile.AvoidedFoods = configureProfileRequest.AvoidedFoods;
@@ -68,6 +76,5 @@ namespace CookingApp.Services.UserProfile
 
             await profileRepo.UpdateAsync(profile);
         }
-
     }
 }

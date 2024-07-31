@@ -1,5 +1,6 @@
 // components/Thinking.jsx
 import React from "react";
+
 import { useSelector } from "react-redux";
 import { FaSpinner, FaLaptop } from "react-icons/fa";
 

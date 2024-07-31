@@ -1,7 +1,7 @@
 // http/recipe.jsx
 "use client";
 export async function createRecipe({ token, request }) {
-  const response = await fetch(`${ip}/create-recipe`, {
+  const response = await fetch(`localhost:8001/create-recipe`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,

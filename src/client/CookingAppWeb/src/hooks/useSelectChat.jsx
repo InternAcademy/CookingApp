@@ -1,9 +1,10 @@
 // hooks/useSelectChat.jsx
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
-import { getChat } from "../http/chat";
+
+import { useDispatch } from "react-redux";
 import { userActions } from "@/store/userSlice";
+import { getChat } from "../http/chat";
 
 const useSelectChat = () => {
   const dispatch = useDispatch();
@@ -49,7 +50,7 @@ const useSelectChat = () => {
           content: combinedArray
         })
       );
-      router.push("/home");
+      router.push("/");
     }
   });
 
@@ -58,7 +59,7 @@ const useSelectChat = () => {
     if (token) {
       mutate({ token, chatId: chat.chatId });
     } else {
-      router.push("/landing-page");
+      router.push("/");
     }
   };
 

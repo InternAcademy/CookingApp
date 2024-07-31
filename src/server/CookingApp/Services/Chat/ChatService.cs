@@ -73,7 +73,7 @@ namespace CookingApp.Services.ChatService
                 pageSize, 
                 c => (c.UserId == userId) && !c.IsArchived,
                 null, 
-                SortDirection.Ascending, 
+                SortDirection.Descending, 
                 includeDeleted);
 
             return chats.MapPagedList<Chat, ChatDataResponse>(mapper);
