@@ -35,10 +35,10 @@ export default function Sidebar() {
     }
   }, [isOpen]);
   function handleChatSelection(chatId) {
-    selectChat(chatId);
+    navigate(`c/${chatId}`);
   }
   function handleNewChat() {
-    dispatch(userActions.clearChat());
+    navigate("/");
   }
   const sortedChatHistory = chatHistory
     ? chatHistory.reduce((acc, chat) => {
