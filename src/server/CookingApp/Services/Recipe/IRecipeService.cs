@@ -14,6 +14,7 @@
         Task<string> CreateRecipe(string request, string userId);
 
         Task ArchiveRecipe(string recipeId);
+        Task DeleteRecipe(string recipeId);
 
         /// <summary>
         /// Retrieves a recipe by its ID.

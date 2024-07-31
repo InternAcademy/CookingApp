@@ -1,11 +1,12 @@
 // components/NavBar.jsx
 "use client";
+import "tailwindcss/tailwind.css";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+
+import { useSelector } from "react-redux";
 import { FaCommentDots, FaBars, FaUtensils, FaUser } from "react-icons/fa";
 import Sidebar from "./Sidebar";
-import "tailwindcss/tailwind.css";
-import { useSelector, useDispatch } from "react-redux";
 
 const NavBar = () => {
   const router = useRouter();
@@ -13,7 +14,7 @@ const NavBar = () => {
   const [open, setOpen] = useState(false);
 
   const startNewChat = () => {
-    router.push("/home");
+    router.push("/");
   };
 
   return (

@@ -39,8 +39,9 @@ export async function getChat({ token, chatId }) {
   return data;
 }
 
-export async function getUserChats({ token, userId }) {
-  const response = await fetch(`${ip}/user-chats/${userId}`, {
+export async function getUserChats({ token, userId, pageIndex }) {
+  const response = await fetch(`${ip}/user-chats/${userId}/${pageIndex}/20`, {
+    method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
@@ -50,7 +51,21 @@ export async function getUserChats({ token, userId }) {
   if (!response.ok) {
     throw new Error(response.statusText);
   }
-
   const data = await response.json();
   return data;
+}
+
+export async function deleteChat({ token, chatId }) {
+  const response = await fetch(`${ip}/delete-chat/${chatId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+  if (!response.ok) {
+    throw new Error("Resource not found");
+  }
+  const responseBody = await response.json();
+  return responseBody.data;
 }
