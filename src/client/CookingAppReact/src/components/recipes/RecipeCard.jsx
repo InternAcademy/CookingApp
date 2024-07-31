@@ -2,7 +2,7 @@ import { ClockIcon } from "@heroicons/react/24/outline";
 import { UserGroupIcon } from "@heroicons/react/24/outline";
 import { IoArchiveOutline } from "react-icons/io5";
 
-export default function Recipe(){
+export default function RecipeCard(){
     return (
         <section className="group flex flex-col bg-white w-3/4 h-72 rounded-2xl pb-2 border hover:cursor-pointer transition">
             <img className="h-4/6 object-cover rounded-t-2xl shadow-inner transition-all duration-300 group-hover:h-2/4" src='https://popmenucloud.com/cdn-cgi/image/width%3D1200%2Cheight%3D1200%2Cfit%3Dscale-down%2Cformat%3Dauto%2Cquality%3D60/mbocpdne/1ed25fc7-72ab-4966-9922-ed5ec1d13fe0.jpg' alt="Image Description"></img>

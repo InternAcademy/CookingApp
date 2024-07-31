@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { UserIcon } from "@heroicons/react/24/outline";
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 import { uiActions } from "../../store/uiSlice";
-import Recipe from "../recipes/Recipe"
+import RecipeCard from "./RecipeCard"
 
 export default function MyRecipes(){
     const isOpen = useSelector(state => state.ui.recipesOpen);
@@ -41,14 +41,14 @@ export default function MyRecipes(){
             ${isOpen ? "visible" : "invisible"}
             h-full`}
         >
-            <Recipe/>
-            <Recipe/>
-            <Recipe/>
-            <Recipe/>
-            <Recipe/>
-            <Recipe/>
-            <Recipe/>
-            <Recipe/>
+            <RecipeCard/>
+            <RecipeCard/>
+            <RecipeCard/>
+            <RecipeCard/>
+            <RecipeCard/>
+            <RecipeCard/>
+            <RecipeCard/>
+            <RecipeCard/>
         </ul>
         </section>
     );

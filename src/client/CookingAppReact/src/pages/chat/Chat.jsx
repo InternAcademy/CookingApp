@@ -9,8 +9,6 @@ export default function Chat() {
   const isOpenSideBar = useSelector(state => state.ui.sidebarOpen);
 
   return (
-      <section className="flex w-screen flex-col overflow-hidden shrink rounded-none md:rounded-2xl bg-white border-none md:border m-0 md:m-1 h-screen md:h-[calc(100vh-1vh)]">
-          <Navbar />
       <section className="flex flex-col content-between overflow-hidden flex-grow pt-5">
         {/* <img src={logo} alt="" /> */}
         <section className="w-full overflow-y-auto grow flex justify-center">
@@ -127,6 +125,5 @@ export default function Chat() {
         </section>
         <ChatInput />
       </section>
-    </section>
   );
 }

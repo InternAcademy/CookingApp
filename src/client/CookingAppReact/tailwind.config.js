@@ -17,6 +17,9 @@ export default {
         basicBlack: "#000000", // text and icons - Basic black
         basicWhite: "#FFFFFF", // light theme background & Basic white
       },
+      boxShadow: {
+        'gray-inset': 'inset -45px 0px 51px 0px rgba(243,244,246,1)',
+      },
     },
     screens: {
       'sm': '640px',
