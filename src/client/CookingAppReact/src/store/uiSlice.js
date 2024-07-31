@@ -4,6 +4,7 @@ const initialState = {
   sidebarOpen: false,
   recipesOpen: false,
   isInitial: true,
+  input: "",
   isThinking: false,
   responseError: null,
   isDarkTheme: false,
@@ -22,6 +23,9 @@ const uiSlice = createSlice({
   reducers: {
     openSidebar(state) {
       state.sidebarOpen = true;
+    },
+    setInput(state, action) {
+      state.input = action.payload;
     },
     closeSidebar(state) {
       state.sidebarOpen = false;

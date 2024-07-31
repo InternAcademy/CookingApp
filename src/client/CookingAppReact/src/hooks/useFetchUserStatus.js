@@ -11,7 +11,7 @@ const useFetchUserStatus = () => {
 
   useEffect(() => {
     const fetchToken = async () => {
-      var token = await getToken();
+      const token = await getToken();
       if (isInitial) {
         const response = await checkUserStatus({ token });
         if (response.status !== 401) {
