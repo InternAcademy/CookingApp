@@ -4,10 +4,11 @@ import { UserIcon } from "@heroicons/react/24/outline";
 import { SparklesIcon } from "@heroicons/react/24/outline";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { userActions } from "../../store/userSlice";
+import { useNavigate } from "react-router-dom";
 import { uiActions } from "../../store/uiSlice";
 export default function Navbar() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const sidebarOpen = useSelector((state) => state.ui.sidebarOpen);
   const recipesOpen = useSelector((state) => state.ui.recipesOpen);
   function handleSidebar() {
@@ -17,8 +18,7 @@ export default function Navbar() {
     dispatch(uiActions.toggleRecipes());
   }
   function handleNewChat() {
-    dispatch(userActions.clearChat());
-    dispatch(uiActions.closeSidebar());
+    navigate("/");
   }
   return (
     <nav className="">
