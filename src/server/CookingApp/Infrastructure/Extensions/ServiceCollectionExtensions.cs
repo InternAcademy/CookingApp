@@ -28,6 +28,7 @@ using CookingApp.Infrastructure.Filters;
 
 using CookingApp.Services.Feedback;
 using CookingApp.Services.Limitation;
+using CookingApp.Services.CostCalculation;
 
 namespace CookingApp.Infrastructure.Extensions
 {
@@ -173,6 +174,7 @@ namespace CookingApp.Infrastructure.Extensions
             builder.Services.AddScoped<IRecipeService, RecipeService>();
             builder.Services.AddScoped<IFeedbackService, FeedbackService>();
             builder.Services.AddScoped<ILimitationService, LimitationService>();
+            builder.Services.AddScoped<ICostCalculationService, CostCalculatioService>();
 
             return builder;
         }
