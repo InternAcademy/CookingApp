@@ -11,6 +11,7 @@ export default function RecipeCard({ recipe }) {
   }
   return (
     <section
+      key={recipe.id}
       className="group flex flex-col bg-white w-full h-72 rounded-2xl pb-2 border hover:cursor-pointer transition"
       onClick={handleClick}
     >

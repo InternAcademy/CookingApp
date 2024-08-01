@@ -56,7 +56,7 @@ export default function MyRecipes() {
             flex-col
             items-center
             gap-4
-            px-4 py-4
+            pl-4 pr-3 py-4
             ${isOpen ? "" : "hidden"}
             h-full`}
       >
