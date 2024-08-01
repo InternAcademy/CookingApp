@@ -1,23 +1,14 @@
 ﻿namespace CookingApp.Services.CostCalculation.Azure
 {
     using CookingApp.ViewModels.Azure;
-    using System.Text.Json;
-
-    public class Estimate
+    using Newtonsoft.Json.Linq;
+    using Newtonsoft.Json;
+#pragma warning disable 1591
+    public class Estimate()
     {
-        private decimal result = 0;
-        public List<AzureServiceModel> azureModelList = new List<AzureServiceModel>();
+        private List<AzureServiceModel> AzureModelList { get; set; } = new List<AzureServiceModel>();
 
-        public Estimate()
-        {
-            this.Result = result;
-            this.AzureModelList = azureModelList;
-        }
-
-        public decimal Result { get; set; }
-        private List<AzureServiceModel> AzureModelList { get; set; }
-
-        public void Map(JsonElement root)
+        public void Map(JObject root)
         {
             var jsonElement = this.ExtractJsonElement(root);
             var azureModel = this.MapToAzurePricingModel(jsonElement);
@@ -25,17 +16,18 @@
         }
 
         private AzureServiceModel MapToAzurePricingModel(string? jsonString)
-            => JsonSerializer.Deserialize<AzureServiceModel>(jsonString ?? default!) ?? new AzureServiceModel();
+            => JsonConvert.DeserializeObject<AzureServiceModel>(jsonString ?? default!) ?? new AzureServiceModel();
 
         private void InsertToList(AzureServiceModel? azureModel)
-            => azureModelList.Add(azureModel ?? default!);
+            => AzureModelList.Add(azureModel ?? default!);
 
-        private string ExtractJsonElement(JsonElement root)
-            => JsonSerializer.Serialize(root.GetProperty(Constants.SearchTerm)[0],
-                new JsonSerializerOptions { WriteIndented = true });
+        private string ExtractJsonElement(JObject root)
+            => root[Constants.SearchTerm]?[0]?.ToString(Formatting.Indented) ?? "{}";
 
-        public void CalculatePrices()
+        public decimal CalculatePrices()
         {
+            decimal result = 0;
+
             int ruCount = 400;
             int hoursPerMonth = 730;
             int gbCount = 2;
@@ -62,8 +54,10 @@
                     _ => default
                 };
 
-                Result += productTotal;
+                result += productTotal;
             }
+
+            return result;
         }
     }
 }

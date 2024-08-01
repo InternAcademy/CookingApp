@@ -44,6 +44,7 @@ builder.AddStripeIntegration();
 builder.AddOpenAIIntegration();
 builder.AddAzureBlob();
 builder.AddServices();
+builder.AddAzureRetailPricesApiSettings();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(builder.Configuration);

@@ -29,6 +29,8 @@ using CookingApp.Infrastructure.Filters;
 using CookingApp.Services.Feedback;
 using CookingApp.Services.Limitation;
 using CookingApp.Services.CostCalculation;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
+using CookingApp.Infrastructure.Configurations.Azure;
 
 namespace CookingApp.Infrastructure.Extensions
 {
@@ -177,6 +179,20 @@ namespace CookingApp.Infrastructure.Extensions
 
             return builder;
         }
+
+        public static IHostApplicationBuilder AddAzureRetailPricesApiSettings(this WebApplicationBuilder builder)
+        {
+            string connectionString = builder.Configuration.GetValue<string>("AzureRetailPricesApi:Url") ?? string.Empty;
+
+            builder.Services.AddSingleton(new AzureRetailPricesSettings()
+            {
+                Url = connectionString,
+            });
+
+            return builder;
+        }
+
+
         public static IHostApplicationBuilder AddServices(this WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<IStripeService, StripeService>();

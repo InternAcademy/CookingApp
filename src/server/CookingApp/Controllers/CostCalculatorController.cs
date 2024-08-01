@@ -1,35 +1,44 @@
 ﻿namespace CookingApp.Controllers
 {
     using CookingApp.Services.CostCalculation;
-    using Microsoft.AspNetCore.Authorization;
+    using CookingApp.ViewModels.Api;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Options;
-    using MongoDB.Bson;
-    using System.Text.Json;
 
     [ApiController]
-    [AllowAnonymous]
     [Route("[controller]")]
+#pragma warning disable 1591
     public class CostCalculatorController(ICostCalculationService costService) : ControllerBase
     {
         [HttpGet("azure-prices")]
         public async Task<IActionResult> CalculateAzureServices()
-        {
-            await costService.AzureServices();
-
-            return Ok();
-        }
+            => new ApiResponse<decimal>()
+            {
+                Status = 200,
+                Data = await costService.AzureServices()
+            };
 
         [HttpGet("open-ai-prices")]
-        public async Task<IActionResult> CalculateOpenAiServices(int userCount, int requestsPerMonth, int imagesCount)
-            => Ok(costService.OpenAiApiServices(userCount, requestsPerMonth, imagesCount));
+        public IActionResult CalculateOpenAiServices(int userCount, int requestsPerMonth, int imagesCount)
+            => new ApiResponse<decimal>()
+            {
+                Status = 200,
+                Data = costService.OpenAiApiServices(userCount, requestsPerMonth, imagesCount)
+            };
 
         [HttpGet("stripe-prices")]
         public async Task<IActionResult> CalculateStripeApiServices(decimal subPrice)
-            => Ok(await costService.StripeApiServices(subPrice));
+            => new ApiResponse<decimal>()
+            {
+                Status = 200,
+                Data = await costService.StripeApiServices(subPrice)
+            };
 
         [HttpGet("fixed-prices")]
-        public async Task<IActionResult> CalculateFixedPrices(string span)
-            => Ok(costService.FixedPrices(span).ToString("F2"));
+        public IActionResult CalculateFixedPrices(string span)
+            => new ApiResponse<string>()
+            {
+                Status = 200,
+                Data = costService.FixedPrices(span).ToString("F2")
+            };
     }
 }

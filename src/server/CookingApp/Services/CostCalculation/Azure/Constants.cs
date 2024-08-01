@@ -1,9 +1,9 @@
 ﻿namespace CookingApp.Services.CostCalculation.Azure
 {
+    using System.Configuration;
+#pragma warning disable 1591
     public static class Constants
     {
-        public const string apiUrl = "https://prices.azure.com/api/retail/prices?";
-
         public const string SearchTerm = "Items";
         const string and = "and";
         const string eq = "eq";
