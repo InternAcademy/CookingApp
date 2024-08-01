@@ -23,8 +23,7 @@ export default function MyRecipes(){
             onClick={handleRecipes}
             />
             <h1 className="text-lg">My Recipes</h1>
-            <UserIcon className="size-10  rounded-xl border border-gray-100  hover:border hover:border-gray-200 hover:cursor-pointer p-2" />
-            <div className="block w-10 md:hidden"></div>
+            <UserIcon className="size-10 invisible md:visible rounded-xl border border-gray-100  hover:border hover:border-gray-200 hover:cursor-pointer p-2" />
         </header>
 
         <section className={`flex justify-center items-center px-4 py-4 h-28 ${isOpen ? "" : "hidden"}`}>

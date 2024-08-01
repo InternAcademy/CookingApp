@@ -13,7 +13,7 @@ import { uiActions } from "../../store/uiSlice";
 import ChatItem from "./ChatItem";
 import { useEffect } from "react";
 import useChatHistory from "../../hooks/useChatHistory";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import { orderedSections } from "../../utils/sidebar";
 import { getSectionTitle } from "../../utils/sidebar";
 import useSelectChat from "../../hooks/useSelectChat";
@@ -57,6 +57,13 @@ export default function Sidebar() {
   function handleClick() {
     dispatch(uiActions.closeSidebar());
   }
+  function handleClickDashboard() {
+    navigate("/admin/dashboard");
+  }
+  function handleClickSubscribtion() {
+    navigate("/subscribtion");
+  }
+
   return (
     <section
       className={`bg-gray-100 flex flex-col grow   ${
@@ -75,16 +82,16 @@ export default function Sidebar() {
           onClick={handleNewChat}
         />
       </header>
-      <button>
+      <button onClick={handleClickSubscribtion}>
+        <h5 className="hover:bg-gray-300 mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-white/20 shadow-sm ring-1 ring-black/5">
+          <BanknotesIcon className="size-5 mr-5" />
+          Get Premium
+        </h5>
+      </button>
+      <button onClick={handleClickDashboard}>
         <h5 className="hover:bg-gray-300 mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-white/20 shadow-sm ring-1 ring-black/5">
           <ChartPieIcon className="size-5 mr-5" />
           Dashboard
-        </h5>
-      </button>
-      <button>
-        <h5 className="hover:bg-gray-300 mb-10 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-white/20 shadow-sm ring-1 ring-black/5">
-          <BanknotesIcon className="size-5 mr-5" />
-          Cost & Analitics
         </h5>
       </button>
 
