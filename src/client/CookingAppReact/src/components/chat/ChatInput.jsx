@@ -1,17 +1,21 @@
 import { PaperClipIcon } from "@heroicons/react/24/outline";
 import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
 import { userActions } from "../../store/userSlice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getToken } from "../../msal/msal";
 import { useDispatch, useSelector } from "react-redux";
 import useChat from "../../hooks/useChat";
 import { uiActions } from "../../store/uiSlice";
+import { useRef } from "react";
 export default function ChatInput() {
   const input = useSelector((state) => state.ui.input);
+  const fileAttacher = useRef();
   const selectedChat = useSelector((state) => state.user.selectedChat);
   const role = useSelector((state) => state.user.role);
   const { mutate, isPending, error, isError } = useChat();
   const dispatch = useDispatch();
+  const [base64Image, setBase64Image] = useState(null);
+
   async function handleSubmission() {
     if (input) {
       dispatch(
@@ -42,11 +46,59 @@ export default function ChatInput() {
     }
     dispatch(uiActions.setInput(event.target.value));
   }
+  function handleClick() {
+    fileAttacher.current.click();
+  }
+  function handleImageAttachment(event) {
+    const file = event.target.files[0];
+    console.log(file);
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setBase64Image(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+  useEffect(() => {
+    if (base64Image) {
+      async function sendMessage() {
+        const token = await getToken();
+        dispatch(
+          userActions.continueChat({
+            ...selectedChat,
+            content: [
+              ...(selectedChat?.content || []),
+              { role: "user", type: "Image", content: base64Image },
+            ],
+          })
+        );
+        dispatch(uiActions.setResponseError(null));
+        mutate({
+          token: token,
+          chatId: selectedChat && selectedChat.id,
+          type: "Image",
+          content: base64Image,
+        });
+      }
+      sendMessage();
+      console.log(base64Image);
+    }
+  }, [base64Image]);
+
   return (
     <section className="flex items-center justify-center mb-5 w-full">
       <ul className="flex w-4/5 md:w-3/5 lg:w-2/5 items-center bg-gray-200 rounded-full gap-2  py-2 px-4">
         <li>
-          <PaperClipIcon className="size-6" />
+          <input
+            type="file"
+            hidden
+            accept="image/*"
+            ref={fileAttacher}
+            onChange={(event) => handleImageAttachment(event)}
+          />
+          <PaperClipIcon className="size-6" onClick={handleClick} />
         </li>
         <li className="w-full">
           <input
