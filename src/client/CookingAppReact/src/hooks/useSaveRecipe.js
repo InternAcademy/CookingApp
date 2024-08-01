@@ -21,7 +21,6 @@ const useSaveRecipe = () => {
     mutationFn: createRecipe,
     onMutate: () => {},
     onSuccess: (response) => {
-      console.log(response);
     },
     onError: (error) => {
       dispatch(uiActions.setResponseError(error.message));

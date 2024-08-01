@@ -1,7 +1,7 @@
 import { SubscriptionPlanPremium } from "@/components/subscriptions/SubscriptionPlanPremium";
 import { SubscriptionPlanFree } from "@/components/subscriptions/SubscriptionPlanFree";
 import { useSelector } from "react-redux";
-import MealMaster from "../../assets/meal-master.png";
+import MealMaster from "/public/meal-master.png";
 import { CheckIcon } from '@heroicons/react/24/outline';
 import { CurrencyEuroIcon } from "@heroicons/react/24/outline";
 import { LockClosedIcon } from "@heroicons/react/24/outline";

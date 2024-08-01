@@ -3,6 +3,7 @@ import React from "react";
 import logo from "/public/icon2.png";
 import { useSelector } from "react-redux";
 import { FaSpinner } from "react-icons/fa";
+import '../../assets/css/animations.css';
 
 const Thinking = () => {
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
@@ -16,14 +17,14 @@ const Thinking = () => {
           width={35}
           className="bg-gray-200 rounded-2xl p-1"
         />
-        <FaSpinner className="animate-spin " size={24} color="#4f46e5" />
-
         <span
           className={`text-sm font-semibold italic ${
-            isDarkTheme ? "text-white" : "text-indigo-600"
+            isDarkTheme ? "text-white" : "text-black"
           }`}
         >
-          thinking...
+          <span className="dot-1">•</span>
+          <span className="dot-2">•</span>
+          <span className="dot-3">•</span>
         </span>
       </div>
     </div>

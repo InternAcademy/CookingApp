@@ -1,5 +1,5 @@
 import React from 'react';
-import MealMaster from "../../assets/meal-master.png";
+import MealMaster from "/public/logo-master.png";
 import { CheckIcon } from '@heroicons/react/24/outline';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 
