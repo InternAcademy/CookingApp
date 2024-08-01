@@ -98,7 +98,10 @@ export default function ChatInput() {
             ref={fileAttacher}
             onChange={(event) => handleImageAttachment(event)}
           />
-          <PaperClipIcon className="size-6" onClick={handleClick} />
+          <PaperClipIcon
+            className="size-6 cursor-pointer"
+            onClick={handleClick}
+          />
         </li>
         <li className="w-full">
           <input
@@ -114,7 +117,7 @@ export default function ChatInput() {
           <PaperAirplaneIcon
             className={`size-10 rounded-xl p-2 duration-200 ${
               input.length > 0 ? "bg-orange-300" : ""
-            }`}
+            } cursor-pointer`}
             onClick={handleSubmission}
           />
         </li>
