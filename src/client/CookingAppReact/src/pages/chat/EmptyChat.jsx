@@ -1,26 +1,9 @@
+import logo from "/public/icon2.png";
 import { useSelector } from "react-redux";
 import UserMessage from "@/components/chat/UserMessage";
-import BotResponse from "@/components/chat/BotResponse";
 import Thinking from "@/components/chat/Thinking";
-import useSelectChat from "@/hooks/useSelectChat";
-import { useParams } from "react-router-dom";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { userActions } from "@/store/userSlice";
-export default function Chat() {
-  let { chatId } = useParams();
-  const dispatch = useDispatch();
-  const { data: response, refetch } = useSelectChat(chatId);
-  useEffect(() => {
-    if (chatId) {
-      refetch();
-    }
-  }, [chatId]);
-  useEffect(() => {
-    if (response) {
-      dispatch(userActions.selectChat(response));
-    }
-  }, [response]);
+import BotResponse from "@/components/chat/BotResponse";
+export default function EmptyChat() {
   const chat = useSelector((state) => state.user.selectedChat);
   const isThinking = useSelector((state) => state.ui.isThinking);
   const responseError = useSelector((state) => state.ui.responseError);
@@ -36,6 +19,11 @@ export default function Chat() {
         : "w-5/5 md:w-4/5 xl:w-3/5"
     } `}
       >
+        {!chat && (
+          <div className="grow pt-20">
+            <img src={logo} alt="" width={100} />
+          </div>
+        )}
         {chat &&
           chat.content.map((message, index) =>
             message.role === "user" ? (
