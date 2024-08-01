@@ -7,11 +7,11 @@ export default function RecipeCard({ recipe }) {
   const isOpen = useSelector((state) => state.ui.recipesOpen);
   let navigate = useNavigate();
   function handleClick() {
-    navigate(`/recipe/${recipe.id}`);
+    navigate(`/r/${recipe.id}`);
   }
   return (
     <section
-      className="group flex flex-col bg-white w-3/4 h-72 rounded-2xl pb-2 border hover:cursor-pointer transition"
+      className="group flex flex-col bg-white w-full h-72 rounded-2xl pb-2 border hover:cursor-pointer transition"
       onClick={handleClick}
     >
       <img
@@ -25,8 +25,8 @@ export default function RecipeCard({ recipe }) {
       <div className="w-full px-8 mb-3 text-gray-500 transition-all invisible group-hover:visible overflow-hidden">
         <p className="w-full ">{recipe.description}</p>
       </div>
-      <section className="flex flex-row justify-between px-4">
-        <div className="flex w-24 flex-row justify-start gap-2 ms-4">
+      <section className="flex flex-row justify-between mb-2">
+        <div className="flex w-full flex-row justify-start gap-2 ms-4">
           <ClockIcon className="size-6" />
           <p className="w-full">{recipe.duration}</p>
         </div>

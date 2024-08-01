@@ -6,6 +6,8 @@ import EmptyChat from "./pages/chat/EmptyChat";
 import Chat from "./pages/chat/Chat";
 import Layout from "./pages/layout/Layout";
 import Recipe from "./pages/recipe/Recipe";
+import Admin from "./pages/admin/Admin";
+import Subscribtion from "./pages/subscribtion/Subscribtion";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -19,7 +21,9 @@ const router = createBrowserRouter([
           { path: "c/:chatId", element: <Chat /> },
         ],
       },
-      { path: "recipe/:recipeId", element: <Recipe /> },
+      { path: "r/:recipeId", element: <Recipe /> },
+      { path: "admin/dashboard", element: <Admin /> },
+      { path: "subscribtion", element: <Subscribtion /> },
     ],
   },
 ]);
