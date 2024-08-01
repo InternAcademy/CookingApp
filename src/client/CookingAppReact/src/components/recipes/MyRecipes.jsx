@@ -32,8 +32,8 @@ export default function MyRecipes() {
   }, [isOpen]);
 
     return (
-        <section className={`bg-gray-100 flex flex-col grow ${
-        isOpen ? "visible w-screen md:w-[42rem] absolute md:relative" : "invisible w-0"
+        <section className={`bg-gray-100 flex flex-col flex-shrink-0 ${
+        isOpen ? "visible w-screen md:w-[25rem] md:relative" : "invisible w-0"
       }  h-screen duration-300`}>
 
         <header className={`flex flex-row justify-between items-center px-3 py-3 ${isOpen ? "" : "hidden"}`}>
@@ -56,7 +56,8 @@ export default function MyRecipes() {
             flex-col
             items-center
             gap-4
-            ${isOpen ? "visible" : "invisible"}
+            px-4 py-4
+            ${isOpen ? "" : "hidden"}
             h-full`}
       >
         {recipes.length > 0 &&

@@ -1,4 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-  
+
+/* Slim gray and cool scrollbar */
+::-webkit-scrollbar {
+    width: 6px; /* Adjust the width to make it slimmer */
+}
+
+::-webkit-scrollbar-track {
+    background-color: #d3d3d3; /* Light gray track color */
+    border-radius: 10px; /* Rounded corners for a smoother look */
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #a0a0a0, #606060); /* Gradient thumb for a cool effect */
+    border-radius: 10px; /* Rounded corners for the thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #808080, #404040); /* Darker gradient on hover */
+}

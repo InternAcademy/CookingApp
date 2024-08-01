@@ -66,9 +66,9 @@ export default function Sidebar() {
 
   return (
     <section
-      className={`bg-gray-100 flex flex-col grow   ${
+      className={`bg-gray-100 flex flex-col flex-shrink-0   ${
         isOpen
-          ? "visible w-screen absolute z-10 md:w-96 md:relative md:z-0"
+          ? "visible w-screen absolute z-10 md:w-80 md:relative md:z-0"
           : "invisible w-0"
       }  h-screen  duration-300`}
     >

@@ -21,7 +21,7 @@ const router = createBrowserRouter([
           { path: "c/:chatId", element: <Chat /> },
         ],
       },
-      { path: "recipe/:recipeId", element: <Recipe /> },
+      { path: "r/:recipeId", element: <Recipe /> },
       { path: "admin/dashboard", element: <Admin /> },
       { path: "subscribtion", element: <Subscribtion /> },
     ],
