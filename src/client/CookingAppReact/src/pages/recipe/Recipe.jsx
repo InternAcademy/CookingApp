@@ -52,19 +52,19 @@ export default function Recipe() {
           <div className="flex p-6 flex-col justify-center items-center rounded-2xl w-full mt-16">
             <div className="bg-white w-full rounded-2xl px-6 py-4 flex flex-col items-start gap-4">
               <h2 className="text-xl mb-4">Ingredients</h2>
-              {data.ingredients.map((ingredient) => (
-                <div className="flex flex-row flex-wrap justify-start items-center gap-2">
+              <div className="flex flex-row flex-wrap justify-start items-center gap-2">
+                {data.ingredients.map((ingredient) => (
                   <div className="border-2 border-orange-200 flex items-center w-fit justify-center rounded-2xl px-8 py-4">
                     <p className="text-lg">{`${ingredient.quantity} ${ingredient.metric} ${ingredient.name}`}</p>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
             <div className="bg-white w-full rounded-2xl px-6 py-4 flex flex-col items-start gap-4">
               <h2 className="text-xl mb-4">Preparation Steps</h2>
               {data.preparationSteps.map((step) => (
-                <div className="bg-gray-100 rounded-2xl w-full p-1">
-                  <div className=" border flex flex-row items-center justify-center w-full h-full rounded-2xl px-8 py-4">
+                <div className="rounded-2xl w-full p-1">
+                  <div className=" border flex flex-row items-start justify-start w-full h-full rounded-2xl px-8 py-4">
                     <p className="text-lg">{step}</p>
                   </div>
                 </div>
