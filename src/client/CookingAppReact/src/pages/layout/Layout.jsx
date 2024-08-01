@@ -2,6 +2,8 @@ import { Outlet } from "react-router-dom";
 import Sidebar from "../../components/sidebar/Sidebar";
 import MyRecipes from "../../components/recipes/MyRecipes";
 import Navbar from "../../components/navbar/Navbar";
+import toast, { Toaster } from 'react-hot-toast';
+
 export default function Layout() {
   return (
     <main className="flex w-full first-line:overflow-hidden bg-gray-100">
@@ -10,6 +12,10 @@ export default function Layout() {
             <Navbar />
             <Outlet />
         </section>
+        <Toaster
+          position="bottom-right"
+          reverseOrder={false}
+        />
       <MyRecipes />
     </main>
   );
