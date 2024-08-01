@@ -23,12 +23,12 @@ namespace CookingApp.Controllers
             var limitationResult = await limitationService.ProcessUserRecipeLimitations(userId);
             if (limitationResult == ProcessResult.RecipeLimitationSuccessfull)
             {
-                //var recipeId = await recipeService.CreateRecipe(request, userId);
+                var recipeId = await recipeService.CreateRecipe(request, userId);
 
                 return new ApiResponse<string>()
                 {
                     Status = 200,
-                    Data = "recipeId"
+                    Data = recipeId
                 };
             }
 
