@@ -1,6 +1,7 @@
 const ip = import.meta.env.VITE_PUBLIC_PERSONAL_IP;
 
 export async function createRecipe({ token, request }) {
+  console.log("hello");
   const response = await fetch(`${ip}/create-recipe`, {
     method: "POST",
     headers: {
