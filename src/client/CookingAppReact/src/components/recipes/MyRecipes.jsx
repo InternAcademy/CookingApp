@@ -2,15 +2,34 @@ import { useDispatch, useSelector } from "react-redux";
 import { UserIcon } from "@heroicons/react/24/outline";
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 import { uiActions } from "../../store/uiSlice";
-import RecipeCard from "./RecipeCard"
+import RecipeCard from "./RecipeCard";
+import { getToken } from "@/msal/msal";
+import { jwtDecode } from "jwt-decode";
+import { useEffect } from "react";
+import useFirstPageRecipes from "@/hooks/useFirstPageRecipes";
 
-export default function MyRecipes(){
-    const isOpen = useSelector(state => state.ui.recipesOpen);
-    const dispatch = useDispatch();
-    function handleRecipes() {
-        dispatch(uiActions.toggleRecipes());
+export default function MyRecipes() {
+  const isOpen = useSelector((state) => state.ui.recipesOpen);
+  const recipes = useSelector((state) => state.ui.filteredRecipes.recipes);
+  const dispatch = useDispatch();
+  const { getFirstPageRecipes } = useFirstPageRecipes();
+  function handleRecipes() {
+    dispatch(uiActions.toggleRecipes());
+  }
+  useEffect(() => {
+    if (isOpen) {
+      async function getFirstPageAsync() {
+        const token = await getToken();
+        const decoded = jwtDecode(token);
+        getFirstPageRecipes({
+          token: token,
+          userId: decoded.sub,
+          page: 1,
+        });
+      }
+      getFirstPageAsync();
     }
-
+  }, [isOpen]);
 
     return (
         <section className={`bg-gray-100 flex flex-col grow ${
@@ -39,16 +58,10 @@ export default function MyRecipes(){
             gap-4
             ${isOpen ? "visible" : "invisible"}
             h-full`}
-        >
-            <RecipeCard/>
-            <RecipeCard/>
-            <RecipeCard/>
-            <RecipeCard/>
-            <RecipeCard/>
-            <RecipeCard/>
-            <RecipeCard/>
-            <RecipeCard/>
-        </ul>
-        </section>
-    );
+      >
+        {recipes.length > 0 &&
+          recipes.map((recipe) => <RecipeCard recipe={recipe} />)}
+      </ul>
+    </section>
+  );
 }
