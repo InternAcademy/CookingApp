@@ -3,17 +3,10 @@ import { ClockIcon } from "@heroicons/react/24/outline";
 import { UserGroupIcon } from "@heroicons/react/24/outline";
 import { CalendarDaysIcon } from "@heroicons/react/24/outline";
 import useRecipeDetails from "@/hooks/useRecipeDetails";
-import { useEffect } from "react";
 
-// Import all images dynamically
 const iconImports = import.meta.glob('../../assets/stepsimages/*.png', { eager: true });
 
-// Create an array of the imported images
 const icons = Object.values(iconImports).map((mod) => mod.default);;
-
-// Now you can use iconArray as needed in your component
-console.log(icons); // This will log all the imported images
-
 
 function getFormattedDate(datetime) {
   const date = new Date(datetime);
