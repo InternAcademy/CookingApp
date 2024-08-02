@@ -6,5 +6,6 @@ namespace CookingApp.Services.Limitation
     {
         Task<ProcessResult> ProcessUserMessageLimitations(string userId);
         Task<ProcessResult> ProcessUserRecipeLimitations(string userId);
+        Task<ProcessResult> ProcessAdminLimitations(string userId);
     }
 }

@@ -28,6 +28,7 @@ using CookingApp.Infrastructure.Filters;
 
 using CookingApp.Services.Feedback;
 using CookingApp.Services.Limitation;
+using Stripe.Checkout;
 
 namespace CookingApp.Infrastructure.Extensions
 {
@@ -140,6 +141,7 @@ namespace CookingApp.Infrastructure.Extensions
             builder.Services.AddScoped<SubscriptionService>();
             builder.Services.AddScoped<BalanceTransactionService>();
             builder.Services.AddScoped<InvoiceService>();
+            builder.Services.AddScoped<SessionService>();
             string apiKey = builder.Configuration.GetValue<string>("StripeOptions:SecretKey") ?? string.Empty;
             string webhookSecret = builder.Configuration.GetValue<string>("StripeOptions:WebhookSecret") ?? string.Empty;
 
@@ -149,6 +151,7 @@ namespace CookingApp.Infrastructure.Extensions
                 options.WebhookSecret = webhookSecret;
             });
             StripeConfiguration.ApiKey = apiKey;
+            StripeConfiguration.StripeClient = new StripeClient(apiKey);
             return builder;
         }
 
