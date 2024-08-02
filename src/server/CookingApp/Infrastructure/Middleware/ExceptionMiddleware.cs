@@ -29,6 +29,7 @@ namespace CookingApp.Infrastructure.Middleware
             {
                 ArgumentException => (int)HttpStatusCode.BadRequest,
                 StripeException => (int)HttpStatusCode.BadRequest,
+                RecipeExistsException => (int)HttpStatusCode.BadRequest,
                 InvalidRecipeRequestException => (int)HttpStatusCode.BadRequest,
                 _ => (int)HttpStatusCode.InternalServerError
             };

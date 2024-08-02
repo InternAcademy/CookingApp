@@ -25,6 +25,12 @@ namespace CookingApp.Services.Recipe
             {
                 ResponseFormat = ChatResponseFormat.JsonObject
             };
+            var exists = await repo.GetFirstOrDefaultAsync(a => a.UserId == userId && a.Title == ExtractTitle(request));
+            if (exists != null)
+            {
+                throw new RecipeExistsException();
+            }
+
             var response = await client.CompleteChatAsync(messages, chatOpts);
             var recipe = JsonConvert.DeserializeObject<Recipe>(response.Value.Content[0].Text);
 
@@ -32,6 +38,7 @@ namespace CookingApp.Services.Recipe
             {
                 throw new InvalidRecipeRequestException();
             }
+
             recipe.ImageUrl = await imageService.GenerateImage(recipe.Title);
             recipe.UserId = userId;
             recipe.IsArchived = false;
@@ -39,6 +46,15 @@ namespace CookingApp.Services.Recipe
             await repo.InsertAsync(recipe);
 
             return recipe.Id;
+        }
+        private static string ExtractTitle(string recipe)
+        {
+            string startTag = "Title: ";
+            string endTag = "\n";
+            int startIndex = recipe.IndexOf(startTag) + startTag.Length;
+            int endIndex = recipe.IndexOf(endTag, startIndex);
+
+            return recipe.Substring(startIndex, endIndex - startIndex).Trim();
         }
 
         public async Task<IPagedList<Recipe>> GetMine(string userId, int pageIndex, int pageSize = 10, bool includeDeleted = false)

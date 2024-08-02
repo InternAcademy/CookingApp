@@ -13,7 +13,7 @@ export default function Layout() {
             <Outlet />
         </section>
         <Toaster
-          position="bottom-right"
+          position="top-center"
           reverseOrder={false}
         />
       <MyRecipes />
