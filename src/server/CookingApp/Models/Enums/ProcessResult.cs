@@ -6,5 +6,7 @@
         MessageLimitationFailed,
         RecipeLimitationFailed,
         RecipeLimitationSuccessfull,
+        LimitationSuccessfull,
+        LimitationFailed,
     }
 }

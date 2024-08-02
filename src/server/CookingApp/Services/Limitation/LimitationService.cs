@@ -12,7 +12,7 @@
             var user = await repo.GetFirstOrDefaultAsync(a => a.UserId == userId);
             ArgumentNullException.ThrowIfNull(user, nameof(user));
 
-            if (user.Role.Type == RoleType.Premium)
+            if (user.Role.Type == RoleType.Premium || user.Role.Type == RoleType.Admin)
             {
                 return ProcessResult.MessageLimitationSuccessfull;
             }
@@ -53,7 +53,7 @@
             {
                 return ProcessResult.RecipeLimitationFailed;
             }
-            else
+            else if (user.Role.Type == RoleType.Premium)
             {
                 if (user.Role.Limitations.RecipeGeneration > 0)
                 {
@@ -66,6 +66,27 @@
                     return ProcessResult.RecipeLimitationFailed;
                 }
             }
+            else if (user.Role.Type == RoleType.Admin)
+            {
+                return ProcessResult.RecipeLimitationSuccessfull;
+            }
+            else
+            {
+                return ProcessResult.RecipeLimitationFailed;
+            }
+        }
+
+        public async Task<ProcessResult> ProcessAdminLimitations(string userId)
+        {
+            var user = await repo.GetFirstOrDefaultAsync(a => a.UserId == userId);
+            ArgumentNullException.ThrowIfNull(user, nameof(user));
+
+            if (user.Role.Type != RoleType.Admin)
+            {
+                return ProcessResult.LimitationFailed;
+            }
+
+            return ProcessResult.LimitationSuccessfull;
         }
     }
 }
