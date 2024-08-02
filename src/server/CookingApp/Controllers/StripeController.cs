@@ -5,8 +5,6 @@ namespace CookingApp.Controllers
     using CookingApp.ViewModels.Api;
     using CookingApp.ViewModels.Stripe.Subscription;
     using Microsoft.AspNetCore.Mvc;
-    using Stripe;
-    using Product = ViewModels.Stripe.Product;
 
     [Route("api/stripe")]
     [ApiController]
