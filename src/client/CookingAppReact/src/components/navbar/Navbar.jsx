@@ -52,7 +52,7 @@ export default function Navbar() {
             onClick={handleSidebar}
           />
           <ChatBubbleOvalLeftEllipsisIcon
-            className="size-10   rounded-xl hover:bg-gray-100 hover:cursor-pointer p-2"
+            className="size-10 hidden sm:block rounded-xl hover:bg-gray-100 hover:cursor-pointer p-2"
             onClick={handleNewChat}
           />
           <h2 className="font-semibold text-xl flex flex-row justify-center content-center text-center h-full">
@@ -82,11 +82,11 @@ export default function Navbar() {
         </div>
         <li
           className={`right-0 sticky flex flex-row pr-10 items-center gap-5 ${
-            recipesOpen ? "invisible" : "visible"
+            recipesOpen ? "hidden" : ""
           }`}
         >
           <ClipboardDocumentCheckIcon
-            className="size-10 rounded-xl hover:bg-gray-100 hover:cursor-pointer p-2"
+            className="size-10 rounded-xl hidden sm:block hover:bg-gray-100 hover:cursor-pointer p-2"
             onClick={handleRecipes}
           />
           <div className="relative">
