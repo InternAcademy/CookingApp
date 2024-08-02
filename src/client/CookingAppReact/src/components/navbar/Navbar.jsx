@@ -70,7 +70,7 @@ export default function Navbar() {
             sidebarOpen ? "block" : "hidden"
           }`}
         >
-          <h2 className="font-semibold text-xl flex flex-row justify-center content-center text-center h-full">
+          <h2 className="font-semibold text-xl flex flex-row justify-center content-center text-center">
             <span className="text-center px-2 py-1">Meal Master  </span>
             <span className={`${roleName() === "Free" ? "bg-gray-200" : "bg-orange-200"} text-gray-900 rounded-full px-4 py-1`}>{roleName()}</span>
           </h2>
@@ -82,7 +82,7 @@ export default function Navbar() {
         </div>
         <li
           className={`right-0 sticky flex flex-row pr-10 items-center gap-5 ${
-            recipesOpen ? "hidden" : ""
+            recipesOpen ? "invisible" : ""
           }`}
         >
           <ClipboardDocumentCheckIcon

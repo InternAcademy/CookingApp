@@ -1,14 +1,10 @@
-import { SubscriptionPlanPremium } from "@/components/subscriptions/SubscriptionPlanPremium";
-import { SubscriptionPlanFree } from "@/components/subscriptions/SubscriptionPlanFree";
 import { useSelector } from "react-redux";
-import MealMaster from "/public/meal-master.png";
-import { CheckIcon } from "@heroicons/react/24/outline";
-import { CurrencyEuroIcon } from "@heroicons/react/24/outline";
-import { LockClosedIcon } from "@heroicons/react/24/outline";
 import useStripeProduct from "@/hooks/useStripeProduct";
 import useStripeSession from "@/hooks/useStripeSession";
 import { getToken } from "@/msal/msal";
 import { jwtDecode } from "jwt-decode";
+import stripe from "../../assets/by-stripe.png";
+import { FireIcon } from "@heroicons/react/24/outline";
 
 export default function Subscribtion() {
   const isOpenRecipes = useSelector((state) => state.ui.recipesOpen);
@@ -29,36 +25,37 @@ export default function Subscribtion() {
       {priceIds && (
         <div className="flex w-full justify-center content-start items-start flex-col h-full">
           <div>
-            <ul className="flex flex-col justify-center content-center items-start gap-5">
+            <ul className="flex flex-col justify-center content-center items-start gap-5 selection:bg-orange-400">
               <li className="text-4xl font-bold">
                 Explore our subscribtion plan:
               </li>
               <li>
-                <div className="bg-orange-400 text-black text-center p-2 uppercase font-bold rounded-xl w-fit">
-                  Hot offer
+                <div className="bg-orange-400 text-black p-2 uppercase font-bold rounded-xl w-fit 
+                flex flex-row justify-center items-center text-center selection:bg-white
+                hover:rounded-ss-none hover:rounded-ee-none transition-all duration-100">
+                  <FireIcon className="size-7 mr-1"/> Hot offer
                 </div>
               </li>
-              <li className="text-xl font-semibold">• Unlimited messages</li>
-              <li className="text-xl font-semibold">• Unlimited chats</li>
-              <li className="text-xl font-semibold">
+              <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 hover:border-orange-400 selection:bg-orange-400">• Unlimited messages</li>
+              <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 hover:border-orange-400 selection:bg-orange-400">• Unlimited chats</li>
+              <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 hover:border-orange-400 selection:bg-orange-400">
                 • More than enough recipies
               </li>
-              <li className="text-xl font-semibold">
+              <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 hover:border-orange-400 selection:bg-orange-400">
                 • Customizable dietary options
               </li>
-              <li className="text-xl font-semibold">• Free cancellation</li>
+              <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 hover:border-orange-400 selection:bg-orange-400">• Free cancellation</li>
             </ul>
             <button
-              className="text-white bg-black py-3 font-bold rounded-xl w-full mt-10"
+              className="text-white bg-black py-3 font-bold rounded-xl w-full mt-10 border-2 border-transparent hover:border-gray-300 shadow-md hover:rounded-ss-none hover:rounded-ee-none transition-all duration-100"
               onClick={handleClick}
             >
-              <div className=" font-semibold text-xl flex flex-row items-center justify-center text-center">
-                Pay <CurrencyEuroIcon className="size-6 ml-2" />
-                8.99
+              <div className=" font-semibold text-xl flex flex-row items-center justify-center text-center selection:bg-orange-400">
+                For €8.99
               </div>
             </button>
-            <div className="w-full flex justify-center items-center text-center mt-2 text-sm">
-              Stripe checkout <LockClosedIcon className="size-4 ml-2" />
+            <div className="w-full flex justify-center items-center text-center mt-2 text-base selection:bg-orange-400">
+              <img className="w-28 mr-1" src={stripe} alt="stripe" />
             </div>
           </div>
         </div>
