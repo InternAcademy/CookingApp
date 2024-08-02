@@ -85,11 +85,12 @@ export default function MyRecipes() {
       >
         {recipesState.recipes.length > 0 &&
           recipesState.recipes.map((recipe) => <RecipeCard recipe={recipe} />)}
-        {recipesState.page !== recipesState.totalPages &&
-          !gettingMoreRecipes && (
-            <button onClick={loadMore}>Load more...</button>
-          )}
-        {console.log(gettingMoreRecipes)}
+        {recipesState.page < recipesState.totalPages && !gettingMoreRecipes && (
+          <button onClick={loadMore}>Load more...</button>
+        )}
+        {recipesState.recipes.length === 0 && (
+          <p>You dont't have any recipes </p>
+        )}
 
         {gettingMoreRecipes && (
           <span>
