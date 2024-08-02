@@ -7,7 +7,6 @@ import '../../assets/css/animations.css';
 export default function BotResponse({ message }) {
   const { save, isError, isPending, error } = useSaveRecipe();
 
-
   async function handleClick() {
     // if (userRole.type === "Free") {
     //   navigation.navigate("Subscription");
@@ -31,7 +30,7 @@ export default function BotResponse({ message }) {
         {message.type === "Recipe" && (
           <div className="w-full flex justify-center content-center items-center my-5">
             <div
-              className={`w-fit flex flex-row border-2 px-4 py-2 rounded-full bg-orange-300 font-semibold cursor-pointer 
+              className={`w-fit flex flex-row border-2 px-4 py-2 rounded-full bg-orange-200 font-semibold cursor-pointer 
                 ${isPending ? 'border-dance animate-border-dance' : 'hover:border-orange-200 hover:scale-105 transition-transform duration-300'} 
                 relative ${isPending && 'sparkle'}`}
               onClick={handleClick}
