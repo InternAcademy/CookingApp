@@ -2,6 +2,7 @@
 {
     using AutoMapper;
     using CookingApp.Common.Helpers.Profiles;
+    using CookingApp.Infrastructure.Configurations.Stripe;
     using CookingApp.Infrastructure.Exceptions;
     using CookingApp.Infrastructure.Interfaces;
     using CookingApp.Models;
@@ -9,15 +10,18 @@
     using CookingApp.ViewModels.Stripe.Statistics;
     using CookingApp.ViewModels.Stripe.Subscription;
     using global::Stripe;
+    using global::Stripe.Checkout;
+    using Microsoft.Extensions.Options;
+    using MongoDB.Driver.Core.Events;
     using static CookingApp.Common.ExceptionMessages;
-    using Product = ViewModels.Stripe.Product;
-
     public class StripeService(CustomerService customerService,
         PriceService priceService,
         ProductService productService,
         SubscriptionService subscriptionService,
         BalanceTransactionService balanceTransactionService,
         InvoiceService invoiceService,
+        IOptions<StripeOptions> stripeOptions,
+        SessionService sessionService,
         IRepository<UserProfile> userRepo,
         IHttpContextAccessor httpContextAccessor,
         IMapper mapper) : IStripeService
@@ -25,24 +29,18 @@
         /// <summary>
         /// Gets all products that are in the Stripe account.
         /// </summary>
-        public async Task<IEnumerable<Product>> GetProductsAsync()
+        public async Task<IEnumerable<string>> GetProductsAsync()
         {
-            var options = new ProductListOptions { Limit = 3 };
+            var options = new ProductListOptions { Limit = 1 };
 
             var products = await productService.ListAsync(options);
-            var result = new List<Product>();
+            var result = new List<string>();
 
             foreach (var product in products)
             {
 
                 var price = await priceService.GetAsync(product.DefaultPriceId);
-                result.Add(
-                    new Product(product.Id,
-                    product.Name,
-                    price.UnitAmount,
-                    product.DefaultPriceId,
-                    product.Description,
-                    price.Recurring.Interval));
+                result.Add(price.Id);
             }
 
             return result;
@@ -73,6 +71,20 @@
                 throw new NotFoundException();
             }
             
+            var options = new SessionCreateOptions
+                {
+                    SuccessUrl = $"http://localhost:5173/success",
+                    Mode = "subscription",
+                    LineItems = new List<SessionLineItemOptions>
+                        {
+                            new SessionLineItemOptions
+                            {
+                                Price = model.PriceId,
+                                Quantity = 1,
+                            },
+                        },
+                };
+
             if(profile.StripeId is not null)
             {
                 var customer = await customerService.GetAsync(profile.StripeId);
@@ -88,56 +100,23 @@
                     {
                         throw new ArgumentException(Stripe.TheUserIsAlreadySubscribed);
                     }
-                    var incompleteSubscription = subscriptions.FirstOrDefault(sub=>sub.Status=="incomplete");
-                    if(incompleteSubscription is not null)              
-                    {   
-                        var invoiceListOptions = new InvoiceListOptions
-                        {
-                            Status = "open",
-                            Subscription=incompleteSubscription.Id
-                        };
-                        var invoices=await invoiceService.ListAsync(invoiceListOptions);
-                        var invoice=invoices.First();
-                        return new SubscriptionCreationResponse(
-                            incompleteSubscription.Id,
-                            invoice.Id,
-                            invoice.HostedInvoiceUrl
-                        );
-                    }
                 }
+                options.Customer=profile.StripeId;
             }
-            
-                        
-            var options = new CustomerCreateOptions
-            {
-                Email = model.Email
-            };
-            var newCustomer = await customerService.CreateAsync(options);
 
-            profile.StripeId=newCustomer.Id;
-            await userRepo.UpdateAsync(profile);
-        
-          
-            var subscriptionOptions = new SubscriptionCreateOptions
+            else
             {
-                Customer = newCustomer.Id,
-                Items =
-                [
-                    new SubscriptionItemOptions
-                    {
-                        Price = model.PriceId,
-                    },
-                ],
-                PaymentBehavior = "default_incomplete",
-            };
-            subscriptionOptions.AddExpand("latest_invoice.payment_intent");
+                var customer = await customerService.CreateAsync(new CustomerCreateOptions(){Email=model.Email});
+                options.Customer = customer.Id;
+                profile.StripeId = customer.Id;
+                await userRepo.UpdateAsync(profile);
+            }
 
-            var subscription = await subscriptionService.CreateAsync(subscriptionOptions);
+            var session = await sessionService.CreateAsync(options);         
+
 
             return new SubscriptionCreationResponse(
-               subscription.Id,
-               subscription.LatestInvoiceId,
-               subscription.LatestInvoice.HostedInvoiceUrl
+               session.Url
             );
         }
 

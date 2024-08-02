@@ -8,6 +8,7 @@ import Layout from "./pages/layout/Layout";
 import Recipe from "./pages/recipe/Recipe";
 import Admin from "./pages/admin/Admin";
 import Subscribtion from "./pages/subscribtion/Subscribtion";
+import Success from "./pages/subscribtion/Succes";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
       { path: "r/:recipeId", element: <Recipe /> },
       { path: "admin/dashboard", element: <Admin /> },
       { path: "subscribtion", element: <Subscribtion /> },
+      { path: "success", element: <Success /> },
     ],
   },
 ]);
