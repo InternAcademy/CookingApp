@@ -16,17 +16,19 @@ const useFirstPageRecipes = () => {
       dispatch(uiActions.getFirstPage(data));
     },
   });
-  const { mutate: loadMoreRecipes, isPending: gettingMovies } = useMutation({
-    mutationFn: getRecipes,
-    onMutate: () => {},
-    onSuccess: (data) => {
-      dispatch(uiActions.loadMore(data));
-    },
-  });
+  const { mutate: loadMoreRecipes, isPending: gettingMoreRecipes } =
+    useMutation({
+      mutationFn: getRecipes,
+      onMutate: () => {},
+      onSuccess: (data) => {
+        dispatch(uiActions.loadMore(data));
+      },
+    });
 
   return {
     getFirstPageRecipes,
     loadMoreRecipes,
+    gettingMoreRecipes,
   };
 };
 

@@ -18,6 +18,7 @@ import { orderedSections } from "../../utils/sidebar";
 import { getSectionTitle } from "../../utils/sidebar";
 import useSelectChat from "../../hooks/useSelectChat";
 import { userActions } from "../../store/userSlice";
+import "../../assets/css/animations.css";
 export default function Sidebar() {
   const isOpen = useSelector((state) => state.ui.sidebarOpen);
   const chatPage = useSelector((state) => state.user.chatHistory.page);
@@ -27,7 +28,8 @@ export default function Sidebar() {
   const selectChat = useSelectChat();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { getFirstPage, getNextPage, gettingFirstPage } = useChatHistory();
+  const { getFirstPage, getNextPage, gettingFirstPage, gettingNextPage } =
+    useChatHistory();
   useEffect(() => {
     if (isOpen) {
       async function getFirstPageAsync() {
@@ -163,8 +165,16 @@ export default function Sidebar() {
                 </Fragment>
               )
           )}
-        {chatPage !== totalPages && (
-          <button onClick={loadMore}>Load more</button>
+        {chatPage !== totalPages && !gettingNextPage && (
+          <button onClick={loadMore}>Load more...</button>
+        )}
+        {gettingNextPage && (
+          <span>
+            Loading
+            <span className="dot-1">.</span>
+            <span className="dot-2">.</span>
+            <span className="dot-3">.</span>
+          </span>
         )}
       </ul>
     </section>

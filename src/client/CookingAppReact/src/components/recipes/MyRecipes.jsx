@@ -7,12 +7,13 @@ import { getToken } from "@/msal/msal";
 import { jwtDecode } from "jwt-decode";
 import { useEffect } from "react";
 import useFirstPageRecipes from "@/hooks/useFirstPageRecipes";
-
+import "../../assets/css/animations.css";
 export default function MyRecipes() {
   const isOpen = useSelector((state) => state.ui.recipesOpen);
   const recipesState = useSelector((state) => state.ui.filteredRecipes);
   const dispatch = useDispatch();
-  const { getFirstPageRecipes, loadMoreRecipes } = useFirstPageRecipes();
+  const { getFirstPageRecipes, loadMoreRecipes, gettingMoreRecipes } =
+    useFirstPageRecipes();
   function handleRecipes() {
     dispatch(uiActions.toggleRecipes());
   }
@@ -84,8 +85,19 @@ export default function MyRecipes() {
       >
         {recipesState.recipes.length > 0 &&
           recipesState.recipes.map((recipe) => <RecipeCard recipe={recipe} />)}
-        {recipesState.page !== recipesState.totalPages && (
-          <button onClick={loadMore}>Load more...</button>
+        {recipesState.page !== recipesState.totalPages &&
+          !gettingMoreRecipes && (
+            <button onClick={loadMore}>Load more...</button>
+          )}
+        {console.log(gettingMoreRecipes)}
+
+        {gettingMoreRecipes && (
+          <span>
+            Loading
+            <span className="dot-1">.</span>
+            <span className="dot-2">.</span>
+            <span className="dot-3">.</span>
+          </span>
         )}
       </ul>
     </section>
