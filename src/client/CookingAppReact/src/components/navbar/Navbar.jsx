@@ -72,7 +72,7 @@ export default function Navbar() {
         >
           <h2 className="font-semibold text-xl flex flex-row justify-center content-center text-center h-full">
             <span className="text-center px-2 py-1">Meal Master  </span>
-            <span className={`${roleName() === "Free" ? "bg-gray-200" : "bg-orange-200"} text-gray-900 rounded-full px-4 py-1`}>{roleName()}</span>
+            <div className={`${roleName() === "Free" ? "bg-gray-200" : "bg-orange-200"}text-gray-900 rounded-full px-4 py-1`}>{roleName()}</div>
           </h2>
           {/* <h2 className="font-semibold text-xl flex flex-row justify-center items-center text-center content-center gap-2">
             <div className="flex justify-center items-center text-center border-2 border-orange-300 text-black p-3 font-semibold text-xl rounded-full w-fit h-10">
