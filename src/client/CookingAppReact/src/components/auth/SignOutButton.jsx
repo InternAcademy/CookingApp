@@ -1,11 +1,8 @@
 "use client";
 import { handleLogout } from "@/msal/msal";
 import { FaSignOutAlt } from "react-icons/fa";
-// import { useTheme } from "next-themes";
 
 const SignOutButton = () => {
-  // const { theme } = useTheme();
-  // const isDarkTheme = theme === 'dark';
 
   return (
     <button className="flex items-center" title="Sign Out" onClick={() => handleLogout("redirect")}>
@@ -15,14 +12,13 @@ const SignOutButton = () => {
       phone:w-4
       tablet:w-6
       web:w-6"
-        // color={isDarkTheme ? "white" : "black"} 
-        />
+      />
       <span
         className={`
-        smallPhone:text-base
-        phone:text-base
-        tablet:text-lg
-        web:text-lg`}>Sign Out</span>
+        sm:text-base
+        md:text-base
+        lg:text-lg
+        xl:text-lg`}>Sign Out</span>
     </button>
   );
 };
