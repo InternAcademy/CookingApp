@@ -31,7 +31,7 @@ export default function Subscribtion() {
           <div>
             <ul className="flex flex-col justify-center content-center items-start gap-5">
               <li className="text-4xl font-bold">
-                Explore our subscribtion plan:
+                Explore our subscription plan:
               </li>
               <li>
                 <div className="bg-orange-400 text-black text-center p-2 uppercase font-bold rounded-xl w-fit">

@@ -25,7 +25,7 @@ const router = createBrowserRouter([
       },
       { path: "r/:recipeId", element: <Recipe /> },
       { path: "admin/dashboard", element: <Admin /> },
-      { path: "subscribtion", element: <Subscribtion /> },
+      { path: "subscription", element: <Subscribtion /> },
       { path: "success", element: <Success /> },
       { path: "settings", element: <Settings /> },
     ],

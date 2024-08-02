@@ -66,7 +66,7 @@ export default function Sidebar() {
     navigate("/admin/dashboard");
   }
   function handleClickSubscribtion() {
-    navigate("/subscribtion");
+    navigate("/subscription");
   }
 
   function isAdmin() {
@@ -122,27 +122,26 @@ export default function Sidebar() {
           isOpen ? "visible" : "invisible "
         }  duration-100 h-full`}
       >
-        {gettingFirstPage ||
-          (chatHistory.length < 1 && (
-            <>
-              <li className="py-1 flex flex-col mb-10">
-                <Skeleton className="w-1/4 h-[20px] rounded-full bg-gray-300 mb-3" />
-                <div className="flex flex-col gap-7 w-full items-center">
-                  <Skeleton className="w-4/5 h-[25px] rounded-full bg-gray-300 " />
-                  <Skeleton className="w-4/5 h-[25px] rounded-full bg-gray-300 " />
-                  <Skeleton className="w-4/5 h-[25px] rounded-full bg-gray-300 " />
-                </div>
-              </li>
-              <li className="py-1 flex flex-col">
-                <Skeleton className="w-1/4 h-[20px] rounded-full bg-gray-300 mb-3" />
-                <div className="flex flex-col gap-7 w-full items-center">
-                  <Skeleton className="w-4/5 h-[25px] rounded-full bg-gray-300 " />
-                  <Skeleton className="w-4/5 h-[25px] rounded-full bg-gray-300 " />
-                  <Skeleton className="w-4/5 h-[25px] rounded-full bg-gray-300 " />
-                </div>
-              </li>
-            </>
-          ))}
+        {gettingFirstPage && (
+          <>
+            <li className="py-1 flex flex-col mb-10">
+              <Skeleton className="w-1/4 h-[20px] rounded-full bg-gray-300 mb-3" />
+              <div className="flex flex-col gap-7 w-full items-center">
+                <Skeleton className="w-4/5 h-[25px] rounded-full bg-gray-300 " />
+                <Skeleton className="w-4/5 h-[25px] rounded-full bg-gray-300 " />
+                <Skeleton className="w-4/5 h-[25px] rounded-full bg-gray-300 " />
+              </div>
+            </li>
+            <li className="py-1 flex flex-col">
+              <Skeleton className="w-1/4 h-[20px] rounded-full bg-gray-300 mb-3" />
+              <div className="flex flex-col gap-7 w-full items-center">
+                <Skeleton className="w-4/5 h-[25px] rounded-full bg-gray-300 " />
+                <Skeleton className="w-4/5 h-[25px] rounded-full bg-gray-300 " />
+                <Skeleton className="w-4/5 h-[25px] rounded-full bg-gray-300 " />
+              </div>
+            </li>
+          </>
+        )}
         {orderedSections &&
           orderedSections.map(
             (sectionTitle) =>
@@ -165,7 +164,8 @@ export default function Sidebar() {
                 </Fragment>
               )
           )}
-        {chatPage !== totalPages && !gettingNextPage && (
+        {chatHistory.length === 0 && <p>You don't have any chats</p>}
+        {chatPage < totalPages && !gettingNextPage && (
           <button onClick={loadMore}>Load more...</button>
         )}
         {gettingNextPage && (
