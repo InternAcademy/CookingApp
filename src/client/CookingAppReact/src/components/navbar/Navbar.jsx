@@ -1,14 +1,15 @@
+import React, { useState } from "react";
 import { Bars3BottomLeftIcon } from "@heroicons/react/24/outline";
 import { ChatBubbleOvalLeftEllipsisIcon } from "@heroicons/react/24/outline";
 import { UserIcon } from "@heroicons/react/24/outline";
 import { ClipboardDocumentCheckIcon } from "@heroicons/react/24/outline";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { uiActions } from "../../store/uiSlice";
 import { userActions } from "@/store/userSlice";
 import Unlimited from "../../assets/unlimited.png";
 import SignOutButton from "../auth/SignOutButton";
+import UserMenu from "../userMenu/UserMenu";
 
 export default function Navbar() {
   const dispatch = useDispatch();
@@ -82,8 +83,14 @@ export default function Navbar() {
             className="size-10 rounded-xl hover:bg-gray-100 hover:cursor-pointer p-2"
             onClick={handleRecipes}
           />
-          <UserIcon className="size-10 rounded-xl hover:bg-gray-100 hover:cursor-pointer p-2" />
-          <SignOutButton/>
+          <div className="relative">
+            <UserIcon
+                className="size-10 rounded-xl hover:bg-gray-100 hover:cursor-pointer p-2"
+                onClick={toggleDropDown}
+            />
+            {/* <UserMenu isOpen={dropDownOpen} toggleDropDown={toggleDropDown} /> */}
+            <UserMenu isOpen={dropDownOpen} toggleDropDown={toggleDropDown}/>
+          </div>
         </li>
       </ul>
     </nav>
