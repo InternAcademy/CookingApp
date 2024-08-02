@@ -16,6 +16,8 @@ export default function Navbar() {
   const navigate = useNavigate();
   const sidebarOpen = useSelector((state) => state.ui.sidebarOpen);
   const recipesOpen = useSelector((state) => state.ui.recipesOpen);
+  const [dropDownOpen, setDropDownOpen] = useState(false);
+
   function handleSidebar() {
     dispatch(uiActions.openSidebar());
   }
@@ -26,6 +28,10 @@ export default function Navbar() {
     dispatch(userActions.emptyChat());
     navigate("/");
   }
+  const toggleDropDown = () => {
+    setDropDownOpen(!dropDownOpen);
+  };
+
 
   function roleName() {
     let role = useSelector((state) => state.user.role.type);
@@ -88,7 +94,6 @@ export default function Navbar() {
                 className="size-10 rounded-xl hover:bg-gray-100 hover:cursor-pointer p-2"
                 onClick={toggleDropDown}
             />
-            {/* <UserMenu isOpen={dropDownOpen} toggleDropDown={toggleDropDown} /> */}
             <UserMenu isOpen={dropDownOpen} toggleDropDown={toggleDropDown}/>
           </div>
         </li>
