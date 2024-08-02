@@ -3,8 +3,10 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import MyRecipes from "../../components/recipes/MyRecipes";
 import Navbar from "../../components/navbar/Navbar";
 import toast, { Toaster } from 'react-hot-toast';
+import useFetchUserStatus from "../../hooks/useFetchUserStatus";
 
 export default function Layout() {
+  useFetchUserStatus();
   return (
     <main className="flex w-full first-line:overflow-hidden bg-gray-100">
       <Sidebar />
