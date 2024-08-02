@@ -5,18 +5,17 @@ namespace CookingApp.Controllers
     using CookingApp.ViewModels.Api;
     using CookingApp.ViewModels.Stripe.Subscription;
     using Microsoft.AspNetCore.Mvc;
-    using Product = ViewModels.Stripe.Product;
 
     [Route("api/stripe")]
     [ApiController]
     public class StripeController(IStripeService stripeService) : ControllerBase
     {
         [HttpGet("products")]
-        public async Task<ApiResponse<List<Product>>> GetProductsAsync()
+        public async Task<ApiResponse<List<string>>> GetProductsAsync()
         {
             var products = await stripeService.GetProductsAsync();
 
-            return new ApiResponse<List<Product>>()
+            return new ApiResponse<List<string>>()
             {
                 Status = 200,
                 Data = products.ToList()
