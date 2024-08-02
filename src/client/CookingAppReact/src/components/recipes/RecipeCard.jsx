@@ -22,7 +22,11 @@ export default function RecipeCard({ recipe }) {
         src={recipe.imageUrl}
         alt="Image Description"
       ></img>
-      <h2 className="font-medium px-4 py-2 text-xl">{recipe.title}</h2>
+      <div class="min-w-[250px] max-w-[360px]">
+        <h2 class="font-medium px-4 py-2 text-xl overflow-hidden whitespace-nowrap text-ellipsis">
+            {recipe.title}
+        </h2>
+      </div>
       <div className="w-full px-8 mb-3 text-gray-500 transition-all invisible group-hover:visible overflow-hidden">
         <p className="w-full ">{recipe.description}</p>
       </div>
