@@ -22,6 +22,8 @@ export default function Sidebar() {
   const isOpen = useSelector((state) => state.ui.sidebarOpen);
   const chatPage = useSelector((state) => state.user.chatHistory.page);
   const chatHistory = useSelector((state) => state.user.chatHistory.chats);
+  const totalPages = useSelector((state) => state.user.chatHistory.totalPages);
+
   const selectChat = useSelectChat();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -74,7 +76,11 @@ export default function Sidebar() {
       return false;
     }
   }
-
+  async function loadMore() {
+    const token = await getToken();
+    const decoded = jwtDecode(token);
+    getNextPage({ token: token, userId: decoded.sub, pageIndex: chatPage + 1 });
+  }
   return (
     <section
       className={`bg-gray-100 flex flex-col flex-shrink-0   ${
@@ -157,6 +163,9 @@ export default function Sidebar() {
                 </Fragment>
               )
           )}
+        {chatPage !== totalPages && (
+          <button onClick={loadMore}>Load more</button>
+        )}
       </ul>
     </section>
   );
