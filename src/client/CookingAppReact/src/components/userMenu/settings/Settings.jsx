@@ -1,28 +1,13 @@
-// pages/Settings.jsx
-"use client";
-
 import "tailwindcss/tailwind.css";
 import React, { useEffect, useState } from "react";
-// import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-// import { uiActions } from "@/store/ui-slice";
 import { FaUserCircle, FaLeaf, FaArchive, FaLanguage, FaFileAlt, FaInfoCircle, FaEnvelope, FaBars, FaTimes } from "react-icons/fa";
 
 const Settings = () => {
-    // const router = useRouter();
-    const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
     const dispatch = useDispatch();
     const photoUri = useSelector(state => state.ui.photoUri);
     const [selectedMenu, setSelectedMenu] = useState('food-preferences');
     const [ContentComponent, setContentComponent] = useState(null);
-    // const [hamMenuOpen, setHamMenuOpen] = useState(false);
-
-    // useEffect(() => {
-    //     const savedPhotoUri = localStorage.getItem("photoUri");
-    //     if (savedPhotoUri) {
-    //         dispatch(uiActions.setPhotoUri(savedPhotoUri));
-    //     }
-    // }, [dispatch]);
 
     useEffect(() => {
         const loadContent = async () => {
@@ -69,8 +54,7 @@ const Settings = () => {
 
     return (
         <div className={`h-auto w-full 
-            ${isDarkTheme ? "bg-[#202020]" : "bg-white"} 
-            border border-gray-300 rounded-md shadow-lg z-20 flex`}>
+            border-gray-300 flex px-10`}>
             {/* <div className="md:flex hidden flex-col p-4 w-1/4"> */}
                 <div className="flex flex-col p-4 w-1/4">
                 <div className="flex w-full mb-8 relative">
@@ -84,7 +68,6 @@ const Settings = () => {
                     ) : (
                         <FaUserCircle
                             className="w-24 h-24 cursor-pointer"
-                            color={isDarkTheme ? "white" : "black"}
                             onClick={() => document.getElementById("fileInput").click()}
                         />
                     )}
@@ -101,28 +84,16 @@ const Settings = () => {
                         <div
                             key={item.id}
                             className={`flex items-center w-full cursor-pointer p-2 rounded 
-                                ${selectedMenu === item.id
-                                    ? isDarkTheme
-                                        ? "bg-[#424242]"
-                                        : " bg-[#b2b2b2]"
-                                    : ""}`}
+                                `}
                             onClick={() => setSelectedMenu(item.id)}
                             title={item.label}
                         >
                             <item.icon
                                 className="w-6 h-6 mr-4"
-                                color={selectedMenu === item.id
-                                    ? "white"
-                                    : isDarkTheme
-                                        ? "white"
-                                        : "black"}
+                                
                             />
                             <span
-                                className={`text-lg ${selectedMenu === item.id
-                                    ? "text-white"
-                                    : isDarkTheme
-                                        ? "text-white"
-                                        : "text-black"}`}>{item.label}
+                                className={`text-lg `}>{item.label}
                             </span>
                         </div>
                     ))}

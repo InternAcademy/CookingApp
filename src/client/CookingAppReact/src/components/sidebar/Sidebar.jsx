@@ -64,6 +64,16 @@ export default function Sidebar() {
     navigate("/subscribtion");
   }
 
+  function isAdmin() {
+    let role = useSelector(state => state.user.role.type);
+    console.log(role);
+    if(role === "Admin"){
+      return true;
+    }else { 
+      return false;
+    }
+  }
+
   return (
     <section
       className={`bg-gray-100 flex flex-col flex-shrink-0   ${
@@ -88,7 +98,7 @@ export default function Sidebar() {
           Get Premium
         </h5>
       </button>
-      <button onClick={handleClickDashboard}>
+      <button className={`${isAdmin() ? "hi :)" : "hidden"}`} onClick={handleClickDashboard}>
         <h5 className="hover:bg-gray-300 mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-white/20 shadow-sm ring-1 ring-black/5">
           <ChartPieIcon className="size-5 mr-5" />
           Dashboard
