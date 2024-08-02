@@ -6,6 +6,7 @@ const initialState = {
   isInitial: true,
   input: "",
   isThinking: false,
+  isToastTriggered: false,
   responseError: null,
   isDarkTheme: false,
   photoUri: null,
@@ -26,6 +27,9 @@ const uiSlice = createSlice({
     },
     setInput(state, action) {
       state.input = action.payload;
+    },
+    setToastTriggered(state) {
+      state.isToastTriggered = true;
     },
     closeSidebar(state) {
       state.sidebarOpen = false;

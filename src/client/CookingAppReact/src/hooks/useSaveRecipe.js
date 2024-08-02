@@ -21,6 +21,7 @@ const useSaveRecipe = () => {
     mutationFn: createRecipe,
     onMutate: () => {},
     onSuccess: (response) => {
+      dispatch(uiActions.setToastTriggered());
     },
     onError: (error) => {
       dispatch(uiActions.setResponseError(error.message));
