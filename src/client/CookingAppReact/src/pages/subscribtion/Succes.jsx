@@ -1,3 +1,8 @@
+import useFetchUserStatus from "@/hooks/useFetchUserStatus";
+import { useNavigate } from "react-router-dom";
 export default function Success() {
-  return <p>Success</p>;
+  const navigate = useNavigate();
+  useFetchUserStatus();
+  navigate("/");
+  return;
 }
