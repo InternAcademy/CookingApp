@@ -33,6 +33,7 @@ export default function Sidebar() {
         const decoded = jwtDecode(token);
         getFirstPage({ token: token, userId: decoded.sub, pageIndex: 1 });
       }
+      console.log(chatHistory);
       getFirstPageAsync();
     }
   }, [isOpen]);
@@ -65,11 +66,11 @@ export default function Sidebar() {
   }
 
   function isAdmin() {
-    let role = useSelector(state => state.user.role.type);
+    let role = useSelector((state) => state.user.role.type);
     console.log(role);
-    if(role === "Admin"){
+    if (role === "Admin") {
       return true;
-    }else { 
+    } else {
       return false;
     }
   }
@@ -98,7 +99,10 @@ export default function Sidebar() {
           Get Premium
         </h5>
       </button>
-      <button className={`${isAdmin() ? "hi :)" : "hidden"}`} onClick={handleClickDashboard}>
+      <button
+        className={`${isAdmin() ? "hi :)" : "hidden"}`}
+        onClick={handleClickDashboard}
+      >
         <h5 className="hover:bg-gray-300 mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-white/20 shadow-sm ring-1 ring-black/5">
           <ChartPieIcon className="size-5 mr-5" />
           Dashboard
