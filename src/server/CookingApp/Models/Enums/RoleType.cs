@@ -7,7 +7,7 @@ namespace CookingApp.Models.Enums
     {
         Free,
         Premium,
-        Other
+        Admin
 
     }
 }
