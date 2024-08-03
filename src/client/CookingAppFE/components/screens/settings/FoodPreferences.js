@@ -4,24 +4,41 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  FlatList,
   Alert,
 } from "react-native";
 import tw from "twrnc";
-import { Picker } from "@react-native-picker/picker";
 import { useDispatch, useSelector } from "react-redux";
-import Autocomplete from "react-native-autocomplete-input";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useFoodPreferences from "../../../hooks/useFoodPreferences";
 import { jwtDecode } from "jwt-decode";
 import { checkUserStatus } from "../../../http/user";
 import { userActions } from "../../../redux/userSlice";
+import * as Animatable from "react-native-animatable";
+
+// Replace with your API calls
+const api = {
+  addAllergen: async (token, allergen) => {
+    // Implement API call to add allergen
+  },
+  removeAllergen: async (token, allergen) => {
+    // Implement API call to remove allergen
+  },
+  addAvoidedFood: async (token, avoidedFood) => {
+    // Implement API call to add avoided food
+  },
+  removeAvoidedFood: async (token, avoidedFood) => {
+    // Implement API call to remove avoided food
+  },
+  savePreferences: async (token, userId, preferences) => {
+    // Implement API call to save preferences
+  },
+};
+
 const FoodPreferences = () => {
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
   const dispatch = useDispatch();
-  const dietaryPreferences = useSelector(
-    (state) => state.user.dietaryPreferences
-  );
+  const dietaryPreferences = useSelector((state) => state.user.dietaryPreferences);
+
   useEffect(() => {
     const checkToken = async () => {
       const token = await AsyncStorage.getItem("token");
@@ -38,124 +55,108 @@ const FoodPreferences = () => {
       }
     };
     checkToken();
-  }, []);
+  }, [dispatch]);
+
   const possibleAllergens = [
-    "Peanuts",
-    "Soy",
-    "Egg",
-    "Milk",
-    "Fish",
-    "Wheat",
-    "Shellfish",
-    "Tree nuts",
-    "Sesame",
-    "Mustard",
-    "Celery",
-    "Molluscs",
-    "Sulphites",
-    "Nuts",
-    "Ketchup",
-    "Onion",
-    "Garlic",
+    "Peanuts", "Soy", "Egg", "Milk", "Fish", "Wheat", "Shellfish", "Tree nuts", "Sesame", "Mustard", "Celery", "Molluscs", "Sulphites", "Nuts", "Ketchup", "Onion", "Garlic",
   ];
+
+  const dietaryOptions = [
+    "Vegetarian", "Vegan", "Gluten-Free", "Paleo", "Ketogenic", "No diet"
+  ];
+
+  const [dietType, setDietType] = useState([]);
   const [alergens, setAlergens] = useState([]);
-  const [foodPreferences, setFoodPreferences] = useState([]);
+  const [avoidedFoods, setAvoidedFoods] = useState([]);
   const [alergenInput, setAlergenInput] = useState("");
-  const [foodPreferenceInput, setFoodPreferenceInput] = useState("");
-  const [error, setError] = useState("");
-  const [foodError, setFoodError] = useState("");
-  const [selectedPreference, setSelectedPreference] = useState("none");
+  const [avoidedFoodInput, setAvoidedFoodInput] = useState("");
+  const [allergenError, setAllergenError] = useState("");
+  const [avoidedFoodError, setAvoidedFoodError] = useState("");
+  const [selectedPreferences, setSelectedPreferences] = useState([]);
   const [filteredAllergens, setFilteredAllergens] = useState([]);
   const { save, isSaving } = useFoodPreferences();
+
   useEffect(() => {
     setAlergens(dietaryPreferences.allergies);
-    setFoodPreferences(dietaryPreferences.avoidedFoods);
-    setSelectedPreference(dietaryPreferences.dietaryPreference);
+    setAvoidedFoods(dietaryPreferences.avoidedFoods);
+    setSelectedPreferences(dietaryPreferences.dietaryPreference || []);
   }, [dietaryPreferences]);
-  const handleAddAlergen = () => {
-    const normalizedInput = alergenInput.trim().toLowerCase();
-    const normalizedAllergens = possibleAllergens.map((alergen) =>
-      alergen.toLowerCase()
-    );
 
-    if (alergenInput.trim() !== "") {
-      if (!normalizedAllergens.includes(normalizedInput)) {
-        setError("Allergen not found.");
-      } else if (alergens.length >= 12) {
-        setError("You can add a maximum of 12 allergens.");
-      } else if (
-        alergens
-          .map((alergen) => alergen.toLowerCase())
-          .includes(normalizedInput)
-      ) {
-        setError("Allergen already added.");
-      } else {
-        setAlergens((prevAlergens) => [...prevAlergens, alergenInput.trim()]);
-        setAlergenInput("");
-        setFilteredAllergens([]);
-        setError("");
-      }
-    }
-  };
-
-  const handleAddFoodPreference = () => {
-    if (foodPreferenceInput.trim() !== "") {
-      if (foodPreferences.includes(foodPreferenceInput.trim())) {
-        setFoodError("Food preference already added.");
-      } else {
-        setFoodPreferences((prevFoodPreferences) => [
-          ...prevFoodPreferences,
-          foodPreferenceInput.trim(),
-        ]);
-        setFoodPreferenceInput("");
-        setFoodError("");
-      }
-    }
-  };
-
-  const handleRemoveAlergen = (indexToRemove) => {
-    setAlergens((prevAlergens) =>
-      prevAlergens.filter((_, index) => index !== indexToRemove)
-    );
-    setError("");
-  };
-
-  const handleRemoveFoodPreference = (indexToRemove) => {
-    setFoodPreferences((prevFoodPreferences) =>
-      prevFoodPreferences.filter((_, index) => index !== indexToRemove)
-    );
-    setFoodError("");
-  };
-
-  const handleAlergenInputChange = (text) => {
-    setAlergenInput(text);
-    if (text) {
-      const filtered = possibleAllergens.filter((item) =>
-        item.toLowerCase().startsWith(text.toLowerCase())
+  useEffect(() => {
+    if (alergenInput.trim() === "") {
+      setFilteredAllergens([]);
+    } else {
+      const normalizedAlergens = alergens.map((alergen) => alergen.toLowerCase());
+      const filtered = possibleAllergens.filter((alergen) =>
+        alergen.toLowerCase().includes(alergenInput.trim().toLowerCase()) &&
+        !normalizedAlergens.includes(alergen.toLowerCase())
       );
       setFilteredAllergens(filtered);
-    } else {
-      setFilteredAllergens([]);
+    }
+  }, [alergenInput, alergens]);
+
+  const handleAddAlergen = async (allergen) => {
+    const normalizedInput = allergen.trim().toLowerCase();
+    const normalizedAllergens = possibleAllergens.map((alergen) => alergen.toLowerCase());
+
+    if (allergen.trim() !== "") {
+      if (!normalizedAllergens.includes(normalizedInput)) {
+        setAllergenError("Allergen not found.");
+      } else if (alergens.length >= 12) {
+        setAllergenError("You can add a maximum of 12 allergens.");
+      } else if (alergens.map((alergen) => alergen.toLowerCase()).includes(normalizedInput)) {
+        setAllergenError("Allergen already added.");
+      } else {
+        const token = await AsyncStorage.getItem("token");
+        await api.addAllergen(token, allergen.trim());
+        setAlergens((prevAlergens) => [...prevAlergens, allergen.trim()]);
+        setAlergenInput("");
+        setFilteredAllergens((prev) => prev.filter((item) => item.toLowerCase() !== normalizedInput));
+        setAllergenError("");
+      }
     }
   };
 
-  const handleSuggestionClick = (item) => {
-    setAlergenInput(item);
-    setFilteredAllergens([]);
+  const handleRemoveAlergen = async (indexToRemove) => {
+    const allergen = alergens[indexToRemove];
+    const token = await AsyncStorage.getItem("token");
+    await api.removeAllergen(token, allergen);
+    setAlergens((prevAlergens) => prevAlergens.filter((_, index) => index !== indexToRemove));
+    setAllergenError("");
+  };
+
+  const handleAddAvoidedFood = async () => {
+    if (avoidedFoodInput.trim() !== "") {
+      if (avoidedFoods.length >= 3) {
+        setAvoidedFoodError("You can add a maximum of 3 avoided foods.");
+      } else if (avoidedFoods.includes(avoidedFoodInput.trim())) {
+        setAvoidedFoodError("Avoided food already added.");
+      } else {
+        const token = await AsyncStorage.getItem("token");
+        await api.addAvoidedFood(token, avoidedFoodInput.trim());
+        setAvoidedFoods((prevFoods) => [...prevFoods, avoidedFoodInput.trim()]);
+        setAvoidedFoodInput("");
+        setAvoidedFoodError("");
+      }
+    }
+  };
+
+  const handleRemoveAvoidedFood = async (indexToRemove) => {
+    const avoidedFood = avoidedFoods[indexToRemove];
+    const token = await AsyncStorage.getItem("token");
+    await api.removeAvoidedFood(token, avoidedFood);
+    setAvoidedFoods((prevFoods) => prevFoods.filter((_, index) => index !== indexToRemove));
+    setAvoidedFoodError("");
   };
 
   const handleSavePreferences = async () => {
-    const preferences = { alergens, foodPreferences, selectedPreference };
+    const preferences = { alergens, avoidedFoods, dietaryPreference: selectedPreferences };
     const token = await AsyncStorage.getItem("token");
     const decode = jwtDecode(token);
-    save({
-      token,
-      userId: decode.sub,
-      allergies: alergens,
-      avoidedfoods: foodPreferences,
-      dietaryPreference: selectedPreference,
-    });
+    await api.savePreferences(token, decode.sub, preferences);
+    save(preferences);
   };
+
   useEffect(() => {
     if (isSaving) {
       Alert.alert(
@@ -165,225 +166,148 @@ const FoodPreferences = () => {
       );
     }
   }, [isSaving]);
+
   return (
-    <FlatList
-      style={tw`${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}
-      data={[
-        { key: "header" },
-        { key: "allergens" },
-        { key: "divider" },
-        { key: "foodPreferences" },
-        { key: "saveButton" },
-      ]}
-      renderItem={({ item }) => {
-        switch (item.key) {
-          case "header":
-            return (
-              <View
-                style={tw`flex-1 items-center p-6 ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}
-              >
-                <Text
-                  style={tw`text-lg font-semibold mb-4 text-center ${isDarkTheme ? "text-white" : "text-black"}`}
-                >
-                  Food Preferences
-                </Text>
-              </View>
-            );
-          case "allergens":
-            return (
-              <View
-                style={tw`w-full mb-6 pb-6 ${isDarkTheme ? "bg-[#202020]" : "bg-zinc-200/50"} rounded-xl py-4 px-4`}
-              >
-                <Text
-                  style={tw`text-lg font-semibold mb-4 text-center ${isDarkTheme ? "text-white" : "text-black"}`}
-                >
-                  Allergens
-                </Text>
-                {alergens.length > 0 ? (
-                  <View style={tw`flex flex-row flex-wrap mb-4`}>
-                    {alergens.map((alergen, index) => (
-                      <TouchableOpacity
-                        key={index}
-                        onPress={() => handleRemoveAlergen(index)}
-                      >
-                        <Text
-                          style={tw`border rounded-full px-3 py-1 mx-1 mb-2 ${isDarkTheme ? "border-amber-200 text-white" : "border-gray-300 bg-white shadow-md text-black"}`}
-                        >
-                          {alergen}
-                        </Text>
-                      </TouchableOpacity>
-                    ))}
-                  </View>
-                ) : (
-                  <Text
-                    style={tw`${isDarkTheme ? "text-gray-400" : "text-gray-500"} text-center mb-4`}
-                  >
-                    No Allergens added
-                  </Text>
-                )}
-                <Autocomplete
-                  data={filteredAllergens}
-                  defaultValue={alergenInput}
-                  onChangeText={handleAlergenInputChange}
-                  flatListProps={{
-                    keyExtractor: (_, idx) => idx.toString(),
-                    renderItem: ({ item }) => (
-                      <TouchableOpacity
-                        onPress={() => handleSuggestionClick(item)}
-                      >
-                        <Text
-                          style={tw`${isDarkTheme ? "text-white" : "text-black"} p-2`}
-                        >
-                          {item}
-                        </Text>
-                      </TouchableOpacity>
-                    ),
-                  }}
-                  inputContainerStyle={tw`border ${isDarkTheme ? "border-gray-600 bg-[#202020]" : "border-gray-300 bg-white"} rounded-lg px-4 py-2 mb-2`}
-                  listContainerStyle={tw`border ${isDarkTheme ? "border-gray-600 bg-[#202020]" : "border-gray-300 bg-white"} rounded-lg`}
-                  placeholder="Add your allergens"
-                  placeholderTextColor={isDarkTheme ? "#A9A9A9" : "#A9A9A9"}
-                  style={{ color: isDarkTheme ? "white" : "black" }}
-                />
-                {error && (
-                  <Text style={tw`text-red-500 mb-2 text-center`}>{error}</Text>
-                )}
-                <TouchableOpacity
-                  style={tw`w-full flex items-center justify-center`}
-                  onPress={handleAddAlergen}
-                >
-                  <View
-                    style={tw`w-[200px] py-2 bg-yellow-400 rounded-full flex items-center justify-center`}
-                  >
-                    <Text
-                      style={tw`text-black text-center text-base font-medium`}
-                    >
-                      Add Allergen
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
-            );
-          case "divider":
-            return (
-              <View
-                style={tw`w-full border-b-2 ${isDarkTheme ? "border-amber-200/40" : "border-amber-200/40"} mb-6 items-center justify-center`}
-              />
-            );
-          case "foodPreferences":
-            return (
-              <View
-                style={tw`w-full mb-6 pb-6 ${isDarkTheme ? "bg-[#202020]" : "bg-zinc-200/50"} rounded-xl py-4 px-4`}
-              >
-                <Text
-                  style={tw`text-lg font-semibold mb-4 text-center ${isDarkTheme ? "text-white" : "text-black"}`}
-                >
-                  Disliked Foods
-                </Text>
-                {foodPreferences.length > 0 ? (
-                  <View style={tw`flex flex-row flex-wrap mb-4`}>
-                    {foodPreferences.map((preference, index) => (
-                      <TouchableOpacity
-                        key={index}
-                        onPress={() => handleRemoveFoodPreference(index)}
-                      >
-                        <Text
-                          style={tw`border rounded-full px-3 py-1 mx-1 mb-2 ${isDarkTheme ? "border-gray-600 text-white" : "border-gray-300 bg-white shadow-md text-black"}`}
-                        >
-                          {preference}
-                        </Text>
-                      </TouchableOpacity>
-                    ))}
-                  </View>
-                ) : (
-                  <Text
-                    style={tw`${isDarkTheme ? "text-gray-400" : "text-gray-500"} text-center mb-4`}
-                  >
-                    There are no disliked foods added
-                  </Text>
-                )}
-                <TextInput
-                  style={tw`border ${isDarkTheme ? "border-gray-600 bg-[#202020] text-white" : "border-gray-300 bg-white text-black"} rounded-lg px-4 py-2 mb-2`}
-                  placeholder="Add your disliked foods"
-                  placeholderTextColor={isDarkTheme ? "#A9A9A9" : "#A9A9A9"}
-                  value={foodPreferenceInput}
-                  onChangeText={setFoodPreferenceInput}
-                />
-                {foodError && (
-                  <Text style={tw`text-red-500 mb-2 text-center`}>
-                    {foodError}
-                  </Text>
-                )}
-                <TouchableOpacity
-                  style={tw`w-full flex items-center justify-center`}
-                  onPress={handleAddFoodPreference}
-                >
-                  <View
-                    style={tw`w-[200px] py-2 bg-yellow-400 rounded-full flex items-center justify-center`}
-                  >
-                    <Text
-                      style={tw`text-black text-center text-base font-medium`}
-                    >
-                      Add Food
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-                <View style={tw`mt-4 `}>
-                  <Picker
-                    selectedValue={selectedPreference}
-                    onValueChange={(itemValue, itemIndex) =>
-                      setSelectedPreference(itemValue)
-                    }
-                    style={tw`border ${isDarkTheme ? "border-gray-600 bg-[#202020] text-white" : "border-gray-300 bg-white text-black"} rounded-lg`}
-                    dropdownIconColor={isDarkTheme ? "white" : "black"}
-                  >
-                    <Picker.Item
-                      label={`Currently: ${selectedPreference}`}
-                      value={selectedPreference}
-                      color={isDarkTheme ? "#A9A9A9" : "black"}
-                    />
-                    <Picker.Item
-                      label="None"
-                      value="none"
-                      color={isDarkTheme ? "#A9A9A9" : "black"}
-                    />
-                    <Picker.Item
-                      label="Vegetarian"
-                      value="vegetarian"
-                      color={isDarkTheme ? "#A9A9A9" : "black"}
-                    />
-                    <Picker.Item
-                      label="Vegan"
-                      value="vegan"
-                      color={isDarkTheme ? "#A9A9A9" : "black"}
-                    />
-                  </Picker>
-                </View>
-              </View>
-            );
-          case "saveButton":
-            return (
-              <View
-                style={tw`w-full flex items-center mt-4 mb-8 ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}
+    <View style={tw`flex-1 mx-8`}>
+      {/* Header */}
+      <View style={tw`flex items-center my-4`}>
+        <Text style={tw`text-xl font-medium ${isDarkTheme ? "text-gray-200" : "text-gray-700"} `}>Personal preferences</Text>
+      </View>
+      
+      {/* Allergens */}
+      <View style={tw`flex justify-center bg-gray-300 rounded-xl py-2 px-2`}>
+        <Text style={tw`text-xl font-medium pb-2 text-center ${isDarkTheme ? "text-black" : "text-gray-800"} shadow-amber-200 z-10`}>Allergens</Text>
+        {alergens.length === 0 ? (
+          <Text style={tw`text-sm font-medium text-gray-400 pb-4 text-center`}>
+            No Allergens added
+          </Text>
+        ) : (
+          <View style={tw`flex-row flex-wrap `}>
+            {alergens.map((item, index) => (
+              <Animatable.View
+                animation="bounceIn"
+                duration={500}
+                key={index}
+                style={tw`m-1`}
               >
                 <TouchableOpacity
-                  style={tw`w-[200px] py-2 bg-green-500 rounded-full flex items-center justify-center`}
-                  onPress={handleSavePreferences}
+                  style={tw`px-4 py-1 bg-amber-400 rounded-full`}
+                  onPress={() => handleRemoveAlergen(index)}
                 >
-                  <Text
-                    style={tw`text-white text-center text-base font-medium`}
-                  >
-                    Save Food
-                  </Text>
+                  <Text>{item}</Text>
                 </TouchableOpacity>
-              </View>
-            );
-          default:
-            return null;
-        }
-      }}
-      keyExtractor={(item) => item.key}
-    />
+              </Animatable.View>
+            ))}
+          </View>
+        )}
+        <TextInput
+          style={tw`border text-black bg-white/80 px-4 py-2 rounded-full mt-4 mb-2 w-10/12 self-center`}
+          placeholder="Enter allergen"
+          value={alergenInput}
+          onChangeText={setAlergenInput}
+        />
+        {allergenError ? <Animatable.Text animation="bounceIn" duration={500} style={tw`text-red-500 mb-1 text-center`}>{allergenError}</Animatable.Text> : null}
+        {filteredAllergens.length > 0 && (
+          <View style={tw`flex-row flex-wrap w-11/12 self-start`}>
+            {filteredAllergens.map((item, index) => (
+              <TouchableOpacity
+                key={index}
+                onPress={() => handleAddAlergen(item)}
+                style={tw`py-1 px-2 bg-white/70 rounded-xl mb-2 m-1`}
+              >
+                <Text>{item}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        )}
+        <TouchableOpacity
+          onPress={() => handleAddAlergen(alergenInput)}
+          style={tw`bg-gray-400 p-2 rounded-lg mt-2 w-1/2 self-center mb-2`}
+        >
+          <Text style={tw`text-white text-center font-medium`}>Add Allergen</Text>
+        </TouchableOpacity>
+      </View>
+      
+      {/* Separator */}
+      <View style={tw`my-4 border-1 border-b ${isDarkTheme ? "border-amber-400/70" : "border-amber-400/70"} `}></View>
+      
+      {/* Avoided Foods */}
+      <View style={tw`flex justify-center bg-gray-300 rounded-xl py-2 px-2`}>
+        <Text style={tw`text-xl font-medium pb-2 text-center ${isDarkTheme ? "text-black" : "text-gray-800"} shadow-amber-200 z-10`}>Avoided Foods</Text>
+        {avoidedFoods.length === 0 ? (
+          <Text style={tw`text-sm font-medium text-gray-400 pb-4 text-center`}>
+            No Avoided Foods added
+          </Text>
+        ) : (
+          <View style={tw`flex-row flex-wrap`}>
+            {avoidedFoods.map((item, index) => (
+              <Animatable.View
+                animation="bounceIn"
+                duration={500}
+                key={index}
+                style={tw`m-1`}
+              >
+                <TouchableOpacity
+                  style={tw`px-4 py-1 bg-amber-400 rounded-full`}
+                  onPress={() => handleRemoveAvoidedFood(index)}
+                >
+                  <Text>{item}</Text>
+                </TouchableOpacity>
+              </Animatable.View>
+            ))}
+          </View>
+        )}
+        <TextInput
+          style={tw`border text-black bg-white/80 px-4 py-2 rounded-full mt-4 mb-2 w-10/12 self-center`}
+          placeholder="Enter avoided food"
+          value={avoidedFoodInput}
+          onChangeText={setAvoidedFoodInput}
+        />
+        {avoidedFoodError ? <Animatable.Text animation="bounceIn" duration={500} style={tw`text-red-500 mb-1 text-center`}>{avoidedFoodError}</Animatable.Text> : null}
+        <TouchableOpacity
+          onPress={() => handleAddAvoidedFood()}
+          style={tw`bg-gray-400 p-2 rounded-lg mt-2 w-1/2 self-center mb-2`}
+        >
+          <Text style={tw`text-white text-center font-medium`}>Add Avoided Food</Text>
+        </TouchableOpacity>
+      </View>
+      
+      {/* Separator */}
+      <View style={tw`my-4 border-1 border-b ${isDarkTheme ? "border-amber-400/70" : "border-amber-400/70"} `}></View>
+
+      {/* Dietary Type */}
+      <View style={tw`flex w-full justify-center bg-gray-300 rounded-xl py-2 px-2`}>
+        <Text style={tw`text-xl font-medium text-center ${isDarkTheme ? "text-black" : "text-gray-800"} z-10`}>
+          Dietary Type
+        </Text>
+        <Text style={tw`text-sm font-medium text-gray-400 text-center`}>
+          {selectedPreferences.length === 0 ? "No Diet Selected" : ""}
+        </Text>
+        <View style={tw`flex-row flex-wrap w-full`}>
+          {dietaryOptions.map((option, index) => (
+            <TouchableOpacity
+              key={index}
+              onPress={() => {
+                setDietType(prevDietType =>
+                  prevDietType.includes(option)
+                    ? prevDietType.filter(item => item !== option)
+                    : [...prevDietType, option]
+                );
+              }}
+              style={tw`py-2 px-4 rounded-full m-1 ${dietType.includes(option) ? 'bg-amber-200' : 'bg-zinc-100'}`}
+            >
+              <Text style={tw`${dietType.includes(option) ? 'text-gray-800' : 'text-gray-500'}`}>{option}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+        <TouchableOpacity
+          onPress={() => handleSavePreferences()}
+          style={tw`bg-gray-400 p-2 rounded-lg mt-4 w-1/2 self-center mb-2`}
+        >
+          <Text style={tw`text-white text-center font-medium`}>Save Diet</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 };
 
