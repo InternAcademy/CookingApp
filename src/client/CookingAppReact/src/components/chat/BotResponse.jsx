@@ -3,17 +3,16 @@ import logo from "/public/logo-master.png";
 import useSaveRecipe from "@/hooks/useSaveRecipe";
 import { getToken } from "@/msal/msal";
 import "../../assets/css/animations.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { uiActions } from "@/store/uiSlice";
 export default function BotResponse({ message }) {
   const role = useSelector((state) => state.user.role.type);
   const navigate = useNavigate();
-  const { save, isError, isPending, error } = useSaveRecipe();
+  const { save, isError, isPending, error, isSuccess } = useSaveRecipe();
 
   async function handleClick() {
-    // if (userRole.type === "Free") {
-    //   navigation.navigate("Subscription");
-    // }
     const token = await getToken();
     save({ token, request: message.content });
   }

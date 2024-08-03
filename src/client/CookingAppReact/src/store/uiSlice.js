@@ -9,6 +9,7 @@ const initialState = {
   responseError: null,
   isDarkTheme: false,
   photoUri: null,
+  toastMealId: null,
   lang: "English",
   filteredRecipes: {
     page: 0,
@@ -29,6 +30,12 @@ const uiSlice = createSlice({
     },
     closeSidebar(state) {
       state.sidebarOpen = false;
+    },
+    showToast(state, action) {
+      state.toastMealId = action.payload;
+    },
+    hideToast(state) {
+      state.toastMealId = null;
     },
     toggleRecipes(state) {
       state.recipesOpen = !state.recipesOpen;
