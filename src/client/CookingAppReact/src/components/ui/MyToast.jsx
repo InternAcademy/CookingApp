@@ -9,7 +9,7 @@ export default function MyToast() {
   const toastMealId = useSelector((state) => state.ui.toastMealId);
 
   useEffect(() => {
-    if (true) {
+    if (toastMealId) {
       toast((t) => (
         <span>
           <Link to={`/r/${toastMealId}`}>
@@ -21,7 +21,7 @@ export default function MyToast() {
       // Reset toast state after showing it
       dispatch(uiActions.hideToast());
     }
-  }, []);
+  }, [toastMealId]);
 
   return null; // No UI elements needed here, it's just for side effects
 }
