@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import UserMessage from "@/components/chat/UserMessage";
 import Thinking from "@/components/chat/Thinking";
 import BotResponse from "@/components/chat/BotResponse";
+import MyToast from "@/components/ui/MyToast";
 export default function EmptyChat() {
   const chat = useSelector((state) => state.user.selectedChat);
   const isThinking = useSelector((state) => state.ui.isThinking);
@@ -19,6 +20,7 @@ export default function EmptyChat() {
         : "w-5/5 md:w-4/5 xl:w-3/5"
     } `}
       >
+        <MyToast />
         {!chat && (
           <div className="grow pt-20">
             <img src={logo} alt="" width={100} />
