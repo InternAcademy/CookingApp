@@ -158,7 +158,11 @@ export default function Sidebar() {
                       key={chat.chatId}
                       onClick={() => handleChatSelection(chat.chatId)}
                     >
-                      <ChatItem title={chat.title} key={chat.chadId} />
+                      <ChatItem
+                        title={chat.title}
+                        id={chat.chatId}
+                        key={chat.chadId}
+                      />
                     </li>
                   ))}
                 </Fragment>
