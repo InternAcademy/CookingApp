@@ -39,13 +39,13 @@ const Contacts = () => {
             </div>
             <button
                 className={`h-12 flex justify-center items-center rounded-full transition duration-300 ease-in-out w-full 
-                            border-2 border-[#EAB308] bg-[#EAB308] text-gray-800
-                            hover:text-white hover:border-gray-300 hover:shadow-lg
+                            border-2  bg-[#EAB308] text-gray-800
+                            border-gray-300 hover:border-gray-800 hover:text-gray-800 hover:shadow-lg
                             sm:h-14 sm:text-sm 
                             md:h-16 md:text-sm 
                             lg:h-18 lg:text-base 
                             xl:h-14 xl:text-base`}>
-                <span className={`text-lg`}>Send</span>
+                <span className={`text-black text-center text-base font-medium`}>Send</span>
             </button>
 
         </div>

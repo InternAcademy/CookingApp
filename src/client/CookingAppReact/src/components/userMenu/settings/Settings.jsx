@@ -53,10 +53,9 @@ const Settings = () => {
     // };
 
     return (
-        <div className={`h-auto w-full 
-            border-gray-300 flex px-10`}>
+        <div className={`h-screen w-full border-gray-300 flex px-10 overflow-hidden`}>
             {/* <div className="md:flex hidden flex-col p-4 w-1/4"> */}
-                <div className="flex flex-col p-4 w-1/4">
+                <div className="flex flex-col p-4 w-1/4 overflow-y-auto">
                 <div className="flex w-full mb-8 relative">
                     {photoUri ? (
                         <img
@@ -146,7 +145,7 @@ const Settings = () => {
                     </div>
                 )}
             </div> */}
-            <div className="flex-1 p-4">
+            <div className="flex-1 p-4 overflow-auto">
                 {ContentComponent && <ContentComponent />}
             </div>
         </div>
