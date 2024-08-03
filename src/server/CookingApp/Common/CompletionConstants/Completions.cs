@@ -16,7 +16,7 @@ namespace CookingApp.Common.CompletionConstants
             "Description: (string), " +
             "Ingredients: (Name (string), Quantity (string), Metric (string) - possible metrics: Grams, Kilograms, Milliliters, Liters, Teaspoons, Tablespoons, Cups, Pieces), " +
             "Preparation Steps: (list of strings), " +
-            "Duration: (string), " +
+            "Duration: (string) - only a number and a text saying if its in hours, minutes, days, etc. no other texts!, " +
             "Number Of Portions: (integer). ";
         
 
