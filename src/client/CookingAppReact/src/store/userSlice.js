@@ -1,6 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
-  selectedChat: null,
+  selectedChat: {
+    id: null,
+    content: [],
+  },
   role: {
     type: null,
     limitations: {
@@ -66,7 +69,10 @@ const userSlice = createSlice({
       state.selectedChat = action.payload;
     },
     emptyChat(state) {
-      state.selectedChat = null;
+      state.selectedChat = {
+        id: null,
+        content: [],
+      };
     },
     clearChat(state) {
       state.selectedChat = null;

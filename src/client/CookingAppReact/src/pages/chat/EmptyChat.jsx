@@ -4,12 +4,20 @@ import UserMessage from "@/components/chat/UserMessage";
 import Thinking from "@/components/chat/Thinking";
 import BotResponse from "@/components/chat/BotResponse";
 import MyToast from "@/components/ui/MyToast";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 export default function EmptyChat() {
   const chat = useSelector((state) => state.user.selectedChat);
   const isThinking = useSelector((state) => state.ui.isThinking);
   const responseError = useSelector((state) => state.ui.responseError);
   const isOpenRecipes = useSelector((state) => state.ui.recipesOpen);
   const isOpenSideBar = useSelector((state) => state.ui.sidebarOpen);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (chat.id) {
+      navigate(`/c/${chat.id}`);
+    }
+  }, [chat]);
   return (
     <section className="w-full overflow-y-auto grow flex justify-center">
       <ul
