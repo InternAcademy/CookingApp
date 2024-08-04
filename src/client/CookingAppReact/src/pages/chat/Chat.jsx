@@ -17,6 +17,7 @@ export default function Chat() {
 
   useEffect(() => {
     if (chatId) {
+      dispatch(uiActions.setActive(chatId));
       refetch();
     }
   }, [chatId]);

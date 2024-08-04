@@ -1,3 +1,4 @@
+import { setActive } from "@material-tailwind/react/components/Tabs/TabsContext";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -16,6 +17,7 @@ const initialState = {
     recipes: [],
     totalPages: 0,
   },
+  activeChat: null,
 };
 
 const uiSlice = createSlice({
@@ -39,6 +41,12 @@ const uiSlice = createSlice({
     },
     toggleRecipes(state) {
       state.recipesOpen = !state.recipesOpen;
+    },
+    setActive(state, action) {
+      state.activeChat = action.payload;
+    },
+    clearActive(state) {
+      state.activeChat = null;
     },
     setIsInitial(state, action) {
       state.isInitial = action.payload;

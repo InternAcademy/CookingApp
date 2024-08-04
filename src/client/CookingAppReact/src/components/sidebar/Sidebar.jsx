@@ -45,6 +45,7 @@ export default function Sidebar() {
     navigate(`c/${chatId}`);
   }
   function handleNewChat() {
+    dispatch(uiActions.clearActive());
     dispatch(userActions.emptyChat());
     navigate("/");
   }
@@ -71,7 +72,7 @@ export default function Sidebar() {
 
   function isAdmin() {
     let role = useSelector((state) => state.user.role.type);
-    console.log(role);
+
     if (role === "Admin") {
       return true;
     } else {

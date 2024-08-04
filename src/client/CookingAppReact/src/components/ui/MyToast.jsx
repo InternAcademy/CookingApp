@@ -18,10 +18,9 @@ export default function MyToast() {
         </span>
       ));
 
-      // Reset toast state after showing it
       dispatch(uiActions.hideToast());
     }
   }, [toastMealId]);
 
-  return null; // No UI elements needed here, it's just for side effects
+  return null;
 }

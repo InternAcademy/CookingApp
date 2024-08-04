@@ -26,6 +26,7 @@ export default function Navbar() {
     dispatch(uiActions.toggleRecipes());
   }
   function handleNewChat() {
+    dispatch(uiActions.clearActive());
     dispatch(userActions.emptyChat());
     navigate("/");
   }
