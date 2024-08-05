@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 const ip = import.meta.env.VITE_PUBLIC_PERSONAL_IP;
 
 export async function sendMessage({ token, chatId, type, content }) {
@@ -15,6 +16,11 @@ export async function sendMessage({ token, chatId, type, content }) {
       chatId,
     }),
   });
+  if (response.status === 403) {
+    const responseBody = await response.json();
+
+    toast.error(responseBody.data);
+  }
   if (!response.ok) {
     throw new Error("Resource not found");
   }
