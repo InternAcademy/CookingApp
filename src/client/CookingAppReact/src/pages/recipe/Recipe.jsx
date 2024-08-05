@@ -41,7 +41,7 @@ export default function Recipe() {
           <div className="h-fit bg-gray-100 flex content-start items-start flex-col lg:flex-row w-fit xl:w-1/2 rounded-2xl mt-16 p-5 gap-4">
             <div className="lg:w-1/3 h-full flex flex-row justify-center items-center gap-2">
               <ClockIcon className="size-8" />
-              <p className="text-lg">{data.duration}</p>
+              <p className="text-lg ">{data.duration}</p>
             </div>
             <div className="lg:w-1/3 h-full flex flex-row justify-center items-center gap-2">
               <UserGroupIcon className="size-8" />

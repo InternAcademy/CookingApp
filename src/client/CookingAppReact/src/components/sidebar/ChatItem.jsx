@@ -13,11 +13,11 @@ export default function ChatItem({ title, id }) {
   }
   return (
     <div
-      className={`rounded-lg h-10 my-5  hover:bg-gray-300 ${
-        activeChat && activeChat === id ? "bg-orange-200" : "bg-transparent"
+      className={`rounded-lg h-10 my-5 ${
+        activeChat && activeChat === id ? "bg-orange-200" : "hover:bg-gray-300 bg-transparent"
       } hover:cursor-pointer flex flex-row justify-between items-center text-center group transition-colors duration-1000"`}
     >
-      <h5 className="px-5 py-2 whitespace-nowrap hover:text-ellipsis overflow-hidden">
+      <h5 className="px-5 py-2 whitespace-nowrap text-ellipsis overflow-hidden">
         {title}
       </h5>
       <TrashIcon
