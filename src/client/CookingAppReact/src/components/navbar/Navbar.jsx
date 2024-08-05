@@ -14,6 +14,7 @@ import UserMenu from "../userMenu/UserMenu";
 export default function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const role = useSelector((state) => state.user.role.type);
   const sidebarOpen = useSelector((state) => state.ui.sidebarOpen);
   const recipesOpen = useSelector((state) => state.ui.recipesOpen);
   const [dropDownOpen, setDropDownOpen] = useState(false);
@@ -25,19 +26,13 @@ export default function Navbar() {
     dispatch(uiActions.toggleRecipes());
   }
   function handleNewChat() {
+    dispatch(uiActions.clearActive());
     dispatch(userActions.emptyChat());
     navigate("/");
   }
   const toggleDropDown = () => {
     setDropDownOpen(!dropDownOpen);
   };
-
-
-  function roleName() {
-    let role = useSelector((state) => state.user.role.type);
-    console.log(role);
-    return role;
-  }
 
   return (
     <nav className="">
@@ -56,8 +51,14 @@ export default function Navbar() {
             onClick={handleNewChat}
           />
           <h2 className="font-semibold text-xl flex flex-row justify-center content-center text-center h-full">
-            <span className="text-center px-2 py-1">Meal Master  </span>
-            <span className={`${roleName() === "Free" ? "bg-gray-200" : "bg-orange-200"} text-gray-900 rounded-full px-4 py-1`}>{roleName()}</span>
+            <span className="text-center px-2 py-1">Meal Master </span>
+            <span
+              className={`${
+                role === "Free" ? "bg-gray-200" : "bg-orange-200"
+              } text-gray-900 rounded-full px-4 py-1`}
+            >
+              {role}
+            </span>
           </h2>
           {/* <h2 className="font-semibold text-xl flex flex-row justify-center items-center text-center content-center gap-2">
             <div className="flex justify-center items-center text-center border-2 border-orange-300 text-black p-3 font-semibold text-xl rounded-full w-fit h-10">
@@ -70,9 +71,15 @@ export default function Navbar() {
             sidebarOpen ? "block" : "hidden"
           }`}
         >
-          <h2 className="font-semibold text-xl flex flex-row justify-center content-center text-center h-full">
-            <span className="text-center px-2 py-1">Meal Master  </span>
-            <span className={`${roleName() === "Free" ? "bg-gray-200" : "bg-orange-200"} text-gray-900 rounded-full px-4 py-1`}>{roleName()}</span>
+          <h2 className="font-semibold text-xl flex flex-row justify-center content-center text-center">
+            <span className="text-center px-2 py-1">Meal Master </span>
+            <span
+              className={`${
+                role === "Free" ? "bg-gray-200" : "bg-orange-200"
+              } text-gray-900 rounded-full px-4 py-1`}
+            >
+              {role}
+            </span>
           </h2>
           {/* <h2 className="font-semibold text-xl flex flex-row justify-center items-center text-center content-center gap-2">
             <div className="flex justify-center items-center text-center border-2 border-orange-300 text-black p-3 font-semibold text-xl rounded-full w-fit h-10">
@@ -82,7 +89,7 @@ export default function Navbar() {
         </div>
         <li
           className={`right-0 sticky flex flex-row pr-10 items-center gap-5 ${
-            recipesOpen ? "hidden" : ""
+            recipesOpen ? "invisible" : ""
           }`}
         >
           <ClipboardDocumentCheckIcon
@@ -91,10 +98,10 @@ export default function Navbar() {
           />
           <div className="relative">
             <UserIcon
-                className="size-10 rounded-xl hover:bg-gray-100 hover:cursor-pointer p-2"
-                onClick={toggleDropDown}
+              className="size-10 rounded-xl hover:bg-gray-100 hover:cursor-pointer p-2"
+              onClick={toggleDropDown}
             />
-            <UserMenu isOpen={dropDownOpen} toggleDropDown={toggleDropDown}/>
+            <UserMenu isOpen={dropDownOpen} toggleDropDown={toggleDropDown} />
           </div>
         </li>
       </ul>

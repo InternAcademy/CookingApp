@@ -28,12 +28,12 @@ export default function RecipeCard({ recipe }) {
         </h2>
       </div>
       <div className="w-full px-8 mb-3 text-gray-500 transition-all invisible group-hover:visible overflow-hidden">
-        <p className="w-full ">{recipe.description}</p>
+        <p className="w-full">{recipe.description}</p>
       </div>
       <section className="flex flex-row justify-between mb-2">
         <div className="flex w-full flex-row justify-start gap-2 ms-4">
           <ClockIcon className="size-6" />
-          <p className="w-full">{recipe.duration}</p>
+          <p className="w-4/5 whitespace-nowrap text-ellipsis overflow-hidden">{recipe.duration}</p>
         </div>
         <div className="flex w-24 flex-row justify-end gap-2 me-4">
           <UserGroupIcon className="size-6" />

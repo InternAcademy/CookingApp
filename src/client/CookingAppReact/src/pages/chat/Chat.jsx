@@ -6,7 +6,10 @@ import BotResponse from "@/components/chat/BotResponse";
 import Thinking from "@/components/chat/Thinking";
 import useSelectChat from "@/hooks/useSelectChat";
 import { userActions } from "@/store/userSlice";
-
+import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
+import { uiActions } from "@/store/uiSlice";
+import MyToast from "@/components/ui/MyToast";
 export default function Chat() {
   let { chatId } = useParams();
   const dispatch = useDispatch();
@@ -14,6 +17,7 @@ export default function Chat() {
 
   useEffect(() => {
     if (chatId) {
+      dispatch(uiActions.setActive(chatId));
       refetch();
     }
   }, [chatId]);
@@ -29,7 +33,7 @@ export default function Chat() {
   const responseError = useSelector((state) => state.ui.responseError);
   const isOpenRecipes = useSelector((state) => state.ui.recipesOpen);
   const isOpenSideBar = useSelector((state) => state.ui.sidebarOpen);
-
+  const toastMealId = useSelector((state) => state.ui.toastMealId);
   const endOfChatRef = useRef(null);
 
   useEffect(() => {
@@ -54,6 +58,7 @@ export default function Chat() {
         : "w-5/5 md:w-4/5 xl:w-3/5"
     } `}
       >
+        <MyToast />
         {chat &&
           chat.content.map((message, index) =>
             message.role === "user" ? (
@@ -64,7 +69,7 @@ export default function Chat() {
           )}
         {isThinking && !responseError && <Thinking />}
         {/* This div is used to scroll to the bottom */}
-        <div ref={endOfChatRef} className="w-1"/>
+        <div ref={endOfChatRef} className="w-1" />
       </ul>
     </section>
   );

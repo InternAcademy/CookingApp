@@ -15,12 +15,15 @@ const useSaveRecipe = () => {
     isPending,
     isError,
     error,
+    isSuccess,
   } = useMutation({
     mutationKey: ["recipe ", lastMessageContent],
 
     mutationFn: createRecipe,
     onMutate: () => {},
     onSuccess: (response) => {
+      console.log(response);
+      dispatch(uiActions.showToast(response));
     },
     onError: (error) => {
       dispatch(uiActions.setResponseError(error.message));
@@ -32,6 +35,7 @@ const useSaveRecipe = () => {
     isPending,
     isError,
     error,
+    isSuccess,
   };
 };
 

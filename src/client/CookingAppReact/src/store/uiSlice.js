@@ -1,3 +1,4 @@
+import { setActive } from "@material-tailwind/react/components/Tabs/TabsContext";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -9,12 +10,14 @@ const initialState = {
   responseError: null,
   isDarkTheme: false,
   photoUri: null,
+  toastMealId: null,
   lang: "English",
   filteredRecipes: {
     page: 0,
     recipes: [],
     totalPages: 0,
   },
+  activeChat: null,
 };
 
 const uiSlice = createSlice({
@@ -30,8 +33,20 @@ const uiSlice = createSlice({
     closeSidebar(state) {
       state.sidebarOpen = false;
     },
+    showToast(state, action) {
+      state.toastMealId = action.payload;
+    },
+    hideToast(state) {
+      state.toastMealId = null;
+    },
     toggleRecipes(state) {
       state.recipesOpen = !state.recipesOpen;
+    },
+    setActive(state, action) {
+      state.activeChat = action.payload;
+    },
+    clearActive(state) {
+      state.activeChat = null;
     },
     setIsInitial(state, action) {
       state.isInitial = action.payload;
