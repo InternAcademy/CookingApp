@@ -34,10 +34,10 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
         <div
             ref={menuRef}
             onClick={event => event.stopPropagation()}
-            className={`absolute right-6 top-10 w-64 bg-white 
+            className={`absolute right-4 top-10 w-64 bg-white 
             border border-gray-300 rounded-md shadow-lg z-20
-             transition-transform duration-300 ease-in-out 
-             ${isOpen ? 'transform scale-100' : 'transform scale-95 pointer-events-none'}`}
+            transition-transform duration-300 ease-in-out 
+            ${isOpen ? 'transform scale-100' : 'transform scale-95 pointer-events-none'}`}
         >
             <div className="flex flex-col p-4">
                 <div className="flex flex-col items-start w-full space-y-2">
@@ -47,11 +47,11 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
                         title="Recipes"
                     >
                         <FaUtensils
-                            className="w-6 h-6 mr-4
-                            sm:w-4
-                            md:w-4
-                            lg:w-6
-                            xl:w-6"
+                            className=" mr-4
+                            sm:w-4 sm:h-4
+                            md:w-6 md:h-6
+                            lg:w-6 lg:h-6
+                            xl:w-6 xl:h-6"
                         />
                         <span className="
                             sm:text-base
@@ -65,16 +65,16 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
                         title="Subscription"
                     >
                         <FaCreditCard
-                            className="w-6 h-6 mr-4
-                            sm:w-4
-                            md:w-4
-                            ls:w-6
-                            xl:w-6"
+                            className="mr-4
+                             sm:w-4 sm:h-4
+                            md:w-6 md:h-6
+                            lg:w-6 lg:h-6
+                            xl:w-6 xl:h-6"
                         />
                         <span className="
                             sm:text-base
                             md:text-base
-                            ls:text-lg
+                            lg:text-lg
                             xl:text-lg">Subscription</span>
                     </div>
                     <div
@@ -83,11 +83,11 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
                         title="Settings"
                     >
                         <FaCog
-                            className="w-6 h-6 mr-4
-                            sm:w-4
-                            md:w-4
-                            lg:w-6
-                            xl:w-6"
+                            className="mr-4
+                            sm:w-4 sm:h-4
+                            md:w-6 md:h-6
+                            lg:w-6 lg:h-6
+                            xl:w-6 xl:h-6"
                         />
                         <span className="
                             sm:text-base

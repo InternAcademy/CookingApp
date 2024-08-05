@@ -4,23 +4,23 @@ import { FaSignOutAlt } from "react-icons/fa";
 
 const SignOutButton = () => {
 
-  return (
-    <button className="flex items-center" title="Sign Out" onClick={() => handleLogout("redirect")}>
-      <FaSignOutAlt
-        className="w-6 h-6 mr-4
-      smallPhone:w-4
-      phone:w-4
-      tablet:w-6
-      web:w-6"
-      />
-      <span
-        className={`
+    return (
+        <button className="flex items-center" title="Sign Out" onClick={() => handleLogout("redirect")}>
+            <FaSignOutAlt
+                className="mr-4
+                        sm:w-4 sm:h-4
+                        md:w-6 md:h-6
+                        lg:w-6 lg:h-6
+                        xl:w-6 xl:h-6"
+            />
+            <span
+                className={`
         sm:text-base
         md:text-base
         lg:text-lg
         xl:text-lg`}>Sign Out</span>
-    </button>
-  );
+        </button>
+    );
 };
 
 export default SignOutButton;

@@ -84,7 +84,7 @@ const FoodPreferences = () => {
 
     return (
         <div
-            className={`min-h-screen w-1/2 mx-auto p-4 bg-[#FFFFFF]
+            className={`min-h-screen mx-auto p-4 bg-[#FFFFFF]
                         sm:w-full
                         md:w-full
                         lg:w-2/3
@@ -93,8 +93,7 @@ const FoodPreferences = () => {
             <div className="flex flex-col items-center">
                 <h1 className={`text-xl font-semibold mb-4 text-black`}>Food Preferences</h1>
 
-                <div
-                    className={`w-full mb-6 pb-6 rounded-xl py-4 px-4 bg-gray-200
+                <div className={`w-full mb-6 pb-6 rounded-xl py-4 px-4 bg-gray-200
                                 sm:py-5 sm:px-5 sm:text-sm
                                 md:py-6 md:px-6 md:text-sm
                                 lg:py-7 lg:px-7 lg:text-base
@@ -140,10 +139,11 @@ const FoodPreferences = () => {
                         <div
                             className={`w-84 px-14 py-3 bg-[#EAB308] rounded-full flex items-center justify-center border text-sm
                                       border-gray-300 hover:border-gray-800 hover:text-gray-800 hover:shadow-lg 
+                                        sm:px-14 sm:py-3 sm:text-sm
                                         md:px-14 md:py-3 md:text-sm 
                                         lg:px-16 lg:py-3.5 lg:text-base 
                                         xl:px-18 xl:py-4 xl:px-18 xl:text-base`}>
-                            <p className="text-black text-center text-base font-medium">Add Allergen</p>
+                            <p className="text-black text-center text-base font-medium text-nowrap">Add Allergen</p>
                         </div>
                     </button>
                 </div>

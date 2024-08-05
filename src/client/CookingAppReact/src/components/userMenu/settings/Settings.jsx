@@ -2,12 +2,14 @@ import "tailwindcss/tailwind.css";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FaUserCircle, FaLeaf, FaArchive, FaLanguage, FaFileAlt, FaInfoCircle, FaEnvelope, FaBars, FaTimes } from "react-icons/fa";
+import { IoIosArrowDropdownCircle } from "react-icons/io";
 
 const Settings = () => {
     const dispatch = useDispatch();
     const photoUri = useSelector(state => state.ui.photoUri);
     const [selectedMenu, setSelectedMenu] = useState('food-preferences');
     const [ContentComponent, setContentComponent] = useState(null);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     useEffect(() => {
         const loadContent = async () => {
@@ -37,25 +39,29 @@ const Settings = () => {
         { id: "contacts", icon: FaEnvelope, label: "Contacts" }
     ];
 
-    // const handleImageUpload = event => {
-    //     const file = event.target.files[0];
-    //     if (file) {
-    //         const reader = new FileReader();
-    //         reader.onloadend = () => {
-    //             const result = reader.result;
-    //             dispatch(uiActions.setPhotoUri(result));
-    //             if (typeof window !== "undefined") {
-    //                 localStorage.setItem("photoUri", result);
-    //             }
-    //         };
-    //         reader.readAsDataURL(file);
-    //     }
-    // };
+    const handleImageUpload = event => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const result = reader.result;
+                dispatch(uiActions.setPhotoUri(result));
+                if (typeof window !== "undefined") {
+                    localStorage.setItem("photoUri", result);
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
     return (
-        <div className={`h-screen w-full border-gray-300 flex px-10 overflow-hidden`}>
-            {/* <div className="md:flex hidden flex-col p-4 w-1/4"> */}
-                <div className="flex flex-col p-4 w-1/4 overflow-y-auto">
+        <div className="h-screen w-full border-gray-300 flex flex-col md:flex-row px-10 overflow-hidden">
+            <div className="md:hidden flex justify-between items-center pt-2">
+                <p className="font-bold flex" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>Settings 
+                    <IoIosArrowDropdownCircle className="w-5 h-5 mt-1 cursor-pointer"/>                    
+                </p>
+            </div>
+            <div className={`flex-col md:flex ${isMobileMenuOpen ? 'flex' : 'hidden'} md:flex-col p-4 md:w-1/4 overflow-y-auto`}>
                 <div className="flex w-full mb-8 relative">
                     {photoUri ? (
                         <img
@@ -66,7 +72,10 @@ const Settings = () => {
                         />
                     ) : (
                         <FaUserCircle
-                            className="w-24 h-24 cursor-pointer"
+                            className="cursor-pointer
+                            w-16 h-16
+                            md:w-20 md:h-20
+                            lg:w-24 lg:h-24"
                             onClick={() => document.getElementById("fileInput").click()}
                         />
                     )}
@@ -75,77 +84,34 @@ const Settings = () => {
                         id="fileInput"
                         accept="image/*"
                         style={{ display: "none" }}
-                        // onChange={handleImageUpload}
+                        onChange={handleImageUpload}
                     />
                 </div>
                 <div className="flex gap-2 flex-col items-start w-full space-y-2">
                     {menuItems.map(item => (
                         <div
                             key={item.id}
-                            className={`flex items-center w-full cursor-pointer p-2 rounded 
-                                `}
-                            onClick={() => setSelectedMenu(item.id)}
+                            className={`flex items-center w-full cursor-pointer p-2 rounded ${selectedMenu === item.id ? 'bg-gray-200' : ''}`}
+                            onClick={() => { setSelectedMenu(item.id); setIsMobileMenuOpen(false); }}
                             title={item.label}
                         >
-                            <item.icon
-                                className="w-6 h-6 mr-4"
-                                
-                            />
-                            <span
-                                className={`text-lg `}>{item.label}
-                            </span>
+                            <item.icon className="mr-4
+                            w-6 h-6
+                            sm:w-6 sm:h-6
+                            md:w-6 md:h-6
+                            lg:w-6 lg:h-6" />
+                            <span className="
+                            sm:text-sm
+                            md:text-base
+                            lg:text-lg
+                            xl:text-lg
+                            ">{item.label}</span>
                         </div>
                     ))}
                 </div>
             </div>
-            {/* <div className="md:hidden flex flex-col w-full">
-                <div className="flex justify-between p-4">
-                    <div className="flex items-center">
-                        {photoUri ? (
-                            <img
-                                src={photoUri}
-                                alt="Profile"
-                                className="w-10 h-10 rounded-full object-cover cursor-pointer"
-                                onClick={() => document.getElementById("fileInput").click()}
-                            />
-                        ) : (
-                            <FaUserCircle
-                                className="w-10 h-10 cursor-pointer"
-                                color={isDarkTheme ? "white" : "black"}
-                                onClick={() => document.getElementById("fileInput").click()}
-                            />
-                        )}
-                        <input
-                            type="file"
-                            id="fileInput"
-                            accept="image/*"
-                            style={{ display: "none" }}
-                            onChange={handleImageUpload}
-                        />
-                    </div>
-                    <div className="flex items-center">
-                        <button onClick={() => setHamMenuOpen(!hamMenuOpen)}>
-                            {hamMenuOpen ? <FaTimes className="w-6 h-6" /> : <FaBars className="w-6 h-6" />}
-                        </button>
-                    </div>
-                </div>
-                {hamMenuOpen && (
-                    <div className="flex flex-col p-4">
-                        {menuItems.map(item => (
-                            <div
-                                key={item.id}
-                                className={`flex items-center w-full cursor-pointer p-2 rounded ${selectedMenu === item.id ? isDarkTheme ? "bg-[#424242]" : " bg-[#b2b2b2]" : ""}`}
-                                onClick={() => { setSelectedMenu(item.id); setHamMenuOpen(false); }}
-                                title={item.label}
-                            >
-                                <item.icon className="w-6 h-6 mr-4" color={selectedMenu === item.id ? "white" : isDarkTheme ? "white" : "black"} />
-                                <span className={`text-lg ${selectedMenu === item.id ? "text-white" : isDarkTheme ? "text-white" : "text-black"}`}>{item.label}</span>
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </div> */}
-            <div className="flex-1 p-4 overflow-auto">
+            <div className="flex-1 p-4 overflow-auto
+            sm:w-full">
                 {ContentComponent && <ContentComponent />}
             </div>
         </div>
