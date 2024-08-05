@@ -3,9 +3,8 @@ import {
   View,
   Text,
   Image,
-  FlatList,
-  SafeAreaView,
   ScrollView,
+  SafeAreaView,
   TouchableOpacity,
   Animated,
   Modal,
@@ -37,7 +36,7 @@ const Home = () => {
   const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [remainingTime, setRemainingTime] = useState(10); // 10 секунди
+  const [remainingTime, setRemainingTime] = useState(10); //* 10 секунди
   const rotation = useRef(new Animated.Value(0)).current;
   const logoPosition = useRef(new Animated.Value(-100)).current;
 
@@ -100,7 +99,7 @@ const Home = () => {
         })
       ).start();
 
-      // Започнете движението на логото
+      
       moveLogo();
     }
   }, [isLoading]);
@@ -134,111 +133,107 @@ const Home = () => {
     save({ token, request });
   };
 
-  const renderPost = () => {
+  const renderMessages = () => {
     if (chat) {
       return (
-        <SafeAreaView
-          style={tw`flex-1 ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}
-        >
-          <ScrollView contentContainerStyle={tw`p-6 mt-10`}>
-            {chat.content.map((msg, index) => (
-              <View key={index} style={tw`mb-2 flex-row justify-start pt-1`}>
-                {msg.role === "user" ? (
-                  profileImage ? (
-                    <Image
-                      source={{ uri: profileImage }}
-                      style={tw`w-8 h-8 rounded-full mr-2 mb-7`}
-                    />
-                  ) : (
-                    <Ionicons
-                      name="person-circle"
-                      size={32}
-                      color={isDarkTheme ? "white" : "black"}
-                      style={tw`mr-2 mb-7 items-start -mt-1`}
-                    />
-                  )
-                ) : (
+        <ScrollView contentContainerStyle={tw`p-6 `}>
+          {chat.content.map((msg, index) => (
+            <View key={index} style={tw`mb-2 flex-row justify-start pt-1`}>
+              {msg.role === "user" ? (
+                profileImage ? (
                   <Image
-                    source={require("../../assets/Main/icon2.png")}
-                    style={tw`w-8 h-8 rounded-full mr-2 mb-7 items-start -mt-1`}
+                    source={{ uri: profileImage }}
+                    style={tw`w-8 h-8 rounded-full mr-2 mb-7`}
+                  />
+                ) : (
+                  <Ionicons
+                    name="person-circle"
+                    size={32}
+                    color={isDarkTheme ? "white" : "black"}
+                    style={tw`mr-2 mb-7 items-start -mt-1`}
+                  />
+                )
+              ) : (
+                <Image
+                  source={require("../../assets/Main/icon2.png")}
+                  style={tw`w-8 h-8 rounded-full mr-2 mb-7 items-start -mt-1`}
+                />
+              )}
+              <View>
+                <Text
+                  style={tw`text-base font-semibold mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
+                >
+                  {msg.role === "user" ? "You" : "MealMasterBot"}:
+                </Text>
+                {msg.role === "user" && msg.type === "Text" && (
+                  <Text
+                    style={tw`text-base mr-4 w-full mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
+                  >
+                    {msg.content}
+                  </Text>
+                )}
+
+                {msg.role === "user" && msg.type === "Image" && (
+                  <Image
+                    source={{ uri: msg.content }}
+                    style={tw`w-32 h-32 rounded-md mr-2 mb-7`}
                   />
                 )}
-                <View>
-                  <Text
-                    style={tw`text-base font-semibold mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
-                  >
-                    {msg.role === "user" ? "You" : "MealMasterBot"}:
-                  </Text>
-                  {msg.role === "user" && msg.type === "Text" && (
-                    <Text
-                      style={tw`text-base mr-4 w-full mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
-                    >
-                      {msg.content}
-                    </Text>
-                  )}
-
-                  {msg.role === "user" && msg.type === "Image" && (
-                    <Image
-                      source={{ uri: msg.content }}
-                      style={tw`w-32 h-32 rounded-md mr-2 mb-7`}
-                    />
-                  )}
-                  {msg.role === "bot" && msg.type === "Recipe" && (
-                    <>
-                      <Text
-                        style={tw`max-w-full mr-12 text-base mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
-                      >
-                        {msg.content}
-                      </Text>
-                      <TouchableOpacity
-                        onPress={() => handleRecipeSave(msg.content)}
-                        style={tw`mx-2 items-center mr-12 mt-4 mb-2`}
-                      >
-                        {isLoading ? (
-                          <View style={tw`w-2/3 bg-amber-100/40 rounded-full items-center justify-center flex flex-row`}>
-                            <Animated.View
-                              style={[
-                                tw` `,
-                                { transform: [{ rotate: rotate }] },
-                              ]}
-                            >
-                              <Ionicons
-                                name="restaurant"
-                                size={24}
-                                color={isDarkTheme ? "white" : "black"}
-                              />
-                            </Animated.View>
-                            <Text style={tw`ml-2 font-medium py-3 ${isDarkTheme ? "text-white" : "text-black"}`}>
-                              Generating recipe...
-                            </Text>
-                          </View>
-                        ) : (
-                        <View style={tw`w-2/3 bg-amber-100 rounded-full items-center justify-center flex flex-row`}>
-                          <Ionicons
-                            name="restaurant"
-                            size={24}
-                            color={isDarkTheme ? "white" : "black"}
-                          />
-                          <Text style={tw` font-medium py-3 ml-2 ${isDarkTheme ? "text-white" : "text-black"}`}> Generate Recipe</Text>
-                          </View>
-                        )}
-                      </TouchableOpacity>
-                    </>
-                  )}
-                  {msg.role === "bot" && msg.type === "Text" && (
+                {msg.role === "bot" && msg.type === "Recipe" && (
+                  <>
                     <Text
                       style={tw`max-w-full mr-12 text-base mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
                     >
                       {msg.content}
                     </Text>
-                  )}
-                </View>
+                    <TouchableOpacity
+                      onPress={() => handleRecipeSave(msg.content)}
+                      style={tw`mx-2 items-center mr-12 mt-4 mb-2`}
+                    >
+                      {isLoading ? (
+                        <View style={tw`w-2/3 bg-amber-100/40 rounded-full items-center justify-center flex flex-row`}>
+                          <Animated.View
+                            style={[
+                              tw` `,
+                              { transform: [{ rotate: rotate }] },
+                            ]}
+                          >
+                            <Ionicons
+                              name="restaurant"
+                              size={24}
+                              color={isDarkTheme ? "white" : "black"}
+                            />
+                          </Animated.View>
+                          <Text style={tw`ml-2 font-medium py-3 ${isDarkTheme ? "text-white" : "text-black"}`}>
+                            Generating recipe...
+                          </Text>
+                        </View>
+                      ) : (
+                      <View style={tw`w-2/3 bg-amber-100 rounded-full items-center justify-center flex flex-row`}>
+                        <Ionicons
+                          name="restaurant"
+                          size={24}
+                          color={isDarkTheme ? "white" : "black"}
+                        />
+                        <Text style={tw` font-medium py-3 ml-2 ${isDarkTheme ? "text-white" : "text-black"}`}> Generate Recipe</Text>
+                        </View>
+                      )}
+                    </TouchableOpacity>
+                  </>
+                )}
+                {msg.role === "bot" && msg.type === "Text" && (
+                  <Text
+                    style={tw`max-w-full mr-12 text-base mb-1 ${isDarkTheme ? "text-white" : "text-black"}`}
+                  >
+                    {msg.content}
+                  </Text>
+                )}
               </View>
-            ))}
-            {isThinking && !responseError && <Thinking />}
-            {responseError && <ChatError message={responseError} />}
-          </ScrollView>
-        </SafeAreaView>
+            </View>
+          ))}
+          {isThinking && !responseError && <Thinking />}
+          {responseError && <ChatError message={responseError} />}
+        </ScrollView>
       );
     }
 
@@ -267,12 +262,9 @@ const Home = () => {
       style={tw`flex pt-22 w-full h-full ${isDarkTheme ? "bg-[#202020]" : "bg-white"}`}
     >
       <NavBar />
-      <FlatList
-        data={[{ key: "1" }]}
-        renderItem={renderPost}
-        keyExtractor={(item) => item.key}
-        contentContainerStyle={tw`flex-grow`}
-      />
+      <ScrollView contentContainerStyle={tw`flex-grow`}>
+        {renderMessages()}
+      </ScrollView>
       <View
         style={tw`flex w-full flex-row justify-center mb-5 ${isDarkTheme ? "border-gray-700 bg-[#202020]" : "border-gray-300 bg-white"}`}
       >
