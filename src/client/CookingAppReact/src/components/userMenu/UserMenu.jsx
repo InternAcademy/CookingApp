@@ -2,7 +2,8 @@ import "tailwindcss/tailwind.css";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { FaUtensils, FaCreditCard, FaCog } from "react-icons/fa";
+import { Cog6ToothIcon } from "@heroicons/react/24/outline";
+import { CreditCardIcon } from "@heroicons/react/24/outline";
 import SignOutButton from "../auth/SignOutButton";
 
 const UserMenu = ({ isOpen, toggleDropDown }) => {
@@ -14,33 +15,19 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
     return (
         <div
             onClick={event => event.stopPropagation()}
-            className={`absolute right-10 top-12 w-64  
+            className={`absolute right-2 top-12 w-44 
             ${isDarkTheme ? "bg-[#2F2F2F]" : "bg-white"} 
-            border border-gray-300 rounded-md shadow-lg z-20`}
+            border border-gray-300 rounded-3xl shadow-sm z-20`}
         >
             <div className="flex flex-col p-4">
                 <div className="flex flex-col items-start w-full space-y-2">
-                    <div
-                        className={`flex items-center w-full cursor-pointer p-2 
-                        ${isDarkTheme ? 'hover:bg-[#424242]' : 'hover:bg-gray-100'} hover:rounded`}
-                        onClick={() => { navigate("/recipes"); toggleDropDown(); }}
-                        title="Recipes"
-                    >
-                        <FaUtensils
-                            className="w-6 h-6 mr-4"
-                            color={isDarkTheme ? "white" : "black"} 
-                        />
-                        <span className={`${isDarkTheme ? "text-white" : "text-black"}`}>
-                            Recipes
-                        </span>
-                    </div>
                     <div
                         className={`flex items-center w-full cursor-pointer p-2  
                         ${isDarkTheme ? 'hover:bg-[#424242]' : 'hover:bg-gray-100'} hover:rounded`}
                         onClick={() => { navigate("/subscription"); toggleDropDown(); }}
                         title="Subscription"
                     >
-                        <FaCreditCard
+                        <CreditCardIcon
                             className="w-6 h-6 mr-4"
                             color={isDarkTheme ? "white" : "black"} 
                         />
@@ -54,7 +41,7 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
                         onClick={() => { navigate("/settings"); toggleDropDown(); }}
                         title="Settings"
                     >
-                        <FaCog
+                        <Cog6ToothIcon
                             className="w-6 h-6 mr-4"
                             color={isDarkTheme ? "white" : "black"} 
                         />
