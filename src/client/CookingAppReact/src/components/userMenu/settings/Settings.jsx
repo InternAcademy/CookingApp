@@ -15,10 +15,10 @@ const Settings = () => {
         const loadContent = async () => {
             const components = {
                 'food-preferences': () => import('./foodPreferences/FoodPreferences'),
-                // 'archived-recipes': () => import('@/app/archived-recipes/page'),
-                // 'language-theme': () => import('@/app/language-theme/page'),
-                // 'rules-policies': () => import('@/app/rules-policies/page'),
-                // 'about': () => import('@/app/about/page'),
+                // 'archived-recipes': () => import('./app/archived-recipes/page'),
+                // 'language-theme': () => import('./app/language-theme/page'),
+                // 'rules-policies': () => import('./app/rules-policies/page'),
+                // 'about': () => import('./app/about/page'),
                 'contacts': () => import('./contacts/Contacts')
             };
 
@@ -96,10 +96,10 @@ const Settings = () => {
                             title={item.label}
                         >
                             <item.icon className="mr-4
-                            w-6 h-6
-                            sm:w-6 sm:h-6
-                            md:w-6 md:h-6
-                            lg:w-6 lg:h-6" />
+                            sm:w-4 sm:h-4
+                            md:w-5 md:h-5
+                            lg:w-6 lg:h-6
+                            xl:w-6 xl:h-6" />
                             <span className="
                             sm:text-sm
                             md:text-base
@@ -110,8 +110,7 @@ const Settings = () => {
                     ))}
                 </div>
             </div>
-            <div className="flex-1 p-4 overflow-auto
-            sm:w-full">
+            <div className="flex-1 overflow-auto sm:p-10">
                 {ContentComponent && <ContentComponent />}
             </div>
         </div>

@@ -84,7 +84,7 @@ const FoodPreferences = () => {
 
     return (
         <div
-            className={`min-h-screen mx-auto p-4 bg-[#FFFFFF]
+            className={`min-h-screen mx-auto p-2 bg-[#FFFFFF]
                         sm:w-full
                         md:w-full
                         lg:w-2/3
@@ -94,8 +94,8 @@ const FoodPreferences = () => {
                 <h1 className={`text-xl font-semibold mb-4 text-black`}>Food Preferences</h1>
 
                 <div className={`w-full mb-6 pb-6 rounded-xl py-4 px-4 bg-gray-200
-                                sm:py-5 sm:px-5 sm:text-sm
-                                md:py-6 md:px-6 md:text-sm
+                                sm:py-5 sm:px-5 sm:text-sm 
+                                md:py-6 md:px-6 md:text-sm 
                                 lg:py-7 lg:px-7 lg:text-base
                                 xl:py-8 xl:px-8 xl:text-base`}>
                     <h2 className={`text-lg font-semibold mb-4 text-black`}>Allergens</h2>
@@ -125,6 +125,7 @@ const FoodPreferences = () => {
                         onKeyDown={handleAddAlergenPressEnter}
                         className={`border rounded-lg px-4 py-2 mb-2 w-full
                                   border-gray-300 bg-white text-black 
+                                    sm:px-3 sm:py-2 sm:text-sm
                                     md:px-4 md:py-2 md:text-sm 
                                     lg:px-4 lg:py-2 lg:text-base 
                                     xl:text-base`}
@@ -195,7 +196,7 @@ const FoodPreferences = () => {
                                         md:px-18 md:py-3 md:text-sm 
                                         lg:px-20 lg:py-3.5 lg:text-base 
                                         xl:px-20 xl:py-4 xl:text-base`}>
-                            <p className="text-black text-center text-base font-medium">Add Food</p>
+                            <p className="text-black text-center text-base font-medium text-nowrap">Add Food</p>
                         </div>
                     </button>
                     <div className="mt-4">
@@ -221,7 +222,7 @@ const FoodPreferences = () => {
                                     md:px-18 md:py-3 md:text-sm 
                                     lg:px-20 lg:py-3.5 lg:text-base 
                                     xl:px-18 xl:py-4 xl:px-20 xl:text-base`}>
-                        <p className="text-center text-base font-medium text-slate-50">Save Food</p>
+                        <p className="text-center text-base font-medium text-slate-50 text-nowrap">Save Food</p>
                     </div>
                 </button>
 
