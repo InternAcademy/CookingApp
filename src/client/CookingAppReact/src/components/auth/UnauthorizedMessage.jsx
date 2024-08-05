@@ -1,13 +1,5 @@
-import Footer from "../landingpage/ui/footer";
-import Header from "../landingpage/ui/header";
-import HeroHome from "../landingpage/ui/hero-home";
+import LandingPage from "../landingpage/landingpage";
 
 export default function UnauthorizedMessage() {
-  return (
-    <>
-        <Header />
-        <HeroHome />
-        {/* <Footer /> */}
-    </>
-  );
+  return <LandingPage />;
 }
