@@ -7,7 +7,7 @@ export default function UnauthorizedMessage() {
     <>
         <Header />
         <HeroHome />
-        <Footer />
+        {/* <Footer /> */}
     </>
   );
 }

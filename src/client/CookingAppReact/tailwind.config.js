@@ -34,6 +34,9 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      backgroundImage: {
+        'landingPage': "url('src/assets/landing/phone.jpg')"
+      }
     },
   },
   plugins: [require("tailwindcss-animate")],
