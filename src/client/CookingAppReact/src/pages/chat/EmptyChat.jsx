@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import UserMessage from "@/components/chat/UserMessage";
 import Thinking from "@/components/chat/Thinking";
 import BotResponse from "@/components/chat/BotResponse";
-import MyToast from "@/components/ui/MyToast";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 export default function EmptyChat() {
@@ -29,14 +28,17 @@ export default function EmptyChat() {
         : "w-5/5 md:w-4/5 xl:w-3/5"
     } `}
       >
-        <MyToast />
         {!chat.content.length && (
           <div className="grow w-full justify-center items-center content-center">
             <div className="flex flex-col justify-center items-center content-center">
               <img src={logo} alt="" width={130} />
               <div className="flex flex-col mt-4 justify-center items-center content-center">
-                <h1 className="text-lg text-black font-semibold">Let's figure out a recipe</h1>
-                <h2 className="text-sm text-gray-500">Begin by typing a message</h2>
+                <h1 className="text-lg text-black font-semibold">
+                  Let's figure out a recipe
+                </h1>
+                <h2 className="text-sm text-gray-500">
+                  Begin by typing a message
+                </h2>
               </div>
             </div>
           </div>

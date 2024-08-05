@@ -6,6 +6,7 @@ import { getToken } from "../../msal/msal";
 import { useDispatch, useSelector } from "react-redux";
 import useChat from "../../hooks/useChat";
 import { uiActions } from "../../store/uiSlice";
+import toast from "react-hot-toast";
 import { useRef } from "react";
 export default function ChatInput() {
   const input = useSelector((state) => state.ui.input);
@@ -15,6 +16,19 @@ export default function ChatInput() {
   const { mutate, isPending, error, isError } = useChat();
   const dispatch = useDispatch();
   const [base64Image, setBase64Image] = useState(null);
+  useEffect(() => {
+    if (role.limitations.chatGeneration === 10) {
+      toast(
+        (t) => (
+          <span>
+            <strong>Warning</strong> you have <strong>{10}</strong> messages
+            left!
+          </span>
+        ),
+        { position: "bottom-right" }
+      );
+    }
+  }, [role.limitations.chatGeneration]);
 
   async function handleSubmission() {
     if (input) {
@@ -27,9 +41,7 @@ export default function ChatInput() {
           ],
         })
       );
-      if (role.type === "Free") {
-        dispatch(userActions.reduceChatGeneration());
-      }
+
       const token = await getToken();
       mutate({
         token: token,
@@ -37,6 +49,9 @@ export default function ChatInput() {
         type: "Text",
         content: input,
       });
+      if (role.type === "Free") {
+        dispatch(userActions.reduceChatGeneration());
+      }
     }
   }
 
