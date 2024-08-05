@@ -100,7 +100,7 @@ export default function ChatInput({ isPending }) {
 
   return (
     <>
-      <View style={tw`flex w-6/8 flex-col justify-center items-center border ${isDarkTheme ? "border-white/50 border-2 bg-slate-900/20" : "border-gray-300 bg-amber-50"} rounded-full px-2 mx-1`}>
+      <View style={tw`flex w-6/8 flex-col  self-center  border ${isDarkTheme ? "border-white/50 border-2 bg-slate-900/20" : "border-gray-300 bg-amber-50"} rounded-full px-2 mx-1`}>
         <View style={tw`flex w-full flex-row justify-center items-center`}>
           <TouchableOpacity
             onPress={openCamera}
