@@ -108,6 +108,7 @@ namespace CookingApp.Common.CompletionConstants
             var sb = new StringBuilder();
 
             sb.AppendLine(AssistantInstructions);
+            sb.AppendLine(PromptEngineeringPrevention);
             sb.AppendLine(RecipeFormat);
 
             if (profile is not null)
