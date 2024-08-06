@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 const ip = import.meta.env.VITE_PUBLIC_PERSONAL_IP;
 
 export async function createRecipe({ token, request }) {
@@ -10,6 +11,12 @@ export async function createRecipe({ token, request }) {
 
     body: `"${request}"`,
   });
+
+  if (response.status === 403) {
+    const responseBody = await response.json();
+
+    toast.error(responseBody.data);
+  }
   if (!response.ok) {
     throw new Error("Resource not found");
   }

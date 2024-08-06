@@ -2,6 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { uiActions } from "../store/uiSlice";
 import { createRecipe } from "../http/recipe";
+import { userActions } from "@/store/userSlice";
 
 const useSaveRecipe = () => {
   const dispatch = useDispatch();
@@ -20,7 +21,9 @@ const useSaveRecipe = () => {
     mutationKey: ["recipe ", lastMessageContent],
 
     mutationFn: createRecipe,
-    onMutate: () => {},
+    onMutate: () => {
+      dispatch(userActions.reduceRecipeGeneration());
+    },
     onSuccess: (response) => {
       console.log(response);
       dispatch(uiActions.showToast(response));

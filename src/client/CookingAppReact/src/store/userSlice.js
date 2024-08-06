@@ -107,6 +107,16 @@ const userSlice = createSlice({
         },
       };
     },
+    reduceRecipeGeneration(state) {
+      state.role = {
+        type: state.role.type,
+        limitations: {
+          chatFromDate: state.role.limitations.chatFromDate,
+          chatGeneration: state.role.limitations.chatGeneration,
+          recipeGeneration: state.role.limitations.recipeGeneration - 1,
+        },
+      };
+    },
   },
 });
 

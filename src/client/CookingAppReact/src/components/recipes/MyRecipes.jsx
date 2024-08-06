@@ -6,14 +6,19 @@ import RecipeCard from "./RecipeCard";
 import { getToken } from "@/msal/msal";
 import { jwtDecode } from "jwt-decode";
 import { useEffect } from "react";
+import { Skeleton } from "../ui/skeleton";
 import useFirstPageRecipes from "@/hooks/useFirstPageRecipes";
 import "../../assets/css/animations.css";
 export default function MyRecipes() {
   const isOpen = useSelector((state) => state.ui.recipesOpen);
   const recipesState = useSelector((state) => state.ui.filteredRecipes);
   const dispatch = useDispatch();
-  const { getFirstPageRecipes, loadMoreRecipes, gettingMoreRecipes } =
-    useFirstPageRecipes();
+  const {
+    getFirstPageRecipes,
+    loadMoreRecipes,
+    gettingMoreRecipes,
+    gettingRecipes,
+  } = useFirstPageRecipes();
   function handleRecipes() {
     dispatch(uiActions.toggleRecipes());
   }
@@ -83,7 +88,51 @@ export default function MyRecipes() {
             ${isOpen ? "" : "hidden"}
             h-full`}
       >
+        {gettingRecipes && (
+          <section className="flex flex-col gap-1 w-full">
+            <li className="py-1 flex flex-col w-full ">
+              <Skeleton className="h-72 flex flex-col gap-1 justify-start items-center bg-gray-300  rounded-2xl">
+                <Skeleton className="h-4/6 w-full rounded-2xl bg-gray-400" />
+                <Skeleton className="h-[25px] mt-3 min-w-[250px] max-w-[360px]  rounded-2xl bg-gray-400" />
+                <footer className="flex w-full justify-between mt-3 px-4">
+                  <section className="flex gap-2">
+                    <Skeleton className="size-6  rounded-full bg-gray-400" />
+                    <Skeleton className="h-[25px] w-20  rounded-2xl bg-gray-400" />
+                  </section>
+                  <Skeleton className="h-[25px] size-6  rounded-2xl bg-gray-400" />
+                </footer>
+              </Skeleton>
+            </li>
+            <li className="py-1 flex flex-col w-full ">
+              <Skeleton className="h-72 flex flex-col gap-1 justify-start items-center bg-gray-300  rounded-2xl">
+                <Skeleton className="h-4/6 w-full rounded-2xl bg-gray-400" />
+                <Skeleton className="h-[25px] mt-3 min-w-[250px] max-w-[360px]  rounded-2xl bg-gray-400" />
+                <footer className="flex w-full justify-between mt-3 px-4">
+                  <section className="flex gap-2">
+                    <Skeleton className="size-6  rounded-full bg-gray-400" />
+                    <Skeleton className="h-[25px] w-20  rounded-2xl bg-gray-400" />
+                  </section>
+                  <Skeleton className="h-[25px] size-6  rounded-2xl bg-gray-400" />
+                </footer>
+              </Skeleton>
+            </li>
+            <li className="py-1 flex flex-col w-full ">
+              <Skeleton className="h-72 flex flex-col gap-1 justify-start items-center bg-gray-300  rounded-2xl">
+                <Skeleton className="h-4/6 w-full rounded-2xl bg-gray-400" />
+                <Skeleton className="h-[25px] mt-3 min-w-[250px] max-w-[360px]  rounded-2xl bg-gray-400" />
+                <footer className="flex w-full justify-between mt-3 px-4">
+                  <section className="flex gap-2">
+                    <Skeleton className="size-6  rounded-full bg-gray-400" />
+                    <Skeleton className="h-[25px] w-20  rounded-2xl bg-gray-400" />
+                  </section>
+                  <Skeleton className="h-[25px] size-6  rounded-2xl bg-gray-400" />
+                </footer>
+              </Skeleton>
+            </li>
+          </section>
+        )}
         {recipesState.recipes.length > 0 &&
+          !gettingRecipes &&
           recipesState.recipes.map((recipe) => <RecipeCard recipe={recipe} />)}
         {recipesState.page < recipesState.totalPages && !gettingMoreRecipes && (
           <button onClick={loadMore}>Load more...</button>

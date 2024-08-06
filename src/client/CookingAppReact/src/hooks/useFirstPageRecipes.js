@@ -6,16 +6,17 @@ import { uiActions } from "../store/uiSlice";
 const useFirstPageRecipes = () => {
   const dispatch = useDispatch();
 
-  const { mutate: getFirstPageRecipes, isPending } = useMutation({
-    mutationFn: getRecipes,
-    onMutate: () => {},
-    onError: (errr) => {
-      console.log(errr);
-    },
-    onSuccess: (data) => {
-      dispatch(uiActions.getFirstPage(data));
-    },
-  });
+  const { mutate: getFirstPageRecipes, isPending: gettingRecipes } =
+    useMutation({
+      mutationFn: getRecipes,
+      onMutate: () => {},
+      onError: (errr) => {
+        console.log(errr);
+      },
+      onSuccess: (data) => {
+        dispatch(uiActions.getFirstPage(data));
+      },
+    });
   const { mutate: loadMoreRecipes, isPending: gettingMoreRecipes } =
     useMutation({
       mutationFn: getRecipes,
@@ -28,6 +29,7 @@ const useFirstPageRecipes = () => {
   return {
     getFirstPageRecipes,
     loadMoreRecipes,
+    gettingRecipes,
     gettingMoreRecipes,
   };
 };

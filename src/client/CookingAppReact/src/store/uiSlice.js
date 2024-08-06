@@ -1,5 +1,6 @@
 import { setActive } from "@material-tailwind/react/components/Tabs/TabsContext";
 import { createSlice } from "@reduxjs/toolkit";
+import { act } from "react";
 
 const initialState = {
   sidebarOpen: true,
@@ -11,6 +12,7 @@ const initialState = {
   isDarkTheme: false,
   photoUri: null,
   toastMealId: null,
+
   lang: "English",
   filteredRecipes: {
     page: 0,
