@@ -1,6 +1,8 @@
 "use client";
 import { handleLogout } from "@/msal/msal";
 import { FaSignOutAlt } from "react-icons/fa";
+
+import { ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/outline";
 // import { useTheme } from "next-themes";
 
 const SignOutButton = () => {
@@ -9,7 +11,7 @@ const SignOutButton = () => {
 
   return (
     <button className="flex items-center" title="Sign Out" onClick={() => handleLogout("redirect")}>
-      <FaSignOutAlt
+      <ArrowRightStartOnRectangleIcon
         className="w-6 h-6 mr-4
       smallPhone:w-4
       phone:w-4
