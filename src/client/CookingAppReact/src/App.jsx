@@ -10,6 +10,7 @@ import Admin from "./pages/admin/Admin";
 import Subscribtion from "./pages/subscribtion/Subscribtion";
 import Success from "./pages/subscribtion/Succes";
 import Settings from "./components/userMenu/settings/Settings";
+import AuthorizePage from "./pages/wrappers/AuthorizePage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -25,7 +26,16 @@ const router = createBrowserRouter([
       },
       { path: "r/:recipeId", element: <Recipe /> },
       { path: "admin/dashboard", element: <Admin /> },
-      { path: "subscription", element: <Subscribtion /> },
+      {
+        path: "subscription",
+        element: (
+          <AuthorizePage
+            role={"Free"}
+            onSuccessElement={<Subscribtion />}
+            onFailRedirect={"/"}
+          />
+        ),
+      },
       { path: "success", element: <Success /> },
       { path: "settings", element: <Settings /> },
     ],
