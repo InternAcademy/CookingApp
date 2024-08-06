@@ -11,7 +11,6 @@ export default function RecipeCard({ recipe }) {
   }
   return (
     <section
-      key={recipe.id}
       className="group flex flex-col bg-white w-full h-72 rounded-2xl pb-2 border hover:cursor-pointer transition"
       onClick={handleClick}
     >
@@ -22,9 +21,9 @@ export default function RecipeCard({ recipe }) {
         src={recipe.imageUrl}
         alt="Image Description"
       ></img>
-      <div class="min-w-[250px] max-w-[360px]">
-        <h2 class="font-medium px-4 py-2 text-xl overflow-hidden whitespace-nowrap text-ellipsis">
-            {recipe.title}
+      <div className="min-w-[250px] max-w-[360px]">
+        <h2 className="font-medium px-4 py-2 text-xl overflow-hidden whitespace-nowrap text-ellipsis">
+          {recipe.title}
         </h2>
       </div>
       <div className="w-full px-8 mb-3 text-gray-500 transition-all invisible group-hover:visible overflow-hidden">
@@ -33,7 +32,9 @@ export default function RecipeCard({ recipe }) {
       <section className="flex flex-row justify-between mb-2">
         <div className="flex w-full flex-row justify-start gap-2 ms-4">
           <ClockIcon className="size-6" />
-          <p className="w-4/5 whitespace-nowrap text-ellipsis overflow-hidden">{recipe.duration}</p>
+          <p className="w-4/5 whitespace-nowrap text-ellipsis overflow-hidden">
+            {recipe.duration}
+          </p>
         </div>
         <div className="flex w-24 flex-row justify-end gap-2 me-4">
           <UserGroupIcon className="size-6" />

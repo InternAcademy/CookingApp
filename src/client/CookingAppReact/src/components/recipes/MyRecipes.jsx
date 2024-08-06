@@ -90,7 +90,7 @@ export default function MyRecipes() {
       >
         {gettingRecipes && (
           <section className="flex flex-col gap-1 w-full">
-            <li className="py-1 flex flex-col w-full ">
+            <div className="py-1 flex flex-col w-full ">
               <Skeleton className="h-72 flex flex-col gap-1 justify-start items-center bg-gray-300  rounded-2xl">
                 <Skeleton className="h-4/6 w-full rounded-2xl bg-gray-400" />
                 <Skeleton className="h-[25px] mt-3 min-w-[250px] max-w-[360px]  rounded-2xl bg-gray-400" />
@@ -102,8 +102,8 @@ export default function MyRecipes() {
                   <Skeleton className="h-[25px] size-6  rounded-2xl bg-gray-400" />
                 </footer>
               </Skeleton>
-            </li>
-            <li className="py-1 flex flex-col w-full ">
+            </div>
+            <div className="py-1 flex flex-col w-full ">
               <Skeleton className="h-72 flex flex-col gap-1 justify-start items-center bg-gray-300  rounded-2xl">
                 <Skeleton className="h-4/6 w-full rounded-2xl bg-gray-400" />
                 <Skeleton className="h-[25px] mt-3 min-w-[250px] max-w-[360px]  rounded-2xl bg-gray-400" />
@@ -115,8 +115,8 @@ export default function MyRecipes() {
                   <Skeleton className="h-[25px] size-6  rounded-2xl bg-gray-400" />
                 </footer>
               </Skeleton>
-            </li>
-            <li className="py-1 flex flex-col w-full ">
+            </div>
+            <div className="py-1 flex flex-col w-full ">
               <Skeleton className="h-72 flex flex-col gap-1 justify-start items-center bg-gray-300  rounded-2xl">
                 <Skeleton className="h-4/6 w-full rounded-2xl bg-gray-400" />
                 <Skeleton className="h-[25px] mt-3 min-w-[250px] max-w-[360px]  rounded-2xl bg-gray-400" />
@@ -128,12 +128,18 @@ export default function MyRecipes() {
                   <Skeleton className="h-[25px] size-6  rounded-2xl bg-gray-400" />
                 </footer>
               </Skeleton>
-            </li>
+            </div>
           </section>
         )}
         {recipesState.recipes.length > 0 &&
           !gettingRecipes &&
-          recipesState.recipes.map((recipe) => <RecipeCard recipe={recipe} />)}
+          recipesState.recipes.map((recipe) => {
+            return (
+              <li key={recipe.id}>
+                <RecipeCard recipe={recipe} />
+              </li>
+            );
+          })}
         {recipesState.page < recipesState.totalPages && !gettingMoreRecipes && (
           <button onClick={loadMore}>Load more...</button>
         )}
