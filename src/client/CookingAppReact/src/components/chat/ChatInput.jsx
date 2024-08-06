@@ -122,7 +122,7 @@ export default function ChatInput() {
           <input
             type="text"
             value={input}
-            placeholder="What you wanna cook today?"
+            placeholder="What do you want to cook today?"
             onKeyDown={handleChange}
             onChange={handleChange}
             className="w-full outline-none bg-gray-200 text-black placeholder-black"

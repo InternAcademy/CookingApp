@@ -10,6 +10,7 @@ import Admin from "./pages/admin/Admin";
 import Subscribtion from "./pages/subscribtion/Subscribtion";
 import Success from "./pages/subscribtion/Succes";
 import Settings from "./components/userMenu/settings/Settings";
+import SubscribtionDetails from "./pages/subscribtion/SubscribtionDetails";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -26,6 +27,7 @@ const router = createBrowserRouter([
       { path: "r/:recipeId", element: <Recipe /> },
       { path: "admin/dashboard", element: <Admin /> },
       { path: "subscription", element: <Subscribtion /> },
+      { path: "subscription/manage", element: <SubscribtionDetails /> },
       { path: "success", element: <Success /> },
       { path: "settings", element: <Settings /> },
     ],

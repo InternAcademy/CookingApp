@@ -69,6 +69,9 @@ export default function Sidebar() {
   function handleClickSubscribtion() {
     navigate("/subscription");
   }
+  function handleClickYourSubscribtion() {
+    navigate("/subscription/manage");
+  }
 
   function isAdmin() {
     let role = useSelector((state) => state.user.role.type);
@@ -79,6 +82,17 @@ export default function Sidebar() {
       return false;
     }
   }
+
+  function isPremium() {
+    let role = useSelector((state) => state.user.role.type);
+
+    if (role === "Premium") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   async function loadMore() {
     const token = await getToken();
     const decoded = jwtDecode(token);
@@ -102,10 +116,16 @@ export default function Sidebar() {
           onClick={handleNewChat}
         />
       </header>
-      <button onClick={handleClickSubscribtion}>
+      <button className={`${isPremium() ? "hidden" : ""}`} onClick={handleClickSubscribtion}>
         <h5 className="hover:bg-gray-300 mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-white/20 shadow-sm ring-1 ring-black/5">
           <BanknotesIcon className="size-5 mr-5" />
           Get Premium
+        </h5>
+      </button>
+      <button className={`${isPremium() ? "" : "hidden"}`} onClick={handleClickYourSubscribtion}>
+        <h5 className="hover:bg-gray-300 mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-white/20 shadow-sm ring-1 ring-black/5">
+          <BanknotesIcon className="size-5 mr-5" />
+          Your Subscribtion
         </h5>
       </button>
       <button

@@ -10,7 +10,7 @@ export default function RecipeCard({ recipe }) {
     navigate(`/r/${recipe.id}`);
   }
   return (
-    <section
+    <li
       key={recipe.id}
       className="group flex flex-col bg-white w-full h-72 rounded-2xl pb-2 border hover:cursor-pointer transition"
       onClick={handleClick}
@@ -22,8 +22,8 @@ export default function RecipeCard({ recipe }) {
         src={recipe.imageUrl}
         alt="Image Description"
       ></img>
-      <div class="min-w-[250px] max-w-[360px]">
-        <h2 class="font-medium px-4 py-2 text-xl overflow-hidden whitespace-nowrap text-ellipsis">
+      <div className="min-w-[250px] max-w-[360px]">
+        <h2 className="font-medium px-4 py-2 text-xl overflow-hidden whitespace-nowrap text-ellipsis">
             {recipe.title}
         </h2>
       </div>
@@ -40,6 +40,6 @@ export default function RecipeCard({ recipe }) {
           <p>{recipe.numberOfPortions}</p>
         </div>
       </section>
-    </section>
+    </li>
   );
 }
