@@ -5,8 +5,8 @@ import { SignInButton } from "../../auth/SignInButton";
 export default function Header() {
   
   return (
-    <header className="bg-gray-100 py-4 px-32 flex flex-row justify-between">
-          <div className="flex flex-1 items-center gap-5">
+    <header className="bg-gray-100 py-4 px-6 md:px-32 flex flex-row justify-between">
+          <div className="flex flex-1 items-center gap-2 md:gap-5">
             <Logo />
             <h1 className="font-bold text-2xl text-black">MEALMASTER</h1>
           </div>

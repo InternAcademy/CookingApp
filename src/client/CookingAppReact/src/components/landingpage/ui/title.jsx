@@ -12,15 +12,11 @@ export default function Title() {
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="pb-12 pt-32 md:pb-20 md:pt-40">
             <div className="pb-12 text-center md:pb-16">
-              <div
-                className="mb-6" //border-y [border-image:linear-gradient(to_right,transparent,theme(colors.slate.300/.8),transparent)1]
-                data-aos="zoom-y-out"
-              ></div>
               <h1
-                className="mb-6 md:text-8xl text-8xl font-bold" //border-y  [border-image:linear-gradient(to_right,transparent,theme(colors.slate.300/.8),transparent)1]
+                className="mb-6 md:text-8xl text-6xl font-bold" //border-y  [border-image:linear-gradient(to_right,transparent,theme(colors.slate.300/.8),transparent)1]
               >
                 MEAL PLANNING MADE
-                <br className="max-lg:hidden" />
+                <br/>
                 <span className="text-[#fb923c]">SIMPLE</span>
               </h1>
               <div className="mx-auto max-w-3xl">
