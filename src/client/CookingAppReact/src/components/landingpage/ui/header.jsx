@@ -4,6 +4,7 @@ import { SignInButton } from "../../auth/SignInButton";
 
 export default function Header() {
   
+  
   return (
     <header className="bg-gray-100 py-4 px-6 md:px-32 flex flex-row justify-between">
           <div className="flex flex-1 items-center gap-2 md:gap-5">
