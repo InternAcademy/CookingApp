@@ -41,9 +41,15 @@ namespace CookingApp.Services.Recipe
             return recipe.Id;
         }
 
-        public async Task<IPagedList<Recipe>> GetMine(string userId, int pageIndex, int pageSize = 10, bool includeDeleted = false)
+        public async Task<IPagedList<Recipe>> GetMine(string userId, int pageIndex, int pageSize = 10, string? title = null, bool includeDeleted = false)
         {
-            return await repo.GetPagedListAsync(pageIndex, pageSize, r => r.UserId == userId, null, SortDirection.Descending, includeDeleted);
+            return await repo.GetPagedListAsync(
+                pageIndex, 
+                pageSize, 
+                r => r.UserId == userId && (title == null || r.Title.ToLower().Contains(title.ToLower())),
+                null,
+                SortDirection.Descending,
+                includeDeleted);
         }
 
         public async Task ArchiveRecipe(string recipeId)

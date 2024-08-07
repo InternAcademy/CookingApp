@@ -24,7 +24,8 @@
         /// <exception cref="NotFoundException">Thrown when no recipe is found with the given ID.</exception>
         Task<Recipe> GetById(string recipeId);
 
-        Task<IPagedList<Recipe>> GetMine(string userId, int pageIndex, int pageSize = 10, bool includeDeleted = false);
+        Task<IPagedList<Recipe>> GetMine(string userId, int pageIndex, int pageSize = 10, string? title = null,
+            bool includeDeleted = false);
         Task<IEnumerable<Recipe>> GetArchived(string userId);
     }
 }
