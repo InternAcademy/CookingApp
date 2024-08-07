@@ -12,6 +12,7 @@ const useRecipeDetails = (id) => {
       });
       return userRecipes;
     },
+    retry: false,
   });
 
   return { data, isPending, isError, error, refetch };
