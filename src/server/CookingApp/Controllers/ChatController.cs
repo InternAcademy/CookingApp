@@ -65,11 +65,13 @@ namespace CookingApp.Controllers
             };
         }
 
-        [HttpPost("user-chats/{userId}/{pageIndex}/{pageSize}")]
+        [HttpGet("user-chats/{userId}")]
         public async Task<IActionResult> ChatsByUser(string userId, 
             [Range(1, int.MaxValue, ErrorMessage = "Value must be greater than 0")]
+            [FromQuery]
             int pageIndex = 1,
             [Range(1, int.MaxValue, ErrorMessage = "Value must be greater than 0")]
+            [FromQuery]
             int pageSize = 50)
         {
             var result = await chatService.GetActiveUserChats(userId, pageIndex, pageSize);

@@ -40,13 +40,15 @@ export async function getChat({ token, chatId }) {
 }
 
 export async function getUserChats({ token, userId, pageIndex }) {
-  const response = await fetch(`${ip}/user-chats/${userId}/${pageIndex}/20`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
+  const response = await fetch(
+    `${ip}/user-chats/${userId}/?pageIndex=${pageIndex}&pageSize=20`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
 
   if (!response.ok) {
     throw new Error(response.statusText);
