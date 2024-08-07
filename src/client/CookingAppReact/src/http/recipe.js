@@ -27,13 +27,15 @@ export async function createRecipe({ token, request }) {
 }
 
 export async function getRecipes({ token, userId, page }) {
-  const response = await fetch(`${ip}/recipes/${userId}/${page}/5`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
+  const response = await fetch(
+    `${ip}/recipes/${userId}?pageIndex=${page}&pageSize=5`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
   if (!response.ok) {
     throw new Error("Resource not found");
   }
