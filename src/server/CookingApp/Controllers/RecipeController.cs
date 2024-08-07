@@ -60,12 +60,16 @@ namespace CookingApp.Controllers
             };
         }
 
-        [HttpPost("recipes/{userId}/{pageIndex}/{pageSize}")]
-        public async Task<IActionResult> Recipes(string userId,
+        [HttpGet("recipes/{userId}")]
+        public async Task<IActionResult> Recipes(
+            string userId,
+            [FromQuery]
             string? title = null,
             [Range(1, int.MaxValue, ErrorMessage = "Value must be greater than 0")]
+            [FromQuery]
             int pageIndex = 1,
             [Range(1, int.MaxValue, ErrorMessage = "Value must be greater than 0")]
+            [FromQuery]
             int pageSize = 10)
         {
             var result = await recipeService.GetMine(userId, pageIndex, pageSize, title);
