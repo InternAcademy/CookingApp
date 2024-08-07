@@ -62,12 +62,13 @@ namespace CookingApp.Controllers
 
         [HttpPost("recipes/{userId}/{pageIndex}/{pageSize}")]
         public async Task<IActionResult> Recipes(string userId,
+            string? title = null,
             [Range(1, int.MaxValue, ErrorMessage = "Value must be greater than 0")]
             int pageIndex = 1,
             [Range(1, int.MaxValue, ErrorMessage = "Value must be greater than 0")]
             int pageSize = 10)
         {
-            var result = await recipeService.GetMine(userId, pageIndex, pageSize);
+            var result = await recipeService.GetMine(userId, pageIndex, pageSize, title);
             return new ApiResponse<RecipePage>()
             {
                 Status = 200,
