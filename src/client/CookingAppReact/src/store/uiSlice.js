@@ -28,21 +28,27 @@ const uiSlice = createSlice({
   reducers: {
     openSidebar(state) {
       state.sidebarOpen = true;
-    },
-    setInput(state, action) {
-      state.input = action.payload;
+      if (window.innerWidth < 1300) {
+        state.recipesOpen = false;
+      }
     },
     closeSidebar(state) {
       state.sidebarOpen = false;
+    },
+    toggleRecipes(state) {
+      state.recipesOpen = !state.recipesOpen;
+      if (window.innerWidth < 1300 && state.recipesOpen) {
+        state.sidebarOpen = false;
+      }
+    },
+    setInput(state, action) {
+      state.input = action.payload;
     },
     showToast(state, action) {
       state.toastMealId = action.payload;
     },
     hideToast(state) {
       state.toastMealId = null;
-    },
-    toggleRecipes(state) {
-      state.recipesOpen = !state.recipesOpen;
     },
     setActive(state, action) {
       state.activeChat = action.payload;
