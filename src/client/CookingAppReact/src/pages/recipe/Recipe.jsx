@@ -3,10 +3,13 @@ import { ClockIcon } from "@heroicons/react/24/outline";
 import { UserGroupIcon } from "@heroicons/react/24/outline";
 import { CalendarDaysIcon } from "@heroicons/react/24/outline";
 import useRecipeDetails from "@/hooks/useRecipeDetails";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
+const iconImports = import.meta.glob("../../assets/stepsimages/*.png", {
+  eager: true,
+});
 
-const iconImports = import.meta.glob('../../assets/stepsimages/*.png', { eager: true });
-
-const icons = Object.values(iconImports).map((mod) => mod.default);;
+const icons = Object.values(iconImports).map((mod) => mod.default);
 
 function getFormattedDate(datetime) {
   const date = new Date(datetime);
@@ -20,7 +23,12 @@ function getFormattedDate(datetime) {
 export default function Recipe() {
   let { recipeId } = useParams();
   const { data, isPending, isError, refetch } = useRecipeDetails(recipeId);
-
+  useEffect(() => {
+    if (isError) {
+      console.log("err");
+      toast.error(`Unable to load recipe ${recipeId}`);
+    }
+  }, [isError]);
   return (
     <div className="flex w-full pl-5 pr-5 xl:pl-28 xl:pr-36 py-16 flex-col overflow-y-auto">
       {data && !isError && (
@@ -60,7 +68,10 @@ export default function Recipe() {
               <div className="grid grid-cols-1  gap-2">
                 {data.ingredients.map((ingredient) => (
                   <div className="border-l-2 border-orange-200 shadow-sm rounded-e-xl col-span-1 items-center w-fit justify-center px-8 py-4">
-                    <p className="text-lg">• {`${ingredient.quantity} ${ingredient.metric} ${ingredient.name}`}</p>
+                    <p className="text-lg">
+                      •{" "}
+                      {`${ingredient.quantity} ${ingredient.metric} ${ingredient.name}`}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -71,7 +82,9 @@ export default function Recipe() {
                 <div className="rounded-2xl bg-orange-50 w-full p-1">
                   <div className="border flex flex-col items-center md:items-start justify-start w-full h-full rounded-2xl px-8 py-4">
                     <div className="text-center text-black text-3xl font-light flex flex-row items-center md:gap-2">
-                      <p className="text-xl font-semibold mr-2">Step {index + 1}</p>
+                      <p className="text-xl font-semibold mr-2">
+                        Step {index + 1}
+                      </p>
                       <img
                         className="size-8"
                         src={icons[index % icons.length]}

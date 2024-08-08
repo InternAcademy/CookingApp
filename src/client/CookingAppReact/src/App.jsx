@@ -11,6 +11,7 @@ import Subscribtion from "./pages/subscribtion/Subscribtion";
 import Success from "./pages/subscribtion/Succes";
 import Settings from "./components/userMenu/settings/Settings";
 import SubscribtionDetails from "./pages/subscribtion/SubscribtionDetails";
+import NotFound from "./pages/error/NotFound";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -31,6 +32,7 @@ const router = createBrowserRouter([
       { path: "success", element: <Success /> },
       { path: "settings", element: <Settings /> },
     ],
+    errorElement: <NotFound />,
   },
 ]);
 function App() {

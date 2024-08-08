@@ -26,9 +26,11 @@ export async function createRecipe({ token, request }) {
   return responseBody.data;
 }
 
-export async function getRecipes({ token, userId, page }) {
+export async function getRecipes({ token, userId, page, title }) {
   const response = await fetch(
-    `${ip}/recipes/${userId}?pageIndex=${page}&pageSize=5`,
+    `${ip}/recipes/${userId}?pageIndex=${page}&pageSize=5${
+      title ? `&title=${title}` : ""
+    }`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -59,7 +61,6 @@ export async function deleteRecipe({ token, recipeId }) {
 }
 
 export async function getRecipeById({ token, recipeId }) {
-  console.log(recipeId);
   const response = await fetch(`${ip}/r/${recipeId}`, {
     method: "GET",
     headers: {
@@ -71,7 +72,6 @@ export async function getRecipeById({ token, recipeId }) {
     throw new Error("Resource not found");
   }
   const responseBody = await response.json();
-  console.log(responseBody);
   return responseBody.data;
 }
 

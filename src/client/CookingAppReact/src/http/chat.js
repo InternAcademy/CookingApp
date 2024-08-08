@@ -22,7 +22,7 @@ export async function sendMessage({ token, chatId, type, content }) {
     toast.error(responseBody.data);
   }
   if (!response.ok) {
-    throw new Error("Resource not found");
+    throw new Error(response.status);
   }
 
   const responseBody = await response.json();

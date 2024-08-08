@@ -7,11 +7,12 @@ import Thinking from "@/components/chat/Thinking";
 import useSelectChat from "@/hooks/useSelectChat";
 import { userActions } from "@/store/userSlice";
 import { uiActions } from "@/store/uiSlice";
+import toast from "react-hot-toast";
 import MealToast from "@/components/ui/MealToast";
 export default function Chat() {
   let { chatId } = useParams();
   const dispatch = useDispatch();
-  const { data: response, refetch } = useSelectChat(chatId);
+  const { data: response, isError, refetch } = useSelectChat(chatId);
 
   useEffect(() => {
     if (chatId) {
@@ -19,7 +20,12 @@ export default function Chat() {
       refetch();
     }
   }, [chatId]);
-
+  useEffect(() => {
+    if (isError) {
+      console.log("err");
+      toast.error(`Unable to load conversation ${chatId}`);
+    }
+  }, [isError]);
   useEffect(() => {
     if (response) {
       dispatch(userActions.selectChat(response));
