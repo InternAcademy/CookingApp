@@ -49,8 +49,6 @@ namespace CookingApp.Services.UserProfile
                 throw new NotFoundException();
             }
 
-
-
             profile.Allergies = configureProfileRequest.Allergies;
             profile.AvoidedFoods = configureProfileRequest.AvoidedFoods;
             profile.DietaryPreference = configureProfileRequest.DietaryPreference;
@@ -73,6 +71,22 @@ namespace CookingApp.Services.UserProfile
                 Theme = preferencesRequest.Theme,
                 Language = preferencesRequest.Language
             };
+
+            await profileRepo.UpdateAsync(profile);
+        }
+
+        public async Task GiftTokens(string userId)
+        {
+            var profile = await profileRepo
+                .GetFirstOrDefaultAsync(a => a.UserId == userId);
+
+            if (profile is null)
+            {
+                throw new NotFoundException();
+            }
+
+            profile.Role.Limitations.RecipeGeneration = profile.Role.Limitations.RecipeGeneration + 10;
+            profile.Role.Limitations.RecipeGeneration = profile.Role.Limitations.ChatGeneration + 100;
 
             await profileRepo.UpdateAsync(profile);
         }

@@ -8,6 +8,7 @@ namespace CookingApp.Services.UserProfile
 
         Task ConfigurePreferences(ConfigurePreferencesRequest configureProfileRequest);
 
-        Task SaveInterfacePreferences (PreferencesRequest preferencesRequest);
+        Task SaveInterfacePreferences(PreferencesRequest preferencesRequest);
+        Task GiftTokens(string userId);
     }
 }

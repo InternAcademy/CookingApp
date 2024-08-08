@@ -128,6 +128,11 @@ export default function Admin() {
                     </CardBody>
                 </Card>
             </div>
+            <div className="flex flex-col w-96 justify-center items-center p-5">
+              <h1 className="text-gray-800 font-semibold text-lg">{"Gift 100 chat tokens & 10 recipe tokens"}</h1>
+              <input type="text" placeholder="User ID" className="w-full mt-2 border shadow-sm rounded-2xl px-5 py-2" />
+              <button className="px-5 py-1 rounded-2xl border bg-orange-200 mt-2">Gift</button>
+            </div>
         </>
     );
   }
