@@ -8,35 +8,27 @@ import { userActions } from "../store/userSlice";
 const useFetchUserStatus = () => {
   const isInitial = useSelector((state) => state.ui.isInitial);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    const fetchToken = async () => {
-      const token = await getToken();
-      if (isInitial) {
-        const response = await checkUserStatus({ token });
-        if (response.status !== 401) {
-          const body = await response.json();
-          dispatch(
-            uiActions.setTheme(
-              body.data.interfacePreference.theme === "Light" ? false : true
-            )
-          );
-          dispatch(
-            uiActions.setLanguage(body.data.interfacePreference.language)
-          );
-          dispatch(userActions.setRole(body.data.role));
-          dispatch(
-            userActions.setDietaryPreferences({
-              allergies: body.data.allergies,
-              avoidedFoods: body.data.avoidedFoods,
-              dietaryPreference: body.data.dietaryPreference,
-            })
-          );
-          dispatch(uiActions.setIsInitial(false));
-        }
+  const fetchToken = async () => {
+    const token = await getToken();
+    if (isInitial) {
+      const response = await checkUserStatus({ token });
+      if (response.status !== 401) {
+        const body = await response.json();
+        dispatch(uiActions.setTheme(body.data.interfacePreference.theme));
+        dispatch(uiActions.setLanguage(body.data.interfacePreference.language));
+        dispatch(userActions.setRole(body.data.role));
+        dispatch(
+          userActions.setDietaryPreferences({
+            allergies: body.data.allergies,
+            avoidedFoods: body.data.avoidedFoods,
+            dietaryPreference: body.data.dietaryPreference,
+          })
+        );
+        dispatch(uiActions.setIsInitial(false));
       }
-    };
-
+    }
+  };
+  useEffect(() => {
     fetchToken();
   }, [isInitial, dispatch]);
 };

@@ -9,7 +9,7 @@ const initialState = {
   input: "",
   isThinking: false,
   responseError: null,
-  isDarkTheme: false,
+  theme: "Light",
   photoUri: null,
   toastMealId: null,
 
@@ -69,7 +69,7 @@ const uiSlice = createSlice({
       state.isDarkTheme = !state.isDarkTheme;
     },
     setTheme(state, action) {
-      state.isDarkTheme = action.payload;
+      state.theme = action.payload;
     },
     setPhotoUri(state, action) {
       state.photoUri = action.payload;
