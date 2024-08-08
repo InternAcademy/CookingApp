@@ -16,8 +16,8 @@ namespace CookingApp.Common.Helpers.Profiles
                 Limitations = new Limitations()
                 {
                     ChatFromDate = DateTime.Now,
-                    ChatGeneration = 20,  
-                    RecipeGeneration = 0
+                    ChatGeneration = 10,  
+                    RecipeGeneration = 2
                 }
             };
         }
@@ -28,7 +28,9 @@ namespace CookingApp.Common.Helpers.Profiles
                 Type = RoleType.Premium,
                 Limitations = new Limitations()
                 {
-                    RecipeGeneration = 20
+                    ChatFromDate = DateTime.Now,
+                    ChatGeneration = 20,
+                    RecipeGeneration = 30
                 }
             };
         }
