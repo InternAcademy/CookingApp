@@ -9,8 +9,9 @@ import Recipe from "./pages/recipe/Recipe";
 import Admin from "./pages/admin/Admin";
 import Subscribtion from "./pages/subscribtion/Subscribtion";
 import Success from "./pages/subscribtion/Succes";
-import Settings from "./components/userMenu/settings/Settings";
+import Settings from "./pages/settings/Settings";
 import SubscribtionDetails from "./pages/subscribtion/SubscribtionDetails";
+import Rules from "./pages/rules/Rules";
 import NotFound from "./pages/error/NotFound";
 const router = createBrowserRouter([
   {
@@ -31,6 +32,7 @@ const router = createBrowserRouter([
       { path: "subscription/manage", element: <SubscribtionDetails /> },
       { path: "success", element: <Success /> },
       { path: "settings", element: <Settings /> },
+      { path: "/rules-and-policies", element: <Rules /> },
     ],
     errorElement: <NotFound />,
   },

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Cog6ToothIcon } from "@heroicons/react/24/outline";
 import { CreditCardIcon } from "@heroicons/react/24/outline";
+import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import SignOutButton from "../auth/SignOutButton";
 
 const UserMenu = ({ isOpen, toggleDropDown }) => {
@@ -15,7 +16,7 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
     return (
         <div
             onClick={event => event.stopPropagation()}
-            className={`absolute right-2 top-12 w-44 
+            className={`absolute right-2 top-12 w-56 
             ${isDarkTheme ? "bg-[#2F2F2F]" : "bg-white"} 
             border border-gray-300 rounded-3xl shadow-sm z-20`}
         >
@@ -47,6 +48,20 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
                         />
                         <span className={`${isDarkTheme ? "text-white" : "text-black"}`}>
                             Settings
+                        </span>
+                    </div>
+                    <div
+                        className={`flex items-center w-full cursor-pointer p-2 
+                        ${isDarkTheme ? 'hover:bg-[#424242]' : 'hover:bg-gray-100'} hover:rounded`}
+                        onClick={() => { navigate("/rules-and-policies"); toggleDropDown(); }}
+                        title="Settings"
+                    >
+                        <ExclamationTriangleIcon
+                            className="w-6 h-6 mr-4"
+                            color={isDarkTheme ? "white" : "black"} 
+                        />
+                        <span className={`${isDarkTheme ? "text-white" : "text-black"}`}>
+                            Rules & Policies
                         </span>
                     </div>
                 </div>
