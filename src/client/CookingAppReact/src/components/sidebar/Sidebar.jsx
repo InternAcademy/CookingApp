@@ -9,7 +9,7 @@ import { BanknotesIcon } from "@heroicons/react/24/outline";
 import { useDispatch } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 import { getToken } from "../../msal/msal";
-import { uiActions } from "../../store/uiSlice";
+import uiSlice, { uiActions } from "../../store/uiSlice";
 import ChatItem from "./ChatItem";
 import { useEffect } from "react";
 import useChatHistory from "../../hooks/useChatHistory";
@@ -42,11 +42,14 @@ export default function Sidebar() {
     }
   }, [isOpen]);
   function handleChatSelection(chatId) {
+    dispatch(uiActions.closeSidebar());
     navigate(`c/${chatId}`);
   }
   function handleNewChat() {
     dispatch(uiActions.clearActive());
     dispatch(userActions.emptyChat());
+    dispatch(uiActions.closeSidebar());
+
     navigate("/");
   }
   const sortedChatHistory = chatHistory
@@ -64,12 +67,18 @@ export default function Sidebar() {
     dispatch(uiActions.closeSidebar());
   }
   function handleClickDashboard() {
+    dispatch(uiActions.closeSidebar());
+
     navigate("/admin/dashboard");
   }
   function handleClickSubscribtion() {
+    dispatch(uiActions.closeSidebar());
+
     navigate("/subscription");
   }
   function handleClickYourSubscribtion() {
+    dispatch(uiActions.closeSidebar());
+
     navigate("/subscription/manage");
   }
 
