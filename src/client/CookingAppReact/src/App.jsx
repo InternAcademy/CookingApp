@@ -7,12 +7,13 @@ import Chat from "./pages/chat/Chat";
 import Layout from "./pages/layout/Layout";
 import Recipe from "./pages/recipe/Recipe";
 import Admin from "./pages/admin/Admin";
-import Subscribtion from "./pages/subscribtion/Subscribtion";
+import Subscribtion from "./pages/subscribtion/Subscription";
 import Success from "./pages/subscribtion/Succes";
 import Settings from "./pages/settings/Settings";
 import SubscribtionDetails from "./pages/subscribtion/SubscribtionDetails";
 import Rules from "./pages/rules/Rules";
 import NotFound from "./pages/error/NotFound";
+import AuthorizeRoute from "./pages/authorize/AuthorizeRoute";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -27,8 +28,26 @@ const router = createBrowserRouter([
         ],
       },
       { path: "r/:recipeId", element: <Recipe /> },
-      { path: "admin/dashboard", element: <Admin /> },
-      { path: "subscription", element: <Subscribtion /> },
+      {
+        path: "admin/dashboard",
+        element: (
+          <AuthorizeRoute
+            succesPage={<Admin />}
+            requiredRole={"Admin"}
+            unAuthorizedPath={"/"}
+          />
+        ),
+      },
+      {
+        path: "subscription",
+        element: (
+          <AuthorizeRoute
+            succesPage={<Subscribtion />}
+            requiredRole={"Free"}
+            unAuthorizedPath={"/"}
+          />
+        ),
+      },
       { path: "subscription/manage", element: <SubscribtionDetails /> },
       { path: "success", element: <Success /> },
       { path: "settings", element: <Settings /> },
