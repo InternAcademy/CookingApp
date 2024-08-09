@@ -405,3 +405,5 @@ src/server/CookingApp/Properties/launchSettings.json
 .prettierrc
 .prettierignore
 src/server/CookingApp/Properties/launchSettings.json
+/src/server/CookingApp/appsettings.Development.json
+/src/server/CookingApp/Properties/launchSettings.json
