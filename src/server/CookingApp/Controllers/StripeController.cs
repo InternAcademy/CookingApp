@@ -1,4 +1,6 @@
 ﻿
+using CookingApp.ViewModels.Stripe.Customer;
+
 namespace CookingApp.Controllers
 {
     using CookingApp.Services.Stripe;
@@ -22,6 +24,18 @@ namespace CookingApp.Controllers
             };
 
         }
+
+        [HttpGet("my-subscription")]
+        public async Task<ApiResponse<CustomerData>> GetMySubscription()
+        {
+            var sub = await stripeService.GetSubscription();
+            return new ApiResponse<CustomerData>()
+            {
+                Status = 200,
+                Data = sub
+            };
+        }
+
 
         [HttpPost("subscription")]
         public async Task<ApiResponse<SubscriptionCreationResponse>> CreateSubscriptionAsync([FromBody] SubscriptionCreation model)

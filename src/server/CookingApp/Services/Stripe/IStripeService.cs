@@ -14,5 +14,7 @@ namespace CookingApp.Services.Stripe
         Task<List<CustomerData>> GetAllSubs();
         Task<SubscriptionStatistics> GetSubsStats();
         Task<IncomeStatistics> GetIncome30DaysBack();
+
+        Task<CustomerData> GetSubscription();
     }
 }

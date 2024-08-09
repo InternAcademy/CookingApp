@@ -46,6 +46,8 @@
             return result;
         }
 
+
+
         /// <summary>
         /// Creates a subscription with a status "default_incomplete" because the subscription
         /// requires a payment. It automatically generates an an initial Invoice.
@@ -156,6 +158,23 @@
             }
 
             return allActiveUsers;
+        }
+
+        public async Task<CustomerData> GetSubscription()
+        {
+            var user = await GetUser.Profile(httpContextAccessor, userRepo);
+            var stripeCustomer = await customerService.GetAsync(user.StripeId);
+            var customer = mapper.Map<CustomerData>(stripeCustomer);
+
+            var subscriptionListOptions = new SubscriptionListOptions
+            {
+                Customer = customer.Id,
+            };
+
+            var subscriptions = await subscriptionService.ListAsync(subscriptionListOptions);
+            customer.Subscriptions = mapper.Map<List<SubscriptionState>>(subscriptions.Data);
+
+            return customer;
         }
 
         public async Task<SubscriptionStatistics> GetSubsStats()
