@@ -4,13 +4,17 @@ import { ClipboardDocumentIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { getLoggedInUser } from "@/msal/userHelper";
+import { getToken } from "@/msal/msal";
+import { jwtDecode } from "jwt-decode";
 
 export default function Settings() {
   const isOpenRecipes = useSelector((state) => state.ui.recipesOpen);
   const isOpenSideBar = useSelector((state) => state.ui.sidebarOpen);
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(getLoggedInUser().idTokenClaims.sub);
+    const token = await getToken();
+    const decoded = jwtDecode(token);
+    await navigator.clipboard.writeText(decoded.sub);
   };
 
   return (
@@ -33,7 +37,12 @@ export default function Settings() {
               David Petkov
             </h1>
             <h2 className="text-gray-500 font-semibold text-sm flex flex-row items-center text-center">
-              <button onClick={handleCopy} className="flex flex-row items-center text-center">Copy User Id <ClipboardDocumentIcon className="ml-1 size-5" /></button>
+              <button
+                onClick={handleCopy}
+                className="flex flex-row items-center text-center"
+              >
+                Copy User Id <ClipboardDocumentIcon className="ml-1 size-5" />
+              </button>
             </h2>
           </div>
         </div>
