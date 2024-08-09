@@ -12,7 +12,7 @@ const initialState = {
   theme: "Light",
   photoUri: null,
   toastMealId: null,
-
+  isMessageWarningShowed: false,
   lang: "English",
   filteredRecipes: {
     page: 0,
@@ -31,6 +31,9 @@ const uiSlice = createSlice({
       if (window.innerWidth < 1300) {
         state.recipesOpen = false;
       }
+    },
+    setIsShown(state) {
+      state.isMessageWarningShowed = true;
     },
     closeSidebar(state) {
       state.sidebarOpen = false;

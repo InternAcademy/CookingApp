@@ -12,12 +12,14 @@ export default function ChatInput() {
   const input = useSelector((state) => state.ui.input);
   const fileAttacher = useRef();
   const selectedChat = useSelector((state) => state.user.selectedChat);
+  const isInitial = useSelector((state) => state.ui.isMessageWarningShowed);
   const role = useSelector((state) => state.user.role);
   const { mutate, isPending, error, isError } = useChat();
   const dispatch = useDispatch();
   const [base64Image, setBase64Image] = useState(null);
   useEffect(() => {
-    if (role.limitations.chatGeneration === 10) {
+    if (role.limitations.chatGeneration === 10 && !isInitial) {
+      console.log(isInitial);
       toast(
         (t) => (
           <span>
@@ -27,6 +29,7 @@ export default function ChatInput() {
         ),
         { position: "bottom-right" }
       );
+      dispatch(uiActions.setIsShown(true));
     }
   }, [role.limitations.chatGeneration]);
 
