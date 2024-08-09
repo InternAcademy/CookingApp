@@ -116,16 +116,22 @@ export default function Sidebar() {
           onClick={handleNewChat}
         />
       </header>
-      <button className={`${isPremium() ? "hidden" : ""}`} onClick={handleClickSubscribtion}>
+      <button
+        className={`${isPremium() ? "hidden" : ""}`}
+        onClick={handleClickSubscribtion}
+      >
         <h5 className="hover:bg-gray-300 mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-white/20 shadow-sm ring-1 ring-black/5">
           <BanknotesIcon className="size-5 mr-5" />
           Get Premium
         </h5>
       </button>
-      <button className={`${isPremium() ? "" : "hidden"}`} onClick={handleClickYourSubscribtion}>
+      <button
+        className={`${isPremium() ? "" : "hidden"}`}
+        onClick={handleClickYourSubscribtion}
+      >
         <h5 className="hover:bg-gray-300 mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-white/20 shadow-sm ring-1 ring-black/5">
           <BanknotesIcon className="size-5 mr-5" />
-          Your Subscribtion
+          Your Subscription
         </h5>
       </button>
       <button
