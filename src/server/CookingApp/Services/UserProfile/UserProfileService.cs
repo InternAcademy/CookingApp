@@ -86,7 +86,7 @@ namespace CookingApp.Services.UserProfile
             }
 
             profile.Role.Limitations.RecipeGeneration = profile.Role.Limitations.RecipeGeneration + 10;
-            profile.Role.Limitations.RecipeGeneration = profile.Role.Limitations.ChatGeneration + 100;
+            profile.Role.Limitations.ChatGeneration = profile.Role.Limitations.ChatGeneration + 100;
 
             await profileRepo.UpdateAsync(profile);
         }
