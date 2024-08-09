@@ -47,6 +47,11 @@ const uiSlice = createSlice({
         state.sidebarOpen = false;
       }
     },
+    closeRecipes(state) {
+      if (window.innerWidth < 1300 && state.recipesOpen) {
+        state.recipesOpen = false;
+      }
+    },
     setInput(state, action) {
       state.input = action.payload;
     },

@@ -9,7 +9,7 @@ export default function RecipeCard({ recipe }) {
   const dispatch = useDispatch();
   let navigate = useNavigate();
   function handleClick() {
-    dispatch(uiActions.toggleRecipes());
+    dispatch(uiActions.closeRecipes());
     navigate(`/r/${recipe.id}`);
   }
   return (
