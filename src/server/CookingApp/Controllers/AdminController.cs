@@ -109,7 +109,7 @@
         }
 
         [HttpPost("gift-tokens/{userId}")]
-        public async Task GiftTokensByUid(string userId)
+        public async Task<IActionResult> GiftTokensByUid(string userId)
         {
             var limitResult = await limitationService.ProcessAdminLimitations(GetUser.ProfileId(contextAccessor));
 
@@ -117,6 +117,10 @@
             {
                 await userProfileService.GiftTokens(userId);
             }
+            return new ApiResponse<IActionResult>()
+            {
+                Status = 200
+            };
         }
     }
 }
