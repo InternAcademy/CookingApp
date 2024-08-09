@@ -170,7 +170,9 @@ export default function MyRecipes() {
         {recipesState.recipes.length > 0 &&
           !gettingRecipes &&
           !search.isTyping &&
-          recipesState.recipes.map((recipe) => <RecipeCard recipe={recipe} />)}
+          recipesState.recipes.map((recipe) => (
+            <RecipeCard recipe={recipe} key={recipe.id} />
+          ))}
         {recipesState.page < recipesState.totalPages && !gettingMoreRecipes && (
           <button onClick={loadMore}>Load more...</button>
         )}
