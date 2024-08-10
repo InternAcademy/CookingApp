@@ -19,7 +19,7 @@
     public class SubscriptionState : IMapFrom<Subscription>
     {
         public string Id { get; set; } = string.Empty;
-        public string PriceId { get; set; } = string.Empty;
+        public decimal? Price { get; set; }
         public string State { get; set; } = string.Empty;
         public DateTime? CancelAt { get; set; }
         public DateTime Created { get; set; }

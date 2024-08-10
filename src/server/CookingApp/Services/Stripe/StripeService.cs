@@ -38,7 +38,6 @@
 
             foreach (var product in products)
             {
-
                 var price = await priceService.GetAsync(product.DefaultPriceId);
                 result.Add(price.Id);
             }
@@ -174,6 +173,16 @@
             var subscriptions = await subscriptionService.ListAsync(subscriptionListOptions);
             customer.Subscriptions = mapper.Map<List<SubscriptionState>>(subscriptions.Data);
 
+            var sub = await subscriptionService.GetAsync(subscriptions.First().Id);
+            if (sub.Items != null && sub.Items.Data.Count > 0)
+            { 
+                var subscriptionItem = sub.Items.Data.First();
+                var priceId = subscriptionItem.Price.Id;
+                var price = await priceService.GetAsync(priceId);
+                customer.Subscriptions.First().Price = price.UnitAmountDecimal/100;
+
+            }
+        
             return customer;
         }
 

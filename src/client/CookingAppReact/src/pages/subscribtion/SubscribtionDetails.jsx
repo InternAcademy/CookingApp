@@ -33,6 +33,9 @@ export default function SubscribtionDetails() {
                   >
                     Premium
                   </div>
+                  <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 hover:border-orange-400 selection:bg-orange-400">
+                    {data.subscriptions[0].price}€ a month
+                  </li>
                 </li>
                 <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 hover:border-orange-400 selection:bg-orange-400">
                   {`Created at ${data.subscriptions[0].created}`}
@@ -48,9 +51,6 @@ export default function SubscribtionDetails() {
                   </li>
                 )}
 
-                <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 hover:border-orange-400 selection:bg-orange-400">
-                  • Customizable dietary options
-                </li>
                 <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 hover:border-orange-400 selection:bg-orange-400">
                   • Free cancellation
                 </li>
