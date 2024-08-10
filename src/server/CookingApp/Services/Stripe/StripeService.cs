@@ -126,15 +126,15 @@
         /// <summary>
         /// Cancels a subscription immediatly. The customer will not be charged again for the subscription
         /// </summary>
-        public async Task<SubscriptionCancellationResponse> CancelSubscriptionAsync(SubscriptionCancellation model)
+        public async Task<SubscriptionCancellationResponse> CancelSubscriptionAsync(string subscriptionId)
         {
-            ArgumentException.ThrowIfNullOrEmpty(model.SubscriptionId);
-            var sub = await subscriptionService.GetAsync(model.SubscriptionId);
+            ArgumentException.ThrowIfNullOrEmpty(subscriptionId);
+            var sub = await subscriptionService.GetAsync(subscriptionId);
             var options = new SubscriptionUpdateOptions
             {
                 CancelAtPeriodEnd=true
             };
-            subscriptionService.Update(model.SubscriptionId, options);
+            subscriptionService.Update(subscriptionId, options);
 
 
             return new SubscriptionCancellationResponse(sub.CurrentPeriodEnd);

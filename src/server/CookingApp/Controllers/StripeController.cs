@@ -49,10 +49,10 @@ namespace CookingApp.Controllers
             };
         }
 
-        [HttpPost("cancel")]
-        public async Task<ApiResponse<SubscriptionCancellationResponse>> CancelSubscriptionAsync([FromBody] SubscriptionCancellation model)
+        [HttpPost("cancel/{subscriptionId}")]
+        public async Task<ApiResponse<SubscriptionCancellationResponse>> CancelSubscriptionAsync(string subscriptionId)
         {
-            var subscription = await stripeService.CancelSubscriptionAsync(model);
+            var subscription = await stripeService.CancelSubscriptionAsync(subscriptionId);
 
             return new ApiResponse<SubscriptionCancellationResponse>()
             {

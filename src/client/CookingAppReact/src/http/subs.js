@@ -33,3 +33,31 @@ export async function createSub({ token, email, priceId }) {
   console.log(data);
   return data;
 }
+export async function mySub({ token }) {
+  const response = await fetch(`${ip}/api/stripe/my-subscription`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+  if (!response.ok) {
+    throw new Error(response.errors);
+  }
+  const data = await response.json();
+  return data.data;
+}
+export async function cancelSub({ token, subscriptionId }) {
+  const response = await fetch(`${ip}/api/stripe/cancel/${subscriptionId}`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+  if (!response.ok) {
+    throw new Error(response.errors);
+  }
+  const data = await response.json();
+  return data.data;
+}

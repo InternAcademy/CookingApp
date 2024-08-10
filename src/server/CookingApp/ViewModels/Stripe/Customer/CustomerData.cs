@@ -21,7 +21,7 @@
         public string Id { get; set; } = string.Empty;
         public string PriceId { get; set; } = string.Empty;
         public string State { get; set; } = string.Empty;
-        public DateTime CancelAt { get; set; }
+        public DateTime? CancelAt { get; set; }
         public DateTime Created { get; set; }
         public DateTime CurrentPeriodEnd { get; set; }
     }
