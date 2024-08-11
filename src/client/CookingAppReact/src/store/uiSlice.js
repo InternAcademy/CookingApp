@@ -37,9 +37,10 @@ const uiSlice = createSlice({
     },
     closeSidebar(state) {
       console.log(window.innerWidth);
-      if (window.innerWidth < 1300) {
-        state.sidebarOpen = false;
-      }
+      state.sidebarOpen = false;
+      // if (window.innerWidth < 1300) {
+        
+      // }
     },
     toggleRecipes(state) {
       state.recipesOpen = !state.recipesOpen;
