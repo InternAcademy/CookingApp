@@ -11,20 +11,14 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
 
   useEffect(() => {
     console.log(isOpen)
-    // Function to handle click outside the dropdown
     function handleClickOutside(event) {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
-        console.log('kurac')
-        toggleDropDown(); // Close the dropdown only when clicking outside
+        toggleDropDown();
       }
     }
-
-    // Attach the event listener to detect clicks outside
     if (isOpen) {
-      // Attach the event listener after a slight delay to prevent immediate closing
         document.addEventListener("click", handleClickOutside);
     }
-    // Cleanup the event listener on component unmount
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
@@ -35,7 +29,7 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
   return (
     <div
       ref={menuRef}
-      onClick={(e) => e.stopPropagation()} // Attach the ref to the dropdown container
+      onClick={(e) => e.stopPropagation()} 
       className={`absolute right-2 top-12 w-56 
       ${isDarkTheme ? "bg-[#2F2F2F]" : "bg-white"} 
       border border-gray-300 rounded-3xl shadow-sm z-20`}
