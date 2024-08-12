@@ -104,7 +104,11 @@ export default function MyRecipes() {
         />
         <h1 className="text-lg">My Recipes</h1>
         <UserIcon className="size-10 invisible md:visible rounded-xl border border-gray-100  hover:border hover:border-gray-200 hover:cursor-pointer p-2" 
-        onClick={toggleDropDown}
+        onClick={(e) => {
+          e.stopPropagation()
+          toggleDropDown()
+        }
+      }
         />
         <UserMenu isOpen={dropDownOpen} toggleDropDown={toggleDropDown} />
 

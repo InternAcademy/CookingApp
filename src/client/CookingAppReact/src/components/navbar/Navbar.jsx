@@ -98,7 +98,10 @@ export default function Navbar() {
           <div className="relative">
             <UserIcon
               className="size-10 rounded-xl hover:bg-gray-100 hover:cursor-pointer p-2"
-              onClick={toggleDropDown}
+              onClick={(e) => {
+                e.stopPropagation()
+                toggleDropDown()
+              }}
             />
             <UserMenu isOpen={dropDownOpen} toggleDropDown={toggleDropDown} />
           </div>
