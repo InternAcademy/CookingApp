@@ -17,8 +17,7 @@ export default function Navbar() {
   const role = useSelector((state) => state.user.role.type);
   const sidebarOpen = useSelector((state) => state.ui.sidebarOpen);
   const recipesOpen = useSelector((state) => state.ui.recipesOpen);
-  const [dropDownOpen, setDropDownOpen] = useState(false);
-
+  const dropDownOpen = useSelector((state) => state.ui.dropdownOpen)
   function handleSidebar() {
     dispatch(uiActions.openSidebar());
   }
@@ -31,7 +30,7 @@ export default function Navbar() {
     navigate("/");
   }
   const toggleDropDown = () => {
-    setDropDownOpen(!dropDownOpen);
+    dispatch(uiActions.toggleDropdown())
   };
 
   return (

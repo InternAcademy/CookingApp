@@ -9,12 +9,16 @@ import { useEffect, useState, useRef } from "react";
 import { Skeleton } from "../ui/skeleton";
 import useFirstPageRecipes from "@/hooks/useFirstPageRecipes";
 import "../../assets/css/animations.css";
+import UserMenu from "../userMenu/UserMenu";
+
 export default function MyRecipes() {
   const isOpen = useSelector((state) => state.ui.recipesOpen);
   const recipesState = useSelector((state) => state.ui.filteredRecipes);
   const [search, setSearch] = useState({ isTyping: false, message: "" });
-  const timeoutRef = useRef();
+  const timeoutRef = useRef();  
+  const dropDownOpen = useSelector((state) => state.ui.dropdownOpen)
   const dispatch = useDispatch();
+
   const {
     getFirstPageRecipes,
     loadMoreRecipes,
@@ -24,6 +28,9 @@ export default function MyRecipes() {
   function handleRecipes() {
     dispatch(uiActions.toggleRecipes());
   }
+  const toggleDropDown = () => {
+    dispatch(uiActions.toggleDropdown())
+  };
   useEffect(() => {
     if (isOpen) {
       console.log("open");
@@ -96,7 +103,11 @@ export default function MyRecipes() {
           onClick={handleRecipes}
         />
         <h1 className="text-lg">My Recipes</h1>
-        <UserIcon className="size-10 invisible md:visible rounded-xl border border-gray-100  hover:border hover:border-gray-200 hover:cursor-pointer p-2" />
+        <UserIcon className="size-10 invisible md:visible rounded-xl border border-gray-100  hover:border hover:border-gray-200 hover:cursor-pointer p-2" 
+        onClick={toggleDropDown}
+        />
+        <UserMenu isOpen={dropDownOpen} toggleDropDown={toggleDropDown} />
+
       </header>
 
       <section

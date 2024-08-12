@@ -5,6 +5,7 @@ import { act } from "react";
 const initialState = {
   sidebarOpen: true,
   recipesOpen: false,
+  dropdownOpen: false,
   isInitial: true,
   input: "",
   isThinking: false,
@@ -52,6 +53,9 @@ const uiSlice = createSlice({
       if (window.innerWidth < 1300 && state.recipesOpen) {
         state.recipesOpen = false;
       }
+    },
+    toggleDropdown(state){
+      state.dropdownOpen = !state.dropdownOpen;
     },
     setInput(state, action) {
       state.input = action.payload;
