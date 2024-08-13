@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { uiActions } from "@/store/uiSlice";
 import {
   Cog6ToothIcon,
   CreditCardIcon,
@@ -10,6 +11,7 @@ import SignOutButton from "../auth/SignOutButton";
 
 const UserMenu = ({ isOpen, toggleDropDown }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
   let role = useSelector((state) => state.user.role.type);
 
@@ -48,6 +50,7 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
               isDarkTheme ? "hover:bg-[#424242]" : "hover:bg-gray-100"
             } hover:rounded`}
             onClick={() => {
+              dispatch(uiActions.toggleDropdown());
               if (role === "Premium") {
                 navigate("/subscription/manage");
               } else {
@@ -59,9 +62,6 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
             <CreditCardIcon
               className="w-6 h-6 mr-4"
               color={isDarkTheme ? "white" : "black"}
-              onClick={() => {
-                navigate("/subscriptions");
-              }}
             />
             <span className={`${isDarkTheme ? "text-white" : "text-black"}`}>
               Subscription
@@ -73,6 +73,7 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
               isDarkTheme ? "hover:bg-[#424242]" : "hover:bg-gray-100"
             } hover:rounded`}
             onClick={() => {
+              dispatch(uiActions.toggleDropdown());
               navigate("/settings");
             }}
             title="Settings"
@@ -91,6 +92,7 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
               isDarkTheme ? "hover:bg-[#424242]" : "hover:bg-gray-100"
             } hover:rounded`}
             onClick={() => {
+              dispatch(uiActions.toggleDropdown());
               navigate("/rules-and-policies");
             }}
             title="Rules & Policies"
