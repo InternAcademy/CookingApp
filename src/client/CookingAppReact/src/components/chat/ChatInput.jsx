@@ -140,7 +140,10 @@ export default function ChatInput() {
           />
         </li>
       </ul>
-      <p className="hidden md:inline text-sm">This AI may occasionally make mistakes. Please verify any important information.</p>
+      <p className="hidden md:inline text-sm opacity-80">
+        This AI may occasionally make mistakes. Please verify any important
+        information.
+      </p>
     </section>
   );
 }
