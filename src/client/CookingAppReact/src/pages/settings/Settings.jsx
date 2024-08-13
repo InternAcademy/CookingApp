@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { getLoggedInUser } from "@/msal/userHelper";
 import { getToken } from "@/msal/msal";
 import { jwtDecode } from "jwt-decode";
+import toast from "react-hot-toast";
 
 export default function Settings() {
   const isOpenRecipes = useSelector((state) => state.ui.recipesOpen);
@@ -15,6 +16,7 @@ export default function Settings() {
     const token = await getToken();
     const decoded = jwtDecode(token);
     await navigator.clipboard.writeText(decoded.sub);
+    toast.success("Success! Your ID has been copied to the clipboard.");
   };
 
   return (
