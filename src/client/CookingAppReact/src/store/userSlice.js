@@ -4,6 +4,10 @@ const initialState = {
     id: null,
     content: [],
   },
+  personal: {
+    name: "",
+    picture: "",
+  },
   role: {
     type: null,
     limitations: {
@@ -73,6 +77,9 @@ const userSlice = createSlice({
         id: null,
         content: [],
       };
+    },
+    setPersonal(state, action) {
+      state.personal = action.payload;
     },
     clearChat(state) {
       state.selectedChat = null;

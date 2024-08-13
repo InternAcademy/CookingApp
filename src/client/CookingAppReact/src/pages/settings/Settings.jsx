@@ -11,7 +11,7 @@ import toast from "react-hot-toast";
 export default function Settings() {
   const isOpenRecipes = useSelector((state) => state.ui.recipesOpen);
   const isOpenSideBar = useSelector((state) => state.ui.sidebarOpen);
-
+  const personal = useSelector((state) => state.user.personal);
   const handleCopy = async () => {
     const token = await getToken();
     const decoded = jwtDecode(token);
@@ -36,7 +36,7 @@ export default function Settings() {
           <UserIcon className="size-10 mr-1" />
           <div>
             <h1 className="font-semibold text-lg text-gray-800">
-              David Petkov
+              {personal.name}
             </h1>
             <h2 className="text-gray-500 font-semibold text-sm flex flex-row items-center text-center">
               <button

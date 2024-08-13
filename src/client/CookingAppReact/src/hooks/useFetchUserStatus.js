@@ -14,9 +14,13 @@ const useFetchUserStatus = () => {
       const response = await checkUserStatus({ token });
       if (response.status !== 401) {
         const body = await response.json();
+        console.log(body);
         dispatch(uiActions.setTheme(body.data.interfacePreference.theme));
         dispatch(uiActions.setLanguage(body.data.interfacePreference.language));
         dispatch(userActions.setRole(body.data.role));
+        dispatch(
+          userActions.setPersonal({ name: body.data.name, picture: null })
+        );
         dispatch(
           userActions.setDietaryPreferences({
             allergies: body.data.allergies,
