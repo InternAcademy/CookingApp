@@ -62,7 +62,7 @@ export default function SubscribtionDetails() {
                 disabled={data.subscriptions[0].cancelAt ? true : false}
                 onClick={handleCancellation}
               >
-                Cancel Subscribtion
+                Cancel Subscription
               </button>
               <div className="w-full flex justify-center items-center text-center mt-2 text-base selection:bg-orange-400">
                 <img className="w-28 mr-1" src={stripe} alt="stripe" />

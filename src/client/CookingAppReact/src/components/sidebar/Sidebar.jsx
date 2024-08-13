@@ -24,7 +24,7 @@ export default function Sidebar() {
   const chatPage = useSelector((state) => state.user.chatHistory.page);
   const chatHistory = useSelector((state) => state.user.chatHistory.chats);
   const totalPages = useSelector((state) => state.user.chatHistory.totalPages);
-
+  let role = useSelector((state) => state.user.role.type);
   const selectChat = useSelectChat();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -92,8 +92,6 @@ export default function Sidebar() {
   }
 
   function isAdmin() {
-    let role = useSelector((state) => state.user.role.type);
-
     if (role === "Admin") {
       return true;
     } else {
@@ -102,8 +100,6 @@ export default function Sidebar() {
   }
 
   function isPremium() {
-    let role = useSelector((state) => state.user.role.type);
-
     if (role === "Premium") {
       return true;
     } else {

@@ -11,6 +11,8 @@ import SignOutButton from "../auth/SignOutButton";
 const UserMenu = ({ isOpen, toggleDropDown }) => {
   const navigate = useNavigate();
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
+  let role = useSelector((state) => state.user.role.type);
+
   const menuRef = useRef(null);
 
   useEffect(() => {
@@ -46,7 +48,11 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
               isDarkTheme ? "hover:bg-[#424242]" : "hover:bg-gray-100"
             } hover:rounded`}
             onClick={() => {
-              navigate("/subscription");
+              if (role === "Premium") {
+                navigate("/subscription/manage");
+              } else {
+                navigate("/subscription");
+              }
             }}
             title="Subscription"
           >
