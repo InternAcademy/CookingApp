@@ -74,7 +74,7 @@
             
             var options = new SessionCreateOptions
                 {
-                    SuccessUrl = $"http://localhost:5173/success",
+                    SuccessUrl = $"{stripeOptions.Value.SuccessRoute}",
                     Mode = "subscription",
                     LineItems = new List<SessionLineItemOptions>
                         {
