@@ -1,7 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Cog6ToothIcon, CreditCardIcon, ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import {
+  Cog6ToothIcon,
+  CreditCardIcon,
+  ExclamationTriangleIcon,
+} from "@heroicons/react/24/outline";
 import SignOutButton from "../auth/SignOutButton";
 
 const UserMenu = ({ isOpen, toggleDropDown }) => {
@@ -10,14 +14,14 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
   const menuRef = useRef(null);
 
   useEffect(() => {
-    console.log(isOpen)
+    console.log(isOpen);
     function handleClickOutside(event) {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         toggleDropDown();
       }
     }
     if (isOpen) {
-        document.addEventListener("click", handleClickOutside);
+      document.addEventListener("click", handleClickOutside);
     }
     return () => {
       document.removeEventListener("click", handleClickOutside);
@@ -29,7 +33,7 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
   return (
     <div
       ref={menuRef}
-      onClick={(e) => e.stopPropagation()} 
+      onClick={(e) => e.stopPropagation()}
       className={`absolute right-2 top-12 w-56 
       ${isDarkTheme ? "bg-[#2F2F2F]" : "bg-white"} 
       border border-gray-300 rounded-3xl shadow-sm z-20`}
@@ -38,7 +42,9 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
         <div className="flex flex-col items-start w-full space-y-2">
           <div
             className={`flex items-center w-full cursor-pointer p-2  
-            ${isDarkTheme ? "hover:bg-[#424242]" : "hover:bg-gray-100"} hover:rounded`}
+            ${
+              isDarkTheme ? "hover:bg-[#424242]" : "hover:bg-gray-100"
+            } hover:rounded`}
             onClick={() => {
               navigate("/subscription");
             }}
@@ -47,6 +53,9 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
             <CreditCardIcon
               className="w-6 h-6 mr-4"
               color={isDarkTheme ? "white" : "black"}
+              onClick={() => {
+                navigate("/subscriptions");
+              }}
             />
             <span className={`${isDarkTheme ? "text-white" : "text-black"}`}>
               Subscription
@@ -54,7 +63,9 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
           </div>
           <div
             className={`flex items-center w-full cursor-pointer p-2 
-            ${isDarkTheme ? "hover:bg-[#424242]" : "hover:bg-gray-100"} hover:rounded`}
+            ${
+              isDarkTheme ? "hover:bg-[#424242]" : "hover:bg-gray-100"
+            } hover:rounded`}
             onClick={() => {
               navigate("/settings");
             }}
@@ -70,7 +81,9 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
           </div>
           <div
             className={`flex items-center w-full cursor-pointer p-2 
-            ${isDarkTheme ? "hover:bg-[#424242]" : "hover:bg-gray-100"} hover:rounded`}
+            ${
+              isDarkTheme ? "hover:bg-[#424242]" : "hover:bg-gray-100"
+            } hover:rounded`}
             onClick={() => {
               navigate("/rules-and-policies");
             }}
@@ -85,8 +98,16 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
             </span>
           </div>
         </div>
-        <hr className={`w-full mt-2 mb-2 ${isDarkTheme ? "border-[#3C3C3C]" : "border-gray-200"}`} />
-        <div className={`p-2 ${isDarkTheme ? "hover:bg-[#424242]" : "hover:bg-gray-100"} hover:rounded`}>
+        <hr
+          className={`w-full mt-2 mb-2 ${
+            isDarkTheme ? "border-[#3C3C3C]" : "border-gray-200"
+          }`}
+        />
+        <div
+          className={`p-2 ${
+            isDarkTheme ? "hover:bg-[#424242]" : "hover:bg-gray-100"
+          } hover:rounded`}
+        >
           <SignOutButton />
         </div>
       </div>
