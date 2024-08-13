@@ -48,7 +48,16 @@ const router = createBrowserRouter([
           />
         ),
       },
-      { path: "subscription/manage", element: <SubscribtionDetails /> },
+      {
+        path: "subscription/manage",
+        element: (
+          <AuthorizeRoute
+            succesPage={<SubscribtionDetails />}
+            requiredRole={"Premium"}
+            unAuthorizedPath={"/"}
+          />
+        ),
+      },
       { path: "success", element: <Success /> },
       { path: "settings", element: <Settings /> },
       { path: "/rules-and-policies", element: <Rules /> },
