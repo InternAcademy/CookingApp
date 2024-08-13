@@ -20,7 +20,7 @@ namespace CookingApp.Controllers
             return new ApiResponse<ProfileFetchResult>()
             {
                 Status = 200,
-                Data = await userProfileService.FetchProfile(userId)
+                Data = await userProfileService.FetchProfile(userId,httpContextAccessor)
             };
         }
 

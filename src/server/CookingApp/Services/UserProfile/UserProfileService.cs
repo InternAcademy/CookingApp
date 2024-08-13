@@ -9,10 +9,10 @@ namespace CookingApp.Services.UserProfile
 {
     public class UserProfileService(IRepository<Models.UserProfile> profileRepo) : IUserProfileService
     {
-        public async Task<ProfileFetchResult> FetchProfile(string userId)
+        public async Task<ProfileFetchResult> FetchProfile(string userId,IHttpContextAccessor httpContextAccessor)
         {
             var profile = await profileRepo.GetFirstOrDefaultAsync(a => a.UserId == userId);
-
+            var username = httpContextAccessor.HttpContext?.User.Claims.FirstOrDefault(claim=>claim.Type=="name");
             if (profile is null)
             {
                 profile = new Models.UserProfile
@@ -23,6 +23,7 @@ namespace CookingApp.Services.UserProfile
                     Allergies = new List<string>(),
                     AvoidedFoods = new List<string>(),
                     UserId = userId,
+                    Name = username.Value
                 };
 
                 await profileRepo.InsertAsync(profile);
