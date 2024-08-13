@@ -42,7 +42,10 @@ export default function Sidebar() {
     }
   }, [isOpen]);
   function handleChatSelection(chatId) {
-    dispatch(uiActions.closeSidebar());
+    if (window.innerWidth < 1300) {
+      dispatch(uiActions.closeSidebar());
+    }
+
     navigate(`c/${chatId}`);
   }
   function handleNewChat() {
@@ -67,17 +70,23 @@ export default function Sidebar() {
     dispatch(uiActions.closeSidebar());
   }
   function handleClickDashboard() {
-    dispatch(uiActions.closeSidebar());
+    if (window.innerWidth < 1300) {
+      dispatch(uiActions.closeSidebar());
+    }
 
     navigate("/admin/dashboard");
   }
   function handleClickSubscribtion() {
-    dispatch(uiActions.closeSidebar());
+    if (window.innerWidth < 1300) {
+      dispatch(uiActions.closeSidebar());
+    }
 
     navigate("/subscription");
   }
   function handleClickYourSubscribtion() {
-    dispatch(uiActions.closeSidebar());
+    if (window.innerWidth < 1300) {
+      dispatch(uiActions.closeSidebar());
+    }
 
     navigate("/subscription/manage");
   }

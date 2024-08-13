@@ -17,8 +17,11 @@ export default function Navbar() {
   const role = useSelector((state) => state.user.role.type);
   const sidebarOpen = useSelector((state) => state.ui.sidebarOpen);
   const recipesOpen = useSelector((state) => state.ui.recipesOpen);
-  const dropDownOpen = useSelector((state) => state.ui.dropdownOpen)
+  const dropDownOpen = useSelector((state) => state.ui.dropdownOpen);
   function handleSidebar() {
+    if (recipesOpen && window.innerWidth < 1300) {
+      dispatch(uiActions.toggleRecipes());
+    }
     dispatch(uiActions.openSidebar());
   }
   function handleRecipes() {
@@ -30,7 +33,7 @@ export default function Navbar() {
     navigate("/");
   }
   const toggleDropDown = () => {
-    dispatch(uiActions.toggleDropdown())
+    dispatch(uiActions.toggleDropdown());
   };
 
   return (
@@ -99,8 +102,8 @@ export default function Navbar() {
             <UserIcon
               className="size-10 rounded-xl hover:bg-gray-100 hover:cursor-pointer p-2"
               onClick={(e) => {
-                e.stopPropagation()
-                toggleDropDown()
+                e.stopPropagation();
+                toggleDropDown();
               }}
             />
             <UserMenu isOpen={dropDownOpen} toggleDropDown={toggleDropDown} />

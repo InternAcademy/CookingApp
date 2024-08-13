@@ -29,19 +29,12 @@ const uiSlice = createSlice({
   reducers: {
     openSidebar(state) {
       state.sidebarOpen = true;
-      if (window.innerWidth < 1300) {
-        state.recipesOpen = false;
-      }
     },
     setIsShown(state) {
       state.isMessageWarningShowed = true;
     },
     closeSidebar(state) {
-      console.log(window.innerWidth);
       state.sidebarOpen = false;
-      // if (window.innerWidth < 1300) {
-        
-      // }
     },
     toggleRecipes(state) {
       state.recipesOpen = !state.recipesOpen;
@@ -54,7 +47,7 @@ const uiSlice = createSlice({
         state.recipesOpen = false;
       }
     },
-    toggleDropdown(state){
+    toggleDropdown(state) {
       state.dropdownOpen = !state.dropdownOpen;
     },
     setInput(state, action) {
