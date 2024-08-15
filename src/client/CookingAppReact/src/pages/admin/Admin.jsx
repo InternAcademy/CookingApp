@@ -118,7 +118,7 @@ export default function Admin() {
             color="transparent"
             className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
           >
-            <div className="w-max rounded-lg bg-orange-300 p-5 m-2 text-black">
+            <div className="w-max rounded-lg bg-orange-300 p-5 m-2 primaryText">
               <CurrencyEuroIcon className="h-6 w-6" />
             </div>
             <div>
@@ -150,7 +150,7 @@ export default function Admin() {
           ref={ref}
         />
         <button
-          className="px-5 py-1 rounded-2xl border bg-orange-200 mt-2"
+          className="px-5 py-1 rounded-2xl border bg-primary mt-2"
           onClick={handleGifting}
         >
           Gift

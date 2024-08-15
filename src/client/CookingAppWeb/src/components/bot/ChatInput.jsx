@@ -6,9 +6,9 @@ import { PaperclipIcon, ArrowUpCircle } from "lucide-react";
 import useChatMutation from "@/hooks/useChatMutation";
 
 export default function ChatInput({ isPending }) {
-  const input = useSelector(state => state.ui.input);
-  const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
-  const selectedChat = useSelector(state => state.user.selectedChat);
+  const input = useSelector((state) => state.ui.input);
+  const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
+  const selectedChat = useSelector((state) => state.user.selectedChat);
   const { mutate, isPending: isChatPending } = useChatMutation();
   const fileInputRef = useRef(null);
 
@@ -19,9 +19,9 @@ export default function ChatInput({ isPending }) {
   }
 
   async function resizeImage(file) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       const reader = new FileReader();
-      reader.onload = readerEvent => {
+      reader.onload = (readerEvent) => {
         const image = new Image();
         image.onload = () => {
           const canvas = document.createElement("canvas");
@@ -53,7 +53,7 @@ export default function ChatInput({ isPending }) {
     dispatch(
       userActions.selectChat({
         ...selectedChat,
-        content: [...(selectedChat?.content || []), newContent]
+        content: [...(selectedChat?.content || []), newContent],
       })
     );
 
@@ -61,7 +61,7 @@ export default function ChatInput({ isPending }) {
       token,
       chatId: selectedChat ? selectedChat.id : null,
       type,
-      content
+      content,
     });
 
     dispatch(uiActions.setInput(""));
@@ -72,14 +72,46 @@ export default function ChatInput({ isPending }) {
   }
 
   return (
-    <div className={`flex w-3/4 flex-row justify-center items-center border ${isDarkTheme ? "border-gray-700 bg-gray-900" : "border-gray-300 bg-amber-50"} rounded-lg px-2 mx-1`}>
+    <div
+      className={`flex w-3/4 flex-row justify-center items-center border ${
+        isDarkTheme
+          ? "border-gray-700 bg-gray-900"
+          : "border-gray-300 bg-amber-50"
+      } rounded-lg px-2 mx-1`}
+    >
       <button onClick={openFileDialog} className="p-1" disabled={isPending}>
-        <PaperclipIcon className={`w-5 h-5 ${isDarkTheme ? "text-white" : "text-[#EAB308]"} ${isPending ? "text-gray-400" : ""}`} />
+        <PaperclipIcon
+          className={`w-5 h-5 ${
+            isDarkTheme ? "text-white" : "text-[#EAB308]"
+          } ${isPending ? "text-gray-400" : ""}`}
+        />
       </button>
-      <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="image/*" style={{ display: "none" }} />
-      <input type="text" className={`flex-1 h-10 px-1 ${isDarkTheme ? "text-white bg-gray-900" : "text-black bg-amber-50"}`} placeholder="Message MealMasterBot" value={input} onChange={handleTyping} />
-      <button onClick={() => sendMessage(input)} className="p-1" disabled={isPending || !input}>
-        <ArrowUpCircle className={`w-6 h-6 ${isDarkTheme ? "text-white" : "text-[#EAB308]"} ${isPending || !input ? "text-gray-400" : ""}`} />
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleFileChange}
+        accept="image/*"
+        style={{ display: "none" }}
+      />
+      <input
+        type="text"
+        className={`flex-1 h-10 px-1 ${
+          isDarkTheme ? "text-white bg-gray-900" : "primaryText bg-amber-50"
+        }`}
+        placeholder="Message MealMasterBot"
+        value={input}
+        onChange={handleTyping}
+      />
+      <button
+        onClick={() => sendMessage(input)}
+        className="p-1"
+        disabled={isPending || !input}
+      >
+        <ArrowUpCircle
+          className={`w-6 h-6 ${
+            isDarkTheme ? "text-white" : "text-[#EAB308]"
+          } ${isPending || !input ? "text-gray-400" : ""}`}
+        />
       </button>
     </div>
   );

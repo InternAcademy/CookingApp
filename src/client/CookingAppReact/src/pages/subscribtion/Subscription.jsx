@@ -25,32 +25,32 @@ export default function Subscription() {
       {priceIds && (
         <div className="flex w-full justify-center content-start items-start flex-col h-full">
           <div>
-            <ul className="flex flex-col justify-center content-center items-start gap-5 selection:bg-orange-400">
+            <ul className="flex flex-col justify-center content-center items-start gap-5 selection:bg-primary">
               <li className="text-4xl font-bold">
                 Explore our subscription plan:
               </li>
               <li>
                 <div
-                  className="bg-orange-400 text-black p-2 uppercase font-bold rounded-xl w-fit 
-                flex flex-row justify-center items-center text-center selection:bg-white
+                  className="bg-primary primaryText p-2 uppercase font-bold rounded-xl w-fit 
+                flex flex-row justify-center items-center text-center selection:bg-secondary
                 hover:rounded-ss-none hover:rounded-ee-none transition-all duration-100"
                 >
                   <FireIcon className="size-7 mr-1" /> Hot offer
                 </div>
               </li>
-              <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 hover:border-orange-400 selection:bg-orange-400">
+              <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 hover:border-orange-400 selection:bg-primary">
                 • Unlimited messages
               </li>
-              <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 hover:border-orange-400 selection:bg-orange-400">
+              <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 hover:border-orange-400 selection:bg-primary">
                 • Unlimited chats
               </li>
-              <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 hover:border-orange-400 selection:bg-orange-400">
+              <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 hover:border-orange-400 selection:bg-primary">
                 • More than enough recipies
               </li>
-              <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 hover:border-orange-400 selection:bg-orange-400">
+              <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 hover:border-orange-400 selection:bg-primary">
                 • Customizable dietary options
               </li>
-              <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 hover:border-orange-400 selection:bg-orange-400">
+              <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 hover:border-orange-400 selection:bg-primary">
                 • Free cancellation
               </li>
             </ul>
@@ -58,11 +58,11 @@ export default function Subscription() {
               className="text-white bg-black py-3 font-bold rounded-xl w-full mt-10 border-2 border-transparent hover:border-gray-300 shadow-md hover:rounded-ss-none hover:rounded-ee-none transition-all duration-100"
               onClick={handleClick}
             >
-              <div className=" font-semibold text-xl flex flex-row items-center justify-center text-center selection:bg-orange-400">
+              <div className=" font-semibold text-xl flex flex-row items-center justify-center text-center selection:bg-primary">
                 For €8.99
               </div>
             </button>
-            <div className="w-full flex justify-center items-center text-center mt-2 text-base selection:bg-orange-400">
+            <div className="w-full flex justify-center items-center text-center mt-2 text-base selection:bg-primary">
               <img className="w-28 mr-1" src={stripe} alt="stripe" />
             </div>
           </div>

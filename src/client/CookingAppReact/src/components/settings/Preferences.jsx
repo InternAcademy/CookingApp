@@ -126,7 +126,7 @@ export default function Preferences() {
     });
   }
   return (
-    <div className="flex flex-col mt-4">
+    <div className="flex flex-col mt-4 ">
       <UserInterface />
       <FoodPreferences
         selectedPreference={selectedPreference}
@@ -151,7 +151,7 @@ export default function Preferences() {
       />
       <div className="flex justify-center w-full">
         <button
-          className="bg-orange-200 font-semibold border rounded-full py-2 px-5"
+          className="bg-primary font-semibold border rounded-full py-2 px-5"
           onClick={savePreferences}
         >
           Save Changes

@@ -15,8 +15,8 @@ export default function MyRecipes() {
   const isOpen = useSelector((state) => state.ui.recipesOpen);
   const recipesState = useSelector((state) => state.ui.filteredRecipes);
   const [search, setSearch] = useState({ isTyping: false, message: "" });
-  const timeoutRef = useRef();  
-  const dropDownOpen = useSelector((state) => state.ui.dropdownOpen)
+  const timeoutRef = useRef();
+  const dropDownOpen = useSelector((state) => state.ui.dropdownOpen);
   const dispatch = useDispatch();
 
   const {
@@ -29,7 +29,7 @@ export default function MyRecipes() {
     dispatch(uiActions.toggleRecipes());
   }
   const toggleDropDown = () => {
-    dispatch(uiActions.toggleDropdown())
+    dispatch(uiActions.toggleDropdown());
   };
   useEffect(() => {
     if (isOpen) {
@@ -89,29 +89,28 @@ export default function MyRecipes() {
   }, [search.message]);
   return (
     <section
-      className={`bg-gray-100 flex flex-col flex-shrink-0 ${
+      className={`bg-base flex flex-col flex-shrink-0 ${
         isOpen ? "visible w-screen md:w-[25rem] md:relative" : "invisible w-0"
       }  h-screen duration-300`}
     >
       <header
-        className={`flex flex-row justify-between items-center px-3 py-3 ${
+        className={`flex flex-row justify-between items-center px-3 py-3 text-primaryText ${
           isOpen ? "" : "hidden"
         }`}
       >
         <ChevronLeftIcon
-          className="size-10  rounded-xl border border-gray-100  hover:border hover:border-gray-200 hover:cursor-pointer p-2"
+          className="size-10  rounded-xl   hover:border hover:border-gray-200 hover:cursor-pointer p-2"
           onClick={handleRecipes}
         />
-        <h1 className="text-lg">My Recipes</h1>
-        <UserIcon className="size-10 invisible md:visible rounded-xl border border-gray-100  hover:border hover:border-gray-200 hover:cursor-pointer p-2" 
-        onClick={(e) => {
-          e.stopPropagation()
-          toggleDropDown()
-        }
-      }
+        <h1 className="text-lg text-primaryText">My Recipes</h1>
+        <UserIcon
+          className="size-10 invisible md:visible rounded-xl   hover:border hover:border-gray-200 hover:cursor-pointer p-2"
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleDropDown();
+          }}
         />
         <UserMenu isOpen={dropDownOpen} toggleDropDown={toggleDropDown} />
-
       </header>
 
       <section
@@ -122,7 +121,7 @@ export default function MyRecipes() {
         <input
           type="text"
           onChange={handleChange}
-          className="bg-white w-full h-3/4 rounded-xl outline-none px-6 py-3"
+          className="bg-secondary text-primaryText w-full h-3/4 rounded-xl outline-none px-6 py-3"
           placeholder="Looking for your favourite recipe?"
         />
       </section>
@@ -189,14 +188,16 @@ export default function MyRecipes() {
             <RecipeCard recipe={recipe} key={recipe.id} />
           ))}
         {recipesState.page < recipesState.totalPages && !gettingMoreRecipes && (
-          <button onClick={loadMore}>Load more...</button>
+          <button onClick={loadMore} className="text-primaryText">
+            Load more...
+          </button>
         )}
         {recipesState.recipes.length === 0 && (
-          <p>You dont't have any recipes </p>
+          <p className="text-primaryText">You dont't have any recipes </p>
         )}
 
         {gettingMoreRecipes && (
-          <span>
+          <span className="text-primaryText">
             Loading
             <span className="dot-1">.</span>
             <span className="dot-2">.</span>

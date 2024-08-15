@@ -106,8 +106,8 @@ export default function ChatInput() {
   }, [base64Image]);
 
   return (
-    <section className="flex flex-col items-center justify-center mb-5 w-full gap-1">
-      <ul className="flex w-4/5 md:w-3/5 lg:w-2/5 items-center bg-gray-200 rounded-full gap-2  py-2 px-4">
+    <section className="flex flex-col items-center justify-center mb-5 w-full gap-1 ">
+      <ul className="flex w-4/5 md:w-3/5 lg:w-2/5 items-center secondary rounded-full gap-2  py-2 px-4 bg-active text-primaryText">
         <li>
           <input
             type="file"
@@ -128,7 +128,7 @@ export default function ChatInput() {
             placeholder="What do you want to cook today?"
             onKeyDown={handleChange}
             onChange={handleChange}
-            className="w-full outline-none bg-gray-200 text-black placeholder-black"
+            className="w-full outline-none bg-active text-primaryText"
           />
         </li>
         <li>
@@ -140,7 +140,7 @@ export default function ChatInput() {
           />
         </li>
       </ul>
-      <p className="hidden md:inline text-sm opacity-80">
+      <p className="hidden md:inline text-sm opacity-80 text-primaryText">
         This AI may occasionally make mistakes. Please verify any important
         information.
       </p>

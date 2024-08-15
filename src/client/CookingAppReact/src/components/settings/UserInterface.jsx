@@ -31,10 +31,12 @@ export default function UserInterface() {
   }
   return (
     <>
-      <h1 className="font-semibold text-lg mb-4">Language and Theme</h1>
-      <div className="flex flex-col md:flex-row">
+      <h1 className="font-semibold text-lg mb-4 bg-secondary">
+        Language and Theme
+      </h1>
+      <div className="flex flex-col md:flex-row bg-secondary">
         <select
-          className="border rounded-lg px-4 py-3 m-1 md:w-1/2 text-sm shadow-sm"
+          className="border rounded-lg px-4 py-3 m-1 md:w-1/2 text-sm shadow-sm bg-secondary"
           onChange={langChange}
         >
           <option value="none" disabled selected>
@@ -44,7 +46,7 @@ export default function UserInterface() {
           <option value="German">German</option>
         </select>
         <select
-          className="border rounded-lg m-1 px-4 py-3 md:w-1/2 text-sm shadow-sm"
+          className="border rounded-lg m-1 px-4 py-3 md:w-1/2 text-sm shadow-sm bg-secondary"
           onChange={themeChange}
         >
           <option value="none" disabled selected>

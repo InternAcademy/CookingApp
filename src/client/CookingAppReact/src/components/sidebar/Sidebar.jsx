@@ -114,7 +114,7 @@ export default function Sidebar() {
   }
   return (
     <section
-      className={`bg-gray-100 flex flex-col flex-shrink-0   ${
+      className={`bg-base flex flex-col flex-shrink-0  text-primaryText   ${
         isOpen
           ? "visible w-screen absolute z-10 md:w-80 md:relative md:z-0"
           : "invisible w-0"
@@ -122,11 +122,11 @@ export default function Sidebar() {
     >
       <header className="flex justify-between px-4 py-4">
         <Bars3BottomLeftIcon
-          className="size-10  rounded-xl border border-gray-100  hover:border hover:border-gray-200 hover:cursor-pointer p-2"
+          className="size-10  rounded-xl border border-base hover:border hover:border-gray-200 hover:cursor-pointer p-2"
           onClick={handleClick}
         />
         <ChatBubbleOvalLeftEllipsisIcon
-          className="size-10 rounded-xl border border-gray-100  hover:border hover:border-gray-200 hover:cursor-pointer p-2"
+          className="size-10 rounded-xl border border-base  hover:border hover:border-gray-200 hover:cursor-pointer p-2"
           onClick={handleNewChat}
         />
       </header>
@@ -134,7 +134,7 @@ export default function Sidebar() {
         className={`${isPremium() || !isOpen ? "hidden" : ""}`}
         onClick={handleClickSubscribtion}
       >
-        <h5 className="hover:bg-gray-300 mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-white/20 shadow-sm ring-1 ring-black/5">
+        <h5 className="hover:bg-primary mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-secondary shadow-sm ring-1 ring-black/5">
           <BanknotesIcon className="size-5 mr-5" />
           Get Premium
         </h5>
@@ -143,7 +143,7 @@ export default function Sidebar() {
         className={`${!isPremium() || !isOpen ? "hidden" : ""}`}
         onClick={handleClickYourSubscribtion}
       >
-        <h5 className="hover:bg-gray-300 mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-white/20 shadow-sm ring-1 ring-black/5">
+        <h5 className="hover:bg-gray-300 mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-secondary shadow-sm ring-1 ring-black/5">
           <BanknotesIcon className="size-5 mr-5" />
           Your Subscription
         </h5>
@@ -189,7 +189,7 @@ export default function Sidebar() {
               sortedChatHistory[sectionTitle] && (
                 <Fragment key={sectionTitle}>
                   <h3
-                    className=" text-md font-light tracking-normal"
+                    className=" text-md text-primaryText font-light tracking-normal"
                     key={sectionTitle}
                   >
                     {sectionTitle}

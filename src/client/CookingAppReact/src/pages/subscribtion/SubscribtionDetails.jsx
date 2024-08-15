@@ -27,8 +27,8 @@ export default function SubscribtionDetails() {
 
                 <li>
                   <div
-                    className="bg-orange-400 text-black p-2 uppercase font-bold rounded-xl w-fit 
-                flex flex-row justify-center items-center text-center selection:bg-white
+                    className="bg-orange-400 primaryText p-2 uppercase font-bold rounded-xl w-fit 
+                flex flex-row justify-center items-center text-center selection:bg-secondary
                 hover:rounded-ss-none hover:rounded-ee-none transition-all duration-100"
                   >
                     Premium

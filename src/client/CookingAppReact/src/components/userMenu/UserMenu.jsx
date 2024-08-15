@@ -39,15 +39,15 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
       ref={menuRef}
       onClick={(e) => e.stopPropagation()}
       className={`absolute right-2 top-12 w-56 
-      ${isDarkTheme ? "bg-[#2F2F2F]" : "bg-white"} 
-      border border-gray-300 rounded-3xl shadow-sm z-20`}
+      ${isDarkTheme ? "bg-[#2F2F2F]" : "bg-secondary"} 
+      border border-secondary rounded-3xl shadow-sm z-20 text-primaryText`}
     >
       <div className="flex flex-col p-4">
         <div className="flex flex-col items-start w-full space-y-2">
           <div
             className={`flex items-center w-full cursor-pointer p-2  
             ${
-              isDarkTheme ? "hover:bg-[#424242]" : "hover:bg-gray-100"
+              isDarkTheme ? "hover:bg-[#424242]" : "hover:bg-base"
             } hover:rounded`}
             onClick={() => {
               dispatch(uiActions.toggleDropdown());
@@ -59,37 +59,26 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
             }}
             title="Subscription"
           >
-            <CreditCardIcon
-              className="w-6 h-6 mr-4"
-              color={isDarkTheme ? "white" : "black"}
-            />
-            <span className={`${isDarkTheme ? "text-white" : "text-black"}`}>
-              Subscription
-            </span>
+            <CreditCardIcon className="w-6 h-6 mr-4" />
+            <span>Subscription</span>
           </div>
           <div
             className={`flex items-center w-full cursor-pointer p-2 
-            ${
-              isDarkTheme ? "hover:bg-[#424242]" : "hover:bg-gray-100"
-            } hover:rounded`}
+            hover:bg-base
+            hover:rounded`}
             onClick={() => {
               dispatch(uiActions.toggleDropdown());
               navigate("/settings");
             }}
             title="Settings"
           >
-            <Cog6ToothIcon
-              className="w-6 h-6 mr-4"
-              color={isDarkTheme ? "white" : "black"}
-            />
-            <span className={`${isDarkTheme ? "text-white" : "text-black"}`}>
-              Settings
-            </span>
+            <Cog6ToothIcon className="w-6 h-6 mr-4" />
+            <span>Settings</span>
           </div>
           <div
             className={`flex items-center w-full cursor-pointer p-2 
             ${
-              isDarkTheme ? "hover:bg-[#424242]" : "hover:bg-gray-100"
+              isDarkTheme ? "hover:bg-[#424242]" : "hover:bg-base"
             } hover:rounded`}
             onClick={() => {
               dispatch(uiActions.toggleDropdown());
@@ -97,25 +86,15 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
             }}
             title="Rules & Policies"
           >
-            <ExclamationTriangleIcon
-              className="w-6 h-6 mr-4"
-              color={isDarkTheme ? "white" : "black"}
-            />
-            <span className={`${isDarkTheme ? "text-white" : "text-black"}`}>
-              Rules & Policies
-            </span>
+            <ExclamationTriangleIcon className="w-6 h-6 mr-4" />
+            <span>Rules & Policies</span>
           </div>
         </div>
         <hr
-          className={`w-full mt-2 mb-2 ${
-            isDarkTheme ? "border-[#3C3C3C]" : "border-gray-200"
+          className={`w-full mt-2 mb-2 border-primaryText
           }`}
         />
-        <div
-          className={`p-2 ${
-            isDarkTheme ? "hover:bg-[#424242]" : "hover:bg-gray-100"
-          } hover:rounded`}
-        >
+        <div className={`p-2hover:bg-base hover:rounded`}>
           <SignOutButton />
         </div>
       </div>

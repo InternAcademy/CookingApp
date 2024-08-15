@@ -15,7 +15,7 @@ export default function RecipeCard({ recipe }) {
   return (
     <li
       key={recipe.id}
-      className="group flex flex-col bg-white w-full h-72 rounded-2xl pb-2 border hover:cursor-pointer transition"
+      className="group flex flex-col text-primaryText bg-secondary w-full h-72 rounded-2xl pb-2  hover:cursor-pointer transition"
       onClick={handleClick}
     >
       <img

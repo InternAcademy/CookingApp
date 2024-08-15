@@ -30,10 +30,10 @@ export default function Recipe() {
     }
   }, [isError]);
   return (
-    <div className="flex w-full pl-5 pr-5 xl:pl-28 xl:pr-36 py-16 flex-col overflow-y-auto">
+    <div className="flex w-full pl-5 text-primaryText pr-5 xl:pl-28 xl:pr-36 py-16 flex-col overflow-y-auto">
       {data && !isError && (
         <>
-          <div className="w-full flex flex-col xl:flex-row xl:h-[32rem] bg-gray-100 rounded-2xl">
+          <div className="w-full flex flex-col xl:flex-row xl:h-[32rem] bg-base rounded-2xl">
             <div className="w-full xl:w-2/3">
               <img
                 className="h-full w-full object-cover rounded-2xl"
@@ -43,10 +43,10 @@ export default function Recipe() {
             </div>
             <div className="py-12 px-8 w-full xl:w-1/3 flex flex-col gap-12 justify-center items-start">
               <h1 className="text-4xl font-medium">{data.title}</h1>
-              <p className="text-base">{data.description}</p>
+              <p className="">{data.description}</p>
             </div>
           </div>
-          <div className="h-fit bg-gray-100 flex content-start items-start flex-col lg:flex-row w-fit xl:w-1/2 rounded-2xl mt-16 p-5 gap-4">
+          <div className="h-fit bg-base flex content-start items-start flex-col lg:flex-row w-fit xl:w-1/2 rounded-2xl mt-16 p-5 gap-4">
             <div className="lg:w-1/3 h-full flex flex-row justify-center items-center gap-2">
               <ClockIcon className="size-8" />
               <p className="text-lg ">{data.duration}</p>
@@ -81,7 +81,7 @@ export default function Recipe() {
               {data.preparationSteps.map((step, index) => (
                 <div className="rounded-2xl bg-orange-50 w-full p-1">
                   <div className="border flex flex-col items-center md:items-start justify-start w-full h-full rounded-2xl px-8 py-4">
-                    <div className="text-center text-black text-3xl font-light flex flex-row items-center md:gap-2">
+                    <div className="text-center primaryText text-3xl font-light flex flex-row items-center md:gap-2">
                       <p className="text-xl font-semibold mr-2">
                         Step {index + 1}
                       </p>
