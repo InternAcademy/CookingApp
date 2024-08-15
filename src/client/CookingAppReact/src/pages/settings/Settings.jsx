@@ -1,17 +1,24 @@
 import Preferences from "@/components/settings/Preferences";
 import { UserIcon } from "@heroicons/react/24/outline";
 import { ClipboardDocumentIcon } from "@heroicons/react/24/outline";
-import { useState } from "react";
+import { useRef } from "react";
 import { useSelector } from "react-redux";
 import { getLoggedInUser } from "@/msal/userHelper";
 import { getToken } from "@/msal/msal";
 import { jwtDecode } from "jwt-decode";
 import toast from "react-hot-toast";
+import usePfp from "@/hooks/usePfp";
 
 export default function Settings() {
   const isOpenRecipes = useSelector((state) => state.ui.recipesOpen);
   const isOpenSideBar = useSelector((state) => state.ui.sidebarOpen);
   const personal = useSelector((state) => state.user.personal);
+  const pfp = useSelector((state) => state.user.profilePicture);
+
+  const fileAttacher = useRef();
+
+  const { mutate } = usePfp();
+
   const handleCopy = async () => {
     const token = await getToken();
     const decoded = jwtDecode(token);
@@ -19,6 +26,22 @@ export default function Settings() {
     toast.success("Success! Your ID has been copied to the clipboard.");
   };
 
+  function handleImageAttachment(event) {
+    const file = event.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = async () => {
+        const token = await getToken();
+        console.log(reader.result);
+        mutate({ token: token, image: reader.result });
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+  function uploadImage() {
+    fileAttacher.current.click();
+  }
   return (
     <div
       className={`flex flex-col w-full py-10 overflow-y-auto
@@ -32,8 +55,12 @@ export default function Settings() {
     >
       <h1 className="font-semibold text-lg mb-4">Profile</h1>
       <div className="flex flex-row justify-between rounded-2xl border py-5 px-5 items-center shadow-sm bg-gray-50">
-        <div className="flex flex-row items-center">
-          <UserIcon className="size-10 mr-1" />
+        <div className="flex flex-row items-center rounded-full w-20 h-20 ">
+          {pfp !== null ? (
+            <img src={pfp} className="rounded-full object-contain" />
+          ) : (
+            <UserIcon className="size-10 mr-1" />
+          )}
           <div>
             <h1 className="font-semibold text-lg text-gray-800">
               {personal.name}
@@ -49,7 +76,17 @@ export default function Settings() {
           </div>
         </div>
         <div className="">
-          <button className="bg-gray-200 font-semibold border rounded-full py-2 px-5">
+          <input
+            type="file"
+            hidden
+            accept="image/*"
+            ref={fileAttacher}
+            onChange={(event) => handleImageAttachment(event)}
+          />
+          <button
+            className="bg-gray-200 font-semibold border rounded-full py-2 px-5"
+            onClick={uploadImage}
+          >
             Upload
           </button>
         </div>

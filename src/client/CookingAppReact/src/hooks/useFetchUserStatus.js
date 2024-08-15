@@ -28,6 +28,7 @@ const useFetchUserStatus = () => {
             dietaryPreference: body.data.dietaryPreference,
           })
         );
+        dispatch(userActions.setProfilePicture(body.data.imageUrl));
         dispatch(uiActions.setIsInitial(false));
       }
     }

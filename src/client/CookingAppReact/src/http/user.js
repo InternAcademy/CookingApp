@@ -55,3 +55,17 @@ export async function preferences({
   console.log(responseBody);
   return responseBody;
 }
+export async function setProfilePicture({ token, image }) {
+  console.log("wehere");
+  const response = await fetch(`${ip}/upload-pfp`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: `"${image}"`,
+  });
+  const responseBody = await response.json();
+  console.log(responseBody);
+  return responseBody;
+}
