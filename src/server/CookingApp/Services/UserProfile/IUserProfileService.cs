@@ -10,5 +10,6 @@ namespace CookingApp.Services.UserProfile
 
         Task SaveInterfacePreferences(PreferencesRequest preferencesRequest);
         Task GiftTokens(string userId);
+        Task UploadPfp(string image);
     }
 }

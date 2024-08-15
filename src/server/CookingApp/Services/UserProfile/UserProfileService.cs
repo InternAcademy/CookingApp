@@ -2,12 +2,15 @@
 using CookingApp.Infrastructure.Exceptions;
 using CookingApp.Infrastructure.Interfaces;
 using CookingApp.Models.ValueObjects;
+using CookingApp.Services.File;
 using CookingApp.ViewModels.Profile;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
+using Stripe;
+ 
 namespace CookingApp.Services.UserProfile
 {
-    public class UserProfileService(IRepository<Models.UserProfile> profileRepo) : IUserProfileService
+    public class UserProfileService(IRepository<Models.UserProfile> profileRepo, IHttpContextAccessor httpContextAccessor, IFileService fileService) : IUserProfileService
     {
         public async Task<ProfileFetchResult> FetchProfile(string userId,IHttpContextAccessor httpContextAccessor)
         {
@@ -37,9 +40,19 @@ namespace CookingApp.Services.UserProfile
                 DietaryPreference = profile.DietaryPreference,
                 Allergies = profile.Allergies,
                 AvoidedFoods = profile.AvoidedFoods,
+                ImageUrl = profile.ImageUrl
             };
         }
-        
+
+        public async Task UploadPfp(string image)
+        {
+            var user = await GetUser.Profile(httpContextAccessor, profileRepo);
+            var imageUrl = await fileService.UploadFileAndGetUrl(Services.File.File.ConvertDataUriToFormFile(image));
+
+            user.ImageUrl = imageUrl;
+            await profileRepo.UpdateAsync(user);
+        }
+
         public async Task ConfigurePreferences(ConfigurePreferencesRequest configureProfileRequest)
         {
             var profile = await profileRepo
