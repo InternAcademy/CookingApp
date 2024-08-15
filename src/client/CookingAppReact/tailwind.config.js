@@ -38,6 +38,13 @@ module.exports = {
         'landingPage': "url('src/assets/landing/phone.jpg')"
       }
     },
+    screens: {
+      xs: '396px',
+      sm: '480px',
+      md: '768px',
+      lg: '976px',
+      xl: '1440px',
+    },
   },
   plugins: [require("tailwindcss-animate")],
 }

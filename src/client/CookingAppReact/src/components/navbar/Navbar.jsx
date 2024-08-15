@@ -52,12 +52,12 @@ export default function Navbar() {
             className="size-10 hidden sm:block rounded-xl hover:bg-gray-100 hover:cursor-pointer p-2"
             onClick={handleNewChat}
           />
-          <h2 className="font-semibold text-xl flex flex-row justify-center content-center text-center h-full">
-            <span className="text-center px-2 py-1">Meal Master </span>
+          <h2 className="font-semibold text-sm xs:text-xl flex flex-row justify-center content-center text-center h-full">
+            <span className="text-center px-2 py-2 xs:py-1">Meal Master </span>
             <span
               className={`${
                 role === "Free" ? "bg-gray-200" : "bg-orange-200"
-              } text-gray-900 rounded-full px-4 py-1`}
+              } text-center text-gray-900 rounded-full flex justify-center items-center px-4 py-1`}
             >
               {role}
             </span>
