@@ -14,7 +14,6 @@ const useChatHistory = () => {
   } = useMutation({
     mutationFn: getUserChats,
     onMutate: () => {
-      console.log("hii");
     },
     onSuccess: (response) => {
       dispatch(userActions.firstPageChatHistory(response.data));
@@ -28,10 +27,8 @@ const useChatHistory = () => {
     mutationFn: getUserChats,
     onMutate: () => {},
     onError: (errr) => {
-      console.log(errr);
     },
     onSuccess: (response) => {
-      console.log("return next page ", response);
       dispatch(userActions.setChatHistory(response.data));
     },
   });

@@ -18,7 +18,6 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
   const menuRef = useRef(null);
 
   useEffect(() => {
-    console.log(isOpen);
     function handleClickOutside(event) {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         toggleDropDown();
@@ -40,7 +39,7 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
       onClick={(e) => e.stopPropagation()}
       className={`absolute right-2 top-12 w-56 
       ${isDarkTheme ? "bg-[#2F2F2F]" : "bg-secondary"} 
-      border border-secondary rounded-3xl shadow-sm z-20 text-primaryText`}
+      border rounded-3xl shadow-sm z-20 text-primaryText`}
     >
       <div className="flex flex-col p-4">
         <div className="flex flex-col items-start w-full space-y-2">
@@ -91,10 +90,12 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
           </div>
         </div>
         <hr
-          className={`w-full mt-2 mb-2 border-primaryText
-          }`}
+          className={`w-full mt-2 mb-2`}
         />
-        <div className={`p-2hover:bg-base hover:rounded`}>
+        <div className={`flex items-center w-full cursor-pointer p-2 
+            ${
+              isDarkTheme ? "hover:bg-[#424242]" : "hover:bg-base"
+            } hover:rounded`}>
           <SignOutButton />
         </div>
       </div>

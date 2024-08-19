@@ -19,7 +19,6 @@ export default function ChatInput() {
   const [base64Image, setBase64Image] = useState(null);
   useEffect(() => {
     if (role.limitations.chatGeneration === 10 && !isInitial) {
-      console.log(isInitial);
       toast(
         (t) => (
           <span>
@@ -69,7 +68,6 @@ export default function ChatInput() {
   }
   function handleImageAttachment(event) {
     const file = event.target.files[0];
-    console.log(file);
 
     if (file) {
       const reader = new FileReader();
@@ -101,7 +99,6 @@ export default function ChatInput() {
         });
       }
       sendMessage();
-      console.log(base64Image);
     }
   }, [base64Image]);
 
@@ -141,7 +138,7 @@ export default function ChatInput() {
         </li>
       </ul>
       <p className="hidden md:inline text-sm opacity-80 text-primaryText">
-        This AI may occasionally make mistakes. Please verify any important
+        Meal Master may occasionally make mistakes. Please verify any important
         information.
       </p>
     </section>

@@ -33,7 +33,6 @@ export default function Settings() {
       const reader = new FileReader();
       reader.onloadend = async () => {
         const token = await getToken();
-        console.log(reader.result);
         mutate({ token: token, image: reader.result });
       };
       reader.readAsDataURL(file);

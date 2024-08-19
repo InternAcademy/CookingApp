@@ -37,7 +37,6 @@ export default function Sidebar() {
         const decoded = jwtDecode(token);
         getFirstPage({ token: token, userId: decoded.sub, pageIndex: 1 });
       }
-      console.log(chatHistory);
       getFirstPageAsync();
     }
   }, [isOpen]);
@@ -51,7 +50,6 @@ export default function Sidebar() {
   function handleNewChat() {
     dispatch(uiActions.clearActive());
     dispatch(userActions.emptyChat());
-    dispatch(uiActions.closeSidebar());
 
     navigate("/");
   }
@@ -134,7 +132,7 @@ export default function Sidebar() {
         className={`${isPremium() || !isOpen ? "hidden" : ""}`}
         onClick={handleClickSubscribtion}
       >
-        <h5 className="hover:bg-primary mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-secondary shadow-sm ring-1 ring-black/5">
+        <h5 className="hover:bg-active mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-secondary shadow-sm ring-1 ring-black/5">
           <BanknotesIcon className="size-5 mr-5" />
           Get Premium
         </h5>
@@ -143,7 +141,7 @@ export default function Sidebar() {
         className={`${!isPremium() || !isOpen ? "hidden" : ""}`}
         onClick={handleClickYourSubscribtion}
       >
-        <h5 className="hover:bg-gray-300 mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-secondary shadow-sm ring-1 ring-black/5">
+        <h5 className="hover:bg-active mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-secondary shadow-sm ring-1 ring-black/5">
           <BanknotesIcon className="size-5 mr-5" />
           Your Subscription
         </h5>

@@ -21,7 +21,6 @@ export async function setUi({ token, userId, language, theme }) {
   return responseBody.data;
 }
 export async function checkUserStatus({ token }) {
-  console.log(token);
   const response = await fetch(`${ip}/fetch-profile`, {
     method: "GET",
     headers: {
@@ -52,11 +51,9 @@ export async function preferences({
     }),
   });
   const responseBody = await response.json();
-  console.log(responseBody);
   return responseBody;
 }
 export async function setProfilePicture({ token, image }) {
-  console.log("wehere");
   const response = await fetch(`${ip}/upload-pfp`, {
     method: "POST",
     headers: {
@@ -66,6 +63,5 @@ export async function setProfilePicture({ token, image }) {
     body: `"${image}"`,
   });
   const responseBody = await response.json();
-  console.log(responseBody);
   return responseBody;
 }

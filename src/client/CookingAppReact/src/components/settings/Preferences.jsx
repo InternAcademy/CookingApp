@@ -43,7 +43,6 @@ export default function Preferences() {
   const [error, setError] = useState("");
   const { save, isSaving } = useFoodPreferences();
   useEffect(() => {
-    console.log(dietaryPreferences.dietaryPreference);
     setAlergens(dietaryPreferences.allergies);
     setFoodPreferences(dietaryPreferences.avoidedFoods);
     setSelectedPreference(dietaryPreferences.dietaryPreference);

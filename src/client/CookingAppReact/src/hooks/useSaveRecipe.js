@@ -25,7 +25,6 @@ const useSaveRecipe = () => {
       dispatch(userActions.reduceRecipeGeneration());
     },
     onSuccess: (response) => {
-      console.log(response);
       dispatch(uiActions.showToast(response));
     },
     onError: (error) => {

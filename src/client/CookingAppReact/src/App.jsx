@@ -10,7 +10,7 @@ import Admin from "./pages/admin/Admin";
 import Subscribtion from "./pages/subscribtion/Subscription";
 import Success from "./pages/subscribtion/Succes";
 import Settings from "./pages/settings/Settings";
-import SubscribtionDetails from "./pages/subscribtion/SubscribtionDetails";
+import SubscriptionDetails from "./pages/subscribtion/SubscriptionDetails";
 import Rules from "./pages/rules/Rules";
 import NotFound from "./pages/error/NotFound";
 import AuthorizeRoute from "./pages/authorize/AuthorizeRoute";
@@ -52,7 +52,7 @@ const router = createBrowserRouter([
         path: "subscription/manage",
         element: (
           <AuthorizeRoute
-            succesPage={<SubscribtionDetails />}
+            succesPage={<SubscriptionDetails />}
             requiredRole={"Premium"}
             unAuthorizedPath={"/"}
           />

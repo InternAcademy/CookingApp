@@ -25,7 +25,6 @@ export default function Recipe() {
   const { data, isPending, isError, refetch } = useRecipeDetails(recipeId);
   useEffect(() => {
     if (isError) {
-      console.log("err");
       toast.error(`Unable to load recipe ${recipeId}`);
     }
   }, [isError]);
@@ -67,7 +66,7 @@ export default function Recipe() {
               <h2 className="text-xl mb-4">Ingredients</h2>
               <div className="grid grid-cols-1  gap-2">
                 {data.ingredients.map((ingredient) => (
-                  <div className="border-l-2 border-orange-200 shadow-sm rounded-e-xl col-span-1 items-center w-fit justify-center px-8 py-4">
+                  <div className="border-l-2 border-primary shadow-sm rounded-e-xl col-span-1 items-center w-fit justify-center px-8 py-4">
                     <p className="text-lg">
                       •{" "}
                       {`${ingredient.quantity} ${ingredient.metric} ${ingredient.name}`}
@@ -79,7 +78,7 @@ export default function Recipe() {
             <div className="w-full rounded-2xl px-6 py-4 flex flex-col items-start gap-4">
               <h2 className="text-xl mb-4">Preparation Steps</h2>
               {data.preparationSteps.map((step, index) => (
-                <div className="rounded-2xl bg-orange-50 w-full p-1">
+                <div className="rounded-2xl bg-primary w-full p-1">
                   <div className="border flex flex-col items-center md:items-start justify-start w-full h-full rounded-2xl px-8 py-4">
                     <div className="text-center primaryText text-3xl font-light flex flex-row items-center md:gap-2">
                       <p className="text-xl font-semibold mr-2">

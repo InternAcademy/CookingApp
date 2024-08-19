@@ -91,9 +91,6 @@ const FoodPreferences = () => {
   };
 
   const handleSavePreferences = async () => {
-    const preferences = { alergens, foodPreferences, selectedPreference };
-    console.log("Saving preferences:", preferences);
-
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000));
 

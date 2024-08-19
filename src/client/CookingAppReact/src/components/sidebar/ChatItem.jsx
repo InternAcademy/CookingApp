@@ -16,7 +16,7 @@ export default function ChatItem({ title, id }) {
       className={`rounded-lg h-10 my-5 ${
         activeChat && activeChat === id
           ? "bg-active"
-          : "hover:secondary bg-transparent"
+          : "hover:bg-active bg-transparent"
       } hover:cursor-pointer flex flex-row justify-between items-center text-center group transition-colors duration-1000"`}
     >
       <h5 className="px-5 text-primaryText py-2 whitespace-nowrap text-ellipsis overflow-hidden">

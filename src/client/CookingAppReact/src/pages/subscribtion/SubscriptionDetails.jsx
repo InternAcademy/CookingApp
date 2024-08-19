@@ -5,19 +5,18 @@ import useMySubscription from "@/hooks/useMySubscription";
 import useCancelSub from "@/hooks/useCancelSub";
 import { getToken } from "@/msal/msal";
 
-export default function SubscribtionDetails() {
+export default function SubscriptionDetails() {
   const isOpenRecipes = useSelector((state) => state.ui.recipesOpen);
   const isOpenSideBar = useSelector((state) => state.ui.sidebarOpen);
   const { data, isPending, refetch } = useMySubscription();
   const { mutate } = useCancelSub({ refetchFn: refetch });
-  console.log(data);
 
   async function handleCancellation() {
     const token = await getToken();
     mutate({ token: token, subscriptionId: data.subscriptions[0].id });
   }
   return (
-    <div className="flex flex-col lg:flex-row w-full h-full justify-start content-start items-start bg-orange-50 px-10 lg:pl-40">
+    <div className="flex flex-col lg:flex-row w-full h-full justify-start content-start items-start px-10 lg:pl-40 text-primaryText">
       <div className="flex w-full justify-center content-start items-start flex-col h-full">
         <div>
           {data && !isPending && (

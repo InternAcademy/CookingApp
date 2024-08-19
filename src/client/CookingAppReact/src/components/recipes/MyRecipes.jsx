@@ -33,7 +33,6 @@ export default function MyRecipes() {
   };
   useEffect(() => {
     if (isOpen) {
-      console.log("open");
       async function getFirstPageAsync() {
         const token = await getToken();
         const decoded = jwtDecode(token);
@@ -58,7 +57,6 @@ export default function MyRecipes() {
     });
   }
   function handleChange(event) {
-    console.log(event.target.value);
     setSearch({ isTyping: true, message: event.target.value });
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
@@ -81,7 +79,6 @@ export default function MyRecipes() {
     }
 
     return () => {
-      console.log("clear");
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
@@ -99,12 +96,12 @@ export default function MyRecipes() {
         }`}
       >
         <ChevronLeftIcon
-          className="size-10  rounded-xl   hover:border hover:border-gray-200 hover:cursor-pointer p-2"
+          className="size-10  rounded-xl border border-transparent   hover:border hover:border-active hover:cursor-pointer p-2"
           onClick={handleRecipes}
         />
         <h1 className="text-lg text-primaryText">My Recipes</h1>
         <UserIcon
-          className="size-10 invisible md:visible rounded-xl   hover:border hover:border-gray-200 hover:cursor-pointer p-2"
+          className="size-10 invisible md:visible rounded-xl border border-transparent  hover:border hover:border-active hover:cursor-pointer p-2"
           onClick={(e) => {
             e.stopPropagation();
             toggleDropDown();

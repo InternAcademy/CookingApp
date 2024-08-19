@@ -9,7 +9,6 @@ export async function getCurrentToken(
   const accounts = msalInstance.getAllAccounts();
 
   if (accounts.length === 0) {
-    console.log("No accounts found in MSAL instance.");
     return null;
   }
 

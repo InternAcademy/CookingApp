@@ -2,7 +2,6 @@ import toast from "react-hot-toast";
 const ip = import.meta.env.VITE_PUBLIC_PERSONAL_IP;
 
 export async function sendMessage({ token, chatId, type, content }) {
-  console.log("sending");
   const response = await fetch(`${ip}/message`, {
     method: "POST",
     headers: {

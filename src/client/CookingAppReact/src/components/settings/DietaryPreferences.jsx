@@ -56,7 +56,7 @@ export default function DietaryPreferences({
           className="w-full flex items-center justify-center mt-4 transition duration-300 ease-in-out"
         >
           <div className="secondary font-semibold border rounded-full py-2 px-5">
-            <p className="primaryText text-center text-base font-medium">
+            <p className="text-primaryText text-center text-base font-medium">
               Add Allergen
             </p>
           </div>
@@ -98,7 +98,7 @@ export default function DietaryPreferences({
           className="w-full flex items-center justify-center mt-4 transition duration-300 ease-in-out"
         >
           <div className="secondary font-semibold border rounded-full py-2 px-5">
-            <p className="primaryText text-center text-base font-medium">
+            <p className="text-primaryText text-center text-base font-medium">
               Add Food
             </p>
           </div>

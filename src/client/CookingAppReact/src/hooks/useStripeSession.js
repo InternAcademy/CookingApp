@@ -11,7 +11,6 @@ const useStripeSession = () => {
   } = useMutation({
     mutationFn: createSub,
     onSuccess: (response) => {
-      console.log(response.data.sessionUrl);
       window.location.href = response.data.sessionUrl;
     },
   });

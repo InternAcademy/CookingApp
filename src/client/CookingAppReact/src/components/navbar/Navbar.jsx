@@ -28,8 +28,9 @@ export default function Navbar() {
     dispatch(uiActions.toggleRecipes());
   }
   function handleNewChat() {
-    dispatch(uiActions.clearsecondary());
+    dispatch(uiActions.clearActive());
     dispatch(userActions.emptyChat());
+
     navigate("/");
   }
   const toggleDropDown = () => {
