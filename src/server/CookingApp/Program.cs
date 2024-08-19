@@ -14,8 +14,8 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
     ContentRootPath = Directory.GetCurrentDirectory()
 });
 
-builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
+//builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+//    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
 
 builder.Configuration.AddEnvironmentVariables();
 var swaggerSettings = builder.Configuration.GetSection("Swagger").Get<SwaggerSettings>()!;
@@ -63,8 +63,9 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-    app.UseSwagger(swaggerSettings);
 }
+
+app.UseSwagger(swaggerSettings, app.Environment.IsDevelopment());
 
 app.UseRouting();
 

@@ -1,0 +1,71 @@
+name: Azure Static Web Apps CI/CD
+
+on:
+  push:
+    branches:
+      - production
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - production
+
+jobs:
+  build_and_deploy_job:
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
+    runs-on: ubuntu-latest
+    name: Build and Deploy Job
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+          lfs: false
+          
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16' # Ensure you use the appropriate version for your project
+          
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./src/client/CookingAppReact
+
+      - name: Build the app with environment variables
+        run: |
+          echo "VITE_PUBLIC_PERSONAL_IP=$VITE_PUBLIC_PERSONAL_IP" > .env.production
+          echo "VITE_PUBLIC_CLIENT_ID=$VITE_PUBLIC_CLIENT_ID" >> .env.production
+          echo "VITE_PUBLIC_INSTANCE=$VITE_PUBLIC_INSTANCE" >> .env.production
+          echo "VITE_PUBLIC_SCOPES=$VITE_PUBLIC_SCOPES" >> .env.production
+          echo "VITE_STRIPE_PUBLISHABLE_KEY=$VITE_STRIPE_PUBLISHABLE_KEY" >> .env.production
+          npm run build
+        working-directory: ./src/client/CookingAppReact
+        env:
+          VITE_PUBLIC_PERSONAL_IP: ${{ secrets.VITE_PUBLIC_PERSONAL_IP }}
+          VITE_PUBLIC_CLIENT_ID: ${{ secrets.VITE_PUBLIC_CLIENT_ID }}
+          VITE_PUBLIC_INSTANCE: ${{ secrets.VITE_PUBLIC_INSTANCE }}
+          VITE_PUBLIC_SCOPES: ${{ secrets.VITE_PUBLIC_SCOPES }}
+          VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}
+
+      - name: Deploy to Azure Static Web Apps
+        id: builddeploy
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_RED_CLIFF_08DE16103 }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
+          action: "upload"
+          ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
+          app_location: "./src/client/CookingAppReact" # App source code path
+          api_location: "" # Api source code path - optional
+          output_location: "dist" # Built app content directory - optional
+          ###### End of Repository/Build Configurations ######
+
+  close_pull_request_job:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    name: Close Pull Request Job
+    steps:
+      - name: Close Pull Request
+        id: closepullrequest
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_RED_CLIFF_08DE16103 }}
+          action: "close"
