@@ -18,6 +18,7 @@ export default function Title() {
                 MEAL PLANNING MADE
                 <br/>
                 <span className="text-[#fb923c]">SIMPLE</span>
+                <h1>{import.meta.env.VITE_PUBLIC_PERSONAL_IP}</h1>
               </h1>
               <div className="mx-auto max-w-3xl">
                 <p className="mb-8 text-lg text-gray-700">
