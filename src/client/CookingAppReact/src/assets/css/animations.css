@@ -1,0 +1,73 @@
+@keyframes border-dance {
+    0% {
+      border-color: #FFA500;
+    }
+    50% {
+      border-color: #FF6347;
+    }
+    100% {
+      border-color: #FFA500;
+    }
+  }
+  
+  @keyframes sparkle {
+    0%, 100% {
+      opacity: 0;
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: translate(10px, -10px) scale(1.2);
+    }
+  }
+
+  @keyframes dot-blink {
+    0%, 20% {
+      opacity: 1;
+    }
+    40% {
+      opacity: 0;
+    }
+    60% {
+      opacity: 1;
+    }
+    80% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+  
+  .typewriter {
+    border-right: 0.15em solid orange;
+    animation: typing 3.5s steps(40, end) forwards;
+  }
+  
+  
+  .dot-1 {
+    animation: dot-blink 1.4s infinite both;
+  }
+  
+  .dot-2 {
+    animation: dot-blink 1.4s infinite both 0.2s;
+  }
+  
+  .dot-3 {
+    animation: dot-blink 1.4s infinite both 0.4s;
+  }
+  
+  
+  .sparkle::after {
+    content: '✨';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    animation: sparkle 1s infinite;
+  }
+  

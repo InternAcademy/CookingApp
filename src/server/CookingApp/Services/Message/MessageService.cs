@@ -94,6 +94,8 @@
             {
                 saveResponse.Type = MessageType.Recipe;
                 saveResponse.Content = MessageHelper.RemoveMarkdown(RecipeHelpers.UpdateRecipe(responceText));
+
+                await AddTitle(chat.Id, responceText);
             }
             else
             {
@@ -101,8 +103,10 @@
                 saveResponse.Content = responceText;
             }
 
+            if (request.ChatId == null)
+                await AddTitle(chat.Id, responceText);
+
             await chatService.UpdateChat(chat.Id, saveRequest, saveResponse);
-            await AddTitle(chat.Id, responceText);
 
             return new MessageData
             {

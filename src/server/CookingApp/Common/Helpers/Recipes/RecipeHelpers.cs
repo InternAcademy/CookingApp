@@ -25,7 +25,7 @@ namespace CookingApp.Common.Helpers.Recipes
                 return false;
             }
 
-            return text.Contains(GUIDConstant, StringComparison.OrdinalIgnoreCase);
+            return text.Contains(GUIDConstant, StringComparison.OrdinalIgnoreCase) || RequiredSections.All(text.Contains);
         }
 
         public static string UpdateRecipe(string text)
