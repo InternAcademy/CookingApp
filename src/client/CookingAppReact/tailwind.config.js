@@ -1,14 +1,23 @@
+const colors = require("tailwindcss/colors");
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{js,jsx}',
-    './components/**/*.{js,jsx}',
-    './app/**/*.{js,jsx}',
-    './src/**/*.{js,jsx}',
+    "./pages/**/*.{js,jsx}",
+    "./components/**/*.{js,jsx}",
+    "./app/**/*.{js,jsx}",
+    "./src/**/*.{js,jsx}",
   ],
   prefix: "",
   theme: {
+    colors: {
+      base: "var( --base)",
+      secondary: "var(--secondary)",
+      active: "var(--active)",
+      primary: "var(--primary)",
+      primaryText: "var(--primaryText)",
+      ...colors,
+    },
     container: {
       center: true,
       padding: "2rem",
@@ -16,7 +25,7 @@ module.exports = {
         "2xl": "1400px",
       },
       boxShadow: {
-        'gray-inset': 'inset -45px 0px 51px 0px rgba(243,244,246,1)',
+        "gray-inset": "inset -45px 0px 51px 0px rgba(243,244,246,1)",
       },
     },
     extend: {
@@ -35,9 +44,16 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       backgroundImage: {
-        'landingPage': "url('src/assets/landing/phone.jpg')"
-      }
+        landingPage: "url('src/assets/landing/phone.jpg')",
+      },
+    },
+    screens: {
+      xs: "396px",
+      sm: "480px",
+      md: "768px",
+      lg: "976px",
+      xl: "1440px",
     },
   },
   plugins: [require("tailwindcss-animate")],
-}
+};

@@ -9,7 +9,7 @@ import { useTheme } from "next-themes";
 import { ThemeSwitcher } from "@/components/ThemeSwitcher";
 
 const LanguageAndTheme = () => {
-  const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
+  const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
   const [selectedLanguage, setSelectedLanguage] = useState("English");
   const dispatch = useDispatch();
   const { theme } = useTheme();
@@ -23,18 +23,43 @@ const LanguageAndTheme = () => {
     dispatch(uiActions.setTheme(theme === "dark"));
   }, [dispatch, theme]);
 
-  const handleLanguageChange = language => {
+  const handleLanguageChange = (language) => {
     setSelectedLanguage(language);
     localStorage.setItem("language", language);
     console.log(`Language changed to: ${language}`);
   };
 
   return (
-    <div className={`h-screen flex items-start justify-center ${isDarkTheme ? "bg-customGray" : "bg-customWhite"} ${isDarkTheme ? "text-white" : "text-black"}`}>
-      <div className={`p-8 rounded-lg shadow-lg ${isDarkTheme ? "bg-customGray" : "bg-white"}`}>
-        <h1 className={`text-center text-2xl mb-6 ${isDarkTheme ? "text-white" : "text-black"}`}>Language And Theme</h1>
+    <div
+      className={`h-screen flex items-start justify-center ${
+        isDarkTheme ? "bg-customGray" : "bg-customWhite"
+      } ${isDarkTheme ? "text-white" : "primaryText"}`}
+    >
+      <div
+        className={`p-8 rounded-lg shadow-lg ${
+          isDarkTheme ? "bg-customGray" : "bg-white"
+        }`}
+      >
+        <h1
+          className={`text-center text-2xl mb-6 ${
+            isDarkTheme ? "text-white" : "primaryText"
+          }`}
+        >
+          Language And Theme
+        </h1>
         <div className="space-y-4">
-          <button onClick={() => handleLanguageChange(selectedLanguage === "English" ? "Spanish" : "English")} className={`w-full py-3 rounded-full ${isDarkTheme ? "bg-customGray400 text-white" : "bg-white text-black"} mb-4`}>
+          <button
+            onClick={() =>
+              handleLanguageChange(
+                selectedLanguage === "English" ? "Spanish" : "English"
+              )
+            }
+            className={`w-full py-3 rounded-full ${
+              isDarkTheme
+                ? "bg-customGray400 text-white"
+                : "bg-white primaryText"
+            } mb-4`}
+          >
             {`Language: ${selectedLanguage}`}
           </button>
           <ThemeSwitcher />

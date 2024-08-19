@@ -12,12 +12,13 @@ export default function ChatInput() {
   const input = useSelector((state) => state.ui.input);
   const fileAttacher = useRef();
   const selectedChat = useSelector((state) => state.user.selectedChat);
+  const isInitial = useSelector((state) => state.ui.isMessageWarningShowed);
   const role = useSelector((state) => state.user.role);
   const { mutate, isPending, error, isError } = useChat();
   const dispatch = useDispatch();
   const [base64Image, setBase64Image] = useState(null);
   useEffect(() => {
-    if (role.limitations.chatGeneration === 10) {
+    if (role.limitations.chatGeneration === 10 && !isInitial) {
       toast(
         (t) => (
           <span>
@@ -27,6 +28,7 @@ export default function ChatInput() {
         ),
         { position: "bottom-right" }
       );
+      dispatch(uiActions.setIsShown(true));
     }
   }, [role.limitations.chatGeneration]);
 
@@ -66,7 +68,6 @@ export default function ChatInput() {
   }
   function handleImageAttachment(event) {
     const file = event.target.files[0];
-    console.log(file);
 
     if (file) {
       const reader = new FileReader();
@@ -98,13 +99,12 @@ export default function ChatInput() {
         });
       }
       sendMessage();
-      console.log(base64Image);
     }
   }, [base64Image]);
 
   return (
-    <section className="flex items-center justify-center mb-5 w-full">
-      <ul className="flex w-4/5 md:w-3/5 lg:w-2/5 items-center bg-gray-200 rounded-full gap-2  py-2 px-4">
+    <section className="flex flex-col items-center justify-center mb-5 w-full gap-1 ">
+      <ul className="flex w-4/5 md:w-3/5 lg:w-2/5 items-center secondary rounded-full gap-2  py-2 px-4 bg-active text-primaryText">
         <li>
           <input
             type="file"
@@ -125,7 +125,7 @@ export default function ChatInput() {
             placeholder="What do you want to cook today?"
             onKeyDown={handleChange}
             onChange={handleChange}
-            className="w-full outline-none bg-gray-200 text-black placeholder-black"
+            className="w-full outline-none bg-active text-primaryText"
           />
         </li>
         <li>
@@ -137,6 +137,10 @@ export default function ChatInput() {
           />
         </li>
       </ul>
+      <p className="hidden md:inline text-sm opacity-80 text-primaryText">
+        Meal Master may occasionally make mistakes. Please verify any important
+        information.
+      </p>
     </section>
   );
 }

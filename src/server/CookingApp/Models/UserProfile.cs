@@ -18,6 +18,9 @@
         [BsonElement("stripe-id")]
         public string StripeId { get; set; } = default!;
 
+        [BsonElement("image")]
+        public string ImageUrl { get; set; } = default!;
+
         [BsonElement("role")]
         public Role Role { get; set; } = default!;
 

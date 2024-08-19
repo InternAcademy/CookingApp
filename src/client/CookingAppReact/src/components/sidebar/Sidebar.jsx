@@ -9,7 +9,7 @@ import { BanknotesIcon } from "@heroicons/react/24/outline";
 import { useDispatch } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 import { getToken } from "../../msal/msal";
-import { uiActions } from "../../store/uiSlice";
+import uiSlice, { uiActions } from "../../store/uiSlice";
 import ChatItem from "./ChatItem";
 import { useEffect } from "react";
 import useChatHistory from "../../hooks/useChatHistory";
@@ -24,7 +24,7 @@ export default function Sidebar() {
   const chatPage = useSelector((state) => state.user.chatHistory.page);
   const chatHistory = useSelector((state) => state.user.chatHistory.chats);
   const totalPages = useSelector((state) => state.user.chatHistory.totalPages);
-
+  let role = useSelector((state) => state.user.role.type);
   const selectChat = useSelectChat();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -37,16 +37,20 @@ export default function Sidebar() {
         const decoded = jwtDecode(token);
         getFirstPage({ token: token, userId: decoded.sub, pageIndex: 1 });
       }
-      console.log(chatHistory);
       getFirstPageAsync();
     }
   }, [isOpen]);
   function handleChatSelection(chatId) {
+    if (window.innerWidth < 1300) {
+      dispatch(uiActions.closeSidebar());
+    }
+
     navigate(`c/${chatId}`);
   }
   function handleNewChat() {
     dispatch(uiActions.clearActive());
     dispatch(userActions.emptyChat());
+
     navigate("/");
   }
   const sortedChatHistory = chatHistory
@@ -64,18 +68,28 @@ export default function Sidebar() {
     dispatch(uiActions.closeSidebar());
   }
   function handleClickDashboard() {
+    if (window.innerWidth < 1300) {
+      dispatch(uiActions.closeSidebar());
+    }
+
     navigate("/admin/dashboard");
   }
   function handleClickSubscribtion() {
+    if (window.innerWidth < 1300) {
+      dispatch(uiActions.closeSidebar());
+    }
+
     navigate("/subscription");
   }
   function handleClickYourSubscribtion() {
+    if (window.innerWidth < 1300) {
+      dispatch(uiActions.closeSidebar());
+    }
+
     navigate("/subscription/manage");
   }
 
   function isAdmin() {
-    let role = useSelector((state) => state.user.role.type);
-
     if (role === "Admin") {
       return true;
     } else {
@@ -84,8 +98,6 @@ export default function Sidebar() {
   }
 
   function isPremium() {
-    let role = useSelector((state) => state.user.role.type);
-
     if (role === "Premium") {
       return true;
     } else {
@@ -100,7 +112,7 @@ export default function Sidebar() {
   }
   return (
     <section
-      className={`bg-gray-100 flex flex-col flex-shrink-0   ${
+      className={`bg-base flex flex-col flex-shrink-0  text-primaryText   ${
         isOpen
           ? "visible w-screen absolute z-10 md:w-80 md:relative md:z-0"
           : "invisible w-0"
@@ -108,28 +120,34 @@ export default function Sidebar() {
     >
       <header className="flex justify-between px-4 py-4">
         <Bars3BottomLeftIcon
-          className="size-10  rounded-xl border border-gray-100  hover:border hover:border-gray-200 hover:cursor-pointer p-2"
+          className="size-10  rounded-xl border border-base hover:border hover:border-gray-200 hover:cursor-pointer p-2"
           onClick={handleClick}
         />
         <ChatBubbleOvalLeftEllipsisIcon
-          className="size-10 rounded-xl border border-gray-100  hover:border hover:border-gray-200 hover:cursor-pointer p-2"
+          className="size-10 rounded-xl border border-base  hover:border hover:border-gray-200 hover:cursor-pointer p-2"
           onClick={handleNewChat}
         />
       </header>
-      <button className={`${isPremium() ? "hidden" : ""}`} onClick={handleClickSubscribtion}>
-        <h5 className="hover:bg-gray-300 mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-white/20 shadow-sm ring-1 ring-black/5">
+      <button
+        className={`${isPremium() || !isOpen ? "hidden" : ""}`}
+        onClick={handleClickSubscribtion}
+      >
+        <h5 className="hover:bg-active mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-secondary shadow-sm ring-1 ring-black/5">
           <BanknotesIcon className="size-5 mr-5" />
           Get Premium
         </h5>
       </button>
-      <button className={`${isPremium() ? "" : "hidden"}`} onClick={handleClickYourSubscribtion}>
-        <h5 className="hover:bg-gray-300 mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-white/20 shadow-sm ring-1 ring-black/5">
+      <button
+        className={`${!isPremium() || !isOpen ? "hidden" : ""}`}
+        onClick={handleClickYourSubscribtion}
+      >
+        <h5 className="hover:bg-active mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-secondary shadow-sm ring-1 ring-black/5">
           <BanknotesIcon className="size-5 mr-5" />
-          Your Subscribtion
+          Your Subscription
         </h5>
       </button>
       <button
-        className={`${isAdmin() ? "hi :)" : "hidden"}`}
+        className={`${!isAdmin() || !isOpen ? "hidden" : ""}`}
         onClick={handleClickDashboard}
       >
         <h5 className="hover:bg-gray-300 mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-white/20 shadow-sm ring-1 ring-black/5">
@@ -169,7 +187,7 @@ export default function Sidebar() {
               sortedChatHistory[sectionTitle] && (
                 <Fragment key={sectionTitle}>
                   <h3
-                    className=" text-md font-light tracking-normal"
+                    className=" text-md text-primaryText font-light tracking-normal"
                     key={sectionTitle}
                   >
                     {sectionTitle}

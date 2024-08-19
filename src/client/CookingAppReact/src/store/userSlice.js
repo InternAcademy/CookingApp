@@ -1,8 +1,14 @@
+import { setProfilePicture } from "@/http/user";
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   selectedChat: {
     id: null,
     content: [],
+  },
+  profilePicture: null,
+  personal: {
+    name: "",
+    picture: "",
   },
   role: {
     type: null,
@@ -74,6 +80,9 @@ const userSlice = createSlice({
         content: [],
       };
     },
+    setPersonal(state, action) {
+      state.personal = action.payload;
+    },
     clearChat(state) {
       state.selectedChat = null;
     },
@@ -116,6 +125,9 @@ const userSlice = createSlice({
           recipeGeneration: state.role.limitations.recipeGeneration - 1,
         },
       };
+    },
+    setProfilePicture(state, action) {
+      state.profilePicture = action.payload;
     },
   },
 });

@@ -5,14 +5,15 @@ import { act } from "react";
 const initialState = {
   sidebarOpen: true,
   recipesOpen: false,
+  dropdownOpen: false,
   isInitial: true,
   input: "",
   isThinking: false,
   responseError: null,
-  isDarkTheme: false,
+  theme: "Light",
   photoUri: null,
   toastMealId: null,
-
+  isMessageWarningShowed: false,
   lang: "English",
   filteredRecipes: {
     page: 0,
@@ -29,20 +30,34 @@ const uiSlice = createSlice({
     openSidebar(state) {
       state.sidebarOpen = true;
     },
-    setInput(state, action) {
-      state.input = action.payload;
+    setIsShown(state) {
+      state.isMessageWarningShowed = true;
     },
     closeSidebar(state) {
       state.sidebarOpen = false;
+    },
+    toggleRecipes(state) {
+      state.recipesOpen = !state.recipesOpen;
+      if (window.innerWidth < 1300 && state.recipesOpen) {
+        state.sidebarOpen = false;
+      }
+    },
+    closeRecipes(state) {
+      if (window.innerWidth < 1300 && state.recipesOpen) {
+        state.recipesOpen = false;
+      }
+    },
+    toggleDropdown(state) {
+      state.dropdownOpen = !state.dropdownOpen;
+    },
+    setInput(state, action) {
+      state.input = action.payload;
     },
     showToast(state, action) {
       state.toastMealId = action.payload;
     },
     hideToast(state) {
       state.toastMealId = null;
-    },
-    toggleRecipes(state) {
-      state.recipesOpen = !state.recipesOpen;
     },
     setActive(state, action) {
       state.activeChat = action.payload;
@@ -63,7 +78,7 @@ const uiSlice = createSlice({
       state.isDarkTheme = !state.isDarkTheme;
     },
     setTheme(state, action) {
-      state.isDarkTheme = action.payload;
+      state.theme = action.payload;
     },
     setPhotoUri(state, action) {
       state.photoUri = action.payload;

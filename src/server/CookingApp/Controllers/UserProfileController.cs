@@ -1,9 +1,11 @@
 ﻿using CookingApp.Common.Helpers.Profiles;
+using CookingApp.Services.File;
 using CookingApp.Services.UserProfile;
 using CookingApp.ViewModels.Api;
 using CookingApp.ViewModels.Profile;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace CookingApp.Controllers
 {
@@ -20,7 +22,7 @@ namespace CookingApp.Controllers
             return new ApiResponse<ProfileFetchResult>()
             {
                 Status = 200,
-                Data = await userProfileService.FetchProfile(userId)
+                Data = await userProfileService.FetchProfile(userId,httpContextAccessor)
             };
         }
 
@@ -40,6 +42,16 @@ namespace CookingApp.Controllers
         {
             await userProfileService.SaveInterfacePreferences(request);
 
+            return new ApiResponse<bool>()
+            {
+                Status = 200
+            };
+        }
+
+        [HttpPost("upload-pfp")]
+        public async Task<IActionResult> UploadPfp([FromBody] string image)
+        {
+            await userProfileService.UploadPfp(image);
             return new ApiResponse<bool>()
             {
                 Status = 200

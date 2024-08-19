@@ -144,11 +144,12 @@ namespace CookingApp.Infrastructure.Extensions
             builder.Services.AddScoped<SessionService>();
             string apiKey = builder.Configuration.GetValue<string>("StripeOptions:SecretKey") ?? string.Empty;
             string webhookSecret = builder.Configuration.GetValue<string>("StripeOptions:WebhookSecret") ?? string.Empty;
-
+            string successRoute = builder.Configuration.GetValue<string>("StripeOptions:SuccessRoute") ?? string.Empty;
             builder.Services.Configure<StripeOptions>(options =>
             {
                 options.SecretKey = apiKey;
                 options.WebhookSecret = webhookSecret;
+                options.SuccessRoute = successRoute;
             });
             StripeConfiguration.ApiKey = apiKey;
             StripeConfiguration.StripeClient = new StripeClient(apiKey);

@@ -4,6 +4,7 @@
     using CookingApp.Models.Enums;
     using CookingApp.Services.Limitation;
     using CookingApp.Services.Stripe;
+    using CookingApp.Services.UserProfile;
     using CookingApp.ViewModels.Api;
     using CookingApp.ViewModels.Stripe.Customer;
     using CookingApp.ViewModels.Stripe.Statistics;
@@ -11,7 +12,10 @@
     using Microsoft.AspNetCore.Mvc;
 
     [ApiController]
-    public class AdminController(IStripeService stripeService, ILimitationService limitationService, IHttpContextAccessor contextAccessor) : ControllerBase
+    public class AdminController(IStripeService stripeService,
+        ILimitationService limitationService, 
+        IUserProfileService userProfileService, 
+        IHttpContextAccessor contextAccessor) : ControllerBase
     {
         [HttpGet("subscribers-count")]
         public async Task<IActionResult> GetSubsCount()
@@ -101,6 +105,21 @@
             return new ApiResponse<IActionResult>()
             {
                 Status = 403
+            };
+        }
+
+        [HttpPost("gift-tokens/{userId}")]
+        public async Task<IActionResult> GiftTokensByUid(string userId)
+        {
+            var limitResult = await limitationService.ProcessAdminLimitations(GetUser.ProfileId(contextAccessor));
+
+            if (limitResult == ProcessResult.LimitationSuccessfull)
+            {
+                await userProfileService.GiftTokens(userId);
+            }
+            return new ApiResponse<IActionResult>()
+            {
+                Status = 200
             };
         }
     }

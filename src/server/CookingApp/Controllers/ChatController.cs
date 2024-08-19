@@ -13,6 +13,7 @@ namespace CookingApp.Controllers
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.ComponentModel.DataAnnotations;
+    using CookingApp.Common;
 
     [ApiController]
     public class ChatController(IChatService chatService,
@@ -36,10 +37,10 @@ namespace CookingApp.Controllers
                 };
             }
 
-            return new ApiResponse<ProcessResult>()
+            return new ApiResponse<string>()
             {
                 Status = 403,
-                Data = limitationResult
+                Data = LimitationMessages.ProcessMessages[limitationResult]
             };
         }
 
