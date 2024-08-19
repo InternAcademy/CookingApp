@@ -5,6 +5,7 @@ using Serilog.Events;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using Amazon.Runtime.Internal.Transform;
 
 namespace CookingApp.Infrastructure.Extensions
 {
@@ -49,7 +50,7 @@ namespace CookingApp.Infrastructure.Extensions
         /// </summary>
         /// <param name="builder">Application Builder</param>
         /// <param name="swaggerSettings">Swagger Settings</param>
-        public static void UseSwagger(this IApplicationBuilder builder, SwaggerSettings swaggerSettings)
+        public static void UseSwagger(this IApplicationBuilder builder, SwaggerSettings swaggerSettings, bool isDevelopmentEnv)
         {
             if (swaggerSettings == null)
             {
@@ -79,14 +80,18 @@ namespace CookingApp.Infrastructure.Extensions
             options.DocExpansion(DocExpansion.None);
 
             builder.UseSwagger(p => p.RouteTemplate = swaggerSettings.JsonRoute);
-            builder.UseSwaggerUI(p =>
+
+            if (isDevelopmentEnv)
             {
-                p.SwaggerEndpoint(swaggerSettings.UiEndpoint, swaggerSettings.ApiName);
-                p.DocExpansion(DocExpansion.None);
-                p.DisplayRequestDuration();
-                p.DocumentTitle = swaggerSettings.ApiName;
-                p.RoutePrefix = swaggerSettings.RoutePrefix;
-            });
+                builder.UseSwaggerUI(p =>
+                {
+                    p.SwaggerEndpoint(swaggerSettings.UiEndpoint, swaggerSettings.ApiName);
+                    p.DocExpansion(DocExpansion.None);
+                    p.DisplayRequestDuration();
+                    p.DocumentTitle = swaggerSettings.ApiName;
+                    p.RoutePrefix = swaggerSettings.RoutePrefix;
+                });
+            }
 
             builder.UseMiddleware<SwaggerUIMiddleware>(options);
         }

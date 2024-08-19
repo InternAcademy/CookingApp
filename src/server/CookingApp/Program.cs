@@ -63,8 +63,9 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-    app.UseSwagger(swaggerSettings);
 }
+
+app.UseSwagger(swaggerSettings, app.Environment.IsDevelopment());
 
 app.UseRouting();
 
