@@ -38,13 +38,14 @@
 
             foreach (var product in products)
             {
-
                 var price = await priceService.GetAsync(product.DefaultPriceId);
                 result.Add(price.Id);
             }
 
             return result;
         }
+
+
 
         /// <summary>
         /// Creates a subscription with a status "default_incomplete" because the subscription
@@ -73,7 +74,7 @@
             
             var options = new SessionCreateOptions
                 {
-                    SuccessUrl = $"http://localhost:5173/success",
+                    SuccessUrl = $"{stripeOptions.Value.SuccessRoute}",
                     Mode = "subscription",
                     LineItems = new List<SessionLineItemOptions>
                         {
@@ -124,15 +125,15 @@
         /// <summary>
         /// Cancels a subscription immediatly. The customer will not be charged again for the subscription
         /// </summary>
-        public async Task<SubscriptionCancellationResponse> CancelSubscriptionAsync(SubscriptionCancellation model)
+        public async Task<SubscriptionCancellationResponse> CancelSubscriptionAsync(string subscriptionId)
         {
-            ArgumentException.ThrowIfNullOrEmpty(model.SubscriptionId);
-            var sub = await subscriptionService.GetAsync(model.SubscriptionId);
+            ArgumentException.ThrowIfNullOrEmpty(subscriptionId);
+            var sub = await subscriptionService.GetAsync(subscriptionId);
             var options = new SubscriptionUpdateOptions
             {
                 CancelAtPeriodEnd=true
             };
-            subscriptionService.Update(model.SubscriptionId, options);
+            subscriptionService.Update(subscriptionId, options);
 
 
             return new SubscriptionCancellationResponse(sub.CurrentPeriodEnd);
@@ -156,6 +157,33 @@
             }
 
             return allActiveUsers;
+        }
+
+        public async Task<CustomerData> GetSubscription()
+        {
+            var user = await GetUser.Profile(httpContextAccessor, userRepo);
+            var stripeCustomer = await customerService.GetAsync(user.StripeId);
+            var customer = mapper.Map<CustomerData>(stripeCustomer);
+
+            var subscriptionListOptions = new SubscriptionListOptions
+            {
+                Customer = customer.Id,
+            };
+
+            var subscriptions = await subscriptionService.ListAsync(subscriptionListOptions);
+            customer.Subscriptions = mapper.Map<List<SubscriptionState>>(subscriptions.Data);
+
+            var sub = await subscriptionService.GetAsync(subscriptions.First().Id);
+            if (sub.Items != null && sub.Items.Data.Count > 0)
+            { 
+                var subscriptionItem = sub.Items.Data.First();
+                var priceId = subscriptionItem.Price.Id;
+                var price = await priceService.GetAsync(priceId);
+                customer.Subscriptions.First().Price = price.UnitAmountDecimal/100;
+
+            }
+        
+            return customer;
         }
 
         public async Task<SubscriptionStatistics> GetSubsStats()

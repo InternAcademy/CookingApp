@@ -10,9 +10,11 @@ namespace CookingApp.Services.Stripe
     {
         Task<IEnumerable<string>> GetProductsAsync();
         Task<SubscriptionCreationResponse> CreateSubscriptionAsync(SubscriptionCreation model);
-        Task<SubscriptionCancellationResponse> CancelSubscriptionAsync(SubscriptionCancellation model);
+        Task<SubscriptionCancellationResponse> CancelSubscriptionAsync(string subscriptionId);
         Task<List<CustomerData>> GetAllSubs();
         Task<SubscriptionStatistics> GetSubsStats();
         Task<IncomeStatistics> GetIncome30DaysBack();
+
+        Task<CustomerData> GetSubscription();
     }
 }

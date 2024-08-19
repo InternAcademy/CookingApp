@@ -177,7 +177,7 @@ const Subscription = () => {
         </View>
         <View style={tw`w-full items-start px-6`}>
           <Text
-            style={tw`text-2xl font-bold mb-4 ${isDarkTheme ? "text-white" : "text-black"}`}
+            style={tw`text-2xl font-bold mb-4 ${isDarkTheme ? "text-white" : "primaryText"}`}
           >
             Heading for FAQs
           </Text>

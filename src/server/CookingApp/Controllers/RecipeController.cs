@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using CookingApp.Infrastructure.Extensions;
 using CookingApp.ViewModels.Recipes;
+using CookingApp.Common;
 
 namespace CookingApp.Controllers
 {
@@ -32,10 +33,10 @@ namespace CookingApp.Controllers
                 };
             }
 
-            return new ApiResponse<ProcessResult>()
+            return new ApiResponse<string>()
             {
                 Status = 403,
-                Data = limitationResult
+                Data = LimitationMessages.ProcessMessages[limitationResult]
             };
         }
 

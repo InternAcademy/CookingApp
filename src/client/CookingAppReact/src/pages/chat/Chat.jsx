@@ -22,7 +22,6 @@ export default function Chat() {
   }, [chatId]);
   useEffect(() => {
     if (isError) {
-      console.log("err");
       toast.error(`Unable to load conversation ${chatId}`);
     }
   }, [isError]);

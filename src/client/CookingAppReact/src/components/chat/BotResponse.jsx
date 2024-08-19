@@ -20,7 +20,7 @@ export default function BotResponse({ message }) {
     navigate("/subscription");
   }
   return (
-    <li className="w-4/5" key={message.content}>
+    <li className="w-4/5 text-primaryText" key={message.content}>
       <div className="flex flex-col  justify-start items-start gap-1">
         <div className="flex flex-row items-start">
           <img
@@ -29,23 +29,25 @@ export default function BotResponse({ message }) {
             width={40}
             className="border shadow-sm rounded-full p-1 mr-5"
           />
-          <p className="whitespace-pre-wrap">{message.content}</p>
+          <p className="whitespace-pre-wrap text-primaryText">
+            {message.content}
+          </p>
         </div>
         {message.type === "Recipe" && role !== "Free" && (
           <div className="w-full flex justify-center content-center items-center my-5">
             <div
-              className={`w-fit flex flex-row border-2 px-4 py-2 rounded-full bg-orange-200 font-semibold cursor-pointer 
+              className={`w-fit flex flex-row border px-4 py-2 rounded-full bg-primary font-semibold cursor-pointer 
                 ${
                   isPending
                     ? "border-dance animate-border-dance"
-                    : "hover:border-orange-200 hover:scale-105 transition-transform duration-300"
+                    : "hover:scale-105 transition-transform duration-300"
                 } 
                 relative ${isPending && "sparkle"}`}
               onClick={handleClick}
             >
-              <SparklesIcon className="size-6 opacity-70 mr-2" />
+              <SparklesIcon className="size-6 opacity-70 mr-2 text-primaryText" />
               {isPending ? (
-                <span>
+                <span className="text-primaryText">
                   Crafting Meal
                   <span className="dot-1">.</span>
                   <span className="dot-2">.</span>
@@ -60,7 +62,7 @@ export default function BotResponse({ message }) {
         {message.type === "Recipe" && role === "Free" && (
           <div className="w-full flex justify-center content-center items-center my-5">
             <div
-              className={`w-fit flex flex-row border-2 px-4 py-2 rounded-full bg-orange-200 font-semibold cursor-pointer 
+              className={`w-fit flex flex-row border-2 px-4 py-2 rounded-full bg-primary font-semibold cursor-pointer 
                 ${
                   isPending
                     ? "border-dance animate-border-dance"
@@ -70,7 +72,7 @@ export default function BotResponse({ message }) {
               onClick={handleFreeUser}
             >
               <SparklesIcon className="size-6 opacity-70 mr-2" />
-              <p>Get Premium</p>
+              <p className="text-primaryText">Get Premium</p>
             </div>
           </div>
         )}

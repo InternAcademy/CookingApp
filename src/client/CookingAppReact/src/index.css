@@ -4,19 +4,42 @@
 
 /* Slim gray and cool scrollbar */
 ::-webkit-scrollbar {
-    width: 6px; /* Adjust the width to make it slimmer */
+  width: 6px; /* Adjust the width to make it slimmer */
 }
 
 ::-webkit-scrollbar-track {
-    background-color: #d3d3d3; /* Light gray track color */
-    border-radius: 10px; /* Rounded corners for a smoother look */
+  background-color: #d3d3d3; /* Light gray track color */
+  border-radius: 10px; /* Rounded corners for a smoother look */
 }
 
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, #a0a0a0, #606060); /* Gradient thumb for a cool effect */
-    border-radius: 10px; /* Rounded corners for the thumb */
+  background: linear-gradient(
+    135deg,
+    #a0a0a0,
+    #606060
+  ); /* Gradient thumb for a cool effect */
+  border-radius: 10px; /* Rounded corners for the thumb */
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, #808080, #404040); /* Darker gradient on hover */
+  background: linear-gradient(
+    135deg,
+    #808080,
+    #404040
+  ); /* Darker gradient on hover */
+}
+.light {
+  --base: rgb(243 244 246);
+  --secondary: rgb(255, 255, 255);
+  --primary: rgb(254 215 170);
+  --active: rgb(229 231 235);
+  --primaryText: #0d0d0d;
+}
+.dark {
+  --base: #171717;
+  --secondary: #212121;
+  --active: #2f2f2f;
+  --primary: rgb(101 55 1);
+  --secondary: #212121;
+  --primaryText: #ececec;
 }

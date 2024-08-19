@@ -20,10 +20,17 @@ export function ThemeSwitcher() {
     setTheme(newTheme);
   };
 
-  const isDarkTheme = useSelector(state => state.ui.isDarkTheme);
+  const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
 
   return (
-    <button onClick={toggleTheme} className={`w-full py-3 rounded-full ${isDarkTheme ? "bg-customGray400 text-white" : "bg-white text-black"} border ${isDarkTheme ? "border-customGray400" : "border-customGray600"}`}>
+    <button
+      onClick={toggleTheme}
+      className={`w-full py-3 rounded-full ${
+        isDarkTheme ? "bg-customGray400 text-white" : "bg-white primaryText"
+      } border ${
+        isDarkTheme ? "border-customGray400" : "border-customGray600"
+      }`}
+    >
       {isDarkTheme ? "Dark Mode" : "Light Mode"}
     </button>
   );

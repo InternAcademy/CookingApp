@@ -10,6 +10,7 @@ namespace CookingApp.ViewModels.Profile
         public List<string> Allergies { get; set; } = default!;
         public List<string> AvoidedFoods { get; set; } = default!;
         public string Name { get; set; } = default!;
+        public string ImageUrl { get; set; } = default!;
         public Role Role { get; set; } = default!;
     }
 }

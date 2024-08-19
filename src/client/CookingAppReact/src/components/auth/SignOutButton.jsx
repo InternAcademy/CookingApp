@@ -13,18 +13,14 @@ const SignOutButton = () => {
     <button className="flex items-center" title="Sign Out" onClick={() => handleLogout("redirect")}>
       <ArrowRightStartOnRectangleIcon
         className="w-6 h-6 mr-4
-      smallPhone:w-4
-      phone:w-4
-      tablet:w-6
-      web:w-6"
+      sm:w-4
+      md:w-4
+      lg:w-6
+      xl:w-6"
         // color={isDarkTheme ? "white" : "black"} 
         />
       <span
-        className={`
-        smallPhone:text-base
-        phone:text-base
-        tablet:text-lg
-        web:text-lg`}>Sign Out</span>
+        className={`text-primaryText`}>Sign Out</span>
     </button>
   );
 };

@@ -10,7 +10,6 @@ import { msalConfig, loginRequest } from "../msal/authConfig";
 export const msalInstance = new PublicClientApplication(msalConfig);
 
 export function initializeMsal() {
-  console.log("=> msal initialization..");
   const accounts = msalInstance.getAllAccounts();
   if (accounts.length > 0) {
     msalInstance.setActiveAccount(accounts[0]);

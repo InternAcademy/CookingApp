@@ -11,7 +11,6 @@ const useFirstPageRecipes = () => {
       mutationFn: getRecipes,
       onMutate: () => {},
       onError: (errr) => {
-        console.log(errr);
       },
       onSuccess: (data) => {
         dispatch(uiActions.getFirstPage(data));
