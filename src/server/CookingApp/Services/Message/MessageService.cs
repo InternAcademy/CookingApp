@@ -14,7 +14,7 @@
     using System;
     using CookingApp.Common.EntityConstants;
 
-    public partial class MessageService(ChatClient client,
+    public class MessageService(ChatClient client,
         IChatService chatService,
         IRepository<Chat> chatRepo,
         IRepository<UserProfile> profileRepo,
