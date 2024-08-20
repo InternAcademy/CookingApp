@@ -106,7 +106,7 @@ export default function Navbar() {
       >
         <Tooltip tooltipText="My Meals">
           <div
-            className="size-10 rounded-xl hidden xxs:block hover:cursor-pointer p-2 hover:bg-base"
+            className="w-10 rounded-xl hidden xxs:block hover:cursor-pointer p-2 hover:bg-base"
             onClick={handleRecipes}
           >
             <MealIcon className="group-hover:bg-base" />
