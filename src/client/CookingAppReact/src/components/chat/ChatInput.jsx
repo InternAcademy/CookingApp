@@ -140,6 +140,9 @@ export default function ChatInput() {
             className="w-full outline-none bg-active text-primaryText"
           />
         </li>
+        <p className="text-sm text-right text-gray-500">
+            {maxChars - input.length}/200
+        </p>
         
       <Tooltip tooltipText="Send">
         <li>

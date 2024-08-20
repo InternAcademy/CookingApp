@@ -52,12 +52,12 @@ export default function Navbar() {
 
   return (
     <nav className="text-primaryText">
-    <ul className={`flex flex-row w-full py-3 justify-between sticky`}>
+    <ul className={`flex flex-row w-full py-3 justify-between items-center sticky`}>
       <li
         className={`flex flex-row pl-6 items-center gap-2`}
       >
         <div className={`${
-          sidebarOpen ? "hidden" : ""
+          sidebarOpen ? "hidden" : "flex items-center"
         }`}>
         <Tooltip tooltipText="Sidebar">
           <Bars3BottomLeftIcon
