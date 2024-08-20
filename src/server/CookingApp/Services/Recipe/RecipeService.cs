@@ -1,4 +1,5 @@
-﻿using CookingApp.Infrastructure.Enums;
+﻿using System.Text.RegularExpressions;
+using CookingApp.Infrastructure.Enums;
 using OpenAI.Chat;
 
 namespace CookingApp.Services.Recipe
@@ -16,6 +17,18 @@ namespace CookingApp.Services.Recipe
         ///<inheritdoc/>
         public async Task<string> CreateRecipe(string request, string userId)
         {
+            string pattern = @"Title:\s(?<title>[A-Za-z ]+)";
+
+            var match = Regex.Match(request, pattern);
+            if (!match.Success)
+            {
+                throw new InvalidRecipeRequestException();
+            }
+            var title = match.Groups["title"].Value;
+            if (await repo.ExistsAsync(r => r.Title == title))
+            {
+                throw new InvalidRecipeRequestException();
+            }
             var messages = new List<ChatMessage>
             {
                 new SystemChatMessage(Completions.BuildRecipeConvertSystemMessage()),

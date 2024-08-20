@@ -17,6 +17,7 @@ export default function ChatInput() {
   const { mutate, isPending, error, isError } = useChat();
   const dispatch = useDispatch();
   const [base64Image, setBase64Image] = useState(null);
+  const [maxChars] = useState(200);
   useEffect(() => {
     if (role.limitations.chatGeneration === 10 && !isInitial) {
       toast(
@@ -118,16 +119,20 @@ export default function ChatInput() {
             onClick={handleClick}
           />
         </li>
-        <li className="w-full">
+        <li className="w-full flex">
           <input
             type="text"
             value={input}
             placeholder="What do you want to cook today?"
             onKeyDown={handleChange}
             onChange={handleChange}
+            maxLength={maxChars}
             className="w-full outline-none bg-active text-primaryText"
           />
         </li>
+        <p className="text-sm text-right font-light text-gray-500">
+            {maxChars - input.length}/200
+          </p>
         <li>
           <PaperAirplaneIcon
             className={`size-10 rounded-xl p-2 duration-200 ${
