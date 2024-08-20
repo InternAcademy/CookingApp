@@ -13,7 +13,7 @@ export default function Layout() {
     <main
       className={`flex w-full first-line:overflow-hidden ${
         theme === "Light" ? "light" : theme === "Dark" && "dark"
-      } bg-base`}
+      } bg-base overflow-x-hidden`}
     >
       <Sidebar />
       <section className="flex w-screen flex-col overflow-hidden shrink rounded-none md:rounded-2xl bg-secondary border-none md:border m-0 md:m-1 h-screen md:h-[calc(100vh-1vh)]">

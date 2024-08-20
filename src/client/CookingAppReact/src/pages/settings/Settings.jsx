@@ -55,7 +55,7 @@ export default function Settings() {
       <h1 className="font-semibold text-lg mb-4">Profile</h1>
       <div className="flex flex-row justify-between rounded-2xl border py-5 px-5 items-center shadow-sm bg-base">
         <div className="flex flex-row items-center rounded-full gap-2">
-          {pfp !== null ? (
+          {pfp ? (
             <img src={pfp} className="rounded-full object-cover w-14 h-14" />
           ) : (
             <UserIcon className="size-10 mr-1" />

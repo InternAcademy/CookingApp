@@ -148,7 +148,7 @@ export default function Preferences() {
         setFoodPreferenceInput={setFoodPreferenceInput}
         handleAddDislikeFoodsPressEnter={handleAddDislikeFoodsPressEnter}
       />
-      <div className="flex justify-center w-full">
+      <div className="flex justify-center w-full mt-5">
         <button
           className="bg-primary font-semibold border rounded-full py-2 px-5"
           onClick={savePreferences}

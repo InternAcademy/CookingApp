@@ -15,6 +15,26 @@ export default function SubscriptionDetails() {
     const token = await getToken();
     mutate({ token: token, subscriptionId: data.subscriptions[0].id });
   }
+
+  function formatDateIso(dateString) {
+    const date = new Date(dateString);
+    
+    // Adjust for time zone offset
+    const options = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      timeZone: 'UTC', // Ensure the date is interpreted as UTC
+      hour12: true // Use 12-hour time format
+    };
+  
+    // Format date
+    return new Intl.DateTimeFormat('en-US', options).format(date);
+  }
+
   return (
     <div className="flex flex-col lg:flex-row w-full h-full justify-start content-start items-start px-10 lg:pl-40 text-primaryText">
       <div className="flex w-full justify-center content-start items-start flex-col h-full">
@@ -37,22 +57,18 @@ export default function SubscriptionDetails() {
                   </li>
                 </li>
                 <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 hover:border-orange-400 selection:bg-orange-400">
-                  {`Created at ${data.subscriptions[0].created}`}
+                  {`Created on ${formatDateIso(data.subscriptions[0].created)}`}
                 </li>
 
                 {data.subscriptions[0].cancelAt ? (
                   <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 hover:border-orange-400 selection:bg-orange-400">
-                    {`Your subscription has been cancelled and it will expire on ${data.subscriptions[0].cancelAt}`}
+                    {`Your subscription has been cancelled and it will expire on ${formatDateIso(data.subscriptions[0].cancelAt)}`}
                   </li>
                 ) : (
                   <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 hover:border-orange-400 selection:bg-orange-400">
                     {`Your next charge will be on ${data.subscriptions[0].currentPeriodEnd}`}
                   </li>
                 )}
-
-                <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 hover:border-orange-400 selection:bg-orange-400">
-                  • Free cancellation
-                </li>
               </ul>
               <button
                 className={`text-white bg-black ${

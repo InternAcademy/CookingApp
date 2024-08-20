@@ -43,7 +43,6 @@ export default function UserInterface() {
             {`Current: ${language}`}
           </option>
           <option value="English">English</option>
-          <option value="German">German</option>
         </select>
         <select
           className="border rounded-lg m-1 px-4 py-3 md:w-1/2 text-sm shadow-sm bg-secondary"
@@ -53,7 +52,7 @@ export default function UserInterface() {
             {`Current: ${theme}`}
           </option>
           <option value="Light">Light</option>
-          <option value="Dark">Dark</option>
+          <option value="Dark">Dark Contrast</option>
         </select>
       </div>
     </>
