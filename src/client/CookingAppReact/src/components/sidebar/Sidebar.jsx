@@ -3,9 +3,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 import { ChatBubbleOvalLeftEllipsisIcon } from "@heroicons/react/24/outline";
 import { useSelector } from "react-redux";
-import { Fragment } from "react";
+import { Fragment, useRef } from "react";
 import { ChartPieIcon } from "@heroicons/react/24/outline";
-import { BanknotesIcon } from "@heroicons/react/24/outline";
+import { BanknotesIcon, UserIcon } from "@heroicons/react/24/outline";
 import { useDispatch } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 import { getToken } from "../../msal/msal";
@@ -18,6 +18,7 @@ import { orderedSections } from "../../utils/sidebar";
 import { getSectionTitle } from "../../utils/sidebar";
 import useSelectChat from "../../hooks/useSelectChat";
 import { userActions } from "../../store/userSlice";
+import MealIcon from "../ui/mealIcon";
 import "../../assets/css/animations.css";
 export default function Sidebar() {
   const isOpen = useSelector((state) => state.ui.sidebarOpen);
@@ -25,6 +26,7 @@ export default function Sidebar() {
   const chatHistory = useSelector((state) => state.user.chatHistory.chats);
   const totalPages = useSelector((state) => state.user.chatHistory.totalPages);
   let role = useSelector((state) => state.user.role.type);
+  const initial = useRef(true);
   const selectChat = useSelectChat();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -37,9 +39,17 @@ export default function Sidebar() {
         const decoded = jwtDecode(token);
         getFirstPage({ token: token, userId: decoded.sub, pageIndex: 1 });
       }
+      console.log(chatHistory);
       getFirstPageAsync();
     }
   }, [isOpen]);
+  useEffect(() => {
+    if (initial) {
+      if (window.innerWidth > 1300) {
+        dispatch(uiActions.openSidebar());
+      }
+    }
+  }, [initial]);
   function handleChatSelection(chatId) {
     if (window.innerWidth < 1300) {
       dispatch(uiActions.closeSidebar());
@@ -50,6 +60,7 @@ export default function Sidebar() {
   function handleNewChat() {
     dispatch(uiActions.clearActive());
     dispatch(userActions.emptyChat());
+    dispatch(uiActions.closeSidebar());
 
     navigate("/");
   }
@@ -89,6 +100,14 @@ export default function Sidebar() {
     navigate("/subscription/manage");
   }
 
+  function handleClickRecipes() {
+    if (window.innerWidth < 1300) {
+      dispatch(uiActions.closeSidebar());
+    }
+
+    dispatch(uiActions.toggleRecipes());
+  }
+
   function isAdmin() {
     if (role === "Admin") {
       return true;
@@ -112,11 +131,11 @@ export default function Sidebar() {
   }
   return (
     <section
-      className={`bg-base flex flex-col flex-shrink-0  text-primaryText   ${
-        isOpen
-          ? "visible w-screen absolute z-10 md:w-80 md:relative md:z-0"
-          : "invisible w-0"
-      }  h-screen  duration-300`}
+    className={`bg-base flex flex-col flex-shrink-0 text-primaryText   ${
+      isOpen
+        ? "w-screen fixed z-10 md:w-80 md:relative md:z-0"
+        : "invisible w-0"
+    }  h-screen md:duration-300`}
     >
       <header className="flex justify-between px-4 py-4">
         <Bars3BottomLeftIcon
@@ -132,16 +151,25 @@ export default function Sidebar() {
         className={`${isPremium() || !isOpen ? "hidden" : ""}`}
         onClick={handleClickSubscribtion}
       >
-        <h5 className="hover:bg-active mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-secondary shadow-sm ring-1 ring-black/5">
+        <h5 className="hover:bg-primary mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-secondary shadow-sm ring-1 ring-black/5">
           <BanknotesIcon className="size-5 mr-5" />
           Get Premium
+        </h5>
+      </button>
+      <button
+        className={`${!isOpen ? "hidden" : "xxs:hidden"}`}
+        onClick={handleClickRecipes}
+      >
+        <h5 className="hover:bg-primary mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-secondary shadow-sm ring-1 ring-black/5">
+          <div  className="w-5 mr-5"><MealIcon /></div>
+          My Meals
         </h5>
       </button>
       <button
         className={`${!isPremium() || !isOpen ? "hidden" : ""}`}
         onClick={handleClickYourSubscribtion}
       >
-        <h5 className="hover:bg-active mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-secondary shadow-sm ring-1 ring-black/5">
+        <h5 className="hover:bg-primary mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-secondary shadow-sm ring-1 ring-black/5">
           <BanknotesIcon className="size-5 mr-5" />
           Your Subscription
         </h5>
@@ -150,7 +178,7 @@ export default function Sidebar() {
         className={`${!isAdmin() || !isOpen ? "hidden" : ""}`}
         onClick={handleClickDashboard}
       >
-        <h5 className="hover:bg-gray-300 mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-white/20 shadow-sm ring-1 ring-black/5">
+        <h5 className="hover:bg-primary mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-white/20 shadow-sm ring-1 ring-black/5">
           <ChartPieIcon className="size-5 mr-5" />
           Dashboard
         </h5>

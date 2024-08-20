@@ -39,7 +39,7 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
       onClick={(e) => e.stopPropagation()}
       className={`absolute right-2 top-12 w-56 
       ${isDarkTheme ? "bg-[#2F2F2F]" : "bg-secondary"} 
-      border rounded-3xl shadow-sm z-20 text-primaryText`}
+      border rounded-3xl shadow-sm z-20 text-primaryText  mt-3`}
     >
       <div className="flex flex-col p-4">
         <div className="flex flex-col items-start w-full space-y-2">

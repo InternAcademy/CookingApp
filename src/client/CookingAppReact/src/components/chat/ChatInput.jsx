@@ -8,6 +8,8 @@ import useChat from "../../hooks/useChat";
 import { uiActions } from "../../store/uiSlice";
 import toast from "react-hot-toast";
 import { useRef } from "react";
+import Tooltip from "../ui/tooltip";
+
 export default function ChatInput() {
   const input = useSelector((state) => state.ui.input);
   const fileAttacher = useRef();
@@ -15,6 +17,8 @@ export default function ChatInput() {
   const isInitial = useSelector((state) => state.ui.isMessageWarningShowed);
   const role = useSelector((state) => state.user.role);
   const { mutate, isPending, error, isError } = useChat();
+  const isOpenRecipes = useSelector((state) => state.ui.recipesOpen);
+  const isOpenSideBar = useSelector((state) => state.ui.sidebarOpen);
   const dispatch = useDispatch();
   const [base64Image, setBase64Image] = useState(null);
   useEffect(() => {
@@ -104,7 +108,11 @@ export default function ChatInput() {
 
   return (
     <section className="flex flex-col items-center justify-center mb-5 w-full gap-1 ">
-      <ul className="flex w-4/5 md:w-3/5 lg:w-2/5 items-center secondary rounded-full gap-2  py-2 px-4 bg-active text-primaryText">
+      <ul className={`flex 
+      ${isOpenRecipes || isOpenSideBar ? "w-4/5 md:w-4/5 lg:w-3/5 xl:w-3/5" : "w-4/5 md:w-3/5 xl:w-2/5"}
+       items-center secondary rounded-full gap-2  py-2 px-4 bg-active text-primaryText`}>
+      
+      <Tooltip tooltipText="Attach Image">
         <li>
           <input
             type="file"
@@ -113,11 +121,13 @@ export default function ChatInput() {
             ref={fileAttacher}
             onChange={(event) => handleImageAttachment(event)}
           />
+          
           <PaperClipIcon
             className="size-6 cursor-pointer"
             onClick={handleClick}
           />
         </li>
+        </Tooltip>
         <li className="w-full">
           <input
             type="text"
@@ -128,6 +138,8 @@ export default function ChatInput() {
             className="w-full outline-none bg-active text-primaryText"
           />
         </li>
+        
+      <Tooltip tooltipText="Send">
         <li>
           <PaperAirplaneIcon
             className={`size-10 rounded-xl p-2 duration-200 ${
@@ -136,10 +148,10 @@ export default function ChatInput() {
             onClick={handleSubmission}
           />
         </li>
+        </Tooltip>
       </ul>
       <p className="hidden md:inline text-sm opacity-80 text-primaryText">
-        Meal Master may occasionally make mistakes. Please verify any important
-        information.
+        Meal Master may occasionally make mistakes.
       </p>
     </section>
   );
