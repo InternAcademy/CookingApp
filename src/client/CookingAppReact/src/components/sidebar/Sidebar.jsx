@@ -112,7 +112,7 @@ export default function Sidebar() {
   }
   return (
     <section
-      className={`bg-base flex flex-col flex-shrink-0  text-primaryText   ${
+      className={`bg-base max-h-dvh flex flex-col flex-shrink-0  text-primaryText   ${
         isOpen
           ? "visible w-screen absolute z-10 md:w-80 md:relative md:z-0"
           : "invisible w-0"
@@ -157,7 +157,7 @@ export default function Sidebar() {
       </button>
 
       <ul
-        className={`overflow-y-auto overflow-x-hidden px-3 m-2 ${
+        className={`overflow-y-auto overflow-x-hidden px-3 p-2 ${
           isOpen ? "visible" : "invisible "
         }  duration-100 h-full`}
       >
