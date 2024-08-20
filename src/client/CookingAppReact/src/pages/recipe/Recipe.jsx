@@ -3,24 +3,29 @@ import { ClockIcon } from "@heroicons/react/24/outline";
 import { UserGroupIcon } from "@heroicons/react/24/outline";
 import { CalendarDaysIcon } from "@heroicons/react/24/outline";
 import useRecipeDetails from "@/hooks/useRecipeDetails";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
-const iconImports = import.meta.glob("../../assets/stepsimages/*.png", {
-  eager: true,
-});
 
-const icons = Object.values(iconImports).map((mod) => mod.default);
-
-function getFormattedDate(datetime) {
-  const date = new Date(datetime);
-  const day = date.getUTCDate();
-  const month = date.getUTCMonth() + 1;
-  const year = date.getUTCFullYear();
-  const formattedDate = `${month}/${day}/${year}`;
-
-  return formattedDate;
-}
 export default function Recipe() {
+  const iconImports = import.meta.glob("../../assets/stepsimages/*.png", {
+    eager: true,
+  });
+  
+  const icons = Object.values(iconImports).map((mod) => mod.default);
+  const isOpenRecipes = useSelector((state) => state.ui.recipesOpen);
+  const isOpenSideBar = useSelector((state) => state.ui.sidebarOpen);
+  
+  function getFormattedDate(datetime) {
+    const date = new Date(datetime);
+    const day = date.getUTCDate();
+    const month = date.getUTCMonth() + 1;
+    const year = date.getUTCFullYear();
+    const formattedDate = `${month}/${day}/${year}`;
+  
+    return formattedDate;
+  }
+
   let { recipeId } = useParams();
   const { data, isPending, isError, refetch } = useRecipeDetails(recipeId);
   useEffect(() => {
@@ -29,7 +34,8 @@ export default function Recipe() {
     }
   }, [isError]);
   return (
-    <div className="flex w-full pl-5 text-primaryText pr-5 xl:pl-28 xl:pr-36 py-16 flex-col overflow-y-auto">
+    <div className={`flex w-full pl-5 text-primaryText pr-5
+    ${isOpenRecipes && isOpenSideBar ? "xl:pl-5 xl:pr-5" : "xl:pl-28 xl:pr-36"} py-16 flex-col overflow-y-auto`}>
       {data && !isError && (
         <>
           <div className="w-full flex flex-col xl:flex-row xl:h-[32rem] bg-base rounded-2xl">

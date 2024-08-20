@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { act } from "react";
 
 const initialState = {
-  sidebarOpen: true,
+  sidebarOpen: false,
   recipesOpen: false,
   dropdownOpen: false,
   isInitial: true,

@@ -48,13 +48,13 @@ export default function BotResponse({ message }) {
               <SparklesIcon className="size-6 opacity-70 mr-2 text-primaryText" />
               {isPending ? (
                 <span className="text-primaryText">
-                  Crafting Meal
+                  Generating Meal
                   <span className="dot-1">.</span>
                   <span className="dot-2">.</span>
                   <span className="dot-3">.</span>
                 </span>
               ) : (
-                "Use Meal Crafter"
+                "Generate Meal"
               )}
             </div>
           </div>

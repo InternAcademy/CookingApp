@@ -19,7 +19,7 @@ export default function DietaryPreferences({
 }) {
   return (
     <div className="flex flex-col md:flex-row">
-      <div className="md:w-1/2 mb-10 pb-6 m-1 bg-secondary rounded-xl border shadow-sm py-4 px-4">
+      <div className="md:w-1/2 pb-6 m-1 bg-secondary rounded-xl border shadow-sm py-4 px-4">
         <h2 className="text-lg font-semibold mb-4 primaryText">Allergens</h2>
         {allergens.length > 0 ? (
           <div className="flex flex-wrap mb-4">
@@ -62,7 +62,7 @@ export default function DietaryPreferences({
           </div>
         </button>
       </div>
-      <div className="md:w-1/2 mb-10 pb-6 bg-secondary border shadow-sm m-1 rounded-xl py-4 px-4">
+      <div className="md:w-1/2 pb-6 bg-secondary border shadow-sm m-1 rounded-xl py-4 px-4">
         <h2 className="text-lg font-semibold mb-4 primaryText">
           Disliked Foods
         </h2>

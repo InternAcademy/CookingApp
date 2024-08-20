@@ -14,7 +14,7 @@
     using System;
     using CookingApp.Common.EntityConstants;
 
-    public partial class MessageService(ChatClient client,
+    public class MessageService(ChatClient client,
         IChatService chatService,
         IRepository<Chat> chatRepo,
         IRepository<UserProfile> profileRepo,
@@ -22,6 +22,11 @@
     {
         public async Task<MessageData> SendMessage(string userId, MessageData request)
         {
+            if (request.Content.Length >= 200 && request.Type == MessageType.Text)
+            {
+                throw new ArgumentException();
+            }
+
             var chat = new Chat();
             if (request.ChatId == null)
                 chat = await chatService.CreateChat(userId);
