@@ -21,6 +21,7 @@ export default function ChatInput() {
   const isOpenSideBar = useSelector((state) => state.ui.sidebarOpen);
   const dispatch = useDispatch();
   const [base64Image, setBase64Image] = useState(null);
+  const [maxChars] = useState(200);
   useEffect(() => {
     if (role.limitations.chatGeneration === 10 && !isInitial) {
       toast(
@@ -135,6 +136,7 @@ export default function ChatInput() {
             placeholder="What do you want to cook today?"
             onKeyDown={handleChange}
             onChange={handleChange}
+            maxLength={maxChars}
             className="w-full outline-none bg-active text-primaryText"
           />
         </li>
