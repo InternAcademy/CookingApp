@@ -90,7 +90,7 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
           </div>
         </div>
         <hr
-          className={`w-full mt-2 mb-2`}
+          className={`w-full mt-2 mb-2 border-primaryBorder`}
         />
         <div className={`flex items-center w-full cursor-pointer p-2 
             ${
