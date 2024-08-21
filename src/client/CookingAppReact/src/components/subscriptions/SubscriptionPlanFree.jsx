@@ -5,7 +5,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 
 export const SubscriptionPlanFree = () => {
   return (
-    <div className="bg-white p-2 border rounded-2xl w-[20rem] h-[32rem] flex flex-col justify-between items-center">
+    <div className="bg-white p-2 border border-primaryBorder rounded-2xl w-[20rem] h-[32rem] flex flex-col justify-between items-center">
       <div className="active primaryText text-center p-2 w-full uppercase font-bold rounded-xl">
         Free
       </div>
@@ -33,7 +33,7 @@ export const SubscriptionPlanFree = () => {
           </li>
         </ul>
       </div>
-      <div className="mt-4 flex justify-between items-center border p-3 rounded">
+      <div className="mt-4 flex justify-between items-center border border-primaryBorder p-3 rounded">
         <span className="text-gray-400 font-bold">Limited Test Period</span>
       </div>
       <p className="text-xs text-gray-800 text-center mt-1">Not featured</p>

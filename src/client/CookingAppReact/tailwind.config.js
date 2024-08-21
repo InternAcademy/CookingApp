@@ -16,6 +16,7 @@ module.exports = {
       active: "var(--active)",
       primary: "var(--primary)",
       primaryText: "var(--primaryText)",
+      primaryBorder: "var(--primaryBorder)",
       ...colors,
     },
     container: {

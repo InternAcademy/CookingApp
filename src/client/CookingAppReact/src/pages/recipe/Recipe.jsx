@@ -84,8 +84,8 @@ export default function Recipe() {
             <div className="w-full rounded-2xl px-6 py-4 flex flex-col items-start gap-4">
               <h2 className="text-xl mb-4">Preparation Steps</h2>
               {data.preparationSteps.map((step, index) => (
-                <div className="rounded-2xl bg-primary w-full p-1">
-                  <div className="border flex flex-col items-center md:items-start justify-start w-full h-full rounded-2xl px-8 py-4">
+                <div className="rounded-2xl bg-active w-full p-1">
+                  <div className="border border-primaryBorder flex flex-col items-center md:items-start justify-start w-full h-full rounded-2xl px-8 py-4">
                     <div className="text-center primaryText text-3xl font-light flex flex-row items-center md:gap-2">
                       <p className="text-xl font-semibold mr-2">
                         Step {index + 1}

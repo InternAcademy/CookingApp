@@ -60,8 +60,6 @@ export default function Sidebar() {
   function handleNewChat() {
     dispatch(uiActions.clearActive());
     dispatch(userActions.emptyChat());
-    dispatch(uiActions.closeSidebar());
-
     navigate("/");
   }
   const sortedChatHistory = chatHistory
@@ -139,11 +137,11 @@ export default function Sidebar() {
     >
       <header className="flex justify-between px-4 py-4">
         <Bars3BottomLeftIcon
-          className="size-10  rounded-xl border border-base hover:border hover:border-gray-200 hover:cursor-pointer p-2"
+          className="size-10  rounded-xl border border-base hover:border hover:border-primaryBorder  hover:cursor-pointer p-2"
           onClick={handleClick}
         />
         <ChatBubbleOvalLeftEllipsisIcon
-          className="size-10 rounded-xl border border-base  hover:border hover:border-gray-200 hover:cursor-pointer p-2"
+          className="size-10 rounded-xl border border-base  hover:border hover:border-primaryBorder  hover:cursor-pointer p-2"
           onClick={handleNewChat}
         />
       </header>

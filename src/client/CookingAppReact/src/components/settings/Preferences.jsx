@@ -150,7 +150,7 @@ export default function Preferences() {
       />
       <div className="flex justify-center w-full mt-5">
         <button
-          className="bg-primary font-semibold border rounded-full py-2 px-5"
+          className="bg-primary font-semibold border border-primaryBorder rounded-full py-2 px-5"
           onClick={savePreferences}
         >
           Save Changes
