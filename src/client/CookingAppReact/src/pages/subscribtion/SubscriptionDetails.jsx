@@ -18,21 +18,21 @@ export default function SubscriptionDetails() {
 
   function formatDateIso(dateString) {
     const date = new Date(dateString);
-    
+
     // Adjust for time zone offset
     const options = {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      timeZone: 'UTC', // Ensure the date is interpreted as UTC
-      hour12: true // Use 12-hour time format
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      timeZone: "UTC", // Ensure the date is interpreted as UTC
+      hour12: true, // Use 12-hour time format
     };
-  
+
     // Format date
-    return new Intl.DateTimeFormat('en-US', options).format(date);
+    return new Intl.DateTimeFormat("en-US", options).format(date);
   }
 
   return (
@@ -62,7 +62,9 @@ export default function SubscriptionDetails() {
 
                 {data.subscriptions[0].cancelAt ? (
                   <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 hover:border-orange-400 selection:bg-orange-400">
-                    {`Your subscription has been cancelled and it will expire on ${formatDateIso(data.subscriptions[0].cancelAt)}`}
+                    {`Your subscription has been cancelled and it will expire on ${formatDateIso(
+                      data.subscriptions[0].cancelAt
+                    )}`}
                   </li>
                 ) : (
                   <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 hover:border-orange-400 selection:bg-orange-400">
@@ -77,7 +79,9 @@ export default function SubscriptionDetails() {
                 disabled={data.subscriptions[0].cancelAt ? true : false}
                 onClick={handleCancellation}
               >
-                Cancel Subscription
+                {data.subscriptions[0].cancelAt
+                  ? "Cancelled"
+                  : " Cancel Subscription"}
               </button>
               <div className="w-full flex justify-center items-center text-center mt-2 text-base selection:bg-orange-400">
                 <img className="w-28 mr-1" src={stripe} alt="stripe" />
