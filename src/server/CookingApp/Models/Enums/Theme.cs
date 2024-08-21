@@ -6,7 +6,9 @@ namespace CookingApp.Models.Enums
     public enum Theme
     {
         Light,
-        Dark
-
+        Dark,
+        SunnyLight,
+        CoolLight,
+        WarmDark
     }
 }

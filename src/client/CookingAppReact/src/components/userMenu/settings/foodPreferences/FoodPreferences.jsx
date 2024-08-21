@@ -156,7 +156,7 @@ const FoodPreferences = () => {
                 <button
                   key={index}
                   onClick={() => handleRemoveAlergen(index)}
-                  className={`border flex items-center rounded-full px-3 py-1 mx-1 mb-2 
+                  className={`border border-primaryBorder flex items-center rounded-full px-3 py-1 mx-1 mb-2 
                     md:px-3 md:py-1.5 md:text-sm 
                     lgt:px-4 lgt:py-2 lgt:text-base 
                     xl:px-3 xl:py-1 xl:text-base

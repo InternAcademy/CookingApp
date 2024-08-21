@@ -16,7 +16,7 @@ const Thinking = () => {
             src={logo}
             alt=""
             width={40}
-            className="border shadow-sm rounded-full p-1 mr-5"
+            className="border border-primaryBorder shadow-sm rounded-full p-1 mr-5"
           />
           <span
             className={`text-sm font-semibold italic ${

@@ -33,7 +33,7 @@ export default function EmptyChat() {
             <div className="flex flex-col justify-center items-center content-center">
               <img src={logo} alt="" width={130} />
               <div className="flex flex-col mt-4 justify-center items-center content-center">
-                <h1 className="text-lg primaryText font-semibold">
+                <h1 className="text-lg text-primaryText font-semibold">
                   Let's figure out a recipe
                 </h1>
                 <h2 className="text-sm text-gray-500">

@@ -146,11 +146,11 @@ export default function Admin() {
         <input
           type="text"
           placeholder="User ID"
-          className="w-full mt-2 border shadow-sm rounded-2xl px-5 py-2"
+          className="w-full mt-2 border border-primaryBorder shadow-sm rounded-2xl px-5 py-2"
           ref={ref}
         />
         <button
-          className="px-5 py-1 rounded-2xl border bg-primary mt-2"
+          className="px-5 py-1 rounded-2xl border border-primaryBorder bg-primary mt-2"
           onClick={handleGifting}
         >
           Gift
