@@ -21,6 +21,7 @@ export async function sendMessage({ token, chatId, type, content }) {
     toast.error(responseBody.data);
   }
   if (!response.ok) {
+    toast.error("Unexpected error, please try again later");
     throw new Error(response.status);
   }
 

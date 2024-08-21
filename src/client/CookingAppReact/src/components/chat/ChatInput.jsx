@@ -75,11 +75,16 @@ export default function ChatInput() {
     const file = event.target.files[0];
 
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setBase64Image(reader.result);
-      };
-      reader.readAsDataURL(file);
+      console.log(file);
+      if (file.size > 2000000) {
+        toast.error("Maximum image size exceeded");
+      } else {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setBase64Image(reader.result);
+        };
+        reader.readAsDataURL(file);
+      }
     }
   }
   useEffect(() => {
@@ -109,25 +114,30 @@ export default function ChatInput() {
 
   return (
     <section className="flex flex-col items-center justify-center mb-5 w-full gap-1 ">
-      <ul className={`flex 
-      ${isOpenRecipes || isOpenSideBar ? "w-4/5 md:w-4/5 lg:w-3/5 xl:w-3/5" : "w-4/5 md:w-3/5 xl:w-2/5"}
-       items-center secondary rounded-full gap-2  py-2 px-4 bg-active text-primaryText`}>
-      
-      <Tooltip tooltipText="Attach Image">
-        <li>
-          <input
-            type="file"
-            hidden
-            accept="image/*"
-            ref={fileAttacher}
-            onChange={(event) => handleImageAttachment(event)}
-          />
-          
-          <PaperClipIcon
-            className="size-6 cursor-pointer"
-            onClick={handleClick}
-          />
-        </li>
+      <ul
+        className={`flex 
+      ${
+        isOpenRecipes || isOpenSideBar
+          ? "w-4/5 md:w-4/5 lg:w-3/5 xl:w-3/5"
+          : "w-4/5 md:w-3/5 xl:w-2/5"
+      }
+       items-center secondary rounded-full gap-2  py-2 px-4 bg-active text-primaryText`}
+      >
+        <Tooltip tooltipText="Attach Image">
+          <li>
+            <input
+              type="file"
+              hidden
+              accept="image/*"
+              ref={fileAttacher}
+              onChange={(event) => handleImageAttachment(event)}
+            />
+
+            <PaperClipIcon
+              className="size-6 cursor-pointer"
+              onClick={handleClick}
+            />
+          </li>
         </Tooltip>
         <li className="w-full">
           <input
@@ -140,19 +150,19 @@ export default function ChatInput() {
             className="w-full outline-none bg-active text-primaryText"
           />
         </li>
-        <p className="text-sm text-right text-gray-500">
-            {maxChars - input.length}/200
+        <p className="text-sm text-right text-primaryText">
+          {maxChars - input.length}/200
         </p>
-        
-      <Tooltip tooltipText="Send">
-        <li>
-          <PaperAirplaneIcon
-            className={`size-10 rounded-xl p-2 duration-200 ${
-              input.length > 0 ? "bg-orange-300" : ""
-            } cursor-pointer`}
-            onClick={handleSubmission}
-          />
-        </li>
+
+        <Tooltip tooltipText="Send">
+          <li>
+            <PaperAirplaneIcon
+              className={`size-10 rounded-xl p-2 duration-200 ${
+                input.length > 0 ? "bg-orange-300" : ""
+              } cursor-pointer`}
+              onClick={handleSubmission}
+            />
+          </li>
         </Tooltip>
       </ul>
       <p className="hidden md:inline text-sm opacity-80 text-primaryText">

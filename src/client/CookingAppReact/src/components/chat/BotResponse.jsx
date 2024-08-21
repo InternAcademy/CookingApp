@@ -14,7 +14,9 @@ export default function BotResponse({ message }) {
 
   async function handleClick() {
     const token = await getToken();
-    save({ token, request: message.content });
+    if (!isPending) {
+      save({ token, request: message.content });
+    }
   }
   function handleFreeUser() {
     navigate("/subscription");
@@ -35,7 +37,7 @@ export default function BotResponse({ message }) {
         </div>
         {message.type === "Recipe" && role !== "Free" && (
           <div className="w-full flex justify-center content-center items-center my-5">
-            <div
+            <button
               className={`w-fit flex flex-row border border-primaryBorder px-4 py-2 rounded-full bg-primary font-semibold cursor-pointer 
                 ${
                   isPending
@@ -49,14 +51,14 @@ export default function BotResponse({ message }) {
               {isPending ? (
                 <span className="text-primaryText">
                   Generating Meal
-                  <span className="dot-1">.</span>
-                  <span className="dot-2">.</span>
-                  <span className="dot-3">.</span>
+                  <span className="dot-1 text-primaryText">.</span>
+                  <span className="dot-2 text-primaryText">.</span>
+                  <span className="dot-3 text-primaryText">.</span>
                 </span>
               ) : (
                 "Generate Meal"
               )}
-            </div>
+            </button>
           </div>
         )}
         {message.type === "Recipe" && role === "Free" && (

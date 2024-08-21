@@ -33,7 +33,13 @@ export default function Sidebar() {
   const { getFirstPage, getNextPage, gettingFirstPage, gettingNextPage } =
     useChatHistory();
   useEffect(() => {
-    if (isOpen) {
+    if (initial.current) {
+      if (window.innerWidth > 1300) {
+        dispatch(uiActions.openSidebar());
+      }
+    }
+
+    if (isOpen && initial.current) {
       async function getFirstPageAsync() {
         const token = await getToken();
         const decoded = jwtDecode(token);
@@ -41,27 +47,27 @@ export default function Sidebar() {
       }
       console.log(chatHistory);
       getFirstPageAsync();
+      initial.current = false;
     }
-  }, [isOpen]);
-  useEffect(() => {
-    if (initial) {
-      if (window.innerWidth > 1300) {
-        dispatch(uiActions.openSidebar());
-      }
-    }
-  }, [initial]);
+  }, [isOpen, initial.current]);
+
   function handleChatSelection(chatId) {
-    if (window.innerWidth < 1300) {
+    if (window.innerWidth < 768) {
       dispatch(uiActions.closeSidebar());
     }
 
     navigate(`c/${chatId}`);
   }
+
   function handleNewChat() {
     dispatch(uiActions.clearActive());
     dispatch(userActions.emptyChat());
+    if (window.innerWidth < 768) {
+      dispatch(uiActions.closeSidebar());
+    }
     navigate("/");
   }
+
   const sortedChatHistory = chatHistory
     ? chatHistory.reduce((acc, chat) => {
         const sectionTitle = getSectionTitle(chat.time);
@@ -77,21 +83,21 @@ export default function Sidebar() {
     dispatch(uiActions.closeSidebar());
   }
   function handleClickDashboard() {
-    if (window.innerWidth < 1300) {
+    if (window.innerWidth < 768) {
       dispatch(uiActions.closeSidebar());
     }
 
     navigate("/admin/dashboard");
   }
   function handleClickSubscribtion() {
-    if (window.innerWidth < 1300) {
+    if (window.innerWidth < 768) {
       dispatch(uiActions.closeSidebar());
     }
 
     navigate("/subscription");
   }
   function handleClickYourSubscribtion() {
-    if (window.innerWidth < 1300) {
+    if (window.innerWidth < 768) {
       dispatch(uiActions.closeSidebar());
     }
 
@@ -99,7 +105,7 @@ export default function Sidebar() {
   }
 
   function handleClickRecipes() {
-    if (window.innerWidth < 1300) {
+    if (window.innerWidth < 768) {
       dispatch(uiActions.closeSidebar());
     }
 
@@ -159,7 +165,9 @@ export default function Sidebar() {
         onClick={handleClickRecipes}
       >
         <h5 className="hover:bg-primary mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-secondary shadow-sm ring-1 ring-black/5">
-          <div  className="w-5 mr-5"><MealIcon /></div>
+          <div className="w-5 mr-5">
+            <MealIcon />
+          </div>
           My Meals
         </h5>
       </button>
@@ -233,7 +241,9 @@ export default function Sidebar() {
                 </Fragment>
               )
           )}
-        {chatHistory.length === 0 && <p>You don't have any chats</p>}
+        {chatHistory.length === 0 && !gettingFirstPage && (
+          <p>You don't have any chats</p>
+        )}
         {chatPage < totalPages && !gettingNextPage && (
           <button onClick={loadMore}>Load more...</button>
         )}
