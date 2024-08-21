@@ -13,12 +13,12 @@ const useChatHistory = () => {
     isPending: gettingFirstPage,
   } = useMutation({
     mutationFn: getUserChats,
-    onMutate: () => {
-    },
+    onMutate: () => {},
     onSuccess: (response) => {
       dispatch(userActions.firstPageChatHistory(response.data));
     },
   });
+
   const {
     data: loadedChats,
     mutate: getNextPage,
@@ -26,8 +26,7 @@ const useChatHistory = () => {
   } = useMutation({
     mutationFn: getUserChats,
     onMutate: () => {},
-    onError: (errr) => {
-    },
+    onError: (errr) => {},
     onSuccess: (response) => {
       dispatch(userActions.setChatHistory(response.data));
     },

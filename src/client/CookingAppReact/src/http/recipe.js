@@ -15,7 +15,9 @@ export async function createRecipe({ token, request }) {
   if (response.status === 403) {
     const responseBody = await response.json();
 
-    toast.error(responseBody.data);
+    toast.error(
+      responseBody.data === null ? responseBody.errors[0] : responseBody.data
+    );
   }
   if (!response.ok) {
     throw new Error("Resource not found");

@@ -1,7 +1,11 @@
 import { setActive } from "@material-tailwind/react/components/Tabs/TabsContext";
 import { createSlice } from "@reduxjs/toolkit";
 import { act } from "react";
+function getInitialTheme() {
+  const theme = localStorage.getItem("theme");
 
+  return theme !== null ? theme : "Light";
+}
 const initialState = {
   sidebarOpen: false,
   recipesOpen: false,
@@ -10,7 +14,7 @@ const initialState = {
   input: "",
   isThinking: false,
   responseError: null,
-  theme: "Light",
+  theme: getInitialTheme(),
   photoUri: null,
   toastMealId: null,
   isMessageWarningShowed: false,

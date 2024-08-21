@@ -1,12 +1,16 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
 export default function FoodPreferences({
   selectedPreference,
   setSelectedPreference,
 }) {
+  const language = useSelector((state) => state.ui.lang);
+  const { i18n, t } = useTranslation();
   return (
     <>
-      <h1 className="font-semibold text-lg mb-4 mt-4">Food Preferences</h1>
+      <h1 className="font-semibold text-lg mb-4 mt-4">{t("FoodPreferences")}</h1>
       <div className="md:w-1/2 pr-2 bg-secondary">
         <select
           onChange={(e) => setSelectedPreference(e.target.value)}
@@ -15,9 +19,9 @@ export default function FoodPreferences({
           <option disabled selected>
             {`Current: ${selectedPreference ? selectedPreference : ""}`}
           </option>
-          <option value="none">None</option>
-          <option value="vegetarian">Vegetarian</option>
-          <option value="vegan">Vegan</option>
+          <option value="none">{t("None")}</option>
+          <option value="vegetarian">{t("Vegetarian")}</option>
+          <option value="vegan">{t("Vegan")}</option>
         </select>
       </div>
     </>

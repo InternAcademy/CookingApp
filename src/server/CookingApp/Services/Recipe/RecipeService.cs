@@ -24,10 +24,10 @@ namespace CookingApp.Services.Recipe
             {
                 throw new InvalidRecipeRequestException();
             }
-            var title = match.Groups["title"].Value;
+            var title = match.Groups["title"].Value.TrimEnd();
             if (await repo.ExistsAsync(r => r.Title == title))
             {
-                throw new InvalidRecipeRequestException();
+                throw new RecipeAlreadyGeneratedException("You already generated a meal for this recipe");
             }
             var messages = new List<ChatMessage>
             {

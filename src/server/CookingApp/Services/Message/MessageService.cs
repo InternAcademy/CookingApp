@@ -13,8 +13,11 @@
     using global::OpenAI.Chat;
     using System;
     using CookingApp.Common.EntityConstants;
-
-    public class MessageService(ChatClient client,
+    using SixLabors.ImageSharp.Formats.Jpeg;
+    using SixLabors.ImageSharp;
+    using SixLabors.ImageSharp.Formats.Jpeg;
+    using SixLabors.ImageSharp.Processing;
+    public partial class MessageService(ChatClient client,
         IChatService chatService,
         IRepository<Chat> chatRepo,
         IRepository<UserProfile> profileRepo,
@@ -77,7 +80,11 @@
 
             if(request.Type == MessageType.Image && request.Content != null)
             {
-                var imgPath = await fileService.UploadFileAndGetUrl(File.ConvertDataUriToFormFile(request.Content));
+                var formFile = File.ConvertDataUriToFormFile(request.Content);
+
+                var compressedFormFile = await CompressImage(formFile);
+               
+                var imgPath = await fileService.UploadFileAndGetUrl(compressedFormFile);
 
                 messages.Add(new UserChatMessage(
                         ChatMessageContentPart.CreateTextMessageContentPart(Completions.ImageRequest),
@@ -139,6 +146,31 @@
             await chatRepo.UpdateAsync(chat);
 
             return chat.Title;
+        }
+
+        private async Task<IFormFile> CompressImage(IFormFile formFile)
+        {
+            var memoryStream = new MemoryStream();
+
+            using (var image = Image.Load(formFile.OpenReadStream()))
+            {
+               
+                var encoderOptions = new JpegEncoder
+                {
+                    Quality = 10
+                };
+
+                
+                image.Save(memoryStream, encoderOptions);
+            }
+
+            memoryStream.Position = 0;
+
+            return new FormFile(memoryStream, 0, memoryStream.Length, formFile.Name, formFile.FileName)
+            {
+                Headers = formFile.Headers,
+                ContentType = formFile.ContentType
+            };
         }
     }
 }
