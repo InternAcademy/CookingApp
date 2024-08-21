@@ -8,10 +8,12 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { uiActions } from "@/store/uiSlice";
 import { supportedLngs } from "@/i18n/config";
+import { useTranslation } from "react-i18next";
 export default function BotResponse({ message }) {
   const language = useSelector((state) => state.ui.lang);
   const { i18n, t } = useTranslation();
   const role = useSelector((state) => state.user.role.type);
+  const limitations = useSelector((state) => state.user.role.limitations);
   const navigate = useNavigate();
   const { save, isError, isPending, error, isSuccess } = useSaveRecipe();
 
@@ -38,7 +40,7 @@ export default function BotResponse({ message }) {
             {message.content}
           </p>
         </div>
-        {message.type === "Recipe" && role !== "Free" && (
+        {message.type === "Recipe" && limitations.recipeGeneration > 0 && (
           <div className="w-full flex justify-center content-center items-center my-5">
             <button
               className={`w-fit flex flex-row border border-primaryBorder px-4 py-2 rounded-full bg-primary font-semibold cursor-pointer 
@@ -64,23 +66,25 @@ export default function BotResponse({ message }) {
             </button>
           </div>
         )}
-        {message.type === "Recipe" && role === "Free" && (
-          <div className="w-full flex justify-center content-center items-center my-5">
-            <div
-              className={`w-fit flex flex-row border-2 px-4 py-2 rounded-full bg-primary font-semibold cursor-pointer 
+        {message.type === "Recipe" &&
+          role === "Free" &&
+          limitations.recipeGeneration <= 0 && (
+            <div className="w-full flex justify-center content-center items-center my-5">
+              <div
+                className={`w-fit flex flex-row border-2 px-4 py-2 rounded-full bg-primary font-semibold cursor-pointer 
                 ${
                   isPending
                     ? "border-dance animate-border-dance"
                     : "hover:border-orange-200 hover:scale-105 transition-transform duration-300"
                 } 
                 relative ${isPending && "sparkle"}`}
-              onClick={handleFreeUser}
-            >
-              <SparklesIcon className="size-6 opacity-70 mr-2" />
-              <p className="text-primaryText">Get Premium</p>
+                onClick={handleFreeUser}
+              >
+                <SparklesIcon className="size-6 opacity-70 mr-2" />
+                <p className="text-primaryText">Get Premium</p>
+              </div>
             </div>
-          </div>
-        )}
+          )}
       </div>
     </li>
   );
