@@ -4,7 +4,7 @@ import { CheckIcon } from "@heroicons/react/24/outline";
 
 export const SubscriptionPlanPremium = () => {
   return (
-    <div className="bg-slate-50 p-2 border rounded-2xl w-[25rem] h-[32rem] flex flex-col justify-between items-center ml-20">
+    <div className="bg-slate-50 p-2 border border-primaryBorder rounded-2xl w-[25rem] h-[32rem] flex flex-col justify-between items-center ml-20">
       <div className="bg-primary primaryText text-center p-2 w-full uppercase font-bold rounded-xl">
         Unlimited
       </div>
@@ -37,7 +37,7 @@ export const SubscriptionPlanPremium = () => {
           </li>
         </ul>
       </div>
-      <div className="mt-4 flex justify-between items-center border p-3 rounded">
+      <div className="mt-4 flex justify-between items-center border border-primaryBorder p-3 rounded">
         <span className="text-red-500 font-bold">8.99 euro/month</span>
       </div>
       <p className="text-xs text-gray-800 text-center mt-1">

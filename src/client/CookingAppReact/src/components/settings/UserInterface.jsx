@@ -36,7 +36,7 @@ export default function UserInterface() {
       </h1>
       <div className="flex flex-col md:flex-row bg-secondary">
         <select
-          className="border rounded-lg px-4 py-3 m-1 md:w-1/2 text-sm shadow-sm bg-secondary"
+          className="border border-primaryBorder rounded-lg px-4 py-3 m-1 md:w-1/2 text-sm shadow-sm bg-secondary"
           onChange={langChange}
         >
           <option value="none" disabled selected>
@@ -45,14 +45,17 @@ export default function UserInterface() {
           <option value="English">English</option>
         </select>
         <select
-          className="border rounded-lg m-1 px-4 py-3 md:w-1/2 text-sm shadow-sm bg-secondary"
+          className="border border-primaryBorder  rounded-lg m-1 px-4 py-3 md:w-1/2 text-sm shadow-sm bg-secondary"
           onChange={themeChange}
         >
           <option value="none" disabled selected>
             {`Current: ${theme}`}
           </option>
           <option value="Light">Light</option>
-          <option value="Dark">Dark Contrast</option>
+          <option value="Dark">Dark</option>
+          <option value="SunnyLight">Sunny Light</option>
+          <option value="CoolLight">Cool Light</option>
+          <option value="WarmDark">Warm Dark</option>
         </select>
       </div>
     </>

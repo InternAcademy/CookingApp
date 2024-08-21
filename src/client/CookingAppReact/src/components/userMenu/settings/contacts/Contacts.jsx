@@ -16,7 +16,7 @@ const Contacts = () => {
                 <label className={`text-lg mb-2`}>Subject</label>
                 <input
                     type="text"
-                    className={`h-12 border placeholder-slate-500 rounded-full px-3 w-full 
+                    className={`h-12 border border-primaryBorder placeholder-slate-500 rounded-full px-3 w-full 
         smallPhone:px-3 smallPhone:h-12 smallPhone:text-sm 
         phone:px-6 phone:h-14 phone:text-sm 
         table:px-7 tablet:h-16 tablet:text-base 

@@ -10,7 +10,7 @@ export default function FoodPreferences({
       <div className="md:w-1/2 pr-2 bg-secondary">
         <select
           onChange={(e) => setSelectedPreference(e.target.value)}
-          className="border rounded-lg px-4 py-3 m-1 w-full text-sm shadow-sm bg-secondary"
+          className="border border-primaryBorder rounded-lg px-4 py-3 m-1 w-full text-sm shadow-sm bg-secondary"
         >
           <option disabled selected>
             {`Current: ${selectedPreference ? selectedPreference : ""}`}

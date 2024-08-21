@@ -60,8 +60,6 @@ export default function Sidebar() {
   function handleNewChat() {
     dispatch(uiActions.clearActive());
     dispatch(userActions.emptyChat());
-    dispatch(uiActions.closeSidebar());
-
     navigate("/");
   }
   const sortedChatHistory = chatHistory
@@ -131,19 +129,19 @@ export default function Sidebar() {
   }
   return (
     <section
-    className={`bg-base flex flex-col flex-shrink-0 text-primaryText   ${
-      isOpen
-        ? "w-screen fixed z-10 md:w-80 md:relative md:z-0"
-        : "invisible w-0"
-    }  h-screen md:duration-300`}
+      className={`bg-base max-h-dvh flex flex-col flex-shrink-0  text-primaryText   ${
+        isOpen
+          ? "visible w-screen absolute z-10 md:w-80 md:relative md:z-0"
+          : "invisible w-0"
+      }  h-screen  duration-300`}
     >
       <header className="flex justify-between px-4 py-4">
         <Bars3BottomLeftIcon
-          className="size-10  rounded-xl border border-base hover:border hover:border-gray-200 hover:cursor-pointer p-2"
+          className="size-10  rounded-xl border border-base hover:border hover:border-primaryBorder  hover:cursor-pointer p-2"
           onClick={handleClick}
         />
         <ChatBubbleOvalLeftEllipsisIcon
-          className="size-10 rounded-xl border border-base  hover:border hover:border-gray-200 hover:cursor-pointer p-2"
+          className="size-10 rounded-xl border border-base  hover:border hover:border-primaryBorder  hover:cursor-pointer p-2"
           onClick={handleNewChat}
         />
       </header>
@@ -185,7 +183,7 @@ export default function Sidebar() {
       </button>
 
       <ul
-        className={`overflow-y-auto overflow-x-hidden px-3 m-2 ${
+        className={`overflow-y-auto overflow-x-hidden px-3 p-2 ${
           isOpen ? "visible" : "invisible "
         }  duration-100 h-full`}
       >

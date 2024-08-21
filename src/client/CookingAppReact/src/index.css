@@ -34,12 +34,37 @@
   --primary: rgb(254 215 170);
   --active: rgb(229 231 235);
   --primaryText: #0d0d0d;
+  --primaryBorder: #e5e5e5;
 }
 .dark {
-  --base: #171717;
-  --secondary: #212121;
-  --active: #2f2f2f;
-  --primary: rgb(101 55 1);
-  --secondary: #212121;
-  --primaryText: #ececec;
+  --base: #1d1d1d;
+  --secondary: #2a2a2a;
+  --active: #3a3a3a;
+  --primary: #C25100;
+  --primaryText: #f0f0f0;
+  --primaryBorder: #5a6a82;
+}
+.sunnylight {
+  --base: rgb(255, 250, 235);
+  --secondary: rgb(255, 255, 245);
+  --primary: rgb(255, 223, 153);
+  --active: rgb(255, 236, 200);
+  --primaryText: #3d3d3d;
+  --primaryBorder: #ffe5b4;
+}
+.warmdark {
+  --base: #2b1d1d;
+  --secondary: #3a2a2a;
+  --active: #4b3a3a;
+  --primary: #e07b39;
+  --primaryText: #f4e4d9;
+  --primaryBorder: #705046;
+}
+.coollight {
+  --base: rgb(235, 248, 255);
+  --secondary: rgb(255, 255, 255);
+  --primary: rgb(172, 213, 240);
+  --active: rgb(220, 230, 240);
+  --primaryText: #0d0d0d;
+  --primaryBorder: #c3d1e0;
 }
