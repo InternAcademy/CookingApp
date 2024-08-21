@@ -1,4 +1,5 @@
 import "./index.css";
+import "./i18n/config.js";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import SignOutButton from "../src/components/auth/SignOutButton";
 import ChatLayout from "./pages/layout/ChatLayout";

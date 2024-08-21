@@ -9,6 +9,7 @@ import { uiActions } from "../../store/uiSlice";
 import toast from "react-hot-toast";
 import { useRef } from "react";
 import Tooltip from "../ui/tooltip";
+import { useTranslation } from "react-i18next";
 
 export default function ChatInput() {
   const input = useSelector((state) => state.ui.input);
@@ -22,6 +23,8 @@ export default function ChatInput() {
   const dispatch = useDispatch();
   const [base64Image, setBase64Image] = useState(null);
   const [maxChars] = useState(200);
+  const { t } = useTranslation();
+
   useEffect(() => {
     if (role.limitations.chatGeneration === 10 && !isInitial) {
       toast(
@@ -166,7 +169,7 @@ export default function ChatInput() {
         </Tooltip>
       </ul>
       <p className="hidden md:inline text-sm opacity-80 text-primaryText">
-        Meal Master may occasionally make mistakes.
+        {t("chatwarn")}
       </p>
     </section>
   );
