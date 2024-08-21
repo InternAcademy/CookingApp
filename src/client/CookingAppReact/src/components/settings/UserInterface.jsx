@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 export default function UserInterface() {
   const theme = useSelector((state) => state.ui.theme);
   const language = useSelector((state) => state.ui.lang);
-
+  const dispatch = useDispatch();
   const { changeUi } = useUiPreferences();
   async function langChange(event) {
     const token = await getToken();
@@ -22,6 +22,8 @@ export default function UserInterface() {
   async function themeChange(event) {
     const token = await getToken();
     const decoded = jwtDecode(token);
+    dispatch(uiActions.setTheme(event.target.value));
+    localStorage.setItem("theme", event.target.value);
     changeUi({
       token: token,
       userId: decoded.sub,

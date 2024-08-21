@@ -15,6 +15,7 @@ const useFetchUserStatus = () => {
       if (response.status !== 401) {
         const body = await response.json();
         dispatch(uiActions.setTheme(body.data.interfacePreference.theme));
+        localStorage.setItem("theme", body.data.interfacePreference.theme);
         dispatch(uiActions.setLanguage(body.data.interfacePreference.language));
         dispatch(userActions.setRole(body.data.role));
         dispatch(
