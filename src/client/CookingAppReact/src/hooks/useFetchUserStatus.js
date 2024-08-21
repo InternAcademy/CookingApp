@@ -3,11 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { checkUserStatus } from "../http/user";
 import { getToken } from "../msal/msal";
 import { uiActions } from "../store/uiSlice";
+import { useTranslation } from "react-i18next";
 import { userActions } from "../store/userSlice";
 
 const useFetchUserStatus = () => {
   const isInitial = useSelector((state) => state.ui.isInitial);
   const dispatch = useDispatch();
+  const { i18n } = useTranslation();
+
   const fetchToken = async () => {
     const token = await getToken();
     if (isInitial) {
@@ -15,7 +18,9 @@ const useFetchUserStatus = () => {
       if (response.status !== 401) {
         const body = await response.json();
         dispatch(uiActions.setTheme(body.data.interfacePreference.theme));
+        localStorage.setItem("theme", body.data.interfacePreference.theme);
         dispatch(uiActions.setLanguage(body.data.interfacePreference.language));
+        i18n.changeLanguage(body.data.interfacePreference.language);
         dispatch(userActions.setRole(body.data.role));
         dispatch(
           userActions.setPersonal({ name: body.data.name, picture: null })

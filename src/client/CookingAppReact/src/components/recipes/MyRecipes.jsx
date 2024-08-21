@@ -11,8 +11,10 @@ import useFirstPageRecipes from "@/hooks/useFirstPageRecipes";
 import "../../assets/css/animations.css";
 import UserMenu from "../userMenu/UserMenu";
 import Tooltip from "../ui/tooltip";
+import { useTranslation } from "react-i18next";
 
 export default function MyRecipes() {
+  const { i18n, t } = useTranslation();
   const isOpen = useSelector((state) => state.ui.recipesOpen);
   const recipesState = useSelector((state) => state.ui.filteredRecipes);
   const [search, setSearch] = useState({ isTyping: false, message: "" });
@@ -107,7 +109,7 @@ export default function MyRecipes() {
       onClick={handleRecipes}
     />
         </Tooltip>
-        <h1 className="text-lg text-primaryText">My Meals</h1>
+        <h1 className="text-lg text-primaryText">{t("MyMeals")}</h1>
         <Tooltip tooltipText="Profile">
         <UserIcon
           className="size-10 invisible md:visible rounded-xl border border-transparent  hover:border hover:border-active hover:cursor-pointer p-2"
@@ -129,7 +131,7 @@ export default function MyRecipes() {
           type="text"
           onChange={handleChange}
           className="bg-secondary text-primaryText w-full h-3/4 rounded-xl outline-none px-6 py-3"
-          placeholder="Looking for your favourite recipe?"
+          placeholder={t("LookingForFav")}
         />
       </section>
       <ul
@@ -196,16 +198,16 @@ export default function MyRecipes() {
           ))}
         {recipesState.page < recipesState.totalPages && !gettingMoreRecipes && (
           <button onClick={loadMore} className="text-primaryText">
-            Load more...
+            {t("LoadMore")}
           </button>
         )}
         {recipesState.recipes.length === 0 && (
-          <p className="text-primaryText">You dont't have any recipes </p>
+          <p className="text-primaryText">{t("NoRecipes")} </p>
         )}
 
         {gettingMoreRecipes && (
           <span className="text-primaryText">
-            Loading
+            {t("Loading")}
             <span className="dot-1">.</span>
             <span className="dot-2">.</span>
             <span className="dot-3">.</span>

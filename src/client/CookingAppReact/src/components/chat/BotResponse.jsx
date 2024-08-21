@@ -7,14 +7,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { uiActions } from "@/store/uiSlice";
+import { useTranslation } from "react-i18next";
 export default function BotResponse({ message }) {
+  const language = useSelector((state) => state.ui.lang);
+  const limitations = useSelector((state) => state.user.role.limitations);
+  const { i18n, t } = useTranslation();
   const role = useSelector((state) => state.user.role.type);
   const navigate = useNavigate();
   const { save, isError, isPending, error, isSuccess } = useSaveRecipe();
 
   async function handleClick() {
     const token = await getToken();
-    save({ token, request: message.content });
+    if (!isPending) {
+      save({ token, request: message.content });
+    }
   }
   function handleFreeUser() {
     navigate("/subscription");
@@ -33,9 +39,9 @@ export default function BotResponse({ message }) {
             {message.content}
           </p>
         </div>
-        {message.type === "Recipe" && role !== "Free" && (
+        {message.type === "Recipe" && limitations.recipeGeneration > 0 && (
           <div className="w-full flex justify-center content-center items-center my-5">
-            <div
+            <button
               className={`w-fit flex flex-row border border-primaryBorder px-4 py-2 rounded-full bg-primary font-semibold cursor-pointer 
                 ${
                   isPending
@@ -48,18 +54,20 @@ export default function BotResponse({ message }) {
               <SparklesIcon className="size-6 opacity-70 mr-2 text-primaryText" />
               {isPending ? (
                 <span className="text-primaryText">
-                  Generating Meal
-                  <span className="dot-1">.</span>
-                  <span className="dot-2">.</span>
-                  <span className="dot-3">.</span>
+                  {t("GeneratingMeal")}
+                  <span className="dot-1 text-primaryText">.</span>
+                  <span className="dot-2 text-primaryText">.</span>
+                  <span className="dot-3 text-primaryText">.</span>
                 </span>
               ) : (
-                "Generate Meal"
+                `${t("GenerateMeal")}`
               )}
-            </div>
+            </button>
           </div>
         )}
-        {message.type === "Recipe" && role === "Free" && (
+        {message.type === "Recipe" &&
+          role === "Free" &&
+          limitations.recipeGeneration <= 0 && (
           <div className="w-full flex justify-center content-center items-center my-5">
             <div
               className={`w-fit flex flex-row border-2 px-4 py-2 rounded-full bg-primary font-semibold cursor-pointer 
@@ -72,7 +80,7 @@ export default function BotResponse({ message }) {
               onClick={handleFreeUser}
             >
               <SparklesIcon className="size-6 opacity-70 mr-2" />
-              <p className="text-primaryText">Get Premium</p>
+              <p className="text-primaryText">{t("GetPremium")}</p>
             </div>
           </div>
         )}

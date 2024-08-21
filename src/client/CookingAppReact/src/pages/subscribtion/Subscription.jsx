@@ -21,7 +21,7 @@ export default function Subscription() {
     });
   }
   return (
-    <div className="flex flex-col lg:flex-row w-full h-full justify-start content-start items-start bg-orange-50 px-10 lg:pl-40">
+    <div className="flex flex-col lg:flex-row w-full h-full justify-start content-start items-start bg-secondary px-10 lg:pl-40 text-primaryText">
       {priceIds && (
         <div className="flex w-full justify-center content-start items-start flex-col h-full">
           <div>
@@ -38,24 +38,24 @@ export default function Subscription() {
                   <FireIcon className="size-7 mr-1" /> Hot offer
                 </div>
               </li>
-              <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 hover:border-orange-400 selection:bg-primary">
+              <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 selection:bg-primary">
                 • Unlimited messages
               </li>
-              <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 hover:border-orange-400 selection:bg-primary">
+              <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 selection:bg-primary">
                 • Unlimited chats
               </li>
-              <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 hover:border-orange-400 selection:bg-primary">
+              <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 selection:bg-primary">
                 • More than enough recipies
               </li>
-              <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 hover:border-orange-400 selection:bg-primary">
+              <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 selection:bg-primary">
                 • Customizable dietary options
               </li>
-              <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 hover:border-orange-400 selection:bg-primary">
+              <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 selection:bg-primary">
                 • Free cancellation
               </li>
             </ul>
             <button
-              className="text-white bg-black py-3 font-bold rounded-xl w-full mt-10 border-2 border-transparent hover:border-gray-300 shadow-md hover:rounded-ss-none hover:rounded-ee-none transition-all duration-100"
+              className="text-white bg-black py-3 font-bold rounded-xl w-full mt-10 border-2 border-transparent hover:border-active shadow-md hover:rounded-ss-none hover:rounded-ee-none transition-all duration-100"
               onClick={handleClick}
             >
               <div className=" font-semibold text-xl flex flex-row items-center justify-center text-center selection:bg-primary">
