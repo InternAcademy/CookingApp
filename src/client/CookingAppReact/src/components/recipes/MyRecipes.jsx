@@ -87,7 +87,7 @@ export default function MyRecipes() {
   }, [search.message]);
   return (
     <section
-      className={`bg-base max-h-dvh flex flex-col flex-shrink-0 ${
+      className={`bg-base flex flex-col flex-shrink-0 ${
         isOpen ? "visible w-screen md:w-[25rem] md:relative" : "invisible w-0"
       }  h-screen md:duration-300`}
     >
