@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { IoClose } from "react-icons/io5";
+import { supportedLngs } from "@/i18n/config";
 export default function DietaryPreferences({
   possibleAllergens,
   error,
@@ -17,10 +18,12 @@ export default function DietaryPreferences({
   handleAddDislikeFoodsPressEnter,
   handleAddFoodPreference,
 }) {
+  const language = useSelector((state) => state.ui.lang);
+  const { i18n, t } = useTranslation();
   return (
     <div className="flex flex-col md:flex-row">
       <div className="md:w-1/2 pb-6 m-1 bg-secondary rounded-xl border border-primaryBorder shadow-sm py-4 px-4">
-        <h2 className="text-lg font-semibold mb-4 primaryText">Allergens</h2>
+        <h2 className="text-lg font-semibold mb-4 primaryText">{t("Allergens")}</h2>
         {allergens.length > 0 ? (
           <div className="flex flex-wrap mb-4">
             {allergens.map((alergen, index) => (
@@ -35,7 +38,7 @@ export default function DietaryPreferences({
             ))}
           </div>
         ) : (
-          <p className="text-gray-500 text-center mb-4">None added</p>
+          <p className="text-gray-500 text-center mb-4">{t("NoAllergensAdded")}</p>
         )}
         <input
           list="allergens"
@@ -57,14 +60,14 @@ export default function DietaryPreferences({
         >
           <div className="secondary font-semibold border border-primaryBorder rounded-full py-2 px-5">
             <p className="text-primaryText text-center text-base font-medium">
-              Add Allergen
+            {t("AddAllergen")}
             </p>
           </div>
         </button>
       </div>
       <div className="md:w-1/2 pb-6 bg-secondary border border-primaryBorder shadow-sm m-1 rounded-xl py-4 px-4">
         <h2 className="text-lg font-semibold mb-4 primaryText">
-          Disliked Foods
+        {t("DislikedFoods")}
         </h2>
         {foodPreferences.length > 0 ? (
           <div className="flex flex-wrap mb-4">
@@ -80,7 +83,7 @@ export default function DietaryPreferences({
             ))}
           </div>
         ) : (
-          <p className="text-gray-500 text-center mb-4">None added</p>
+          <p className="text-gray-500 text-center mb-4">{t("NoAdded")}</p>
         )}
         <input
           type="text"
@@ -99,7 +102,7 @@ export default function DietaryPreferences({
         >
           <div className="secondary font-semibold border border-primaryBorder rounded-full py-2 px-5">
             <p className="text-primaryText text-center text-base font-medium">
-              Add Food
+            {t("AddFood")}
             </p>
           </div>
         </button>

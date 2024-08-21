@@ -7,7 +7,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { uiActions } from "@/store/uiSlice";
+import { supportedLngs } from "@/i18n/config";
 export default function BotResponse({ message }) {
+  const language = useSelector((state) => state.ui.lang);
+  const { i18n, t } = useTranslation();
   const role = useSelector((state) => state.user.role.type);
   const navigate = useNavigate();
   const { save, isError, isPending, error, isSuccess } = useSaveRecipe();
@@ -50,7 +53,7 @@ export default function BotResponse({ message }) {
               <SparklesIcon className="size-6 opacity-70 mr-2 text-primaryText" />
               {isPending ? (
                 <span className="text-primaryText">
-                  Generating Meal
+                  {t("GeneratingMeal")}
                   <span className="dot-1 text-primaryText">.</span>
                   <span className="dot-2 text-primaryText">.</span>
                   <span className="dot-3 text-primaryText">.</span>

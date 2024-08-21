@@ -10,7 +10,10 @@ import useFetchUserStatus from "../../hooks/useFetchUserStatus";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { checkUserStatus } from "@/http/user";
+import { supportedLngs } from "@/i18n/config";
 export default function Preferences() {
+  const language = useSelector((state) => state.ui.lang);
+  const { i18n, t } = useTranslation();
   const possibleAllergens = [
     "Peanuts",
     "Soy",
@@ -153,7 +156,7 @@ export default function Preferences() {
           className="bg-primary font-semibold border border-primaryBorder rounded-full py-2 px-5"
           onClick={savePreferences}
         >
-          Save Changes
+          {t("SaveChanges")}
         </button>
       </div>
     </div>

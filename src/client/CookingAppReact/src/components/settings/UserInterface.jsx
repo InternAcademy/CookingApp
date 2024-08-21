@@ -9,8 +9,8 @@ import { useTranslation } from "react-i18next";
 export default function UserInterface() {
   const theme = useSelector((state) => state.ui.theme);
   const language = useSelector((state) => state.ui.lang);
-  const dispatch = useDispatch();
   const { i18n, t } = useTranslation();
+  const dispatch = useDispatch();
   const { changeUi } = useUiPreferences();
   async function langChange(event) {
     const token = await getToken();
@@ -60,11 +60,11 @@ export default function UserInterface() {
           <option value="none" disabled selected>
             {`Current: ${theme}`}
           </option>
-          <option value="Light">Light</option>
-          <option value="Dark">Dark</option>
-          <option value="SunnyLight">Sunny Light</option>
-          <option value="CoolLight">Cool Light</option>
-          <option value="WarmDark">Warm Dark</option>
+          <option value="Light">{t("LightTheme")}</option>
+          <option value="Dark">{t("DarkTheme")}</option>
+          <option value="SunnyLight">{t("SunnyTheme")}</option>
+          <option value="CoolLight">{t("CoolTheme")}</option>
+          <option value="WarmDark">{t("WarmTheme")}</option>
         </select>
       </div>
     </>
