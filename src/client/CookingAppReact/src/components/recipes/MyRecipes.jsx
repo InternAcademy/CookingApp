@@ -99,18 +99,18 @@ export default function MyRecipes() {
         
       <Tooltip tooltipText="Close">
       <XMarkIcon
-      className="size-10 rounded-xl border border-transparent hover:border hover:border-primaryBorder hover:border-active hover:cursor-pointer p-2 md:hidden"
+      className="size-10 rounded-xl border border-transparent hover:border hover:border-active hover:cursor-pointer p-2 md:hidden"
       onClick={handleRecipes}
     />
     <ChevronLeftIcon
-      className="size-10 rounded-xl border border-transparent hover:border hover:border-primaryBorder hover:border-active hover:cursor-pointer p-2 hidden md:block"
+      className="size-10 rounded-xl border border-transparent hover:border hover:border-active hover:cursor-pointer p-2 hidden md:block"
       onClick={handleRecipes}
     />
         </Tooltip>
         <h1 className="text-lg text-primaryText">My Meals</h1>
         <Tooltip tooltipText="Profile">
         <UserIcon
-          className="size-10 invisible md:visible rounded-xl border border-transparent  hover:border hover:border-primaryBorder hover:border-active hover:cursor-pointer p-2"
+          className="size-10 invisible md:visible rounded-xl border border-transparent  hover:border hover:border-active hover:cursor-pointer p-2"
           onClick={(e) => {
             e.stopPropagation();
             toggleDropDown();

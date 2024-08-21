@@ -190,19 +190,19 @@ export default function Sidebar() {
         {gettingFirstPage && (
           <>
             <li className="py-1 flex flex-col mb-10">
-              <Skeleton className="w-1/4 h-[20px] rounded-full bg-gray-300 mb-3" />
+              <Skeleton className="w-1/4 h-[20px] rounded-full bg-secondary mb-3" />
               <div className="flex flex-col gap-7 w-full items-center">
-                <Skeleton className="w-4/5 h-[25px] rounded-full bg-gray-300 " />
-                <Skeleton className="w-4/5 h-[25px] rounded-full bg-gray-300 " />
-                <Skeleton className="w-4/5 h-[25px] rounded-full bg-gray-300 " />
+                <Skeleton className="w-4/5 h-[25px] rounded-full bg-secondary " />
+                <Skeleton className="w-4/5 h-[25px] rounded-full bg-secondary " />
+                <Skeleton className="w-4/5 h-[25px] rounded-full bg-secondary " />
               </div>
             </li>
             <li className="py-1 flex flex-col">
-              <Skeleton className="w-1/4 h-[20px] rounded-full bg-gray-300 mb-3" />
+              <Skeleton className="w-1/4 h-[20px] rounded-full bg-secondary mb-3" />
               <div className="flex flex-col gap-7 w-full items-center">
-                <Skeleton className="w-4/5 h-[25px] rounded-full bg-gray-300 " />
-                <Skeleton className="w-4/5 h-[25px] rounded-full bg-gray-300 " />
-                <Skeleton className="w-4/5 h-[25px] rounded-full bg-gray-300 " />
+                <Skeleton className="w-4/5 h-[25px] rounded-full bg-secondary " />
+                <Skeleton className="w-4/5 h-[25px] rounded-full bg-secondary " />
+                <Skeleton className="w-4/5 h-[25px] rounded-full bg-secondary " />
               </div>
             </li>
           </>
