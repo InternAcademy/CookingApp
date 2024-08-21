@@ -9,8 +9,10 @@ import { userActions } from "@/store/userSlice";
 import UserMenu from "../userMenu/UserMenu";
 import MealIcon from "../ui/mealIcon";
 import Tooltip from "../ui/tooltip";
+import { useTranslation } from "react-i18next";
 
 export default function Navbar() {
+  const { i18n, t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const role = useSelector((state) => state.user.role.type);

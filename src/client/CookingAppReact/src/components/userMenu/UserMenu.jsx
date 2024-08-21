@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { uiActions } from "@/store/uiSlice";
+import { useTranslation } from "react-i18next";
 import {
   Cog6ToothIcon,
   CreditCardIcon,
@@ -10,6 +11,7 @@ import {
 import SignOutButton from "../auth/SignOutButton";
 
 const UserMenu = ({ isOpen, toggleDropDown }) => {
+  const { i18n, t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isDarkTheme = useSelector((state) => state.ui.isDarkTheme);
@@ -59,7 +61,7 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
             title="Subscription"
           >
             <CreditCardIcon className="w-6 h-6 mr-4" />
-            <span>Subscription</span>
+            <span>{t("Subscription")}</span>
           </div>
           <div
             className={`flex items-center w-full cursor-pointer p-2 
@@ -72,7 +74,7 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
             title="Settings"
           >
             <Cog6ToothIcon className="w-6 h-6 mr-4" />
-            <span>Settings</span>
+            <span>{t("Settings")}</span>
           </div>
           <div
             className={`flex items-center w-full cursor-pointer p-2 
@@ -86,7 +88,7 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
             title="Rules & Policies"
           >
             <ExclamationTriangleIcon className="w-6 h-6 mr-4" />
-            <span>Rules & Policies</span>
+            <span>{t("RulesNPolicies")}</span>
           </div>
         </div>
         <hr

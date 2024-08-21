@@ -146,7 +146,7 @@ export default function ChatInput() {
           <input
             type="text"
             value={input}
-            placeholder="What do you want to cook today?"
+            placeholder={t("WhatToCook")}
             onKeyDown={handleChange}
             onChange={handleChange}
             maxLength={maxChars}

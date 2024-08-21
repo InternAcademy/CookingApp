@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { supportedLngs } from "@/i18n/config";
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
 export default function FoodPreferences({
   selectedPreference,

@@ -8,8 +8,10 @@ import { getToken } from "@/msal/msal";
 import { jwtDecode } from "jwt-decode";
 import toast from "react-hot-toast";
 import usePfp from "@/hooks/usePfp";
+import { useTranslation } from "react-i18next";
 
 export default function Settings() {
+  const { i18n, t } = useTranslation();
   const isOpenRecipes = useSelector((state) => state.ui.recipesOpen);
   const isOpenSideBar = useSelector((state) => state.ui.sidebarOpen);
   const personal = useSelector((state) => state.user.personal);
@@ -52,7 +54,7 @@ export default function Settings() {
             : "px-5 sm:px-10 md:px-10 lg:px-20 xl:px-40 2xl:px-60"
         } transition-colors duration-300`}
     >
-      <h1 className="font-semibold text-lg mb-4">Profile</h1>
+      <h1 className="font-semibold text-lg mb-4">{t("Profile")}</h1>
       <div className="flex flex-row justify-between rounded-2xl border border-primaryBorder py-5 px-5 items-center shadow-sm bg-base">
         <div className="flex flex-row items-center rounded-full gap-2">
           {pfp ? (
@@ -67,7 +69,7 @@ export default function Settings() {
                 onClick={handleCopy}
                 className="flex flex-row items-center text-center"
               >
-                Copy User Id <ClipboardDocumentIcon className="ml-1 size-5" />
+                {t("CopyUserId")} <ClipboardDocumentIcon className="ml-1 size-5" />
               </button>
             </h2>
           </div>
@@ -84,7 +86,7 @@ export default function Settings() {
             className="active font-semibold border border-primaryBorder rounded-full py-2 px-5"
             onClick={uploadImage}
           >
-            Upload
+            {t("Upload")}
           </button>
         </div>
       </div>

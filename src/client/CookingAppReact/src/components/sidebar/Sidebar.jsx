@@ -20,11 +20,13 @@ import useSelectChat from "../../hooks/useSelectChat";
 import { userActions } from "../../store/userSlice";
 import MealIcon from "../ui/mealIcon";
 import "../../assets/css/animations.css";
+import { useTranslation } from "react-i18next";
 export default function Sidebar() {
   const isOpen = useSelector((state) => state.ui.sidebarOpen);
   const chatPage = useSelector((state) => state.user.chatHistory.page);
   const chatHistory = useSelector((state) => state.user.chatHistory.chats);
   const totalPages = useSelector((state) => state.user.chatHistory.totalPages);
+  const { i18n, t } = useTranslation();
   let role = useSelector((state) => state.user.role.type);
   const initial = useRef(true);
   const selectChat = useSelectChat();
@@ -157,7 +159,7 @@ export default function Sidebar() {
       >
         <h5 className="hover:bg-primary mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-secondary shadow-sm ring-1 ring-black/5">
           <BanknotesIcon className="size-5 mr-5" />
-          Get Premium
+          {t("GetPremium")}
         </h5>
       </button>
       <button
@@ -168,7 +170,7 @@ export default function Sidebar() {
           <div className="w-5 mr-5">
             <MealIcon />
           </div>
-          My Meals
+          {t("MyMeals")}
         </h5>
       </button>
       <button
@@ -177,7 +179,7 @@ export default function Sidebar() {
       >
         <h5 className="hover:bg-primary mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-secondary shadow-sm ring-1 ring-black/5">
           <BanknotesIcon className="size-5 mr-5" />
-          Your Subscription
+          {t("YourSubscription")}
         </h5>
       </button>
       <button
@@ -186,7 +188,7 @@ export default function Sidebar() {
       >
         <h5 className="hover:bg-primary mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-white/20 shadow-sm ring-1 ring-black/5">
           <ChartPieIcon className="size-5 mr-5" />
-          Dashboard
+          {t("Dashboard")}
         </h5>
       </button>
 
@@ -242,14 +244,14 @@ export default function Sidebar() {
               )
           )}
         {chatHistory.length === 0 && !gettingFirstPage && (
-          <p>You don't have any chats</p>
+          <p>{t("NoChats")}</p>
         )}
         {chatPage < totalPages && !gettingNextPage && (
-          <button onClick={loadMore}>Load more...</button>
+          <button onClick={loadMore}>{t("LoadMore")}</button>
         )}
         {gettingNextPage && (
           <span>
-            Loading
+            {t("LoadMore")}
             <span className="dot-1">.</span>
             <span className="dot-2">.</span>
             <span className="dot-3">.</span>

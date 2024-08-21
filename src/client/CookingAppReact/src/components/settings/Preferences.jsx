@@ -10,7 +10,7 @@ import useFetchUserStatus from "../../hooks/useFetchUserStatus";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { checkUserStatus } from "@/http/user";
-import { supportedLngs } from "@/i18n/config";
+import { useTranslation } from "react-i18next";
 export default function Preferences() {
   const language = useSelector((state) => state.ui.lang);
   const { i18n, t } = useTranslation();

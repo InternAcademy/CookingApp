@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { IoClose } from "react-icons/io5";
-import { supportedLngs } from "@/i18n/config";
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 export default function DietaryPreferences({
   possibleAllergens,
   error,
@@ -18,7 +19,6 @@ export default function DietaryPreferences({
   handleAddDislikeFoodsPressEnter,
   handleAddFoodPreference,
 }) {
-  const language = useSelector((state) => state.ui.lang);
   const { i18n, t } = useTranslation();
   return (
     <div className="flex flex-col md:flex-row">
@@ -38,7 +38,7 @@ export default function DietaryPreferences({
             ))}
           </div>
         ) : (
-          <p className="text-gray-500 text-center mb-4">{t("NoAllergensAdded")}</p>
+          <p className="text-gray-500 text-center mb-4">{t("NoAdded")}</p>
         )}
         <input
           list="allergens"
@@ -46,7 +46,7 @@ export default function DietaryPreferences({
           onChange={(e) => setAlergenInput(e.target.value)}
           onKeyDown={handleAddAlergenPressEnter}
           className="border rounded-lg px-4 py-2 mb-2 w-full border-primaryBorder  bg-secondary primaryText"
-          placeholder="Add your allergens"
+          placeholder={t("AddAllergens")}
         />
         <datalist id="allergens">
           {possibleAllergens.map((alergen, index) => (
@@ -91,7 +91,7 @@ export default function DietaryPreferences({
           onChange={(e) => setFoodPreferenceInput(e.target.value)}
           onKeyDown={handleAddDislikeFoodsPressEnter}
           className="border rounded-lg px-4 py-2 mb-2 w-full border-primaryBorder  bg-secondary primaryText"
-          placeholder="Add your disliked foods"
+          placeholder={t("AddDisliked")}
         />
         {foodError && (
           <p className="text-red-500 mb-2 text-center">{foodError}</p>
