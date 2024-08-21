@@ -39,7 +39,7 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
     <div
       ref={menuRef}
       onClick={(e) => e.stopPropagation()}
-      className={`absolute right-2 top-12 w-56 
+      className={`absolute right-2 top-12 w-fit
       ${isDarkTheme ? "bg-[#2F2F2F]" : "bg-secondary"} 
       border border-primaryBorder rounded-3xl shadow-sm z-20 text-primaryText  mt-3`}
     >
