@@ -84,7 +84,7 @@ i18n.use(initReactI18next).init({
         DislikedFoods: "Храни които не харесваш",
         AddFood: "Добави храна",
         GeneratingMeal: "Генериране на ястие",
-        GenerateMeal: "Генерирай храна",
+        GenerateMeal: "Генерирай ястие",
         GetPremium: "Купи абонамент",
         MyMeals: "Моите ястия",
         LoadMore: "Зареди още...",
