@@ -16,6 +16,7 @@ module.exports = {
       active: "var(--active)",
       primary: "var(--primary)",
       primaryText: "var(--primaryText)",
+      primaryBorder: "var(--primaryBorder)",
       ...colors,
     },
     container: {
@@ -48,6 +49,7 @@ module.exports = {
       },
     },
     screens: {
+      xxs: "328px",
       xs: "396px",
       sm: "480px",
       md: "768px",

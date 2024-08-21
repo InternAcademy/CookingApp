@@ -1,4 +1,5 @@
-﻿using CookingApp.Infrastructure.Enums;
+﻿using System.Text.RegularExpressions;
+using CookingApp.Infrastructure.Enums;
 using OpenAI.Chat;
 
 namespace CookingApp.Services.Recipe

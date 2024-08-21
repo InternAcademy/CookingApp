@@ -27,7 +27,7 @@ export default function BotResponse({ message }) {
             src={logo}
             alt=""
             width={40}
-            className="border shadow-sm rounded-full p-1 mr-5"
+            className="border border-primaryBorder shadow-sm rounded-full p-1 mr-5"
           />
           <p className="whitespace-pre-wrap text-primaryText">
             {message.content}
@@ -36,7 +36,7 @@ export default function BotResponse({ message }) {
         {message.type === "Recipe" && role !== "Free" && (
           <div className="w-full flex justify-center content-center items-center my-5">
             <div
-              className={`w-fit flex flex-row border px-4 py-2 rounded-full bg-primary font-semibold cursor-pointer 
+              className={`w-fit flex flex-row border border-primaryBorder px-4 py-2 rounded-full bg-primary font-semibold cursor-pointer 
                 ${
                   isPending
                     ? "border-dance animate-border-dance"
@@ -48,13 +48,13 @@ export default function BotResponse({ message }) {
               <SparklesIcon className="size-6 opacity-70 mr-2 text-primaryText" />
               {isPending ? (
                 <span className="text-primaryText">
-                  Crafting Meal
+                  Generating Meal
                   <span className="dot-1">.</span>
                   <span className="dot-2">.</span>
                   <span className="dot-3">.</span>
                 </span>
               ) : (
-                "Use Meal Crafter"
+                "Generate Meal"
               )}
             </div>
           </div>

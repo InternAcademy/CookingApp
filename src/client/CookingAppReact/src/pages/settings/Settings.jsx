@@ -53,9 +53,9 @@ export default function Settings() {
         } transition-colors duration-300`}
     >
       <h1 className="font-semibold text-lg mb-4">Profile</h1>
-      <div className="flex flex-row justify-between rounded-2xl border py-5 px-5 items-center shadow-sm bg-base">
+      <div className="flex flex-row justify-between rounded-2xl border border-primaryBorder py-5 px-5 items-center shadow-sm bg-base">
         <div className="flex flex-row items-center rounded-full gap-2">
-          {pfp !== null ? (
+          {pfp ? (
             <img src={pfp} className="rounded-full object-cover w-14 h-14" />
           ) : (
             <UserIcon className="size-10 mr-1" />
@@ -81,7 +81,7 @@ export default function Settings() {
             onChange={(event) => handleImageAttachment(event)}
           />
           <button
-            className="active font-semibold border rounded-full py-2 px-5"
+            className="active font-semibold border border-primaryBorder rounded-full py-2 px-5"
             onClick={uploadImage}
           >
             Upload

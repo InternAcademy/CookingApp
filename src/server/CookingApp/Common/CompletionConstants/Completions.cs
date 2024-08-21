@@ -1,4 +1,5 @@
 ﻿using CookingApp.Models;
+using CookingApp.Models.Enums;
 using System.Text;
 
 namespace CookingApp.Common.CompletionConstants
@@ -8,7 +9,8 @@ namespace CookingApp.Common.CompletionConstants
         public const string AssistantInstructions =
             "You are a helpful assistant that answers questions related to cooking tips, recipes, kitchen tips." +
             "\n\rYou will receive queries containing different questions on cooking thematic or a list of products that you have to make use of and come up with a recipe for the user." +
-            "\n\rFeel free to kindly ask the user how much time he has and how many portions he wants.";
+            "\n\rAlways be kind, happy and supportive. Learn to understand what emotion the current user has and if he is in a hurry." +
+            "\n\rFeel free to ask the user how many portions he wants.";
 
         public const string RecipeFormat =
             "When generating a recipe, every recipe should start with this exact string -> b66315d3-507c. Provide the recipe content in a consistent format following this structure: " +
@@ -34,8 +36,8 @@ namespace CookingApp.Common.CompletionConstants
         public const string DietaryInfoPrompt = "You need to take into account the user's dietary needs and their allergies so that you do not suggest a recipe that includes unhealthy or inappropriate contents.";
         public const string UserAllergiesPrompt = "User allergies :";
         public const string UserAvoidedFoodsPrompt = "User avoided foods :";
-        public const string UserDietaryPreferencePrompt = "You need to take into account the user's dietary preference (if after the \":\" the text is - none. that will mean he doesent have any) :";
-        public const string UserLanguagePreferencePrompt = "The language that the current user has selected is {0}, however you will respond in the language the user is typing. For example if he types something in german you will respond in german!";
+        public const string UserDietaryPreferencePrompt = "You need to take into account the user's dietary preference. If he is vegan or vegetarian. Please follow strictly when giving any response!!! The current user is - ";
+        public const string UserLanguagePreferencePrompt = "The language that the current user has selected is {0}, however you will respond in the language the user is typing. For example if he types something in german you will respond in german! When generating recipes also respond in the language that the user is currently using!";
         public const string ImageRequest = "Based on the cooking products that you see in the provided image I want you to generate a recipe! " +
             "If the image does not contain any products do not create a recipe but insted tell the user that you are unable to process the image and kindly ask him to try with another one. " +
             "And if the image contains any harmful or unapropriete content tell the user that this is strongly forbidden!";
@@ -113,23 +115,26 @@ namespace CookingApp.Common.CompletionConstants
 
             if (profile is not null)
             {
-                if (profile.Allergies is not null || profile.AvoidedFoods is not null)
+                if (profile.Allergies.Count > 0 || profile.AvoidedFoods.Count > 0)
                 {
                     sb.AppendLine(DietaryInfoPrompt);
                 }
-                if(profile.Allergies is not null)
+                if(profile.Allergies.Count > 0)
                 {
                     sb.AppendLine(UserAllergiesPrompt);
                     sb.AppendLine(string.Join(", ", profile.Allergies));
                 }
-                if (profile.AvoidedFoods is not null)
+                if (profile.AvoidedFoods.Count > 0)
                 {
                     sb.AppendLine(UserAvoidedFoodsPrompt);
                     sb.AppendLine(string.Join(", ", profile.AvoidedFoods));
                 }
 
-                sb.AppendLine(UserDietaryPreferencePrompt);
-                sb.AppendLine(nameof(profile.DietaryPreference));
+                if (profile.DietaryPreference.ToString() != nameof(DietaryPreference.None))
+                {
+                    sb.AppendLine(UserDietaryPreferencePrompt);
+                    sb.Append(profile.DietaryPreference.ToString());
+                }
 
                 sb.AppendLine(string.Format(UserLanguagePreferencePrompt, profile.InterfacePreference.Language));
             }

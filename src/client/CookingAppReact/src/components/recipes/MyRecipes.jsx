@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { UserIcon } from "@heroicons/react/24/outline";
-import { ChevronLeftIcon } from "@heroicons/react/24/outline";
+import { ChevronLeftIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { uiActions } from "../../store/uiSlice";
 import RecipeCard from "./RecipeCard";
 import { getToken } from "@/msal/msal";
@@ -10,6 +10,7 @@ import { Skeleton } from "../ui/skeleton";
 import useFirstPageRecipes from "@/hooks/useFirstPageRecipes";
 import "../../assets/css/animations.css";
 import UserMenu from "../userMenu/UserMenu";
+import Tooltip from "../ui/tooltip";
 
 export default function MyRecipes() {
   const isOpen = useSelector((state) => state.ui.recipesOpen);
@@ -86,20 +87,28 @@ export default function MyRecipes() {
   }, [search.message]);
   return (
     <section
-      className={`bg-base flex flex-col flex-shrink-0 ${
+      className={`bg-base flex max-h-dvh flex-col flex-shrink-0 ${
         isOpen ? "visible w-screen md:w-[25rem] md:relative" : "invisible w-0"
-      }  h-screen duration-300`}
+      }  h-screen md:duration-300`}
     >
       <header
         className={`flex flex-row justify-between items-center px-3 py-3 text-primaryText ${
           isOpen ? "" : "hidden"
         }`}
       >
-        <ChevronLeftIcon
-          className="size-10  rounded-xl border border-transparent   hover:border hover:border-active hover:cursor-pointer p-2"
-          onClick={handleRecipes}
-        />
-        <h1 className="text-lg text-primaryText">My Recipes</h1>
+        
+      <Tooltip tooltipText="Close">
+      <XMarkIcon
+      className="size-10 rounded-xl border border-transparent hover:border hover:border-active hover:cursor-pointer p-2 md:hidden"
+      onClick={handleRecipes}
+    />
+    <ChevronLeftIcon
+      className="size-10 rounded-xl border border-transparent hover:border hover:border-active hover:cursor-pointer p-2 hidden md:block"
+      onClick={handleRecipes}
+    />
+        </Tooltip>
+        <h1 className="text-lg text-primaryText">My Meals</h1>
+        <Tooltip tooltipText="Profile">
         <UserIcon
           className="size-10 invisible md:visible rounded-xl border border-transparent  hover:border hover:border-active hover:cursor-pointer p-2"
           onClick={(e) => {
@@ -107,6 +116,7 @@ export default function MyRecipes() {
             toggleDropDown();
           }}
         />
+        </Tooltip>
         <UserMenu isOpen={dropDownOpen} toggleDropDown={toggleDropDown} />
       </header>
 

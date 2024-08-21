@@ -15,7 +15,7 @@ export default function RecipeCard({ recipe }) {
   return (
     <li
       key={recipe.id}
-      className="group flex flex-col text-primaryText bg-secondary w-full h-72 rounded-2xl pb-2  hover:cursor-pointer transition"
+      className="group flex flex-col justify-between text-primaryText bg-secondary w-full h-72 rounded-2xl pb-2  hover:cursor-pointer transition"
       onClick={handleClick}
     >
       <img
@@ -30,9 +30,10 @@ export default function RecipeCard({ recipe }) {
           {recipe.title}
         </h2>
       </div>
-      <div className="w-full px-8 mb-3 text-gray-500 transition-all invisible group-hover:visible overflow-hidden">
+      <div className="w-full px-8 text-gray-500 transition-all hidden group-hover:block overflow-hidden">
         <p className="w-full">{recipe.description}</p>
       </div>
+      <div className="mb-3"></div>
       <section className="flex flex-row justify-between mb-2">
         <div className="flex w-full flex-row justify-start gap-2 ms-4">
           <ClockIcon className="size-6" />

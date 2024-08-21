@@ -60,10 +60,7 @@ const Settings = () => {
   // };
 
   return (
-    <div
-      className={`h-auto w-full
-            border-gray-300 flex px-20`}
-    >
+    <div className={`h-auto w-full border-gray-300 flex px-20`}>
       <div className="flex flex-col p-4 w-1/4">
         <div className="flex w-full mb-8 relative">
           {photoUri ? (

@@ -21,7 +21,7 @@
                 var today = DateTime.UtcNow;
                 var chatDate = user.Role.Limitations.ChatFromDate;
                 ArgumentNullException.ThrowIfNull(chatDate, nameof(chatDate));
-                var endDate = chatDate.Value.AddHours(5);
+                var endDate = chatDate.Value.AddDays(1);
 
                 if (today >= chatDate.Value && today <= endDate)
                 {
@@ -38,7 +38,7 @@
                 }
 
                 user.Role.Limitations.ChatFromDate = today;
-                user.Role.Limitations.ChatGeneration = 20;
+                user.Role.Limitations.ChatGeneration = 50;
                 await repo.UpdateAsync(user);
 
                 return ProcessResult.MessageLimitationSuccessfull;
@@ -64,7 +64,8 @@
                     }
                 }
 
-                user.Role = CreateRole.Free();
+                user.Role.Limitations.ChatFromDate = today;
+                user.Role.Limitations.ChatGeneration = 20;
                 await repo.UpdateAsync(user);
 
                 return ProcessResult.MessageLimitationSuccessfull;
