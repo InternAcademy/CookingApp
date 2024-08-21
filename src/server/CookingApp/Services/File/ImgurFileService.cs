@@ -6,7 +6,7 @@ namespace CookingApp.Services.File
 {
     public class ImgurFileService(HttpClient _httpClient, string clientId) : IFileService
     {
-        public async Task<string> UploadFileAndGetUrl(IFormFile fileData)
+        public async Task<string> UploadFileAndGetUrl(IFormFile fileData, string? nameAddition = null)
         {
             _httpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Client-ID", clientId);

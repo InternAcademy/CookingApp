@@ -16,7 +16,7 @@
 
             var image = await client.GenerateImageAsync(prompt, options);
             var file = File.ConvertBinaryDataToFormFile(image.Value.ImageBytes, Guid.NewGuid().ToString(), "image/png");
-            var imagePath = await fileService.UploadFileAndGetUrl(file);
+            var imagePath = await fileService.UploadFileAndGetUrl(file, "Generated - ");
 
             return imagePath;
         }
