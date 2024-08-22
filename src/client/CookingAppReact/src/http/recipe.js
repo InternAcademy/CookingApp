@@ -9,7 +9,7 @@ export async function createRecipe({ token, request }) {
       "Content-Type": "application/json",
     },
 
-    body: `"${request}"`,
+    body: `"${request.replace(/["']/g, '')}"`
   });
 
   if (response.status === 403) {

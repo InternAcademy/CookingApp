@@ -84,9 +84,6 @@
             }
             else if (user.Role.Limitations.RecipeGeneration > 0)
             {
-                user.Role.Limitations.RecipeGeneration--;
-                await repo.UpdateAsync(user);
-
                 return ProcessResult.RecipeLimitationSuccessfull;
             }
             else if (user.Role.Type == RoleType.Admin)
