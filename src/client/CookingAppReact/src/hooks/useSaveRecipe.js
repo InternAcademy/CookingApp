@@ -6,8 +6,11 @@ import { userActions } from "@/store/userSlice";
 import useFirstPageRecipes from "./useFirstPageRecipes";
 import { jwtDecode } from "jwt-decode";
 import { getToken } from "@/msal/msal";
+import { useGeneration } from "@/utils/generationProvider";
+
 const useSaveRecipe = () => {
   const dispatch = useDispatch();
+  const { isGenerating, setIsGenerating } = useGeneration();
   const chat = useSelector((state) => state.user.selectedChat);
   const lastMessageContent =
     chat && chat.content.length > 0
@@ -26,6 +29,7 @@ const useSaveRecipe = () => {
 
     mutationFn: createRecipe,
     onMutate: () => {
+      setIsGenerating(true);
       dispatch(userActions.reduceRecipeGeneration());
     },
     onSuccess: async (response) => {
@@ -34,9 +38,11 @@ const useSaveRecipe = () => {
       const decoded = jwtDecode(token);
       console.log("trigerring");
       getFirstPageRecipes({ token: token, page: 1, userId: decoded.sub });
+      setIsGenerating(false);
     },
     onError: (error) => {
       dispatch(uiActions.setResponseError(error.message));
+      setIsGenerating(false);
     },
   });
 
