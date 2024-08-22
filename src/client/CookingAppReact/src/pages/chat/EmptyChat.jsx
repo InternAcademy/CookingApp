@@ -24,8 +24,8 @@ export default function EmptyChat() {
         className={`flex flex-col gap-14 pb-10  justify-start  items-center
     ${
       isOpenRecipes || isOpenSideBar
-        ? "w-5/5 md:w-5/5 xl:w-4/5"
-        : "w-5/5 md:w-4/5 xl:w-3/5"
+        ? "w-full md:w-5/5 xl:w-4/5"
+        : "w-full md:w-4/5 xl:w-3/5"
     } `}
       >
         {!chat.content.length && (
