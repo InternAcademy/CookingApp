@@ -6,6 +6,7 @@ import useRecipeDetails from "@/hooks/useRecipeDetails";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import chefImage from "../../../public/chefimg.png";
 
 export default function Recipe() {
   const iconImports = import.meta.glob("../../assets/stepsimages/*.png", {
@@ -15,6 +16,10 @@ export default function Recipe() {
   const icons = Object.values(iconImports).map((mod) => mod.default);
   const isOpenRecipes = useSelector((state) => state.ui.recipesOpen);
   const isOpenSideBar = useSelector((state) => state.ui.sidebarOpen);
+
+  function freepik(){
+    window.open('https://www.freepik.com/');
+  }
   
   function getFormattedDate(datetime) {
     const date = new Date(datetime);
@@ -79,6 +84,10 @@ export default function Recipe() {
                     </p>
                   </div>
                 ))}
+                <div className={`hidden lg:block ${isOpenRecipes || isOpenSideBar ? "w-full" : "w-5/5 xl:w-4/5"} flex flex-col items-center text-center`}>
+                  <img src={chefImage} alt="" />
+                  <button onClick={freepik} className="text-xs text-primaryText cursor-pointer">Designed by Freepik</button>
+                </div>
               </div>
             </div>
             <div className="w-full rounded-2xl px-6 py-4 flex flex-col items-start gap-4">
