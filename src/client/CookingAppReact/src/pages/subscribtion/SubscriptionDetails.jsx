@@ -18,8 +18,8 @@ export default function SubscriptionDetails() {
 
   function formatDateIso(dateString) {
     const date = new Date(dateString);
-
-    // Adjust for time zone offset
+  
+    // Define options for formatting the date
     const options = {
       year: "numeric",
       month: "long",
@@ -27,11 +27,10 @@ export default function SubscriptionDetails() {
       hour: "2-digit",
       minute: "2-digit",
       second: "2-digit",
-      timeZone: "UTC", // Ensure the date is interpreted as UTC
       hour12: true, // Use 12-hour time format
     };
-
-    // Format date
+  
+    // Format the date according to the user's local timezone
     return new Intl.DateTimeFormat("en-US", options).format(date);
   }
 
@@ -68,7 +67,7 @@ export default function SubscriptionDetails() {
                   </li>
                 ) : (
                   <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2">
-                    {`Your next charge will be on ${data.subscriptions[0].currentPeriodEnd}`}
+                    {`Your next charge will be on ${formatDateIso(data.subscriptions[0].currentPeriodEnd)}`}
                   </li>
                 )}
               </ul>

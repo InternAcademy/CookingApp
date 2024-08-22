@@ -30,19 +30,19 @@ const useSaveRecipe = () => {
     mutationFn: createRecipe,
     onMutate: () => {
       setIsGenerating(true);
-      dispatch(userActions.reduceRecipeGeneration());
     },
     onSuccess: async (response) => {
+      setIsGenerating(false);
+      dispatch(userActions.reduceRecipeGeneration());
       dispatch(uiActions.showToast(response));
       const token = await getToken();
       const decoded = jwtDecode(token);
       console.log("trigerring");
       getFirstPageRecipes({ token: token, page: 1, userId: decoded.sub });
-      setIsGenerating(false);
     },
     onError: (error) => {
-      dispatch(uiActions.setResponseError(error.message));
       setIsGenerating(false);
+      dispatch(uiActions.setResponseError(error.message));
     },
   });
 

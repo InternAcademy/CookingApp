@@ -59,7 +59,7 @@ i18n.use(initReactI18next).init({
         CopyUserId: "Copy User Id",
         Profile: "Profile",
         WhatToCook: "What do you want to cook today?",
-        LookingForFav: "Looking for your favourite recipe?",
+        LookingForFav: "Looking for your favourite meal?",
         AddAllergens: "Add your allergens",
         AddDisliked: "Add your disliked foods"
       },
