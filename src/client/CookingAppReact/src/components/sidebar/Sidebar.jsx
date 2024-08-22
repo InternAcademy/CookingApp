@@ -252,9 +252,9 @@ export default function Sidebar() {
         {gettingNextPage && (
           <span>
             {t("LoadMore")}
-            <span className="dot-1">.</span>
-            <span className="dot-2">.</span>
-            <span className="dot-3">.</span>
+            <span className="dot-1 text-primaryText">.</span>
+            <span className="dot-2 text-primaryText">.</span>
+            <span className="dot-3 text-primaryText">.</span>
           </span>
         )}
       </ul>
