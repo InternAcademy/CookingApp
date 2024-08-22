@@ -8,9 +8,11 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { uiActions } from "@/store/uiSlice";
 import { useTranslation } from "react-i18next";
+import { useGeneration } from "@/utils/generationProvider";
 export default function BotResponse({ message }) {
   const language = useSelector((state) => state.ui.lang);
   const limitations = useSelector((state) => state.user.role.limitations);
+  const { isGenerating, setIsGenerating } = useGeneration();
   const { i18n, t } = useTranslation();
   const role = useSelector((state) => state.user.role.type);
   const navigate = useNavigate();
@@ -18,7 +20,8 @@ export default function BotResponse({ message }) {
 
   async function handleClick() {
     const token = await getToken();
-    if (!isPending) {
+    if (!isPending && !isGenerating) {
+      setIsGenerating(true);
       save({ token, request: message.content });
     }
   }

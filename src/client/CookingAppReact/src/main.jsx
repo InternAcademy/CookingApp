@@ -7,13 +7,17 @@ import store from "./store/index.js";
 import "./index.css";
 import MyMsalProvider from "./msal/MyMsalProvider";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { GenerationProvider } from "./utils/generationProvider.jsx";
+
 const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <MyMsalProvider>
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
-          <App />
+          <GenerationProvider>
+            <App />
+          </GenerationProvider>
         </QueryClientProvider>
       </Provider>
     </MyMsalProvider>

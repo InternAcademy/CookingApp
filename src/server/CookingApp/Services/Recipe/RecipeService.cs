@@ -11,24 +11,15 @@ namespace CookingApp.Services.Recipe
     using CookingApp.Infrastructure.Interfaces;
     using Newtonsoft.Json;
     using CookingApp.Services.Image;
+    using CookingApp.Models.Enums;
 
-    public class RecipeService(ChatClient client, IRepository<Recipe> repo, IImageService imageService) : IRecipeService
+    public class RecipeService(ChatClient client, IRepository<Recipe> repo, IRepository<UserProfile> userRepo, IImageService imageService) : IRecipeService
     {
         ///<inheritdoc/>
         public async Task<string> CreateRecipe(string request, string userId)
         {
-            string pattern = @"Title:\s(?<title>[A-Za-z ]+)";
+            await ValidateRecipeAsync(request, userId);
 
-            var match = Regex.Match(request, pattern);
-            if (!match.Success)
-            {
-                throw new InvalidRecipeRequestException();
-            }
-            var title = match.Groups["title"].Value.TrimEnd();
-            if (await repo.ExistsAsync(r => r.Title == title))
-            {
-                throw new RecipeAlreadyGeneratedException("You already generated a meal for this recipe");
-            }
             var messages = new List<ChatMessage>
             {
                 new SystemChatMessage(Completions.BuildRecipeConvertSystemMessage()),
@@ -45,11 +36,18 @@ namespace CookingApp.Services.Recipe
             {
                 throw new InvalidRecipeRequestException();
             }
+            var user = await userRepo.GetFirstOrDefaultAsync(a => a.UserId == userId);
+            ArgumentNullException.ThrowIfNull(user, nameof(user));
+
+            if (user.Role.Type != RoleType.Admin)
+                user.Role.Limitations.RecipeGeneration--;
+
             recipe.ImageUrl = await imageService.GenerateImage(recipe.Title);
             recipe.UserId = userId;
             recipe.IsArchived = false;
 
             await repo.InsertAsync(recipe);
+            await userRepo.UpdateAsync(user);
 
             return recipe.Id;
         }
@@ -63,6 +61,35 @@ namespace CookingApp.Services.Recipe
                 null,
                 SortDirection.Descending,
                 includeDeleted);
+        }
+
+        public async Task ValidateRecipeAsync(string request, string userId)
+        {
+            string titleMarker = "Title:";
+            int titleIndex = request.IndexOf(titleMarker);
+
+            if (titleIndex == -1)
+            {
+                throw new InvalidRecipeRequestException();
+            }
+
+            int titleStart = titleIndex + titleMarker.Length;
+            int titleEnd = request.IndexOf("\n\n", titleStart);
+            if (titleEnd == -1)
+            {
+                titleEnd = request.IndexOf("Description:", titleStart);
+                if (titleEnd == -1)
+                {
+                    titleEnd = request.Length;
+                }
+            }
+
+            string title = request[titleStart..titleEnd].Trim();
+
+            if (await repo.ExistsAsync(r => r.Title == title && r.UserId == userId))
+            {
+                throw new RecipeAlreadyGeneratedException("You already generated a meal for this recipe");
+            }
         }
 
         public async Task ArchiveRecipe(string recipeId)

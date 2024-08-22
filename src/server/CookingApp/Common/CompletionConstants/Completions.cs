@@ -13,7 +13,7 @@ namespace CookingApp.Common.CompletionConstants
             "\n\rFeel free to ask the user how many portions he wants.";
 
         public const string RecipeFormat =
-            "When generating a recipe, every recipe should start with this exact string -> b66315d3-507c. Provide the recipe content in a consistent format following this structure: " +
+            "When generating a recipe, every recipe should start with this exact string -> b66315d3-507c. Never translate these section titles, they must always be in English! Provide the recipe content in a consistent format following this structure: " +
             "Title: (string), " +
             "Description: (string), " +
             "Ingredients: (Name (string), Quantity (string), Metric (string) - possible metrics: Grams, Kilograms, Milliliters, Liters, Teaspoons, Tablespoons, Cups, Pieces), " +
@@ -136,7 +136,7 @@ namespace CookingApp.Common.CompletionConstants
                     sb.Append(profile.DietaryPreference.ToString());
                 }
 
-                sb.AppendLine(string.Format(UserLanguagePreferencePrompt, profile.InterfacePreference.Language));
+                //sb.AppendLine(string.Format(UserLanguagePreferencePrompt, profile.InterfacePreference.Language));
             }
 
             return sb.ToString();
