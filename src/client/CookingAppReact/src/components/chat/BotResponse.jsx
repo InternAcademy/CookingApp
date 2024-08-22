@@ -9,22 +9,36 @@ import { useEffect } from "react";
 import { uiActions } from "@/store/uiSlice";
 import { useTranslation } from "react-i18next";
 import { useGeneration } from "@/utils/generationProvider";
+import toast from "react-hot-toast";
+
 export default function BotResponse({ message }) {
   const language = useSelector((state) => state.ui.lang);
   const limitations = useSelector((state) => state.user.role.limitations);
-  const { isGenerating, setIsGenerating } = useGeneration();
   const { i18n, t } = useTranslation();
   const role = useSelector((state) => state.user.role.type);
   const navigate = useNavigate();
   const { save, isError, isPending, error, isSuccess } = useSaveRecipe();
+  const { isGenerating, setIsGenerating, lastTimestamp, maxDuration } = useGeneration();
 
   async function handleClick() {
+    const timeElapsed = Date.now() - lastTimestamp;
+    const isCooldown = timeElapsed < maxDuration;
     const token = await getToken();
-    if (!isPending && !isGenerating) {
+
+    if (isGenerating && isCooldown) {
+      const timeRemaining = maxDuration - timeElapsed;
+      const minutes = Math.floor(timeRemaining / 60000);
+      const seconds = Math.floor((timeRemaining % 60000) / 1000);
+      toast.error(`Meal generation cooldown - ${minutes}:${seconds} minutes.`);
+      return;
+    } else if(!isPending && !isGenerating){
       setIsGenerating(true);
       save({ token, request: message.content });
+    } else{
+      setIsGenerating(false);
     }
   }
+
   function handleFreeUser() {
     navigate("/subscription");
   }
@@ -50,8 +64,7 @@ export default function BotResponse({ message }) {
                   isPending
                     ? "border-dance animate-border-dance"
                     : "hover:scale-105 transition-transform duration-300"
-                } 
-                relative ${isPending && "sparkle"}`}
+                } `}
               onClick={handleClick}
             >
               <SparklesIcon className="size-6 opacity-70 mr-2 text-primaryText" />

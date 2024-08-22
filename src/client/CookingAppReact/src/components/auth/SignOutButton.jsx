@@ -1,11 +1,13 @@
 "use client";
 import { handleLogout } from "@/msal/msal";
 import { FaSignOutAlt } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 import { ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/outline";
 // import { useTheme } from "next-themes";
 
 const SignOutButton = () => {
+  const { i18n, t } = useTranslation();
   // const { theme } = useTheme();
   // const isDarkTheme = theme === 'dark';
 
@@ -20,7 +22,7 @@ const SignOutButton = () => {
         // color={isDarkTheme ? "white" : "black"} 
         />
       <span
-        className={`text-primaryText`}>Sign Out</span>
+        className={`text-primaryText`}>{t("SignOut")}</span>
     </button>
   );
 };

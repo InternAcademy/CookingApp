@@ -109,7 +109,7 @@ export default function MyRecipes() {
       onClick={handleRecipes}
     />
         </Tooltip>
-        <h1 className="text-lg text-primaryText">{t("MyMeals")}</h1>
+        <h1 className="text-lg font-semibold text-primaryText">{t("MyMeals")}</h1>
         <Tooltip tooltipText="Profile">
         <UserIcon
           className="size-10 invisible md:visible rounded-xl border border-transparent  hover:border hover:border-active hover:cursor-pointer p-2"

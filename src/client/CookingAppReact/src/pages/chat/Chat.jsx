@@ -53,7 +53,7 @@ export default function Chat() {
   return (
     <section className="w-full overflow-y-auto grow flex justify-center">
       <ul
-        className={`flex flex-col gap-14 justify-start items-center [&>*:last-child]:pb-5
+        className={`flex flex-col gap-14 justify-start items-center [&>*:last-child]:pb-1
     ${
       isOpenRecipes || isOpenSideBar
         ? "w-5/5 md:w-5/5 xl:w-4/5"
