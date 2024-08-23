@@ -10,12 +10,14 @@ import UserMenu from "../userMenu/UserMenu";
 import MealIcon from "../ui/mealIcon";
 import Tooltip from "../ui/tooltip";
 import { useTranslation } from "react-i18next";
-
+import { PiCurrencyEthDuotone } from "react-icons/pi";
 export default function Navbar() {
   const { i18n, t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const role = useSelector((state) => state.user.role.type);
+  const limitations = useSelector((state) => state.user.role.limitations);
+
   const sidebarOpen = useSelector((state) => state.ui.sidebarOpen);
   const recipesOpen = useSelector((state) => state.ui.recipesOpen);
   const dropDownOpen = useSelector((state) => state.ui.dropdownOpen);
@@ -93,7 +95,11 @@ export default function Navbar() {
         <li
           className={` font-semibold flex md:hidden text-lg flex-row justify-center items-center text-center h-full`}
         >
-          <h2 className="font-semibold text-lg flex flex-row justify-center content-center text-center">
+          <h2
+            className={`font-semibold ${
+              role === "Free" ? "bg-base " : "bg-primary"
+            } rounded-full px-1 text-lg flex flex-row justify-center content-center text-center items-center`}
+          >
             <span className={`hidden md:block text-center px-2 py-2 xs:py-1`}>
               Meal Master{" "}
             </span>
@@ -106,9 +112,15 @@ export default function Navbar() {
                 {role}
               </span>
             )}
+            <div className="text-primaryText flex gap-[1px] items-center">
+              <p className=" font-bold text-sm">
+                {limitations.recipeGeneration}
+              </p>
+              <PiCurrencyEthDuotone className="text-primary size-4" />
+            </div>
           </h2>
         </li>
-
+        {/* <li></li> */}
         <li
           className={`flex flex-row items-center justify-center content-center text-center gap-2 visible pr-6 ${
             recipesOpen ? "invisible" : ""

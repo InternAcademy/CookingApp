@@ -12,6 +12,11 @@ const initialState = {
   dropdownOpen: false,
   isInitial: true,
   input: "",
+  modal: {
+    isOpen: false,
+    cancelSub: false,
+    removeRecipe: null,
+  },
   isThinking: false,
   responseError: null,
   theme: getInitialTheme(),
@@ -20,7 +25,6 @@ const initialState = {
   isMessageWarningShowed: false,
   lang: "English",
   filteredRecipes: {
-    page: 0,
     recipes: [],
     totalPages: 0,
   },
@@ -105,6 +109,27 @@ const uiSlice = createSlice({
         page: 1,
         recipes: action.payload.recipes,
         totalPages: action.payload.totalPages,
+      };
+    },
+    openSubCancelModal(state, action) {
+      state.modal = {
+        isOpen: true,
+        cancelSub: action.payload,
+        removeRecipe: null,
+      };
+    },
+    openRecipeRemovalModal(state, action) {
+      state.modal = {
+        isOpen: true,
+        cancelSub: false,
+        removeRecipe: action.payload,
+      };
+    },
+    closeModal(state) {
+      state.modal = {
+        isOpen: false,
+        cancelSub: null,
+        removeRecipe: null,
       };
     },
   },
