@@ -7,12 +7,8 @@ import Footer from "../landingpage/ui/footer";
 
 export default function LandingPage(){
     return(
-        <>
-            <Header />
+        <div className="max-h-dvh">
             <Title />
-            <Benefits/>
-            <DownloadMobile/>
-            <Footer/>
-        </>
+        </div>
     )
 }
