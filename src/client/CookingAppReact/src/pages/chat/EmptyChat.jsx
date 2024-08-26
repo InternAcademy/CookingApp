@@ -5,6 +5,7 @@ import Thinking from "@/components/chat/Thinking";
 import BotResponse from "@/components/chat/BotResponse";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Logo from "@/components/ui/MealMasterLogo";
 export default function EmptyChat() {
   const chat = useSelector((state) => state.user.selectedChat);
   const isThinking = useSelector((state) => state.ui.isThinking);
@@ -31,8 +32,8 @@ export default function EmptyChat() {
         {!chat.content.length && (
           <div className="grow w-full justify-center items-center content-center">
             <div className="flex flex-col justify-center items-center content-center">
-              <img src={logo} alt="" width={130} />
-              <div className="flex flex-col mt-4 justify-center items-center content-center">
+              <div className="w-36"><Logo /></div>
+              <div className="flex flex-col justify-center items-center content-center">
                 <h1 className="text-lg text-primaryText font-semibold">
                   Let's figure out a recipe
                 </h1>
