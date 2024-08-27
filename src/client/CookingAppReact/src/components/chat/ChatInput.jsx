@@ -76,18 +76,25 @@ export default function ChatInput() {
   }
   function handleImageAttachment(event) {
     const file = event.target.files[0];
-
+  
     if (file) {
-      console.log(file);
-      if (file.size > 2000000) {
-        toast.error("Maximum image size exceeded");
-      } else {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setBase64Image(reader.result);
-        };
-        reader.readAsDataURL(file);
+      const validImageTypes = ['image/jpeg', 'image/png', 'image/webp'];
+  
+      if (!validImageTypes.includes(file.type)) {
+        toast.error("Please select a valid image file. Supported types: JPEG, PNG, WEBP");
+        return;
       }
+  
+      if (file.size > 2000000) { // 2MB limit
+        toast.error("Maximum image size exceeded. Please select an image under 2MB.");
+        return;
+      }
+  
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setBase64Image(reader.result);
+      };
+      reader.readAsDataURL(file);
     }
   }
   useEffect(() => {

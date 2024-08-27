@@ -1,4 +1,7 @@
-﻿using CookingApp.Common.Helpers.Profiles;
+﻿using AutoMapper;
+using CookingApp.Common.EntityConstants;
+using CookingApp.Common.Helpers.Images;
+using CookingApp.Common.Helpers.Profiles;
 using CookingApp.Infrastructure.Exceptions;
 using CookingApp.Infrastructure.Interfaces;
 using CookingApp.Models.ValueObjects;
@@ -7,10 +10,14 @@ using CookingApp.ViewModels.Profile;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Stripe;
- 
+
 namespace CookingApp.Services.UserProfile
 {
-    public class UserProfileService(IRepository<Models.UserProfile> profileRepo, IHttpContextAccessor httpContextAccessor, IFileService fileService) : IUserProfileService
+    public class UserProfileService(IRepository<Models.UserProfile> profileRepo, 
+        IRepository<Models.Entities.Recipe> recipeRepo, 
+        IRepository<Models.Chat> chatRepo, 
+        IHttpContextAccessor httpContextAccessor, 
+        IFileService fileService) : IUserProfileService
     {
         public async Task<ProfileFetchResult> FetchProfile(string userId,IHttpContextAccessor httpContextAccessor)
         {
@@ -18,18 +25,7 @@ namespace CookingApp.Services.UserProfile
             var username = httpContextAccessor.HttpContext?.User.Claims.FirstOrDefault(claim=>claim.Type=="name");
             if (profile is null)
             {
-                profile = new Models.UserProfile
-                {
-                    Role = CreateRole.Free(),
-                    InterfacePreference = new InterfacePreference().CreateInterface(),
-                    DietaryPreference = Models.Enums.DietaryPreference.None,
-                    Allergies = new List<string>(),
-                    AvoidedFoods = new List<string>(),
-                    UserId = userId,
-                    Name = username.Value
-                };
-
-                await profileRepo.InsertAsync(profile);
+                profile = await CreateNewUserProfile(userId, username.Value);
             }
 
             return new ProfileFetchResult
@@ -44,8 +40,47 @@ namespace CookingApp.Services.UserProfile
             };
         }
 
+        private async Task<Models.UserProfile> CreateNewUserProfile(string userId, string username)
+        {
+            var profile = new Models.UserProfile
+            {
+                Role = CreateRole.Free(),
+                InterfacePreference = new InterfacePreference().CreateInterface(),
+                DietaryPreference = Models.Enums.DietaryPreference.None,
+                Allergies = new List<string>(),
+                AvoidedFoods = new List<string>(),
+                UserId = userId,
+                Name = username
+            };
+
+            await profileRepo.InsertAsync(profile);
+
+            var chat = UserCreationConstants.FamilySizedMargheritaPizzaChat;
+            chat.UserId = userId;
+
+            await chatRepo.InsertAsync(chat);
+
+            return profile;
+        }
+
         public async Task UploadPfp(string image)
         {
+            var imageBytes = Convert.FromBase64String(image.Split(',')[1]);
+
+            const int maxFileSize = 2 * 1024 * 1024; 
+            if (imageBytes.Length > maxFileSize)
+            {
+                throw new InvalidImageUploadException("Maximum image size exceeded. Please upload an image under 2MB.");
+            }
+
+            // Validate the MIME type
+            var mimeType = ImageHelper.GetMimeType(imageBytes);
+            var validImageTypes = new List<string> { "image/jpeg", "image/png", "image/webp" };
+            if (!validImageTypes.Contains(mimeType))
+            {
+                throw new InvalidImageUploadException("Invalid image type. Please upload a JPG, PNG, or WEBP image.");
+            }
+
             var user = await GetUser.Profile(httpContextAccessor, profileRepo);
             var imageUrl = await fileService.UploadFileAndGetUrl(Services.File.File.ConvertDataUriToFormFile(image));
 
