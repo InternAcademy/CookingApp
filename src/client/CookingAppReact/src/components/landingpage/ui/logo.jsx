@@ -1,4 +1,4 @@
-import logo from "../../../../public/icon2.png"
+import logo from "../../../assets/logo-master-new-3.png"
 
 export default function Logo() {
   return (

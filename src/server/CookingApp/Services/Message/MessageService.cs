@@ -1,4 +1,6 @@
-﻿namespace CookingApp.Services.Message
+﻿using CookingApp.Common.Helpers.Images;
+
+namespace CookingApp.Services.Message
 {
     using CookingApp.Common.CompletionConstants;
     using CookingApp.Common.Helpers.Messages;
@@ -17,6 +19,8 @@
     using SixLabors.ImageSharp;
     using SixLabors.ImageSharp.Formats.Jpeg;
     using SixLabors.ImageSharp.Processing;
+    using CookingApp.Infrastructure.Exceptions;
+
     public partial class MessageService(ChatClient client,
         IChatService chatService,
         IRepository<Chat> chatRepo,
@@ -82,13 +86,33 @@
             {
                 var formFile = File.ConvertDataUriToFormFile(request.Content);
 
+                const int maxFileSize = 2 * 1024 * 1024;
+                if (formFile.Length > maxFileSize)
+                {
+                    throw new InvalidImageUploadException("Maximum image size exceeded. Please upload an image under 2MB.");
+                }
+
+                // Validate the MIME type
+                await using (var stream = formFile.OpenReadStream())
+                {
+                    byte[] fileBytes = new byte[formFile.Length];
+                    await stream.ReadAsync(fileBytes, 0, (int)formFile.Length);
+
+                    var mimeType = ImageHelper.GetMimeType(fileBytes);
+                    var validImageTypes = new List<string> { "image/jpeg", "image/png", "image/webp" };
+                    if (!validImageTypes.Contains(mimeType))
+                    {
+                        throw new InvalidImageUploadException("Invalid image type. Please upload a JPG, PNG, or WEBP image.");
+                    }
+                }
+
                 var compressedFormFile = await CompressImage(formFile);
-               
+
                 var imgPath = await fileService.UploadFileAndGetUrl(compressedFormFile);
 
                 messages.Add(new UserChatMessage(
-                        ChatMessageContentPart.CreateTextMessageContentPart(Completions.ImageRequest),
-                        ChatMessageContentPart.CreateImageMessageContentPart(new Uri(imgPath))));
+                    ChatMessageContentPart.CreateTextMessageContentPart(Completions.ImageRequest),
+                    ChatMessageContentPart.CreateImageMessageContentPart(new Uri(imgPath))));
 
                 saveRequest.Content = imgPath;
             }

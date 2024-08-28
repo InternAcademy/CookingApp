@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CookingApp.Common.EntityConstants;
+using CookingApp.Common.Helpers.Images;
 using CookingApp.Common.Helpers.Profiles;
 using CookingApp.Infrastructure.Exceptions;
 using CookingApp.Infrastructure.Interfaces;
@@ -64,6 +65,22 @@ namespace CookingApp.Services.UserProfile
 
         public async Task UploadPfp(string image)
         {
+            var imageBytes = Convert.FromBase64String(image.Split(',')[1]);
+
+            const int maxFileSize = 2 * 1024 * 1024; 
+            if (imageBytes.Length > maxFileSize)
+            {
+                throw new InvalidImageUploadException("Maximum image size exceeded. Please upload an image under 2MB.");
+            }
+
+            // Validate the MIME type
+            var mimeType = ImageHelper.GetMimeType(imageBytes);
+            var validImageTypes = new List<string> { "image/jpeg", "image/png", "image/webp" };
+            if (!validImageTypes.Contains(mimeType))
+            {
+                throw new InvalidImageUploadException("Invalid image type. Please upload a JPG, PNG, or WEBP image.");
+            }
+
             var user = await GetUser.Profile(httpContextAccessor, profileRepo);
             var imageUrl = await fileService.UploadFileAndGetUrl(Services.File.File.ConvertDataUriToFormFile(image));
 
