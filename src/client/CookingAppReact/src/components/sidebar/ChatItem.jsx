@@ -1,15 +1,12 @@
-import useDeleteChat from "@/hooks/useDeleteChat";
-import { getToken } from "@/msal/msal";
+import { uiActions } from "@/store/uiSlice";
 import { TrashIcon } from "@heroicons/react/24/outline";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function ChatItem({ title, id }) {
   const activeChat = useSelector((state) => state.ui.activeChat);
-  const { mutate, isPending } = useDeleteChat();
-
+  const dispatch = useDispatch();
   async function handleDeletion() {
-    const token = await getToken();
-    mutate({ token, chatId: id });
+    dispatch(uiActions.openChatDeletionModal(id));
   }
   return (
     <div
