@@ -6,7 +6,7 @@ import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { userActions } from "@/store/userSlice";
-
+import { uiActions } from "@/store/uiSlice";
 export default function useDeleteChat() {
   const { getFirstPage } = useChatHistory();
   const dispatch = useDispatch();
@@ -19,6 +19,7 @@ export default function useDeleteChat() {
       getFirstPage({ token, pageIndex: 1, userId: decoded.sub });
       dispatch(userActions.emptyChat());
       navigate("/");
+      dispatch(uiActions.closeModal());
     },
   });
 
