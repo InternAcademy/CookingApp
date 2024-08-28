@@ -116,7 +116,7 @@ export default function Navbar() {
               <p className=" font-bold text-sm">
                 {limitations.recipeGeneration}
               </p>
-              <PiCurrencyEthDuotone className="text-primary size-4" />
+              <PiCurrencyEthDuotone className="text-primaryText size-4" />
             </div>
           </h2>
         </li>
