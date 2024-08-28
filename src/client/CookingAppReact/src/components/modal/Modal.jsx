@@ -4,8 +4,9 @@ import { createPortal } from "react-dom";
 import { useDispatch, useSelector } from "react-redux";
 import CancellationModal from "./CancellationModal";
 import RecipeRemovalModal from "./RecipeRemovalModal";
+import ChatDeletionModal from "./ChatDeletionModal";
 export default function Modal() {
-  const { isOpen, cancelSub, removeRecipe } = useSelector(
+  const { isOpen, cancelSub, removeRecipe, removeChat } = useSelector(
     (state) => state.ui.modal
   );
   const dialog = useRef(false);
@@ -25,6 +26,7 @@ export default function Modal() {
     <dialog className="modal" ref={dialog} onClose={handleClosing}>
       {cancelSub && <CancellationModal subId={cancelSub} />}
       {removeRecipe && <RecipeRemovalModal recipeId={removeRecipe} />}
+      {removeChat && <ChatDeletionModal chatId={removeChat} />}
     </dialog>,
     document.getElementById("modal")
   );

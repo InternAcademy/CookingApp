@@ -16,6 +16,7 @@ const initialState = {
     isOpen: false,
     cancelSub: false,
     removeRecipe: null,
+    removeChat: null,
   },
   isThinking: false,
   responseError: null,
@@ -116,6 +117,7 @@ const uiSlice = createSlice({
         isOpen: true,
         cancelSub: action.payload,
         removeRecipe: null,
+        removeChat: null,
       };
     },
     openRecipeRemovalModal(state, action) {
@@ -123,6 +125,7 @@ const uiSlice = createSlice({
         isOpen: true,
         cancelSub: false,
         removeRecipe: action.payload,
+        removeChat: null,
       };
     },
     closeModal(state) {
@@ -130,6 +133,15 @@ const uiSlice = createSlice({
         isOpen: false,
         cancelSub: null,
         removeRecipe: null,
+        removeChat: null,
+      };
+    },
+    openChatDeletionModal(state, action) {
+      state.modal = {
+        isOpen: true,
+        cancelSub: false,
+        removeRecipe: null,
+        removeChat: action.payload,
       };
     },
   },
