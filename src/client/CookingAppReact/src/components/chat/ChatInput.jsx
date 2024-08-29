@@ -85,8 +85,8 @@ export default function ChatInput() {
         return;
       }
   
-      if (file.size > 2000000) { // 2MB limit
-        toast.error("Maximum image size exceeded. Please select an image under 2MB.");
+      if (file.size > 8000000) { // 8MB limit
+        toast.error("Maximum image size exceeded. Please select an image under 8MB.");
         return;
       }
   

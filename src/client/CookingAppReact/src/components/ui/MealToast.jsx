@@ -13,15 +13,17 @@ export default function MealToast() {
 
   useEffect(() => {
     if (toastMealId) {
-      toast((t) => (
-        <span>
-          <Link to={`/r/${toastMealId}`}>
-            Your meal is ready {`(${recipeGeneration} left) `}
-            <strong>check it out!</strong>
-          </Link>
-        </span>
-      ));
-
+      toast(
+        (t) => (
+          <span>
+            <Link to={`/r/${toastMealId}`} onClick={() => toast.dismiss(t.id)}>
+              Your meal is ready {`(${recipeGeneration} left) `}
+              <strong>check it out!</strong>
+            </Link>
+          </span>
+        ),
+        { duration: 4000 }
+      );
       dispatch(uiActions.hideToast());
     }
   }, [toastMealId]);

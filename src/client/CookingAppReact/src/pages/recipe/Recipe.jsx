@@ -1,33 +1,36 @@
 import { useParams } from "react-router-dom";
 import { ClockIcon } from "@heroicons/react/24/outline";
 import { UserGroupIcon } from "@heroicons/react/24/outline";
+import { TrashIcon } from "@heroicons/react/24/outline";
+
 import { CalendarDaysIcon } from "@heroicons/react/24/outline";
 import useRecipeDetails from "@/hooks/useRecipeDetails";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import chefImage from "../../../public/chefimg.png";
+import { uiActions } from "@/store/uiSlice";
 
 export default function Recipe() {
   const iconImports = import.meta.glob("../../assets/stepsimages/*.png", {
     eager: true,
   });
-  
+
   const icons = Object.values(iconImports).map((mod) => mod.default);
   const isOpenRecipes = useSelector((state) => state.ui.recipesOpen);
   const isOpenSideBar = useSelector((state) => state.ui.sidebarOpen);
-
-  function freepik(){
-    window.open('https://www.freepik.com/');
+  const dispatch = useDispatch();
+  function freepik() {
+    window.open("https://www.freepik.com/");
   }
-  
+
   function getFormattedDate(datetime) {
     const date = new Date(datetime);
     const day = date.getUTCDate();
     const month = date.getUTCMonth() + 1;
     const year = date.getUTCFullYear();
     const formattedDate = `${month}/${day}/${year}`;
-  
+
     return formattedDate;
   }
 
@@ -38,9 +41,16 @@ export default function Recipe() {
       toast.error(`Unable to load recipe ${recipeId}`);
     }
   }, [isError]);
+  function openModal() {
+    dispatch(uiActions.openRecipeRemovalModal(recipeId));
+  }
   return (
-    <div className={`flex w-full pl-5 text-primaryText pr-5
-    ${isOpenRecipes && isOpenSideBar ? "xl:pl-5 xl:pr-5" : "xl:pl-28 xl:pr-36"} py-16 flex-col overflow-y-auto`}>
+    <div
+      className={`flex w-full pl-5 text-primaryText pr-5
+    ${
+      isOpenRecipes && isOpenSideBar ? "xl:pl-5 xl:pr-5" : "xl:pl-28 xl:pr-36"
+    } py-16 flex-col overflow-y-auto`}
+    >
       {data && !isError && (
         <>
           <div className="w-full flex flex-col xl:flex-row xl:h-[32rem] bg-base rounded-2xl">
@@ -51,9 +61,14 @@ export default function Recipe() {
                 alt=""
               />
             </div>
-            <div className="py-12 px-8 w-full xl:w-1/3 flex flex-col gap-12 justify-center items-start">
-              <h1 className="text-4xl font-medium">{data.title}</h1>
-              <p className="">{data.description}</p>
+            <div className="w-full flex flex-col gap-10 basis-1/3 ">
+              <div className="flex justify-end pr-4 pt-4 hover:cursor-pointer">
+                <TrashIcon className="size-6" onClick={openModal} />
+              </div>
+              <div className="py-12 px-8 w-full flex flex-col gap-12 justify-center items-start">
+                <h1 className="text-4xl font-medium">{data.title}</h1>
+                <p className="">{data.description}</p>
+              </div>
             </div>
           </div>
           <div className="h-fit bg-base flex content-start items-start flex-col lg:flex-row w-fit xl:w-1/2 rounded-2xl mt-16 p-5 gap-4">
@@ -84,9 +99,18 @@ export default function Recipe() {
                     </p>
                   </div>
                 ))}
-                <div className={`hidden lg:block ${isOpenRecipes || isOpenSideBar ? "w-full" : "w-5/5 xl:w-4/5"} flex flex-col items-center text-center`}>
+                <div
+                  className={`hidden lg:block ${
+                    isOpenRecipes || isOpenSideBar ? "w-full" : "w-5/5 xl:w-4/5"
+                  } flex flex-col items-center text-center`}
+                >
                   <img src={chefImage} alt="" />
-                  <button onClick={freepik} className="text-xs text-primaryText cursor-pointer">Designed by Freepik</button>
+                  <button
+                    onClick={freepik}
+                    className="text-xs text-primaryText cursor-pointer"
+                  >
+                    Designed by Freepik
+                  </button>
                 </div>
               </div>
             </div>

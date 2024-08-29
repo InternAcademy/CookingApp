@@ -9,13 +9,15 @@ import { userActions } from "@/store/userSlice";
 import { uiActions } from "@/store/uiSlice";
 import toast from "react-hot-toast";
 import MealToast from "@/components/ui/MealToast";
+import { Skeleton } from "@/components/ui/skeleton";
 export default function Chat() {
   let { chatId } = useParams();
   const dispatch = useDispatch();
-  const { data: response, isError, refetch } = useSelectChat(chatId);
+  const { data: response, isError, isPending, refetch } = useSelectChat(chatId);
 
   useEffect(() => {
     if (chatId) {
+      dispatch(userActions.clearChat());
       dispatch(uiActions.setActive(chatId));
       refetch();
     }
@@ -61,6 +63,49 @@ export default function Chat() {
     } `}
       >
         <MealToast />
+        {isPending && (
+          <>
+            <li className="w-4/5 flex justify-end">
+              <Skeleton className={"w-96 h-10 bg-base animate-none"} />
+            </li>
+            <li className="w-4/5 text-primaryText">
+              <div className="flex flex-col  justify-start items-start gap-1">
+                <div className="flex flex-row w-full items-start">
+                  <Skeleton
+                    className={"size-10 rounded-full mr-5 animate-none"}
+                  />
+                  <Skeleton className={"w-4/5 h-10 bg-base animate-none"} />
+                </div>
+              </div>
+            </li>
+            <li className="w-4/5 flex justify-end">
+              <Skeleton className={"w-96 h-10 bg-base animate-none"} />
+            </li>
+            <li className="w-4/5 text-primaryText">
+              <div className="flex flex-col  justify-start items-start gap-1">
+                <div className="flex flex-row w-full items-start">
+                  <Skeleton
+                    className={"size-10 rounded-full mr-5 animate-none"}
+                  />
+                  <Skeleton className={"w-4/5 h-64 bg-base animate-none"} />
+                </div>
+              </div>
+            </li>
+            <li className="w-4/5 flex justify-end">
+              <Skeleton className={"w-96 h-10 bg-base animate-none"} />
+            </li>
+            <li className="w-4/5 text-primaryText">
+              <div className="flex flex-col  justify-start items-start gap-1 animate-none">
+                <div className="flex flex-row w-full items-start">
+                  <Skeleton
+                    className={"size-10 rounded-full mr-5 animate-none"}
+                  />
+                  <Skeleton className={"w-4/5 h-10 bg-base animate-none"} />
+                </div>
+              </div>
+            </li>
+          </>
+        )}
         {chat &&
           chat.content.map((message, index) =>
             message.role === "user" ? (

@@ -98,26 +98,27 @@ export default function MyRecipes() {
           isOpen ? "" : "hidden"
         }`}
       >
-        
-      <Tooltip tooltipText="Close">
-      <XMarkIcon
-      className="size-10 rounded-xl border border-transparent hover:border hover:border-active hover:cursor-pointer p-2 md:hidden"
-      onClick={handleRecipes}
-    />
-    <ChevronLeftIcon
-      className="size-10 rounded-xl border border-transparent hover:border hover:border-active hover:cursor-pointer p-2 hidden md:block"
-      onClick={handleRecipes}
-    />
+        <Tooltip tooltipText="Close">
+          <XMarkIcon
+            className="size-10 rounded-xl border border-transparent hover:border hover:border-active hover:cursor-pointer p-2 md:hidden"
+            onClick={handleRecipes}
+          />
+          <ChevronLeftIcon
+            className="size-10 rounded-xl border border-transparent hover:border hover:border-active hover:cursor-pointer p-2 hidden md:block"
+            onClick={handleRecipes}
+          />
         </Tooltip>
-        <h1 className="text-lg font-semibold text-primaryText">{t("MyMeals")}</h1>
+        <h1 className="text-lg font-semibold text-primaryText">
+          {t("MyMeals")}
+        </h1>
         <Tooltip tooltipText="Profile">
-        <UserIcon
-          className="size-10 invisible md:visible rounded-xl border border-transparent  hover:border hover:border-active hover:cursor-pointer p-2"
-          onClick={(e) => {
-            e.stopPropagation();
-            toggleDropDown();
-          }}
-        />
+          <UserIcon
+            className="size-10 invisible md:visible rounded-xl border border-transparent  hover:border hover:border-active hover:cursor-pointer p-2"
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleDropDown();
+            }}
+          />
         </Tooltip>
         <UserMenu isOpen={dropDownOpen} toggleDropDown={toggleDropDown} />
       </header>
@@ -146,50 +147,49 @@ export default function MyRecipes() {
               ${isOpen ? "" : "hidden"}
               h-full`}
       >
-        {gettingRecipes ||
-          (search.isTyping && (
-            <section className="flex flex-col gap-1 w-full">
-              <li className="py-1 flex flex-col w-full ">
-                <Skeleton className="h-72 flex flex-col gap-1 justify-start items-center bg-gray-300  rounded-2xl">
-                  <Skeleton className="h-4/6 w-full rounded-2xl bg-gray-400" />
-                  <Skeleton className="h-[25px] mt-3 min-w-[250px] max-w-[360px]  rounded-2xl bg-gray-400" />
-                  <footer className="flex w-full justify-between mt-3 px-4">
-                    <section className="flex gap-2">
-                      <Skeleton className="size-6  rounded-full bg-gray-400" />
-                      <Skeleton className="h-[25px] w-20  rounded-2xl bg-gray-400" />
-                    </section>
-                    <Skeleton className="h-[25px] size-6  rounded-2xl bg-gray-400" />
-                  </footer>
-                </Skeleton>
-              </li>
-              <li className="py-1 flex flex-col w-full ">
-                <Skeleton className="h-72 flex flex-col gap-1 justify-start items-center bg-gray-300  rounded-2xl">
-                  <Skeleton className="h-4/6 w-full rounded-2xl bg-gray-400" />
-                  <Skeleton className="h-[25px] mt-3 min-w-[250px] max-w-[360px]  rounded-2xl bg-gray-400" />
-                  <footer className="flex w-full justify-between mt-3 px-4">
-                    <section className="flex gap-2">
-                      <Skeleton className="size-6  rounded-full bg-gray-400" />
-                      <Skeleton className="h-[25px] w-20  rounded-2xl bg-gray-400" />
-                    </section>
-                    <Skeleton className="h-[25px] size-6  rounded-2xl bg-gray-400" />
-                  </footer>
-                </Skeleton>
-              </li>
-              <li className="py-1 flex flex-col w-full ">
-                <Skeleton className="h-72 flex flex-col gap-1 justify-start items-center bg-gray-300  rounded-2xl">
-                  <Skeleton className="h-4/6 w-full rounded-2xl bg-gray-400" />
-                  <Skeleton className="h-[25px] mt-3 min-w-[250px] max-w-[360px]  rounded-2xl bg-gray-400" />
-                  <footer className="flex w-full justify-between mt-3 px-4">
-                    <section className="flex gap-2">
-                      <Skeleton className="size-6  rounded-full bg-gray-400" />
-                      <Skeleton className="h-[25px] w-20  rounded-2xl bg-gray-400" />
-                    </section>
-                    <Skeleton className="h-[25px] size-6  rounded-2xl bg-gray-400" />
-                  </footer>
-                </Skeleton>
-              </li>
-            </section>
-          ))}
+        {(gettingRecipes || search.isTyping) && (
+          <section className="flex flex-col gap-1 w-full">
+            <li className="py-1 flex flex-col w-full ">
+              <Skeleton className="h-72 flex flex-col gap-1 justify-start items-center bg-base  rounded-2xl">
+                <Skeleton className="h-4/6 w-full rounded-2xl bg-secondary" />
+                <Skeleton className="h-[25px] mt-3 min-w-[250px] max-w-[360px]  rounded-2xl bg-secondary" />
+                <footer className="flex w-full justify-between mt-3 px-4">
+                  <section className="flex gap-2">
+                    <Skeleton className="size-6  rounded-full bg-secondary" />
+                    <Skeleton className="h-[25px] w-20  rounded-2xl bg-secondary" />
+                  </section>
+                  <Skeleton className="h-[25px] size-6  rounded-2xl bg-secondary" />
+                </footer>
+              </Skeleton>
+            </li>
+            <li className="py-1 flex flex-col w-full ">
+              <Skeleton className="h-72 flex flex-col gap-1 justify-start items-center bg-base  rounded-2xl">
+                <Skeleton className="h-4/6 w-full rounded-2xl bg-secondary" />
+                <Skeleton className="h-[25px] mt-3 min-w-[250px] max-w-[360px]  rounded-2xl bg-secondary" />
+                <footer className="flex w-full justify-between mt-3 px-4">
+                  <section className="flex gap-2">
+                    <Skeleton className="size-6  rounded-full bg-secondary" />
+                    <Skeleton className="h-[25px] w-20  rounded-2xl bg-secondary" />
+                  </section>
+                  <Skeleton className="h-[25px] size-6  rounded-2xl bg-secondary" />
+                </footer>
+              </Skeleton>
+            </li>
+            <li className="py-1 flex flex-col w-full ">
+              <Skeleton className="h-72 flex flex-col gap-1 justify-start items-center bg-base  rounded-2xl">
+                <Skeleton className="h-4/6 w-full rounded-2xl bg-secondary" />
+                <Skeleton className="h-[25px] mt-3 min-w-[250px] max-w-[360px]  rounded-2xl bg-secondary" />
+                <footer className="flex w-full justify-between mt-3 px-4">
+                  <section className="flex gap-2">
+                    <Skeleton className="size-6  rounded-full bg-secondary" />
+                    <Skeleton className="h-[25px] w-20  rounded-2xl bg-secondary" />
+                  </section>
+                  <Skeleton className="h-[25px] size-6  rounded-2xl bg-secondary" />
+                </footer>
+              </Skeleton>
+            </li>
+          </section>
+        )}
         {recipesState.recipes.length > 0 &&
           !gettingRecipes &&
           !search.isTyping &&
