@@ -1,4 +1,5 @@
-﻿using CookingApp.Infrastructure.Enums;
+﻿using CookingApp.Common.Helpers.Profiles;
+using CookingApp.Infrastructure.Enums;
 using CookingApp.Infrastructure.Extensions;
 using CookingApp.Infrastructure.Pagination;
 
@@ -11,7 +12,7 @@ namespace CookingApp.Services.ChatService
     using CookingApp.ViewModels.Chat;
     using System.Threading.Tasks;
 
-    public class ChatService(IRepository<Chat> repo, IMapper mapper) : IChatService
+    public class ChatService(IRepository<Chat> repo, IMapper mapper, IHttpContextAccessor context) : IChatService
     {
         public async Task<Chat> CreateChat(string userId)
         {
@@ -57,7 +58,8 @@ namespace CookingApp.Services.ChatService
 
         public async Task<Chat> GetById(string chatId)
         {
-            var chat = await repo.GetByIdAsync(chatId);
+            var userId = GetUser.ProfileId(context);
+            var chat = await repo.GetFirstOrDefaultAsync(c => c.Id == chatId && c.UserId == userId);
             if (chat is null)
             {
                 throw new NotFoundException();

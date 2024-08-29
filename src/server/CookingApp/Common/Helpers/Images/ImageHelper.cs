@@ -1,4 +1,7 @@
-﻿namespace CookingApp.Common.Helpers.Images
+﻿using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Jpeg;
+
+namespace CookingApp.Common.Helpers.Images
 {
     public static class ImageHelper
     {
@@ -22,6 +25,30 @@
             }
 
             return mimeType;
+        }
+        public static IFormFile CompressImage(IFormFile formFile)
+        {
+            var memoryStream = new MemoryStream();
+
+            using (var image = Image.Load(formFile.OpenReadStream()))
+            {
+
+                var encoderOptions = new JpegEncoder
+                {
+                    Quality = 10
+                };
+
+
+                image.Save(memoryStream, encoderOptions);
+            }
+
+            memoryStream.Position = 0;
+
+            return new FormFile(memoryStream, 0, memoryStream.Length, formFile.Name, formFile.FileName)
+            {
+                Headers = formFile.Headers,
+                ContentType = formFile.ContentType
+            };
         }
     }
 }
