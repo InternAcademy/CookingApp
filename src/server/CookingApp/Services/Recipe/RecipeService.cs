@@ -12,8 +12,9 @@ namespace CookingApp.Services.Recipe
     using Newtonsoft.Json;
     using CookingApp.Services.Image;
     using CookingApp.Models.Enums;
+    using CookingApp.Common.Helpers.Profiles;
 
-    public class RecipeService(ChatClient client, IRepository<Recipe> repo, IRepository<UserProfile> userRepo, IImageService imageService) : IRecipeService
+    public class RecipeService(ChatClient client, IRepository<Recipe> repo, IRepository<UserProfile> userRepo, IImageService imageService, IHttpContextAccessor context) : IRecipeService
     {
         ///<inheritdoc/>
         public async Task<string> CreateRecipe(string request, string userId)
@@ -109,7 +110,8 @@ namespace CookingApp.Services.Recipe
         ///<inheritdoc/>
         public async Task<Recipe> GetById(string recipeId)
         {
-            var recipe = await repo.GetByIdAsync(recipeId);
+            var userId = GetUser.ProfileId(context);
+            var recipe = await repo.GetFirstOrDefaultAsync(r => r.Id == recipeId && r.UserId == userId);
             if (recipe is null)
             {
                 throw new NotFoundException();
