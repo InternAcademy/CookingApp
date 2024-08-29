@@ -4,9 +4,8 @@ import MyRecipes from "../../components/recipes/MyRecipes";
 import Navbar from "../../components/navbar/Navbar";
 import toast, { Toaster } from "react-hot-toast";
 import useFetchUserStatus from "../../hooks/useFetchUserStatus";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { uiActions } from "@/store/uiSlice";
+import { useSelector } from "react-redux";
+import Modal from "@/components/modal/Modal";
 
 export default function Layout() {
   const theme = useSelector((state) => state.ui.theme);
@@ -19,6 +18,7 @@ export default function Layout() {
         theme !== "Dark" && theme !== "Light" ? theme.toLowerCase() : ""
       } bg-base overflow-x-hidden`}
     >
+      <Modal />
       <Sidebar />
       <section className="flex w-screen max-h-dvh flex-col overflow-hidden shrink rounded-none md:rounded-2xl bg-secondary border-none md:border m-0 md:m-1 md:h-[calc(100vh-1vh)]">
         <Navbar />

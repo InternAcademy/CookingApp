@@ -1,24 +1,21 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import stripe from "../../assets/by-stripe.png";
 import { FireIcon } from "@heroicons/react/24/outline";
 import useMySubscription from "@/hooks/useMySubscription";
 import useCancelSub from "@/hooks/useCancelSub";
 import { getToken } from "@/msal/msal";
+import { uiActions } from "@/store/uiSlice";
 
 export default function SubscriptionDetails() {
-  const isOpenRecipes = useSelector((state) => state.ui.recipesOpen);
-  const isOpenSideBar = useSelector((state) => state.ui.sidebarOpen);
   const { data, isPending, refetch } = useMySubscription();
-  const { mutate } = useCancelSub({ refetchFn: refetch });
-
+  const dispatch = useDispatch();
   async function handleCancellation() {
-    const token = await getToken();
-    mutate({ token: token, subscriptionId: data.subscriptions[0].id });
+    dispatch(uiActions.openSubCancelModal(data.subscriptions[0].id));
   }
 
   function formatDateIso(dateString) {
     const date = new Date(dateString);
-  
+
     // Define options for formatting the date
     const options = {
       year: "numeric",
@@ -29,7 +26,7 @@ export default function SubscriptionDetails() {
       second: "2-digit",
       hour12: true, // Use 12-hour time format
     };
-  
+
     // Format the date according to the user's local timezone
     return new Intl.DateTimeFormat("en-US", options).format(date);
   }
@@ -67,7 +64,9 @@ export default function SubscriptionDetails() {
                   </li>
                 ) : (
                   <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2">
-                    {`Your next charge will be on ${formatDateIso(data.subscriptions[0].currentPeriodEnd)}`}
+                    {`Your next charge will be on ${formatDateIso(
+                      data.subscriptions[0].currentPeriodEnd
+                    )}`}
                   </li>
                 )}
               </ul>

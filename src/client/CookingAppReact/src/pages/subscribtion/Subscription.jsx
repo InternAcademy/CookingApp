@@ -59,7 +59,7 @@ export default function Subscription() {
               onClick={handleClick}
             >
               <div className=" font-semibold text-xl flex flex-row items-center justify-center text-center selection:bg-primary">
-                For €8.99
+                Subscribe
               </div>
             </button>
             <div className="w-full flex justify-center items-center text-center mt-2 text-base selection:bg-primary">
