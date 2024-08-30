@@ -67,10 +67,10 @@ namespace CookingApp.Services.UserProfile
         {
             var imageBytes = Convert.FromBase64String(image.Split(',')[1]);
 
-            const int maxFileSize = 2 * 1024 * 1024; 
+            const int maxFileSize = 8 * 1024 * 1024; 
             if (imageBytes.Length > maxFileSize)
             {
-                throw new InvalidImageUploadException("Maximum image size exceeded. Please upload an image under 2MB.");
+                throw new InvalidImageUploadException("Maximum image size exceeded. Please upload an image under 8MB.");
             }
 
             // Validate the MIME type
@@ -82,7 +82,8 @@ namespace CookingApp.Services.UserProfile
             }
 
             var user = await GetUser.Profile(httpContextAccessor, profileRepo);
-            var imageUrl = await fileService.UploadFileAndGetUrl(Services.File.File.ConvertDataUriToFormFile(image));
+            var file = Services.File.File.ConvertDataUriToFormFile(image);
+            var imageUrl = await fileService.UploadFileAndGetUrl(ImageHelper.CompressImage(file));
 
             user.ImageUrl = imageUrl;
             await profileRepo.UpdateAsync(user);

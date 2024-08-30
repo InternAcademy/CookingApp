@@ -21,7 +21,8 @@ namespace CookingApp.Services.Message
     using SixLabors.ImageSharp.Processing;
     using CookingApp.Infrastructure.Exceptions;
 
-    public partial class MessageService(ChatClient client,
+    public partial class MessageService(
+        ChatClient client,
         IChatService chatService,
         IRepository<Chat> chatRepo,
         IRepository<UserProfile> profileRepo,
@@ -82,14 +83,15 @@ namespace CookingApp.Services.Message
                 Type = MessageType.Text
             };
 
-            if(request.Type == MessageType.Image && request.Content != null)
+            if (request.Type == MessageType.Image && request.Content != null)
             {
                 var formFile = File.ConvertDataUriToFormFile(request.Content);
 
-                const int maxFileSize = 2 * 1024 * 1024;
+                const int maxFileSize = 8 * 1024 * 1024;
                 if (formFile.Length > maxFileSize)
                 {
-                    throw new InvalidImageUploadException("Maximum image size exceeded. Please upload an image under 2MB.");
+                    throw new InvalidImageUploadException(
+                        "Maximum image size exceeded. Please upload an image under 8MB.");
                 }
 
                 // Validate the MIME type
@@ -102,11 +104,12 @@ namespace CookingApp.Services.Message
                     var validImageTypes = new List<string> { "image/jpeg", "image/png", "image/webp" };
                     if (!validImageTypes.Contains(mimeType))
                     {
-                        throw new InvalidImageUploadException("Invalid image type. Please upload a JPG, PNG, or WEBP image.");
+                        throw new InvalidImageUploadException(
+                            "Invalid image type. Please upload a JPG, PNG, or WEBP image.");
                     }
                 }
 
-                var compressedFormFile = await CompressImage(formFile);
+                var compressedFormFile = ImageHelper.CompressImage(formFile);
 
                 var imgPath = await fileService.UploadFileAndGetUrl(compressedFormFile);
 
@@ -116,13 +119,13 @@ namespace CookingApp.Services.Message
 
                 saveRequest.Content = imgPath;
             }
-            else if(request.Content != null)
+            else if (request.Content != null)
             {
                 messages.Add(new UserChatMessage(request.Content));
 
                 saveRequest.Content = request.Content;
             }
-            
+
             var response = await client.CompleteChatAsync(messages);
             var responceText = response.Value.Content[0].Text;
 
@@ -170,31 +173,6 @@ namespace CookingApp.Services.Message
             await chatRepo.UpdateAsync(chat);
 
             return chat.Title;
-        }
-
-        private async Task<IFormFile> CompressImage(IFormFile formFile)
-        {
-            var memoryStream = new MemoryStream();
-
-            using (var image = Image.Load(formFile.OpenReadStream()))
-            {
-               
-                var encoderOptions = new JpegEncoder
-                {
-                    Quality = 10
-                };
-
-                
-                image.Save(memoryStream, encoderOptions);
-            }
-
-            memoryStream.Position = 0;
-
-            return new FormFile(memoryStream, 0, memoryStream.Length, formFile.Name, formFile.FileName)
-            {
-                Headers = formFile.Headers,
-                ContentType = formFile.ContentType
-            };
         }
     }
 }
