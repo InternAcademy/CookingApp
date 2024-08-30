@@ -41,7 +41,9 @@ export default function DietaryPreferences({
   return (
     <div className="flex flex-col md:flex-row">
       <div className="md:w-1/2 pb-6 m-1 bg-secondary rounded-xl border border-primaryBorder shadow-sm py-4 px-4">
-        <h2 className="text-lg font-semibold mb-4 primaryText">{t("Allergens")}</h2>
+        <h2 className="text-lg font-semibold mb-4 primaryText">
+          {t("Allergens")}
+        </h2>
         {allergens.length > 0 ? (
           <div className="flex flex-wrap mb-4">
             {allergens.map((alergen, index) => (
@@ -58,30 +60,30 @@ export default function DietaryPreferences({
         ) : (
           <p className="text-gray-500 text-center mb-4">{t("NoAdded")}</p>
         )}
-        <div className="relative">
-          <input
-            type="text"
-            value={alergenInput}
-            onChange={handleInputChange}
-            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            onKeyDown={handleAddAlergenPressEnter}
-            className="border rounded-lg px-4 py-2 mb-2 w-full border-primaryBorder bg-secondary primaryText"
-            placeholder={t("AddAllergens")}
-          />
-          {isDropdownOpen && filteredAllergens.length > 0 && (
-            <ul className="absolute z-10 w-full mt-1 border border-primaryBorder bg-secondary rounded-lg shadow-lg h-36 overflow-y-auto">
-              {filteredAllergens.map((alergen, index) => (
-                <li
-                  key={index}
-                  onClick={() => handleDropdownItemClick(alergen)}
-                  className="px-4 py-2 cursor-pointer hover:bg-active"
-                >
-                  {alergen}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+
+        <input
+          type="text"
+          value={alergenInput}
+          onChange={handleInputChange}
+          onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+          onKeyDown={handleAddAlergenPressEnter}
+          className="border rounded-lg px-4 py-2 mb-2 w-full border-primaryBorder bg-secondary primaryText"
+          placeholder={t("AddAllergens")}
+        />
+        {isDropdownOpen && filteredAllergens.length > 0 && (
+          <ul className="z-10 w-full mt-1 border border-primaryBorder bg-secondary rounded-lg shadow-lg h-36 overflow-y-auto">
+            {filteredAllergens.map((alergen, index) => (
+              <li
+                key={index}
+                onClick={() => handleDropdownItemClick(alergen)}
+                className="px-4 py-2 cursor-pointer hover:bg-active"
+              >
+                {alergen}
+              </li>
+            ))}
+          </ul>
+        )}
+
         {error && <p className="text-red-500 text-center">{error}</p>}
         <button
           onClick={handleAddAlergen}
