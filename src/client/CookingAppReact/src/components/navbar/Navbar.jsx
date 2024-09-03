@@ -112,7 +112,7 @@ export default function Navbar() {
                 {role}
               </span>
             )}
-            <div className="text-primaryText flex gap-[1px] items-center">
+            <div className="text-primaryText flex gap-[1px] items-center pr-4">
               <p className=" font-bold text-sm">
                 {limitations.recipeGeneration}
               </p>
