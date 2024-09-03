@@ -34,7 +34,7 @@ export default function ChatInput() {
             left!
           </span>
         ),
-        { position: "bottom-right" }
+        { position: "top-center" }
       );
       dispatch(uiActions.setIsShown(true));
     }
@@ -76,20 +76,25 @@ export default function ChatInput() {
   }
   function handleImageAttachment(event) {
     const file = event.target.files[0];
-  
+
     if (file) {
-      const validImageTypes = ['image/jpeg', 'image/png', 'image/webp'];
-  
+      const validImageTypes = ["image/jpeg", "image/png", "image/webp"];
+
       if (!validImageTypes.includes(file.type)) {
-        toast.error("Please select a valid image file. Supported types: JPEG, PNG, WEBP");
+        toast.error(
+          "Please select a valid image file. Supported types: JPEG, PNG, WEBP"
+        );
         return;
       }
-  
-      if (file.size > 8000000) { // 8MB limit
-        toast.error("Maximum image size exceeded. Please select an image under 8MB.");
+
+      if (file.size > 2000000) {
+        // 2MB limit
+        toast.error(
+          "Maximum image size exceeded. Please select an image under 2MB."
+        );
         return;
       }
-  
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setBase64Image(reader.result);
@@ -168,7 +173,7 @@ export default function ChatInput() {
           <li>
             <PaperAirplaneIcon
               className={`size-10 rounded-xl p-2 duration-200 ${
-                input.length > 0 ? "bg-orange-300" : ""
+                input.length > 0 ? "bg-primary" : ""
               } cursor-pointer`}
               onClick={handleSubmission}
             />
