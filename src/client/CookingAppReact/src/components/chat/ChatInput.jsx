@@ -173,7 +173,7 @@ export default function ChatInput() {
           <li>
             <PaperAirplaneIcon
               className={`size-10 rounded-xl p-2 duration-200 ${
-                input.length > 0 ? "bg-orange-300" : ""
+                input.length > 0 ? "bg-primary" : ""
               } cursor-pointer`}
               onClick={handleSubmission}
             />
