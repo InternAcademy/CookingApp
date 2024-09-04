@@ -21,8 +21,7 @@ namespace CookingApp.Controllers
             
                 var stripeEvent = EventUtility.ConstructEvent(json,
                     Request.Headers["Stripe-Signature"], stripeOptions.Value.WebhookSecret,300,false);
-
-                
+                    
                 if (stripeEvent.Type == Events.InvoicePaymentSucceeded)
                 {
                     var invoice = stripeEvent.Data.Object as Invoice;
@@ -30,7 +29,7 @@ namespace CookingApp.Controllers
                     if (invoice != null)
                     {
                         var user = await userRepo.GetFirstOrDefaultAsync(user=>user.StripeId == invoice.CustomerId);
-                        user.Role = CreateRole.Premium();
+                        user.Role = CreateRole.Premium(user.Role.Limitations, 50, 30);
                         Console.WriteLine($"User with stripe id: {user.StripeId} now has a role: {user.Role.Type}");
                         await userRepo.UpdateAsync(user);
                     }
@@ -41,8 +40,8 @@ namespace CookingApp.Controllers
 
                     if (subscription != null)
                     {
-                       var user = await userRepo.GetFirstOrDefaultAsync(user=>user.StripeId == subscription.CustomerId);
-                        user.Role = CreateRole.Free();
+                        var user = await userRepo.GetFirstOrDefaultAsync(user=>user.StripeId == subscription.CustomerId);
+                        user.Role = CreateRole.Basic(user.Role.Limitations, 0, 0);
                         Console.WriteLine($"User with stripe id: {user.StripeId} now has a role: {user.Role.Type}");
                         await userRepo.UpdateAsync(user);
                     }

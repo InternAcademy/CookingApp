@@ -42,13 +42,20 @@ namespace CookingApp.Services.UserProfile
 
         private async Task<Models.UserProfile> CreateNewUserProfile(string userId, string username)
         {
+            var role = CreateRole.Basic(new Limitations
+            {
+                ChatGeneration = 20,
+                ChatFromDate = DateTime.UtcNow,
+                RecipeGeneration = 2
+            }, 0, 0);
+
             var profile = new Models.UserProfile
             {
-                Role = CreateRole.Free(),
+                Role = role,
                 InterfacePreference = new InterfacePreference().CreateInterface(),
                 DietaryPreference = Models.Enums.DietaryPreference.None,
-                Allergies = new List<string>(),
-                AvoidedFoods = new List<string>(),
+                Allergies = [],
+                AvoidedFoods = [],
                 UserId = userId,
                 Name = username
             };

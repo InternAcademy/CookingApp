@@ -1,27 +1,25 @@
-using CookingApp.Infrastructure.Interfaces;
-using CookingApp.Models;
-using CookingApp.Models.Enums;
-using CookingApp.Models.ValueObjects;
-using System.Security.Claims;
-
 namespace CookingApp.Common.Helpers.Profiles
 {
+    using CookingApp.Models;
+    using CookingApp.Models.Enums;
+    using CookingApp.Models.ValueObjects;
+
     public static class CreateRole
     {
-        public static Role Free()
+        public static Role Basic(Limitations limitations, int messages, int recipes)
         {
             return new Role()
             {
-                Type = RoleType.Free,
+                Type = RoleType.Basic,
                 Limitations = new Limitations()
                 {
                     ChatFromDate = DateTime.Now,
-                    ChatGeneration = 10,  
-                    RecipeGeneration = 2
+                    ChatGeneration = limitations.ChatGeneration + messages,
+                    RecipeGeneration = limitations.RecipeGeneration + recipes
                 }
             };
         }
-        public static Role Premium()
+        public static Role Premium(Limitations limitations, int messages, int recipes)
         {
             return new Role()
             {
@@ -29,8 +27,8 @@ namespace CookingApp.Common.Helpers.Profiles
                 Limitations = new Limitations()
                 {
                     ChatFromDate = DateTime.Now,
-                    ChatGeneration = 20,
-                    RecipeGeneration = 30
+                    ChatGeneration = limitations.ChatGeneration + messages,
+                    RecipeGeneration = limitations.RecipeGeneration + recipes
                 }
             };
         }
