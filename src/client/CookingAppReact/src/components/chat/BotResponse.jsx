@@ -82,7 +82,7 @@ export default function BotResponse({ message }) {
           </div>
         )}
         {message.type === "Recipe" &&
-          role === "Free" &&
+          role === "Basic" &&
           limitations.recipeGeneration <= 0 && (
           <div className="w-full flex justify-center content-center items-center my-5">
             <div

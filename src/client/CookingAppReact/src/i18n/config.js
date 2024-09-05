@@ -43,7 +43,7 @@ i18n.use(initReactI18next).init({
         AddFood: "Add Food",
         GeneratingMeal: "Generating Meal",
         GenerateMeal: "Generate Meal",
-        GetPremium: "Get Premium",
+        GetPremium: "Marketplace",
         MyMeals: "My Meals",
         LoadMore: "Load more...",
         NoRecipes: "You don't have any recipes",

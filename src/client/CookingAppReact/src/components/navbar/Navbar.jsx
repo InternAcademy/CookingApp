@@ -84,7 +84,7 @@ export default function Navbar() {
             {role && (
               <span
                 className={`${
-                  role === "Free" ? "bg-base " : "bg-primary"
+                  role === "Basic" ? "bg-base " : "bg-primary"
                 } text-center rounded-full flex justify-center items-center px-4 py-1`}
               >
                 {role}
@@ -97,7 +97,7 @@ export default function Navbar() {
         >
           <h2
             className={`font-semibold ${
-              role === "Free" ? "bg-base " : "bg-primary"
+              role === "Basic" ? "bg-base " : "bg-primary"
             } rounded-full px-1 text-lg flex flex-row justify-center content-center text-center items-center`}
           >
             <span className={`hidden md:block text-center px-2 py-2 xs:py-1`}>
@@ -106,7 +106,7 @@ export default function Navbar() {
             {role && (
               <span
                 className={`${
-                  role === "Free" ? "bg-base " : "bg-primary"
+                  role === "Basic" ? "bg-base " : "bg-primary"
                 } text-center rounded-full flex justify-center items-center px-4 py-1`}
               >
                 {role}

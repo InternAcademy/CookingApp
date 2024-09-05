@@ -59,7 +59,7 @@ export default function ChatInput() {
         type: "Text",
         content: input,
       });
-      if (role.type === "Free") {
+      if (role.type === "Basic") {
         dispatch(userActions.reduceChatGeneration());
       }
     }
