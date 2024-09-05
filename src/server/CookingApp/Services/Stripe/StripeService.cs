@@ -32,7 +32,7 @@
         /// </summary>
         public async Task<IEnumerable<StripeProduct>> GetProductsAsync()
         {
-            var options = new ProductListOptions { Active = true };
+            var options = new ProductListOptions { Active = true, };
 
             var products = await productService.ListAsync(options);
             var result = new List<StripeProduct>();

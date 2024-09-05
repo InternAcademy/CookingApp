@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Stripe;
+using Stripe.Checkout;
 
 namespace CookingApp.Controllers
 {
@@ -34,6 +35,31 @@ namespace CookingApp.Controllers
                         await userRepo.UpdateAsync(user);
                     }
                 }
+
+                else if(stripeEvent.Type == Events.CheckoutSessionCompleted)
+                {
+                    var session = stripeEvent.Data.Object as Session;
+
+                    if (session != null && session.Mode == "payment")
+                    {
+                        var service = new SessionService();
+                        var item = service.ListLineItems(session.Id).First();
+
+                            var productId = item.Price.ProductId;
+                            var productService = new ProductService();
+                            var product = productService.Get(productId);
+
+                            if (product.Metadata.TryGetValue("Messages", out string messagesValue))
+                            {
+                                Console.WriteLine($"Product metadata 'messages': {messagesValue}");
+                            }
+                            if (product.Metadata.TryGetValue("Recipes", out string recipesValue))
+                            {
+                                Console.WriteLine($"Product metadata 'recipes': {recipesValue}");
+                            }
+                    }
+                }
+            
                 else if (stripeEvent.Type == Events.CustomerSubscriptionDeleted)
                 {
                     var subscription = stripeEvent.Data.Object as Subscription;
