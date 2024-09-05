@@ -174,7 +174,7 @@ export default function Store() {
               </div>
             </div>
             <div className="flex w-full justify-start content-start items-center flex-row">
-              <div className={`w-1/2 overflow-hidden lg:p-10 h-[32rem] justify-center items-center ${isOpenSideBar || isOpenRecipes ? "hidden lg:flex" : "md:flex"}`}>
+              <div className={`w-1/2 overflow-hidden lg:p-10 h-[32rem] justify-center items-center ${isOpenSideBar || isOpenRecipes ? "hidden lg:flex" : "hidden md:flex"}`}>
                 <img
                   className="border h-full border-gray-200 rounded-lg shadow"
                   src={cookingsImage5}
