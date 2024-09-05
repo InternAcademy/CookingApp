@@ -15,6 +15,7 @@ import SubscriptionDetails from "./pages/subscribtion/SubscriptionDetails";
 import Rules from "./pages/rules/Rules";
 import NotFound from "./pages/error/NotFound";
 import AuthorizeRoute from "./pages/authorize/AuthorizeRoute";
+import Store from "./pages/store/Store";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -40,11 +41,11 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "subscription",
+        path: "store",
         element: (
           <AuthorizeRoute
-            succesPage={<Subscribtion />}
-            requiredRole={"Free"}
+            succesPage={<Store />}
+            requiredRole={"Basic"}
             unAuthorizedPath={"/"}
           />
         ),

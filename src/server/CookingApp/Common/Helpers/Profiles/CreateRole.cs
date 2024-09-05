@@ -1,6 +1,5 @@
 namespace CookingApp.Common.Helpers.Profiles
 {
-    using CookingApp.Models;
     using CookingApp.Models.Enums;
     using CookingApp.Models.ValueObjects;
 
@@ -13,7 +12,7 @@ namespace CookingApp.Common.Helpers.Profiles
                 Type = RoleType.Basic,
                 Limitations = new Limitations()
                 {
-                    ChatFromDate = DateTime.Now,
+                    ChatFromDate = DateTime.UtcNow,
                     ChatGeneration = limitations.ChatGeneration + messages,
                     RecipeGeneration = limitations.RecipeGeneration + recipes
                 }
@@ -26,7 +25,7 @@ namespace CookingApp.Common.Helpers.Profiles
                 Type = RoleType.Premium,
                 Limitations = new Limitations()
                 {
-                    ChatFromDate = DateTime.Now,
+                    ChatFromDate = DateTime.UtcNow,
                     ChatGeneration = limitations.ChatGeneration + messages,
                     RecipeGeneration = limitations.RecipeGeneration + recipes
                 }

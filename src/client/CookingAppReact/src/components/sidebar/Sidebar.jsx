@@ -96,7 +96,7 @@ export default function Sidebar() {
       dispatch(uiActions.closeSidebar());
     }
 
-    navigate("/subscription");
+    navigate("/store");
   }
   function handleClickYourSubscribtion() {
     if (window.innerWidth < 768) {
