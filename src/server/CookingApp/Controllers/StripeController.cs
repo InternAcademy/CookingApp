@@ -5,6 +5,7 @@ namespace CookingApp.Controllers
 {
     using CookingApp.Services.Stripe;
     using CookingApp.ViewModels.Api;
+    using CookingApp.ViewModels.Stripe.Product;
     using CookingApp.ViewModels.Stripe.Subscription;
     using Microsoft.AspNetCore.Mvc;
 
@@ -13,11 +14,11 @@ namespace CookingApp.Controllers
     public class StripeController(IStripeService stripeService) : ControllerBase
     {
         [HttpGet("products")]
-        public async Task<ApiResponse<List<string>>> GetProductsAsync()
+        public async Task<ApiResponse<List<StripeProduct>>> GetProductsAsync()
         {
             var products = await stripeService.GetProductsAsync();
 
-            return new ApiResponse<List<string>>()
+            return new ApiResponse<List<StripeProduct>>()
             {
                 Status = 200,
                 Data = products.ToList()
@@ -38,11 +39,23 @@ namespace CookingApp.Controllers
 
 
         [HttpPost("subscription")]
-        public async Task<ApiResponse<SubscriptionCreationResponse>> CreateSubscriptionAsync([FromBody] SubscriptionCreation model)
+        public async Task<ApiResponse<InvoiceCreationResponse>> CreateSubscriptionAsync([FromBody] InvoiceCreation model)
         {
             var customer = await stripeService.CreateSubscriptionAsync(model);
 
-            return new ApiResponse<SubscriptionCreationResponse>()
+            return new ApiResponse<InvoiceCreationResponse>()
+            {
+                Status = 200,
+                Data = customer
+            };
+        }
+
+        [HttpPost("pack")]
+        public async Task<ApiResponse<InvoiceCreationResponse>> BuyPackAsync([FromBody] InvoiceCreation model)
+        {
+            var customer = await stripeService.BuyPackAsync(model);
+
+            return new ApiResponse<InvoiceCreationResponse>()
             {
                 Status = 200,
                 Data = customer

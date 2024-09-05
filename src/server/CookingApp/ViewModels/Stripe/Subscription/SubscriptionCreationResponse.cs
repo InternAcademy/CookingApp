@@ -1,5 +1,5 @@
 ﻿namespace CookingApp.ViewModels.Stripe.Subscription
 {
-    public record SubscriptionCreationResponse(
+    public record InvoiceCreationResponse(
         string SessionUrl);
 }

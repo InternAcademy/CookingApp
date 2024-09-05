@@ -7,6 +7,7 @@
     using CookingApp.Infrastructure.Interfaces;
     using CookingApp.Models;
     using CookingApp.ViewModels.Stripe.Customer;
+    using CookingApp.ViewModels.Stripe.Product;
     using CookingApp.ViewModels.Stripe.Statistics;
     using CookingApp.ViewModels.Stripe.Subscription;
     using global::Stripe;
@@ -29,17 +30,25 @@
         /// <summary>
         /// Gets all products that are in the Stripe account.
         /// </summary>
-        public async Task<IEnumerable<string>> GetProductsAsync()
+        public async Task<IEnumerable<StripeProduct>> GetProductsAsync()
         {
-            var options = new ProductListOptions { Limit = 1 };
+            var options = new ProductListOptions { Active = true };
 
             var products = await productService.ListAsync(options);
-            var result = new List<string>();
+            var result = new List<StripeProduct>();
 
             foreach (var product in products)
             {
+                
                 var price = await priceService.GetAsync(product.DefaultPriceId);
-                result.Add(price.Id);
+                result.Add(new StripeProduct()
+                {
+                    Name = product.Name,
+                    PriceId = price.Id,
+                    Price = price.UnitAmountDecimal ?? 0m,
+                    Type = price.Type == "recurring" ? "subscription" : "pack",
+                    Benefits = product.Metadata
+                });
             }
 
             return result;
@@ -53,7 +62,7 @@
         /// Once the initial Invoice is payed the status then is set to active.
         /// If the Invoice is not payed in 23 hours the status then is set to "incomplete_expired"
         /// </summary>
-         public async Task<SubscriptionCreationResponse> CreateSubscriptionAsync(SubscriptionCreation model)
+         public async Task<InvoiceCreationResponse> CreateSubscriptionAsync(InvoiceCreation model)
         {
             if (model == null ||
                 string.IsNullOrEmpty(model.Email) ||
@@ -116,10 +125,65 @@
             var session = await sessionService.CreateAsync(options);         
 
 
-            return new SubscriptionCreationResponse(
+            return new InvoiceCreationResponse(
                session.Url
             );
         }
+
+        public async Task<InvoiceCreationResponse> BuyPackAsync(InvoiceCreation model)
+        {
+            if (model == null ||
+               string.IsNullOrEmpty(model.Email) ||
+               string.IsNullOrEmpty(model.PriceId))
+            {
+                throw new ArgumentException(Stripe.NullOrEmptyInputValues);
+            }
+
+            var userId = GetUser.ProfileId(httpContextAccessor);
+
+            var profile = await userRepo.GetFirstOrDefaultAsync(x => x.UserId == userId);
+
+
+            if (profile is null)
+            {
+                throw new NotFoundException();
+            }
+
+            var options = new SessionCreateOptions
+            {
+                SuccessUrl = $"{stripeOptions.Value.SuccessRoute}",
+                Mode = "payment",
+                LineItems = new List<SessionLineItemOptions>
+                        {
+                            new SessionLineItemOptions
+                            {
+                                Price = model.PriceId,
+                                Quantity = 1,
+                            },
+                        },
+            };
+
+            if (profile.StripeId is not null)
+            {
+                var customer = await customerService.GetAsync(profile.StripeId);
+                options.Customer = profile.StripeId;
+            }
+            else
+            {
+                var customer = await customerService.CreateAsync(new CustomerCreateOptions() { Email = model.Email });
+                options.Customer = customer.Id;
+                profile.StripeId = customer.Id;
+                await userRepo.UpdateAsync(profile);
+            }
+
+            var session = await sessionService.CreateAsync(options);
+
+
+            return new InvoiceCreationResponse(
+               session.Url
+            );
+        }
+
 
 
         /// <summary>
@@ -234,5 +298,6 @@
 
             return incomeStat;
         }
+
     }
 }
