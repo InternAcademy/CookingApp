@@ -18,7 +18,7 @@ import SubscriptionDetails from "../subscribtion/SubscriptionDetails";
 const subscriptionId = import.meta.env.VITE_STRIPE_SUBSCRIPTION_ID;
 const basicPackId = import.meta.env.VITE_STRIPE_BASIC_PACK_ID;
 const valuePackId = import.meta.env.VITE_STRIPE_VALUE_PACK_ID;
-const proPackId = import.meta.env.VITE_PUBLIC_PRO_IP;
+const proPackId = import.meta.env.VITE_STRIPE_PRO_PACK_ID;
 
 export default function Store() {
   const isOpenRecipes = useSelector((state) => state.ui.recipesOpen);
