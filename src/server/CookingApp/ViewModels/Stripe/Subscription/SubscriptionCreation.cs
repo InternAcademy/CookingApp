@@ -2,7 +2,7 @@
 
 namespace CookingApp.ViewModels.Stripe.Subscription
 {
-    public class SubscriptionCreation
+    public class InvoiceCreation
     {
         [EmailAddress]
         public string Email { get; set; } = string.Empty;

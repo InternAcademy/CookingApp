@@ -75,20 +75,33 @@ export default function Navbar() {
               />
             </Tooltip>
           </div>
+
           <h2
-            className={`font-semibold hidden md:flex text-lg flex-row justify-center items-center text-center h-full`}
+            className={`font-semibold hidden  md:flex text-lg flex-row justify-center items-center text-center h-full`}
           >
             <span className={`hidden md:block text-center px-2 py-2 xs:py-1`}>
               Meal Master{" "}
             </span>
             {role && (
-              <span
-                className={`${
-                  role === "Free" ? "bg-base " : "bg-primary"
-                } text-center rounded-full flex justify-center items-center px-4 py-1`}
+              <div
+                className={`flex ${
+                  role === "Basic" ? "bg-base " : "bg-primary"
+                } rounded-full`}
               >
-                {role}
-              </span>
+                <span
+                  className={`${
+                    role === "Basic" ? "bg-base " : "bg-primary"
+                  } text-center rounded-full flex justify-center items-center px-4 py-1`}
+                >
+                  {role}
+                </span>
+                <div className="text-primaryText flex gap-[1px] items-center pr-4">
+                  <p className=" font-bold text-sm">
+                    {limitations.recipeGeneration}
+                  </p>
+                  <PiCurrencyEthDuotone className="text-primaryText size-4" />
+                </div>
+              </div>
             )}
           </h2>
         </li>
@@ -97,7 +110,7 @@ export default function Navbar() {
         >
           <h2
             className={`font-semibold ${
-              role === "Free" ? "bg-base " : "bg-primary"
+              role === "Basic" ? "bg-base " : "bg-primary"
             } rounded-full px-1 text-lg flex flex-row justify-center content-center text-center items-center`}
           >
             <span className={`hidden md:block text-center px-2 py-2 xs:py-1`}>
@@ -106,7 +119,7 @@ export default function Navbar() {
             {role && (
               <span
                 className={`${
-                  role === "Free" ? "bg-base " : "bg-primary"
+                  role === "Basic" ? "bg-base " : "bg-primary"
                 } text-center rounded-full flex justify-center items-center px-4 py-1`}
               >
                 {role}

@@ -10,6 +10,10 @@ export default function useDeleteRecipe() {
     mutationFn: deleteRecipe,
     onSuccess: async () => {
       dispatch(uiActions.closeModal());
+
+      if (window.innerWidth < 1300) {
+        dispatch(uiActions.toggleRecipes());
+      }
       navigate("/");
     },
   });

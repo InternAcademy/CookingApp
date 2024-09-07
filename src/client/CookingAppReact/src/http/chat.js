@@ -19,8 +19,7 @@ export async function sendMessage({ token, chatId, type, content }) {
     const responseBody = await response.json();
 
     toast.error(responseBody.data);
-  }
-  if (!response.ok) {
+  } else if (!response.ok) {
     toast.error("Unexpected error, please try again later");
     throw new Error(response.status);
   }

@@ -144,6 +144,11 @@ const uiSlice = createSlice({
         removeChat: action.payload,
       };
     },
+    removeRecipe(state, action) {
+      state.filteredRecipes.recipes = state.filteredRecipes.recipes.filter(
+        (r) => r.id !== action.payload
+      );
+    },
   },
 });
 
