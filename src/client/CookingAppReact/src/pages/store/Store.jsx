@@ -36,6 +36,7 @@ export default function Store() {
     });
   }
   async function buyThisPack(id) {
+    console.log("id " + id);
     const token = await getToken();
     const decodedToken = jwtDecode(token);
     payOneTime({
@@ -44,6 +45,10 @@ export default function Store() {
       priceId: id,
     });
   }
+  console.log(subscriptionId);
+  console.log(basicPackId);
+  console.log(valuePackId);
+  console.log(proPackId);
   return (
     <div className="flex flex-col w-full h-full justify-start content-start items-start bg-secondary px-10 text-primaryText overflow-y-auto">
       <div className="w-full flex flex-col justify-center items-center text-center mt-2 text-primaryText">
