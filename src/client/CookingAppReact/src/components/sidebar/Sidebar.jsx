@@ -157,7 +157,7 @@ export default function Sidebar() {
         className={`${isPremium() || !isOpen ? "hidden" : ""}`}
         onClick={handleClickSubscribtion}
       >
-        <h5 className="hover:bg-primary mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-secondary shadow-sm ring-1 ring-black/5">
+        <h5 className="hover:bg-active mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-base shadow-sm ring-1 ring-black/5">
           <BanknotesIcon className="size-5 mr-5" />
           {t("GetPremium")}
         </h5>
@@ -166,7 +166,7 @@ export default function Sidebar() {
         className={`${!isOpen ? "hidden" : "xxs:hidden"}`}
         onClick={handleClickRecipes}
       >
-        <h5 className="hover:bg-primary mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-secondary shadow-sm ring-1 ring-black/5">
+        <h5 className="hover:bg-active mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-base shadow-sm ring-1 ring-black/5">
           <div className="w-5 mr-5">
             <MealIcon />
           </div>
@@ -177,7 +177,7 @@ export default function Sidebar() {
         className={`${!isPremium() || !isOpen ? "hidden" : ""}`}
         onClick={handleClickYourSubscribtion}
       >
-        <h5 className="hover:bg-primary mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-secondary shadow-sm ring-1 ring-black/5">
+        <h5 className="hover:bg-active mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-base shadow-sm ring-1 ring-black/5">
           <BanknotesIcon className="size-5 mr-5" />
           {t("YourSubscription")}
         </h5>
@@ -186,7 +186,7 @@ export default function Sidebar() {
         className={`${!isAdmin() || !isOpen ? "hidden" : ""}`}
         onClick={handleClickDashboard}
       >
-        <h5 className="hover:bg-primary mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-white/20 shadow-sm ring-1 ring-black/5">
+        <h5 className="hover:bg-active mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-base shadow-sm ring-1 ring-black/5">
           <ChartPieIcon className="size-5 mr-5" />
           {t("Dashboard")}
         </h5>

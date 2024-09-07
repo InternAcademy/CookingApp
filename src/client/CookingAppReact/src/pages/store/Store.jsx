@@ -9,7 +9,7 @@ import cookingsImage1 from "../../assets/plans/cartoon-chef.jpg";
 import cookingsImage2 from "../../assets/plans/animated-girl.jpg";
 import cookingsImage3 from "../../assets/plans/animated-female.jpg";
 import cookingsImage4 from "../../assets/plans/femalechef.jpg";
-import cookingsImage5 from "../../assets/plans/chefyyy.jpg";
+import cookingsImage5 from "../../assets/cookings.png";
 import plans1 from "../../assets/plans/untitled6.png";
 import plans2 from "../../assets/plans/untitled7.png";
 import plans3 from "../../assets/plans/untitled5.png";
@@ -68,16 +68,18 @@ export default function Store() {
                 <div className="p-5">
                   <a href="#">
                     <h5 className="mb-2 text-2xl font-bold tracking-tight text-primaryText">
-                      Starter Pack: 100 Messages + 5 Meals
+                      Starter Pack
+                    </h5>
+                    <h5 className="mb-2 text-lg tracking-tight italic">
+                      700 Messages + 10 Meals
                     </h5>
                   </a>
                   <p className="mb-3 font-normal text-primaryText">
-                    Here are the biggest enterprise technology acquisitions of
-                    2021 so far, in reverse chronological order.
+                    Ideal for light users who want an introduction to the service with essential features.
                   </p>
                   <div className="flex flex-row justify-center items-center text-center text-primaryText">
                     <p className="text-2xl font-bold mr-2 text-primaryText">
-                      €2.99
+                      €6.99
                     </p>
                     <div
                       onClick={() => buyThisPack(basicPackId)}
@@ -112,16 +114,18 @@ export default function Store() {
                 <div className="p-5">
                   <a href="#">
                     <h5 className="mb-2 text-2xl font-bold tracking-tight text-primaryText">
-                      Value Pack: 800 Messages + 15 Meals
+                      Value Pack
+                    </h5>
+                    <h5 className="mb-2 text-lg tracking-tight italic">
+                      1,500 Messages + 25 Meals
                     </h5>
                   </a>
                   <p className="mb-3 font-normal text-primaryText">
-                    Here are the biggest enterprise technology acquisitions of
-                    2021 so far, in reverse chronological order.
+                    Best suited for regular users looking for a balance between messages and meal options.
                   </p>
                   <div className="flex flex-row justify-center items-center text-center text-primaryText">
                     <a className="text-2xl font-bold mr-2 text-primaryText">
-                      €7.99
+                      €11.99
                     </a>
                     <div
                       onClick={() => buyThisPack(valuePackId)}
@@ -156,16 +160,18 @@ export default function Store() {
                 <div className="p-5">
                   <a href="#">
                     <h5 className="mb-2 text-2xl font-bold tracking-tight text-primaryText">
-                      Pro Pack: 3,000 Messages + 45 Meals
+                      Pro Pack
+                    </h5>
+                    <h5 className="mb-2 text-lg tracking-tight italic">
+                      3,500 Messages + 50 Meals
                     </h5>
                   </a>
                   <p className="mb-3 font-normal text-primaryText">
-                    Here are the biggest enterprise technology acquisitions of
-                    2021 so far, in reverse chronological order.
+                    Perfect for frequent users who want more messages and meals at a great value.
                   </p>
                   <div className="flex flex-row justify-center items-center text-center text-primaryText">
                     <a className="text-2xl font-bold mr-2 text-primaryText">
-                      €14.99
+                      €19.99
                     </a>
                     <div
                       onClick={() => buyThisPack(proPackId)}
@@ -244,15 +250,12 @@ export default function Store() {
                 </li>
               </ul>
               <div className="flex flex-row items-center justify-evenly text-center mt-10 max-w-[32rem]">
-                <div className="font-semibold text-xl items-center text-center bg-slate-900 rounded-l-lg py-3 text-white px-2 border-2 border-transparent">
-                  €14.99/Month
-                </div>
                 <button
-                  className="text-white bg-black py-3 font-bold rounded-r-xl w-full border-2 border-transparent shadow-md"
+                  className="text-white bg-black hover:bg-gradient-to-l from-orange-500 to-pink-400 py-3 font-bold rounded-xl w-full border-2 border-transparent shadow-md transition-all duration-300 ease-in-out"
                   onClick={handleClick}
                 >
-                  <div className=" font-semibold text-xl flex flex-row items-center justify-center text-center">
-                    Subscribe
+                  <div className="font-semibold text-xl flex flex-row items-center justify-center text-center">
+                    Subscribe <span className="mx-2">•</span> <span className="flex items-center">€14.99/month</span>
                   </div>
                 </button>
               </div>
