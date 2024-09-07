@@ -50,7 +50,7 @@ jobs:
           VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}
           VITE_STRIPE_VALUE_PACK_ID: ${{ secrets.VITE_STRIPE_VALUE_PACK_ID }}
           VITE_STRIPE_PRO_PACK_ID: ${{ secrets.VITE_STRIPE_PRO_PACK_ID }}
-          VITE_STRIPE_VALUE_BASIC_ID: ${{ secrets.VITE_STRIPE_BASIC_PACK_ID }}
+          VITE_STRIPE_BASIC_PACK_ID: ${{ secrets.VITE_STRIPE_BASIC_PACK_ID }}
           VITE_STRIPE_SUBSCRIPTION_ID: ${{ secrets.VITE_STRIPE_SUBSCRIPTION_ID }}
 
       - name: Deploy to Azure Static Web Apps

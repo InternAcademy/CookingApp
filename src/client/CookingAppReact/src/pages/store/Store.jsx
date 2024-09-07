@@ -44,10 +44,6 @@ export default function Store() {
       priceId: id,
     });
   }
-  console.log(basicPackId);
-  console.log(proPackId);
-  console.log(valuePackId);
-  console.log(subscriptionId);
 
   return (
     <div className="flex flex-col w-full h-full justify-start content-start items-start bg-secondary px-10 text-primaryText overflow-y-auto">
