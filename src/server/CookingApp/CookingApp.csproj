@@ -10,13 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="ViewModels\Stripe\Product\**" />
-    <Content Remove="ViewModels\Stripe\Product\**" />
-    <EmbeddedResource Remove="ViewModels\Stripe\Product\**" />
-    <None Remove="ViewModels\Stripe\Product\**" />
-  </ItemGroup>
-
-  <ItemGroup>
 
     <PackageReference Include="AutoMapper" Version="13.0.1" />
 

@@ -1,37 +1,37 @@
 import { Bars3BottomLeftIcon } from "@heroicons/react/24/outline";
 import { Skeleton } from "@/components/ui/skeleton";
-
 import { ChatBubbleOvalLeftEllipsisIcon } from "@heroicons/react/24/outline";
 import { useSelector } from "react-redux";
 import { Fragment, useRef } from "react";
 import { ChartPieIcon } from "@heroicons/react/24/outline";
-import { BanknotesIcon, UserIcon } from "@heroicons/react/24/outline";
+import { BanknotesIcon } from "@heroicons/react/24/outline";
 import { useDispatch } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 import { getToken } from "../../msal/msal";
-import uiSlice, { uiActions } from "../../store/uiSlice";
+import { uiActions } from "../../store/uiSlice";
 import ChatItem from "./ChatItem";
 import { useEffect } from "react";
 import useChatHistory from "../../hooks/useChatHistory";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { orderedSections } from "../../utils/sidebar";
 import { getSectionTitle } from "../../utils/sidebar";
-import useSelectChat from "../../hooks/useSelectChat";
 import { userActions } from "../../store/userSlice";
 import MealIcon from "../ui/mealIcon";
 import "../../assets/css/animations.css";
 import { useTranslation } from "react-i18next";
+
 export default function Sidebar() {
   const isOpen = useSelector((state) => state.ui.sidebarOpen);
   const chatPage = useSelector((state) => state.user.chatHistory.page);
   const chatHistory = useSelector((state) => state.user.chatHistory.chats);
   const totalPages = useSelector((state) => state.user.chatHistory.totalPages);
-  const { i18n, t } = useTranslation();
+  const { t } = useTranslation();
   let role = useSelector((state) => state.user.role.type);
+
   const initial = useRef(true);
-  const selectChat = useSelectChat();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const { getFirstPage, getNextPage, gettingFirstPage, gettingNextPage } =
     useChatHistory();
   useEffect(() => {
@@ -47,7 +47,7 @@ export default function Sidebar() {
         const decoded = jwtDecode(token);
         getFirstPage({ token: token, userId: decoded.sub, pageIndex: 1 });
       }
-      console.log(chatHistory);
+
       getFirstPageAsync();
       initial.current = false;
     }
@@ -96,14 +96,14 @@ export default function Sidebar() {
       dispatch(uiActions.closeSidebar());
     }
 
-    navigate("/subscription");
+    navigate("/store");
   }
   function handleClickYourSubscribtion() {
     if (window.innerWidth < 768) {
       dispatch(uiActions.closeSidebar());
     }
 
-    navigate("/subscription/manage");
+    navigate("/store");
   }
 
   function handleClickRecipes() {
@@ -157,7 +157,7 @@ export default function Sidebar() {
         className={`${isPremium() || !isOpen ? "hidden" : ""}`}
         onClick={handleClickSubscribtion}
       >
-        <h5 className="hover:bg-primary mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-secondary shadow-sm ring-1 ring-black/5">
+        <h5 className="hover:bg-active mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-base shadow-sm ring-1 ring-black/5">
           <BanknotesIcon className="size-5 mr-5" />
           {t("GetPremium")}
         </h5>
@@ -166,7 +166,7 @@ export default function Sidebar() {
         className={`${!isOpen ? "hidden" : "xxs:hidden"}`}
         onClick={handleClickRecipes}
       >
-        <h5 className="hover:bg-primary mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-secondary shadow-sm ring-1 ring-black/5">
+        <h5 className="hover:bg-active mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-base shadow-sm ring-1 ring-black/5">
           <div className="w-5 mr-5">
             <MealIcon />
           </div>
@@ -177,7 +177,7 @@ export default function Sidebar() {
         className={`${!isPremium() || !isOpen ? "hidden" : ""}`}
         onClick={handleClickYourSubscribtion}
       >
-        <h5 className="hover:bg-primary mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-secondary shadow-sm ring-1 ring-black/5">
+        <h5 className="hover:bg-active mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-base shadow-sm ring-1 ring-black/5">
           <BanknotesIcon className="size-5 mr-5" />
           {t("YourSubscription")}
         </h5>
@@ -186,7 +186,7 @@ export default function Sidebar() {
         className={`${!isAdmin() || !isOpen ? "hidden" : ""}`}
         onClick={handleClickDashboard}
       >
-        <h5 className="hover:bg-primary mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-white/20 shadow-sm ring-1 ring-black/5">
+        <h5 className="hover:bg-active mt-5 rounded-lg m-3 px-5 py-2 flex flex-row justify-start items-center hover:cursor-pointer isolate bg-base shadow-sm ring-1 ring-black/5">
           <ChartPieIcon className="size-5 mr-5" />
           {t("Dashboard")}
         </h5>
@@ -243,9 +243,7 @@ export default function Sidebar() {
                 </Fragment>
               )
           )}
-        {chatHistory.length === 0 && !gettingFirstPage && (
-          <p>{t("NoChats")}</p>
-        )}
+        {chatHistory.length === 0 && !gettingFirstPage && <p>{t("NoChats")}</p>}
         {chatPage < totalPages && !gettingNextPage && (
           <button onClick={loadMore}>{t("LoadMore")}</button>
         )}

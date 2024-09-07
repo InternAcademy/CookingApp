@@ -74,12 +74,12 @@ namespace CookingApp.Services.Message
 
             var saveRequest = new Message()
             {
-                DateTime = DateTime.Now,
+                DateTime = DateTime.UtcNow,
                 Type = request.Type
             };
             var saveResponse = new Message()
             {
-                DateTime = DateTime.Now,
+                DateTime = DateTime.UtcNow,
                 Type = MessageType.Text
             };
 

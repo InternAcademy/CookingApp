@@ -10,8 +10,9 @@ export async function fetchSubs(token) {
     throw new Error(response.errors);
   }
   const data = await response.json();
-  return data;
+  return data.data;
 }
+
 export async function createSub({ token, email, priceId }) {
   const response = await fetch(`${ip}/api/stripe/subscription`, {
     method: "POST",
@@ -30,6 +31,26 @@ export async function createSub({ token, email, priceId }) {
   const data = await response.json();
   return data;
 }
+
+export async function buyPack({ token, email, priceId }) {
+  const response = await fetch(`${ip}/api/stripe/pack`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email: email,
+      priceId: priceId,
+    }),
+  });
+  if (!response.ok) {
+    throw new Error(response.errors);
+  }
+  const data = await response.json();
+  return data;
+}
+
 export async function mySub({ token }) {
   const response = await fetch(`${ip}/api/stripe/my-subscription`, {
     method: "GET",

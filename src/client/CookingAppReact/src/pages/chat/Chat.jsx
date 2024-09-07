@@ -11,6 +11,13 @@ import toast from "react-hot-toast";
 import MealToast from "@/components/ui/MealToast";
 import { Skeleton } from "@/components/ui/skeleton";
 export default function Chat() {
+  const chat = useSelector((state) => state.user.selectedChat);
+  const isThinking = useSelector((state) => state.ui.isThinking);
+  const responseError = useSelector((state) => state.ui.responseError);
+  const isOpenRecipes = useSelector((state) => state.ui.recipesOpen);
+  const isOpenSideBar = useSelector((state) => state.ui.sidebarOpen);
+  const endOfChatRef = useRef(null);
+
   let { chatId } = useParams();
   const dispatch = useDispatch();
   const { data: response, isError, isPending, refetch } = useSelectChat(chatId);
@@ -32,13 +39,6 @@ export default function Chat() {
       dispatch(userActions.selectChat(response));
     }
   }, [response]);
-
-  const chat = useSelector((state) => state.user.selectedChat);
-  const isThinking = useSelector((state) => state.ui.isThinking);
-  const responseError = useSelector((state) => state.ui.responseError);
-  const isOpenRecipes = useSelector((state) => state.ui.recipesOpen);
-  const isOpenSideBar = useSelector((state) => state.ui.sidebarOpen);
-  const endOfChatRef = useRef(null);
 
   useEffect(() => {
     // Using requestAnimationFrame to ensure the scroll happens after the DOM update

@@ -27,9 +27,6 @@ export async function getCurrentToken(
     return authResult.accessToken;
   } catch (error) {
     if (error instanceof InteractionRequiredAuthError) {
-      console.log(
-        "Silent token acquisition failed, user interaction required."
-      );
       try {
         const authResult = await msalInstance.acquireTokenPopup(request);
         return authResult.accessToken;

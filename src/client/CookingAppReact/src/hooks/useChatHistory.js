@@ -31,12 +31,6 @@ const useChatHistory = () => {
       dispatch(userActions.setChatHistory(response.data));
     },
   });
-  useEffect(() => {
-    // if (chatHistoryData) {
-    //   console.log(chatHistoryData);
-    //   dispatch(userActions.setChatHistory(chatHistoryData.data));
-    // }
-  }, []);
 
   return {
     getFirstPage,

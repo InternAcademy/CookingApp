@@ -1,10 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
-import { createSub } from "@/http/subs";
+import { buyPack, createSub } from "@/http/subs";
 import { useNavigate } from "react-router-dom";
 const useStripeSession = () => {
-  const navigate = useNavigate();
   const {
-    mutate,
+    mutate: subscribe,
     isPending: isSubscribing,
     isError: isSubError,
     error: subError,
@@ -14,7 +13,19 @@ const useStripeSession = () => {
       window.location.href = response.data.sessionUrl;
     },
   });
-  return { mutate };
+
+  const {
+    mutate: payOneTime,
+    isPending: isBuying,
+    isError: isBuyError,
+    error: buyError,
+  } = useMutation({
+    mutationFn: buyPack,
+    onSuccess: (response) => {
+      window.location.href = response.data.sessionUrl;
+    },
+  });
+  return { subscribe, payOneTime };
 };
 
 export default useStripeSession;

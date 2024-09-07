@@ -5,9 +5,8 @@ namespace CookingApp.Models.Enums
 
     public enum RoleType
     {
-        Free,
+        Basic,
         Premium,
         Admin
-
     }
 }
