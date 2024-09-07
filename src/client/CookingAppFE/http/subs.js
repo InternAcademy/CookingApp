@@ -10,7 +10,6 @@ export async function fetchSubs(token) {
     throw new Error(response.errors);
   }
   const data = await response.json();
-  console.log(data);
   return data;
 }
 export async function createSub({ token, email, priceId }) {
@@ -25,11 +24,9 @@ export async function createSub({ token, email, priceId }) {
       priceId: priceId,
     }),
   });
-  console.log(response);
   if (!response.ok) {
     throw new Error(response.errors);
   }
   const data = await response.json();
-  console.log(data);
   return data;
 }

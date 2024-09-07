@@ -51,6 +51,6 @@ export async function preferences({
     }),
   });
   const responseBody = await response.json();
-  console.log(responseBody);
+  
   return responseBody;
 }

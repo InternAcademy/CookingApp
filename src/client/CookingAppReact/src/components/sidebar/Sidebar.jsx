@@ -47,7 +47,7 @@ export default function Sidebar() {
         const decoded = jwtDecode(token);
         getFirstPage({ token: token, userId: decoded.sub, pageIndex: 1 });
       }
-      console.log(chatHistory);
+
       getFirstPageAsync();
       initial.current = false;
     }

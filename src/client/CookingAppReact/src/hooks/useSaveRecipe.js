@@ -37,7 +37,7 @@ const useSaveRecipe = () => {
       dispatch(uiActions.showToast(response));
       const token = await getToken();
       const decoded = jwtDecode(token);
-      console.log("trigerring");
+
       getFirstPageRecipes({ token: token, page: 1, userId: decoded.sub });
     },
     onError: (error) => {

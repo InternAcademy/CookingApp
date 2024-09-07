@@ -26,7 +26,6 @@ const LanguageAndTheme = () => {
   const handleLanguageChange = (language) => {
     setSelectedLanguage(language);
     localStorage.setItem("language", language);
-    console.log(`Language changed to: ${language}`);
   };
 
   return (
