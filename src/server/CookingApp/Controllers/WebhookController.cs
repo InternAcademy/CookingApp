@@ -31,7 +31,8 @@ namespace CookingApp.Controllers
                     {
                         var user = await userRepo.GetFirstOrDefaultAsync(user=>user.StripeId == invoice.CustomerId);
                         user.Role = CreateRole.Premium(user.Role.Limitations, 50, 30);
-                        Console.WriteLine($"User with stripe id: {user.StripeId} now has a role: {user.Role.Type}");
+                        Console.WriteLine($"User with stripe id: {user.StripeId} now has a role: {user.Role.Type}, {user.Role.Limitations.RecipeGeneration} recipes and" +
+                            $"{user.Role.Limitations.ChatGeneration} messages ");
                         await userRepo.UpdateAsync(user);
                     }
                 }
@@ -57,7 +58,16 @@ namespace CookingApp.Controllers
                             {
                                 Console.WriteLine($"Product metadata 'recipes': {recipesValue}");
                             }
-                    }
+
+                        var user = await userRepo.GetFirstOrDefaultAsync(user => user.StripeId == session.CustomerId);
+
+                        user.Role.Limitations.RecipeGeneration += int.Parse(recipesValue);
+                        user.Role.Limitations.ChatGeneration += int.Parse(messagesValue);
+
+                        Console.WriteLine($"User with stripe id: {user.StripeId}" +
+                                $" now has {user.Role.Limitations.ChatGeneration} messages and {user.Role.Limitations.RecipeGeneration} recipes ");
+                        await userRepo.UpdateAsync(user);
+                }
                 }
             
                 else if (stripeEvent.Type == Events.CustomerSubscriptionDeleted)
@@ -72,6 +82,7 @@ namespace CookingApp.Controllers
                         await userRepo.UpdateAsync(user);
                     }
                 }
+
                 else
                 {
                     Console.WriteLine("Unhandled event type: {0}", stripeEvent.Type);

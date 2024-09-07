@@ -24,7 +24,7 @@ export default function ChatInput() {
   const [base64Image, setBase64Image] = useState(null);
   const [maxChars] = useState(200);
   const { t } = useTranslation();
-
+  console.log(role);
   useEffect(() => {
     if (role.limitations.chatGeneration === 10 && !isInitial) {
       toast(

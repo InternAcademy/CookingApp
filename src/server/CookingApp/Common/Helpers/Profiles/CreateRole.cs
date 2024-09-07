@@ -1,5 +1,6 @@
 namespace CookingApp.Common.Helpers.Profiles
 {
+    using CookingApp.Models;
     using CookingApp.Models.Enums;
     using CookingApp.Models.ValueObjects;
 

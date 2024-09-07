@@ -42,13 +42,7 @@ const router = createBrowserRouter([
       },
       {
         path: "store",
-        element: (
-          <AuthorizeRoute
-            succesPage={<Store />}
-            requiredRole={"Basic"}
-            unAuthorizedPath={"/"}
-          />
-        ),
+        element: <Store />,
       },
       {
         path: "subscription/manage",

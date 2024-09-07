@@ -1,37 +1,37 @@
 import { Bars3BottomLeftIcon } from "@heroicons/react/24/outline";
 import { Skeleton } from "@/components/ui/skeleton";
-
 import { ChatBubbleOvalLeftEllipsisIcon } from "@heroicons/react/24/outline";
 import { useSelector } from "react-redux";
 import { Fragment, useRef } from "react";
 import { ChartPieIcon } from "@heroicons/react/24/outline";
-import { BanknotesIcon, UserIcon } from "@heroicons/react/24/outline";
+import { BanknotesIcon } from "@heroicons/react/24/outline";
 import { useDispatch } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 import { getToken } from "../../msal/msal";
-import uiSlice, { uiActions } from "../../store/uiSlice";
+import { uiActions } from "../../store/uiSlice";
 import ChatItem from "./ChatItem";
 import { useEffect } from "react";
 import useChatHistory from "../../hooks/useChatHistory";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { orderedSections } from "../../utils/sidebar";
 import { getSectionTitle } from "../../utils/sidebar";
-import useSelectChat from "../../hooks/useSelectChat";
 import { userActions } from "../../store/userSlice";
 import MealIcon from "../ui/mealIcon";
 import "../../assets/css/animations.css";
 import { useTranslation } from "react-i18next";
+
 export default function Sidebar() {
   const isOpen = useSelector((state) => state.ui.sidebarOpen);
   const chatPage = useSelector((state) => state.user.chatHistory.page);
   const chatHistory = useSelector((state) => state.user.chatHistory.chats);
   const totalPages = useSelector((state) => state.user.chatHistory.totalPages);
-  const { i18n, t } = useTranslation();
+  const { t } = useTranslation();
   let role = useSelector((state) => state.user.role.type);
+
   const initial = useRef(true);
-  const selectChat = useSelectChat();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const { getFirstPage, getNextPage, gettingFirstPage, gettingNextPage } =
     useChatHistory();
   useEffect(() => {
@@ -103,7 +103,7 @@ export default function Sidebar() {
       dispatch(uiActions.closeSidebar());
     }
 
-    navigate("/subscription/manage");
+    navigate("/store");
   }
 
   function handleClickRecipes() {
@@ -243,9 +243,7 @@ export default function Sidebar() {
                 </Fragment>
               )
           )}
-        {chatHistory.length === 0 && !gettingFirstPage && (
-          <p>{t("NoChats")}</p>
-        )}
+        {chatHistory.length === 0 && !gettingFirstPage && <p>{t("NoChats")}</p>}
         {chatPage < totalPages && !gettingNextPage && (
           <button onClick={loadMore}>{t("LoadMore")}</button>
         )}

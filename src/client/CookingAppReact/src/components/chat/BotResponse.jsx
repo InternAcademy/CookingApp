@@ -18,7 +18,8 @@ export default function BotResponse({ message }) {
   const role = useSelector((state) => state.user.role.type);
   const navigate = useNavigate();
   const { save, isError, isPending, error, isSuccess } = useSaveRecipe();
-  const { isGenerating, setIsGenerating, lastTimestamp, maxDuration } = useGeneration();
+  const { isGenerating, setIsGenerating, lastTimestamp, maxDuration } =
+    useGeneration();
 
   async function handleClick() {
     const timeElapsed = Date.now() - lastTimestamp;
@@ -31,16 +32,16 @@ export default function BotResponse({ message }) {
       const seconds = Math.floor((timeRemaining % 60000) / 1000);
       toast.error(`Meal generation cooldown - ${minutes}:${seconds} minutes.`);
       return;
-    } else if(!isPending && !isGenerating){
+    } else if (!isPending && !isGenerating) {
       setIsGenerating(true);
       save({ token, request: message.content });
-    } else{
+    } else {
       setIsGenerating(false);
     }
   }
 
   function handleFreeUser() {
-    navigate("/subscription");
+    navigate("/store");
   }
   return (
     <li className="w-4/5 text-primaryText" key={message.content}>
@@ -68,7 +69,7 @@ export default function BotResponse({ message }) {
               onClick={handleClick}
             >
               <SparklesIcon className="size-6 opacity-70 mr-2 text-primaryText" />
-              {isPending ? (
+              {isGenerating ? (
                 <span className="text-primaryText">
                   {t("GeneratingMeal")}
                   <span className="dot-1 text-primaryText">.</span>
@@ -84,22 +85,22 @@ export default function BotResponse({ message }) {
         {message.type === "Recipe" &&
           role === "Basic" &&
           limitations.recipeGeneration <= 0 && (
-          <div className="w-full flex justify-center content-center items-center my-5">
-            <div
-              className={`w-fit flex flex-row border-2 px-4 py-2 rounded-full bg-primary font-semibold cursor-pointer 
+            <div className="w-full flex justify-center content-center items-center my-5">
+              <div
+                className={`w-fit flex flex-row border-2 px-4 py-2 rounded-full bg-primary font-semibold cursor-pointer 
                 ${
                   isPending
                     ? "border-dance animate-border-dance"
                     : "hover:border-orange-200 hover:scale-105 transition-transform duration-300"
                 } 
                 relative ${isPending && "sparkle"}`}
-              onClick={handleFreeUser}
-            >
-              <SparklesIcon className="size-6 opacity-70 mr-2" />
-              <p className="text-primaryText">{t("GetPremium")}</p>
+                onClick={handleFreeUser}
+              >
+                <SparklesIcon className="size-6 opacity-70 mr-2" />
+                <p className="text-primaryText">{t("GetPremium")}</p>
+              </div>
             </div>
-          </div>
-        )}
+          )}
       </div>
     </li>
   );
