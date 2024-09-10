@@ -5,10 +5,13 @@ import useMySubscription from "@/hooks/useMySubscription";
 import useCancelSub from "@/hooks/useCancelSub";
 import { getToken } from "@/msal/msal";
 import { uiActions } from "@/store/uiSlice";
+import { useTranslation } from "react-i18next";
 
 export default function SubscriptionDetails() {
   const { data, isPending, refetch } = useMySubscription();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
+
   async function handleCancellation() {
     dispatch(uiActions.openSubCancelModal(data.subscriptions[0].id));
   }
@@ -36,7 +39,7 @@ export default function SubscriptionDetails() {
         {data && !isPending && (
           <>
             <ul className="flex flex-col justify-center content-center items-start gap-5">
-              <li className="text-4xl font-bold">Your subscription plan:</li>
+              <li className="text-4xl font-bold">{t("Yourubscription")}</li>
 
               <li>
                 <div
@@ -44,25 +47,25 @@ export default function SubscriptionDetails() {
                 flex flex-row justify-center items-center text-center selection:bg-secondary
                 hover:rounded-ss-none hover:rounded-ee-none transition-all duration-100"
                 >
-                  Premium
+                  {t("Premium")}
                 </div>
                 <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2">
-                  {data.subscriptions[0].price}€ a month
+                  {data.subscriptions[0].price}{t("eamonth")}
                 </li>
               </li>
               <li className="text-xl font-semibold text-start border-b-2 border-transparent hover:border-b-2">
-                {`Created on ${formatDateIso(data.subscriptions[0].created)}`}
+                {`${t("Createdon")} ${formatDateIso(data.subscriptions[0].created)}`}
               </li>
 
               {data.subscriptions[0].cancelAt ? (
                 <li className="text-xl font-semibold text-start border-b-2 border-transparent hover:border-b-2">
-                  {`Your subscription has been cancelled and it will expire on ${formatDateIso(
+                  {`${t("Yoursubscriptionhasbeen")}${formatDateIso(
                     data.subscriptions[0].cancelAt
                   )}`}
                 </li>
               ) : (
                 <li className="text-xl font-semibold text-start border-b-2 border-transparent hover:border-b-2">
-                  {`Your next charge will be on ${formatDateIso(
+                  {`${t("Yournextchargewillbeon")}${formatDateIso(
                     data.subscriptions[0].currentPeriodEnd
                   )}`}
                 </li>
@@ -76,8 +79,8 @@ export default function SubscriptionDetails() {
               onClick={handleCancellation}
             >
               {data.subscriptions[0].cancelAt
-                ? "Cancelled"
-                : " Cancel Subscription"}
+                ? t("Cancelled")
+                : t("CancelSubscription")}
             </button>
             <div className="w-full flex justify-center items-center text-center mt-2 text-base">
               <img className="w-28 mr-1" src={stripe} alt="stripe" />
