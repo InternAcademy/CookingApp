@@ -14,17 +14,20 @@ import plans1 from "../../assets/plans/untitled6.png";
 import plans2 from "../../assets/plans/untitled7.png";
 import plans3 from "../../assets/plans/untitled5.png";
 import SubscriptionDetails from "../subscribtion/SubscriptionDetails";
+import { useTranslation } from "react-i18next";
+
 
 const subscriptionId = import.meta.env.VITE_STRIPE_SUBSCRIPTION_ID;
 const basicPackId = import.meta.env.VITE_STRIPE_BASIC_PACK_ID;
 const valuePackId = import.meta.env.VITE_STRIPE_VALUE_PACK_ID;
-const proPackId = import.meta.env.VITE_PUBLIC_PRO_IP;
+const proPackId = import.meta.env.VITE_STRIPE_PRO_PACK_ID;
 
 export default function Store() {
   const isOpenRecipes = useSelector((state) => state.ui.recipesOpen);
   const isOpenSideBar = useSelector((state) => state.ui.sidebarOpen);
   const role = useSelector((state) => state.user.role.type);
   const { subscribe, payOneTime } = useStripeSession();
+  const { t } = useTranslation();
 
   async function handleClick() {
     const token = await getToken();
@@ -44,6 +47,7 @@ export default function Store() {
       priceId: id,
     });
   }
+
   return (
     <div className="flex flex-col w-full h-full justify-start content-start items-start bg-secondary px-10 text-primaryText overflow-y-auto">
       <div className="w-full flex flex-col justify-center items-center text-center mt-2 text-primaryText">
@@ -70,15 +74,14 @@ export default function Store() {
                 <div className="p-5">
                   <a href="#">
                     <h5 className="mb-2 text-2xl font-bold tracking-tight text-primaryText">
-                      Starter Pack
+                    {t("TastersChoice")}
                     </h5>
                     <h5 className="mb-2 text-lg tracking-tight italic">
-                      700 Messages + 10 Meals
+                    {t("Messages10Meals")}
                     </h5>
                   </a>
                   <p className="mb-3 font-normal text-primaryText">
-                    Ideal for light users who want an introduction to the
-                    service with essential features.
+                  {t("p1descr")}
                   </p>
                   <div className="flex flex-row justify-center items-center text-center text-primaryText">
                     <p className="text-2xl font-bold mr-2 text-primaryText">
@@ -88,7 +91,7 @@ export default function Store() {
                       onClick={() => buyThisPack(basicPackId)}
                       className="inline-flex items-center px-3 py-2 text-sm font-medium text-center hover:cursor-pointer text-white bg-black rounded-lg hover:bg-gradient-to-l from-orange-500 to-pink-400 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     >
-                      Get now
+                      {t("Getnow")} 
                       <svg
                         className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
                         aria-hidden="true"
@@ -117,15 +120,14 @@ export default function Store() {
                 <div className="p-5">
                   <a href="#">
                     <h5 className="mb-2 text-2xl font-bold tracking-tight text-primaryText">
-                      Value Pack
+                    {t("ChefsSelection")} 
                     </h5>
                     <h5 className="mb-2 text-lg tracking-tight italic">
-                      1,500 Messages + 25 Meals
+                    {t("Messages25Meals")} 
                     </h5>
                   </a>
                   <p className="mb-3 font-normal text-primaryText">
-                    Best suited for regular users looking for a balance between
-                    messages and meal options.
+                  {t("p2descr")}
                   </p>
                   <div className="flex flex-row justify-center items-center text-center text-primaryText">
                     <a className="text-2xl font-bold mr-2 text-primaryText">
@@ -135,7 +137,7 @@ export default function Store() {
                       onClick={() => buyThisPack(valuePackId)}
                       className="inline-flex items-center px-3 py-2 text-sm font-medium text-center hover:cursor-pointer text-white bg-gradient-to-l from-orange-500 to-pink-400 rounded-lg hover:bg-black focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     >
-                      Get now
+                      {t("Getnow")} 
                       <svg
                         className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
                         aria-hidden="true"
@@ -164,15 +166,14 @@ export default function Store() {
                 <div className="p-5">
                   <a href="#">
                     <h5 className="mb-2 text-2xl font-bold tracking-tight text-primaryText">
-                      Pro Pack
+                    {t("GourmetsDelight")} 
                     </h5>
                     <h5 className="mb-2 text-lg tracking-tight italic">
-                      3,500 Messages + 50 Meals
+                    {t("Messages50Meals")} 
                     </h5>
                   </a>
                   <p className="mb-3 font-normal text-primaryText">
-                    Perfect for frequent users who want more messages and meals
-                    at a great value.
+                  {t("p3descr")}
                   </p>
                   <div className="flex flex-row justify-center items-center text-center text-primaryText">
                     <a className="text-2xl font-bold mr-2 text-primaryText">
@@ -182,7 +183,7 @@ export default function Store() {
                       onClick={() => buyThisPack(proPackId)}
                       className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white hover:cursor-pointer bg-black rounded-lg hover:bg-gradient-to-l from-orange-500 to-pink-400 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     >
-                      Get now
+                      {t("Getnow")}
                       <svg
                         className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
                         aria-hidden="true"
@@ -228,7 +229,7 @@ export default function Store() {
               >
                 <ul className="flex flex-col justify-center content-center items-start gap-5 ">
                   <li className="text-4xl font-bold">
-                    Explore our subscription plan:
+                  {t("Exploreoursubscriptionplan")}
                   </li>
                   <li>
                     <div
@@ -236,23 +237,23 @@ export default function Store() {
                             flex flex-row justify-center items-center text-center bg-gradient-to-l from-orange-500 to-pink-400 text-white
                             hover:rounded-ss-none hover:rounded-ee-none transition-all duration-100"
                     >
-                      <FireIcon className="size-7 mr-1" /> Hot offer
+                      <FireIcon className="size-7 mr-1" /> {t("Hotoffer")}
                     </div>
                   </li>
                   <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 ">
-                    • Unlimited messages
+                    • {t("Unlimitedmessages")}
                   </li>
                   <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 ">
-                    • Unlimited chats
+                    • {t("Unlimitedchats")}
                   </li>
                   <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 ">
-                    • 30 Meals
+                    • {t("Meals")}
                   </li>
                   <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 ">
-                    • Customizable dietary options
+                    • {t("Customizabledietaryoptions")}
                   </li>
                   <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 ">
-                    • Free cancellation
+                    • {t("Freecancellation")}
                   </li>
                 </ul>
                 <div className="flex flex-row items-center justify-evenly text-center mt-10 max-w-[32rem]">
@@ -261,8 +262,8 @@ export default function Store() {
                     onClick={handleClick}
                   >
                     <div className="font-semibold text-xl flex flex-row items-center justify-center text-center">
-                      Subscribe <span className="mx-2">•</span>{" "}
-                      <span className="flex items-center">€14.99/month</span>
+                    {t("Subscribe")} <span className="mx-2">•</span>{" "}
+                      <span className="flex items-center">{t("month")}</span>
                     </div>
                   </button>
                 </div>

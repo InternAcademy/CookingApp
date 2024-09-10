@@ -30,8 +30,7 @@ export default function ChatInput() {
       toast(
         (t) => (
           <span>
-            <strong>Warning</strong> you have <strong>{10}</strong> messages
-            left!
+            <strong>{t("Warning")}</strong>{t("YouHave")}<strong>{10}</strong> {t("MessagesLeft")}
           </span>
         ),
         { position: "top-center" }
@@ -81,17 +80,13 @@ export default function ChatInput() {
       const validImageTypes = ["image/jpeg", "image/png", "image/webp"];
 
       if (!validImageTypes.includes(file.type)) {
-        toast.error(
-          "Please select a valid image file. Supported types: JPEG, PNG, WEBP"
-        );
+        toast.error(t("FileError"));
         return;
       }
 
-      if (file.size > 2000000) {
-        // 2MB limit
-        toast.error(
-          "Maximum image size exceeded. Please select an image under 2MB."
-        );
+      if (file.size > 8000000) {
+        // 8MB limit
+        toast.error(t("ImageLimitError"));
         return;
       }
 

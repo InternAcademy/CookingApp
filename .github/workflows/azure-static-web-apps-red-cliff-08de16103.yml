@@ -36,6 +36,10 @@ jobs:
           echo "VITE_PUBLIC_INSTANCE=$VITE_PUBLIC_INSTANCE" >> .env.production
           echo "VITE_PUBLIC_SCOPES=$VITE_PUBLIC_SCOPES" >> .env.production
           echo "VITE_STRIPE_PUBLISHABLE_KEY=$VITE_STRIPE_PUBLISHABLE_KEY" >> .env.production
+          echo "VITE_STRIPE_VALUE_PACK_ID=$VITE_STRIPE_VALUE_PACK_ID" >> .env.production
+          echo "VITE_STRIPE_BASIC_PACK_ID=$VITE_STRIPE_BASIC_PACK_ID" >> .env.production
+          echo "VITE_STRIPE_PRO_PACK_ID=$VITE_STRIPE_PRO_PACK_ID" >> .env.production
+          echo "VITE_STRIPE_SUBSCRIPTION_ID=$VITE_STRIPE_SUBSCRIPTION_ID" >> .env.production
           npm run build
         working-directory: ./src/client/CookingAppReact
         env:
@@ -44,6 +48,10 @@ jobs:
           VITE_PUBLIC_INSTANCE: ${{ secrets.VITE_PUBLIC_INSTANCE }}
           VITE_PUBLIC_SCOPES: ${{ secrets.VITE_PUBLIC_SCOPES }}
           VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}
+          VITE_STRIPE_VALUE_PACK_ID: ${{ secrets.VITE_STRIPE_VALUE_PACK_ID }}
+          VITE_STRIPE_PRO_PACK_ID: ${{ secrets.VITE_STRIPE_PRO_PACK_ID }}
+          VITE_STRIPE_BASIC_PACK_ID: ${{ secrets.VITE_STRIPE_BASIC_PACK_ID }}
+          VITE_STRIPE_SUBSCRIPTION_ID: ${{ secrets.VITE_STRIPE_SUBSCRIPTION_ID }}
 
       - name: Deploy to Azure Static Web Apps
         id: builddeploy

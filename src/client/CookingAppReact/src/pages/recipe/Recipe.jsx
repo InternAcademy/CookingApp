@@ -10,12 +10,13 @@ import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import chefImage from "../../../public/chefimg.png";
 import { uiActions } from "@/store/uiSlice";
+import { useTranslation } from "react-i18next";
 
 export default function Recipe() {
   const iconImports = import.meta.glob("../../assets/stepsimages/*.png", {
     eager: true,
   });
-
+  const { t } = useTranslation();
   const icons = Object.values(iconImports).map((mod) => mod.default);
   const isOpenRecipes = useSelector((state) => state.ui.recipesOpen);
   const isOpenSideBar = useSelector((state) => state.ui.sidebarOpen);
@@ -89,7 +90,7 @@ export default function Recipe() {
           </div>
           <div className="flex py-6 flex-col lg:flex-row justify-center items-start rounded-2xl w-full mt-16">
             <div className="w-full rounded-2xl px-6 py-4 flex flex-col items-start gap-4">
-              <h2 className="text-xl mb-4">Ingredients</h2>
+              <h2 className="text-xl mb-4">{t("Ingredients")}</h2>
               <div className="grid grid-cols-1  gap-2">
                 {data.ingredients.map((ingredient) => (
                   <div className="border-l-2 border-primary shadow-sm rounded-e-xl col-span-1 items-center w-fit justify-center px-8 py-4">
@@ -115,7 +116,7 @@ export default function Recipe() {
               </div>
             </div>
             <div className="w-full rounded-2xl px-6 py-4 flex flex-col items-start gap-4">
-              <h2 className="text-xl mb-4">Preparation Steps</h2>
+              <h2 className="text-xl mb-4">{t("PreparationSteps")}</h2>
               {data.preparationSteps.map((step, index) => (
                 <div className="rounded-2xl bg-active w-full p-1">
                   <div className="border border-primaryBorder flex flex-col items-center md:items-start justify-start w-full h-full rounded-2xl px-8 py-4">
