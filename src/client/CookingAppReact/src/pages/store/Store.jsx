@@ -244,16 +244,16 @@ export default function Store() {
                     • {t("Unlimitedmessages")}
                   </li>
                   <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 ">
-                  {t("Unlimitedchats")}
+                    • {t("Unlimitedchats")}
                   </li>
                   <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 ">
-                  {t("Meals")}
+                    • {t("Meals")}
                   </li>
                   <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 ">
-                  {t("Customizabledietaryoptions")}
+                    • {t("Customizabledietaryoptions")}
                   </li>
                   <li className="text-xl font-semibold border-b-2 border-transparent hover:border-b-2 ">
-                  {t("Freecancellation")}
+                    • {t("Freecancellation")}
                   </li>
                 </ul>
                 <div className="flex flex-row items-center justify-evenly text-center mt-10 max-w-[32rem]">
