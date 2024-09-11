@@ -39,7 +39,7 @@
 
             foreach (var product in products)
             {
-
+                
                 var price = await priceService.GetAsync(product.DefaultPriceId);
                 result.Add(new StripeProduct()
                 {
@@ -62,7 +62,7 @@
         /// Once the initial Invoice is payed the status then is set to active.
         /// If the Invoice is not payed in 23 hours the status then is set to "incomplete_expired"
         /// </summary>
-        public async Task<InvoiceCreationResponse> CreateSubscriptionAsync(InvoiceCreation model)
+         public async Task<InvoiceCreationResponse> CreateSubscriptionAsync(InvoiceCreation model)
         {
             if (model == null ||
                 string.IsNullOrEmpty(model.Email) ||
@@ -73,19 +73,19 @@
 
             var userId = GetUser.ProfileId(httpContextAccessor);
 
-            var profile = await userRepo.GetFirstOrDefaultAsync(x => x.UserId == userId);
+            var profile = await userRepo.GetFirstOrDefaultAsync(x=>x.UserId == userId);
+            
 
-
-            if (profile is null)
+            if(profile is null)
             {
                 throw new NotFoundException();
             }
-
+            
             var options = new SessionCreateOptions
-            {
-                SuccessUrl = $"{stripeOptions.Value.SuccessRoute}",
-                Mode = "subscription",
-                LineItems = new List<SessionLineItemOptions>
+                {
+                    SuccessUrl = $"{stripeOptions.Value.SuccessRoute}",
+                    Mode = "subscription",
+                    LineItems = new List<SessionLineItemOptions>
                         {
                             new SessionLineItemOptions
                             {
@@ -93,13 +93,17 @@
                                 Quantity = 1,
                             },
                         },
-                AutomaticTax = new SessionAutomaticTaxOptions
-                {
-                    Enabled = true
-                }
+                    AutomaticTax = new SessionAutomaticTaxOptions
+                    {
+                        Enabled = true
+                    },
+                    CustomerUpdate = new SessionCustomerUpdateOptions
+                    {
+                        Address = "auto"
+                    }
             };
 
-            if (profile.StripeId is not null)
+            if(profile.StripeId is not null)
             {
                 var customer = await customerService.GetAsync(profile.StripeId);
                 var subscriptionListOptions = new SubscriptionListOptions
@@ -108,25 +112,25 @@
                 };
 
                 var subscriptions = await subscriptionService.ListAsync(subscriptionListOptions);
-                if (subscriptions.Any())
+                if(subscriptions.Any())
                 {
-                    if (subscriptions.Any(sub => sub.Status == "active"))
+                    if(subscriptions.Any(sub=>sub.Status=="active"))
                     {
                         throw new ArgumentException(Stripe.TheUserIsAlreadySubscribed);
                     }
                 }
-                options.Customer = profile.StripeId;
+                options.Customer=profile.StripeId;
             }
 
             else
             {
-                var customer = await customerService.CreateAsync(new CustomerCreateOptions() { Email = model.Email });
+                var customer = await customerService.CreateAsync(new CustomerCreateOptions(){Email=model.Email});
                 options.Customer = customer.Id;
                 profile.StripeId = customer.Id;
                 await userRepo.UpdateAsync(profile);
             }
 
-            var session = await sessionService.CreateAsync(options);
+            var session = await sessionService.CreateAsync(options);         
 
 
             return new InvoiceCreationResponse(
@@ -168,6 +172,10 @@
                 AutomaticTax = new SessionAutomaticTaxOptions
                 {
                     Enabled = true
+                },
+                CustomerUpdate = new SessionCustomerUpdateOptions
+                {
+                    Address = "auto"
                 }
             };
 
@@ -203,7 +211,7 @@
             var sub = await subscriptionService.GetAsync(subscriptionId);
             var options = new SubscriptionUpdateOptions
             {
-                CancelAtPeriodEnd = true
+                CancelAtPeriodEnd=true
             };
             subscriptionService.Update(subscriptionId, options);
 
@@ -247,14 +255,14 @@
 
             var sub = await subscriptionService.GetAsync(subscriptions.First().Id);
             if (sub.Items != null && sub.Items.Data.Count > 0)
-            {
+            { 
                 var subscriptionItem = sub.Items.Data.First();
                 var priceId = subscriptionItem.Price.Id;
                 var price = await priceService.GetAsync(priceId);
-                customer.Subscriptions.First().Price = price.UnitAmountDecimal / 100;
+                customer.Subscriptions.First().Price = price.UnitAmountDecimal/100;
 
             }
-
+        
             return customer;
         }
 
