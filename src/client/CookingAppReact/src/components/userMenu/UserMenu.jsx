@@ -52,11 +52,7 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
             } hover:rounded`}
             onClick={() => {
               dispatch(uiActions.toggleDropdown());
-              if (role === "Premium") {
-                navigate("/subscription/manage");
-              } else {
-                navigate("/subscription");
-              }
+              navigate("/store");
             }}
             title="Subscription"
           >
@@ -91,13 +87,13 @@ const UserMenu = ({ isOpen, toggleDropDown }) => {
             <span>{t("RulesNPolicies")}</span>
           </div>
         </div>
-        <hr
-          className={`w-full mt-2 mb-2 border-primaryBorder`}
-        />
-        <div className={`flex items-center w-full cursor-pointer p-2 
+        <hr className={`w-full mt-2 mb-2 border-primaryBorder`} />
+        <div
+          className={`flex items-center w-full cursor-pointer p-2 
             ${
               isDarkTheme ? "hover:bg-[#424242]" : "hover:bg-base"
-            } hover:rounded`}>
+            } hover:rounded`}
+        >
           <SignOutButton />
         </div>
       </div>
