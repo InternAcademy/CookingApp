@@ -42,30 +42,16 @@
             }
             else if (user.Role.Type == RoleType.Basic)
             {
-                var today = DateTime.UtcNow;
-                var chatDate = user.Role.Limitations.ChatFromDate;
-                ArgumentNullException.ThrowIfNull(chatDate, nameof(chatDate));
-                var endDate = chatDate.Value.AddDays(5);
-
-
                 if (user.Role.Limitations.ChatGeneration > 0)
                 {
                     user.Role.Limitations.ChatGeneration--;
                     await repo.UpdateAsync(user);
+
                     return ProcessResult.MessageLimitationSuccessfull;
                 }
                 else
                 {
-                    if (today >= chatDate.Value && today <= endDate)
-                    {
-                        return ProcessResult.MessageLimitationFailed;
-                    }
-
-                    user.Role.Limitations.ChatFromDate = today;
-                    user.Role.Limitations.ChatGeneration = 20;
-                    await repo.UpdateAsync(user);
-
-                    return ProcessResult.MessageLimitationSuccessfull;
+                    return ProcessResult.MessageLimitationFailed;
                 }
             }
 
