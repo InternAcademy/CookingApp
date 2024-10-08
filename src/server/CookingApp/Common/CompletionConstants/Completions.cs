@@ -136,7 +136,7 @@ namespace CookingApp.Common.CompletionConstants
                     sb.Append(profile.DietaryPreference.ToString());
                 }
 
-                //sb.AppendLine(string.Format(UserLanguagePreferencePrompt, profile.InterfacePreference.Language));
+                sb.AppendLine(string.Format(UserLanguagePreferencePrompt, profile.InterfacePreference.Language));
             }
 
             return sb.ToString();

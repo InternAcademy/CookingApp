@@ -44,9 +44,9 @@ namespace CookingApp.Services.UserProfile
         {
             var role = CreateRole.Basic(new Limitations
             {
-                ChatGeneration = 20,
+                ChatGeneration = 40,
                 ChatFromDate = DateTime.UtcNow,
-                RecipeGeneration = 2
+                RecipeGeneration = 3
             }, 0, 0);
 
             var profile = new Models.UserProfile
