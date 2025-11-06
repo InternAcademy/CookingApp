@@ -160,7 +160,7 @@ namespace CookingApp.Infrastructure.Extensions
         {
             string apiKey = builder.Configuration.GetValue<string>("OpenAIOptions:ApiKey") ?? string.Empty;
 
-            builder.Services.AddSingleton(new ChatClient(model: "gpt-4o", apiKey));
+            builder.Services.AddSingleton(new ChatClient(model: "gpt-5-mini-2025-08-07", apiKey));
             builder.Services.AddSingleton(new ImageClient(model: "dall-e-3", apiKey));
 
             builder.Services.AddScoped<IChatService, ChatService>();
